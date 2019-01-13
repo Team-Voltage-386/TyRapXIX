@@ -31,4 +31,16 @@ public class RobotMap {
   public static int gearShiftSolenoidForwardChannel = 0; // solenoid
   public static int gearShiftSolenoidReverseChannel = 0; // solenoid
 
+  // Controls
+  public static int driverPort = 0;
+  public static int manipulatorPort = 1;
+
+  // Drive buttons
+  public static int driveLeftJoystickVertical = 1;
+  public static int driveRightJoystickHorizontal = 4;
+  public static int shiftButton = 5;
+  public static int breakTrigger = 3;
+  public static int driveToCubeButton = 6;
+
+  
 }

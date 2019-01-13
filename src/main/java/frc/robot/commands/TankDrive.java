@@ -8,11 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
+import frc.robot.RobotMap;
+import frc.robot.OI;
 
 public class TankDrive extends Command {
   public TankDrive() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(Robot.driveSubsystem);
   }
 
   // Called just before this Command runs the first time
@@ -23,6 +25,7 @@ public class TankDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.driveSubsystem.driveTank(Robot.oi.xboxControl.getRawAxis(RobotMap.driveLeftJoystickVertical), Robot.oi.xboxControl.getRawAxis(RobotMap.driveRightJoystickHorizontal));
   }
 
   // Make this return true when this Command no longer needs to run execute()
