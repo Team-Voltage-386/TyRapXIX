@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Copyright (c) 2007-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -14,13 +14,21 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
-  // For example to map the left and right motors, you could define the
-  // following variables to use with your drivetrain subsystem.
-  // public static int leftMotor = 1;
-  // public static int rightMotor = 2;
+   // Talons
+   public static int leftPrimaryDriveMotor = 0; // motor
+   public static int rightPrimaryDriveMotor = 0; // motor
+   public static int leftFollowerDriveMotor = 0; // motor
+   public static int rightFollowerDriveMotor = 0; // motor
 
-  // If you are using multiple modules, make sure to define both the port
-  // number and the module. For example you with a rangefinder:
-  // public static int rangefinderPort = 1;
-  // public static int rangefinderModule = 1;
+   public static int leftDriveEncoderChannelA = 0; // encoder
+   public static int leftDriveEncoderChannelB = 0; // encoder
+   public static int rightDriveEncoderChannelA = 0; // encoder
+   public static int rightDriveEncoderChannelB = 0; // encoder
+
+  // PCM (Pneumatic Control Module)
+  public static int compressor = 0;
+
+  public static int gearShiftSolenoidForwardChannel = 0; // solenoid
+  public static int gearShiftSolenoidReverseChannel = 0; // solenoid
+
 }
