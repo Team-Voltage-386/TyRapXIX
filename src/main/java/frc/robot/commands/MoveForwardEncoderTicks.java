@@ -12,10 +12,17 @@ import frc.robot.Robot;
 
 public class MoveForwardEncoderTicks extends Command {
 
+  private double speed;
+
+  double ticksRequired;
+  double distance;
+  double scaleFactor = 1;
+
   public MoveForwardEncoderTicks() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.driveSubsystem);
+    this.speed = .5;
   }
 
   // Called just before this Command runs the first time
@@ -27,17 +34,19 @@ public class MoveForwardEncoderTicks extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return (Math.abs(Robot.driveSubsystem.getLeftEncoder()) > Math.abs(ticksRequired * scaleFactor));
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.driveSubsystem.resetEncoders();
   }
 
   // Called when another command which requires one or more of the same
