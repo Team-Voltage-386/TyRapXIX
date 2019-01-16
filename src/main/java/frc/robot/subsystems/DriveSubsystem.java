@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -41,16 +42,29 @@ public class DriveSubsystem extends Subsystem {
     shifter.set(DoubleSolenoid.Value.kForward);
   }
 
-  public static void driveTank(double leftSpeed, double rightSpeed){
+  public void driveTank(double leftSpeed, double rightSpeed){
     differentialDrive.tankDrive(leftSpeed, rightSpeed); 
   }
 
-  public static void shift(){
+  public void shift(){
     if(shifter.get()==DoubleSolenoid.Value.kForward){
       shifter.set(DoubleSolenoid.Value.kReverse);
     }else{
       shifter.set(DoubleSolenoid.Value.kForward);
     }
+  }
+
+  public void resetEncoder(){
+    frontLeft.setSelectedSensorPosition(0, 0, 10);
+    frontRight.setSelectedSensorPosition(0, 0, 10);
+  }
+
+  public double getLeftEncoder() {
+    return frontLeft.getSelectedSensorPosition(0);
+  }
+
+  public double getRightEncoder() {
+    return frontRight.getSelectedSensorPosition(0);
   }
 
   @Override
