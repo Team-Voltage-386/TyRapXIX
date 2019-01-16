@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -35,6 +36,9 @@ public class DriveSubsystem extends Subsystem {
 
   private static DifferentialDrive differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 
+  private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
+  //private static PigeonIMU.GeneralStatus generalStatus = new PigeonIMU.GeneralStatus();
+
   public DriveSubsystem(){
     slaveLeft.follow(frontLeft);
     slaveRight.follow(frontRight);
@@ -59,4 +63,15 @@ public class DriveSubsystem extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
     setDefaultCommand(new TankDrive());
   }
+
+  public double[] getPigeonYaw(){
+    double[] ypr_deg = new double[3];
+    pigeon.getYawPitchRoll(ypr_deg);
+    return ypr_deg;
+  }
+
+  public void resetPigeon(){
+    pigeon.dotheTHing;
+  }
+
 }

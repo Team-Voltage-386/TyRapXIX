@@ -50,6 +50,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+
+    SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYaw()[0]);
+    SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYaw()[1]);
+    SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYaw()[2]);
+
   }
 
   /**
