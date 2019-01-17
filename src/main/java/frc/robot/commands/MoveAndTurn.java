@@ -31,7 +31,8 @@ public class MoveAndTurn extends CommandGroup {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
 
+    addSequential(new MoveForwardXTicks(3000));
     addSequential(new TurnXGyroDegrees(180));
-    addSequential(new MoveForwardXTicks(5000));
+    
   }
 }
