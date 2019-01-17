@@ -31,15 +31,10 @@ public class DriveSubsystem extends Subsystem {
   private static WPI_TalonSRX frontRight = new WPI_TalonSRX(RobotMap.frontRight);
   private static WPI_TalonSRX slaveRight = new WPI_TalonSRX(RobotMap.slaveRight);
 
+
   private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterPort1,RobotMap.shifterPort2);
 
-  private static DifferentialDrive differentialDrive = new DifferentialDrive(frontLeft, frontRight);
-
-  // private static Encoder frontLeftEncoder = new Encoder();
-  // private static Encoder slaveLeftEncoder = new Encoder();
-  // private static Encoder frontRightEncoder = new Encoder();
-  // private static Encoder slaveRightEncoder = new Encoder();
-
+  private static DifferentialDrive diffDrive = new DifferentialDrive(frontLeft, frontRight);
 
   public DriveSubsystem(){
     slaveLeft.follow(frontLeft);
@@ -48,7 +43,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public static void driveTank(double leftSpeed, double rightSpeed){
-    differentialDrive.tankDrive(leftSpeed, rightSpeed); 
+    diffDrive.tankDrive(leftSpeed, rightSpeed); 
   }
 
   public static void shift(){
@@ -59,18 +54,6 @@ public class DriveSubsystem extends Subsystem {
     }
   }
 
-  public static void resetEncoders(){
-    frontLeft.setSelectedSensorPosition(0, 0, 10);
-    frontRight.setSelectedSensorPosition(0, 0, 10);
-  }
-
-  public double getLeftEncoder() {
-    return frontLeft.getSelectedSensorPosition(0);
-      }
-
-  public double getRightEncoder() {
-    return frontRight.getSelectedSensorPosition(0);
-      }
 
   @Override
   public void initDefaultCommand() {
