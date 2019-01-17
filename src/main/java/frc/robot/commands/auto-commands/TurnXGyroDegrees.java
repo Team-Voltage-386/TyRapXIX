@@ -9,26 +9,32 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class TurnXGyroDegrees extends Command {
-  public TurnXGyroDegrees() {
+
+  private int degrees;
+
+  public TurnXGyroDegrees(int degrees) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.driveSubsystem);
+    this.degrees = degrees;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.driveSubsystem.resetPigeon();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.driveSubsystem.pTurn(this.degrees);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Math.abs(Robot.driveSubsystem.getPigeonYPR()[0]) > degrees;
   }
 
   // Called once after isFinished returns true
