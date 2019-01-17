@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class MoveForwardEncoderTicks extends Command {
+public class MoveForwardXTicks extends Command {
 
   private double desiredTicks;
 
-  public MoveForwardEncoderTicks(int desiredTicks) {
+  public MoveForwardXTicks(int desiredTicks) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.driveSubsystem);
