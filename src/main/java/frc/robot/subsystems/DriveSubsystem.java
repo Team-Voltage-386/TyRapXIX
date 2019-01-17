@@ -64,7 +64,7 @@ public class DriveSubsystem extends Subsystem {
     setDefaultCommand(new TankDrive());
   }
 
-  public double[] getPigeonYaw(){
+  public double[] getPigeonYPR(){
     double[] ypr_deg = new double[3];
     pigeon.getYawPitchRoll(ypr_deg);
     return ypr_deg;

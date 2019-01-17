@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.AxisCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -38,6 +40,11 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+
+    AxisCamera axisCamera = CameraServer.getInstance().addAxisCamera("10.3.86.23");
+    //axisCamera.setFPS(30);
+    axisCamera.setResolution(150, 120);
+
   }
 
   /**
@@ -51,9 +58,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
 
-    SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYaw()[0]);
-    SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYaw()[1]);
-    SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYaw()[2]);
+    SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
+    SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
+    SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
 
   }
 
