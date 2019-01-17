@@ -67,6 +67,16 @@ public class DriveSubsystem extends Subsystem {
     return frontRight.getSelectedSensorPosition(0);
   }
 
+  public double[] getPigeonYaw(){
+    double[] ypr_deg = new double[3];
+    pigeon.getYawPitchRoll(ypr_deg);
+    return ypr_deg;
+  }
+
+  public void resetPigeon(){
+    pigeon.setYaw(0);
+  }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
