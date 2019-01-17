@@ -1,3 +1,5 @@
+package frc.robot.commands;
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -28,7 +30,7 @@ public class MoveForwardXTicks extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveSubsystem.driveTank(1,1);
+    Robot.driveSubsystem.driveTank(.25,.25);
   }
 
   // Make this return true when this Command no longer needs to run execute()
