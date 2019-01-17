@@ -71,7 +71,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void resetPigeon(){
-    pigeon.dotheTHing;
+    pigeon.setYaw(0);
   }
 
 }

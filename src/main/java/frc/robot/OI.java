@@ -49,6 +49,8 @@ public class OI {
 
   Button a = new JoystickButton(xboxControl,1);
 
+  Button resetPigeonYawButton = new JoystickButton(xboxControl, 2);
+
   public OI(){
     a.whenPressed(new Shifter());
   }
