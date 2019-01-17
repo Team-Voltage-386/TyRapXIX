@@ -81,7 +81,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void pTurn(int goal){
-    double p = (getPigeonYPR()[0] - goal) * (.75/goal);
+    double p = (getPigeonYPR()[0] - goal) * -0.05;
     driveTank(p,-1*p);
   }
 

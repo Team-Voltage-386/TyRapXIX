@@ -32,6 +32,6 @@ public class MoveAndTurn extends CommandGroup {
     // arm.
 
     addSequential(new TurnXGyroDegrees(180));
-    addSequential(new MoveForwardXTicks(100));
+    addSequential(new MoveForwardXTicks(5000));
   }
 }
