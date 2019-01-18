@@ -33,9 +33,7 @@ public class MoveAndTurn extends CommandGroup {
     // arm.
 
     SmartDashboard.putString("Move", "forward");
-    addSequential(new MoveForwardXTicks(3000));
-    SmartDashboard.putString("Turn", "a direction");
-    addSequential(new TurnXGyroDegrees(180));
+    addSequential(new StraightDrive(10000));
     
   }
 }

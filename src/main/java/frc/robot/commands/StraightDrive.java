@@ -31,12 +31,13 @@ public class StraightDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.driveSubsystem.straightDrive();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Math.abs(Robot.driveSubsystem.getRightEncoder()) > desiredTicks;
   }
 
   // Called once after isFinished returns true
