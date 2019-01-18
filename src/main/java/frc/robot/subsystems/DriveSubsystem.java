@@ -11,8 +11,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.TankDrive;
 
@@ -28,6 +30,8 @@ public class DriveSubsystem extends Subsystem {
   private static WPI_TalonSRX frontRight = new WPI_TalonSRX(RobotMap.frontRight);
   private static WPI_TalonSRX slaveRight = new WPI_TalonSRX(RobotMap.slaveRight);
 
+  private static Encoder leftEncoder = new Encoder(1,0);
+
   private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterPort1,RobotMap.shifterPort2);
 
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
@@ -41,7 +45,13 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void driveTank(double leftSpeed, double rightSpeed){
+    SmartDashboard.putNumber("Left speed", leftSpeed);
+    SmartDashboard.putNumber("Right speed", rightSpeed);
     differentialDrive.tankDrive(leftSpeed, rightSpeed); 
+  }
+
+  public void straightDrive(double leftSpeed, double rightSpeed){
+
   }
 
   public void shift(){
@@ -58,7 +68,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public double getLeftEncoder() {
-    return frontLeft.getSelectedSensorPosition(0);
+    return leftEncoder.get();
   }
 
   public double getRightEncoder() {
@@ -76,7 +86,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void pTurn(int goal){
-    double p = (getPigeonYPR()[0] - goal) * -0.05;
+    double p = (getPigeonYPR()[0] - goal) * -0.01;
     driveTank(p,-1*p);
   }
 

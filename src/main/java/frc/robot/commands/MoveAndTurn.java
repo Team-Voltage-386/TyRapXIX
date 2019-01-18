@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MoveAndTurn extends CommandGroup {
   /**
@@ -31,7 +32,9 @@ public class MoveAndTurn extends CommandGroup {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
 
+    SmartDashboard.putString("Move", "forward");
     addSequential(new MoveForwardXTicks(3000));
+    SmartDashboard.putString("Turn", "a direction");
     addSequential(new TurnXGyroDegrees(180));
     
   }

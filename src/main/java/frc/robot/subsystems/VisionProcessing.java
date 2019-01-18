@@ -26,14 +26,14 @@ public class VisionProcessing extends Subsystem {
   public int resolutionWidth = 320;
 	public int resolutionHeight = 240;
 
-  public AxisCamera axisCamera = CameraServer.getInstance().addAxisCamera("10.3.86.23");
-  public CvSink cvSink = CameraServer.getInstance().getVideo();
-  public CvSource HSVOutputStream = CameraServer.getInstance().putVideo("Edges", resolutionWidth, resolutionHeight);
+  //public AxisCamera axisCamera = CameraServer.getInstance().addAxisCamera("10.3.86.23");
+  //public CvSink cvSink = CameraServer.getInstance().getVideo();
+  //public CvSource HSVOutputStream = CameraServer.getInstance().putVideo("Edges", resolutionWidth, resolutionHeight);
 
   public Mat mat = new Mat();
 
   public void visionProcess(){
-    cvSink.grabFrame(mat);
+    //cvSink.grabFrame(mat);
   }
 
   @Override
