@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     cvSink = CameraServer.getInstance().getVideo();
-    outputStream = CameraServer.getInstance().putVideo("Blur", 1024, 768);
+    outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
     
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());

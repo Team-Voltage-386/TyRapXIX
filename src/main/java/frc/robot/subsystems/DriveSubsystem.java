@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
+import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TankDrive;
 
 /**
@@ -33,7 +34,11 @@ public class DriveSubsystem extends Subsystem {
 
   private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterPort1,RobotMap.shifterPort2);
 
+  private static DifferentialDrive drive = new DifferentialDrive(frontLeft, frontRight);
   private static DifferentialDrive differentialDrive = new DifferentialDrive(frontLeft, frontRight);
+
+  public static final double DEAD_BAND_LIMIT = 0.0001;  //Arcade drive values
+  public static final double BOOST_SPEED_MULTIPLIER = 1.0;
 
   public DriveSubsystem(){
     slaveLeft.follow(frontLeft);
@@ -41,9 +46,15 @@ public class DriveSubsystem extends Subsystem {
     shifter.set(DoubleSolenoid.Value.kForward);
   }
 
+  public void driveArcade(double xSpeed, double zRotation) {
+    drive.arcadeDrive(xSpeed, zRotation);
+    // drive.arcadeDrive(adjustSpeed(xSpeed), deadBand(zRotation, DEAD_BAND_LIMIT));
+  }
+
   public static void driveTank(double leftSpeed, double rightSpeed){
     differentialDrive.tankDrive(leftSpeed, rightSpeed); 
   }
+  
 
   public static void shift(){
     if(shifter.get()==DoubleSolenoid.Value.kForward){
@@ -57,6 +68,6 @@ public class DriveSubsystem extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new TankDrive());
+    setDefaultCommand(new ArcadeDrive());
   }
 }

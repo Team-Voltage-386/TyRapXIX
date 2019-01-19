@@ -29,6 +29,10 @@ public class RobotMap {
   public static int shifterPort1 = 6;
   public static int shifterPort2 = 7;
 
+  public static int driveLeftJoystickVertical = 1;
+  public static int driveRightJoystickHorizontal = 4;
+  public static int shiftButton = 5;
+
 
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
