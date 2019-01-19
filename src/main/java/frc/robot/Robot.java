@@ -7,6 +7,12 @@
 
 package frc.robot;
 
+import org.opencv.core.Mat;
+
+import edu.wpi.cscore.AxisCamera;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -29,12 +35,21 @@ public class Robot extends TimedRobot {
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-  /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
+  CvSink cvSink;
+  CvSource outputStream;
+  Mat source = new Mat();
+  AxisCamera camera = CameraServer.getInstance().addAxisCamera("10.3.86.23");
+  /*
+     *standard IP for Axis is 10.3.86.23
+     *router is 10.3.86.129
+     *subnet is 255.255.255.0
    */
+  
   @Override
   public void robotInit() {
+    cvSink = CameraServer.getInstance().getVideo();
+    outputStream = CameraServer.getInstance().putVideo("Blur", 1024, 768);
+    
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
@@ -50,6 +65,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    cvSink.grabFrame(source);
+    outputStream.putFrame(source); 
+    //Axis code 
   }
 
   /**
