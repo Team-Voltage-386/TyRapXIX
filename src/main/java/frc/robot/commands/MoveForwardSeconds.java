@@ -7,31 +7,39 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.subsystems.DriveSubsystem;
 
-public class TankDrive extends Command {
-  public TankDrive() {
+public class MoveForwardSeconds extends Command {
+
+  private double leftSpeed, rightSpeed, startTime, timeIncrement;
+
+  public MoveForwardSeconds(double left, double right, double time) {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
     requires(Robot.driveSubsystem);
+    leftSpeed = left;
+    rightSpeed = right;
+    timeIncrement = time;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    startTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveSubsystem.driveTank(OI.xboxControl.getRawAxis(1),OI.xboxControl.getRawAxis(5));
+    Robot.driveSubsystem.driveTank(leftSpeed, rightSpeed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return Timer.getFPGATimestamp()-startTime >= timeIncrement;
   }
 
   // Called once after isFinished returns true

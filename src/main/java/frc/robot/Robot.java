@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.TurnDegrees;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -43,7 +44,7 @@ public class Robot extends TimedRobot {
 
     AxisCamera axisCamera = CameraServer.getInstance().addAxisCamera("10.3.86.23");
     //axisCamera.setFPS(30);
-    axisCamera.setResolution(150, 120);
+    //axisCamera.setResolution(150, 120);
 
   }
 
@@ -91,7 +92,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    //m_autonomousCommand = m_chooser.getSelected();
+
+    m_autonomousCommand = new TurnDegrees(-90);
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
