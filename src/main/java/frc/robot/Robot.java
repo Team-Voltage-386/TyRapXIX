@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.MoveAndTurn;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.SpikeSubsystem;
 import frc.robot.subsystems.VisionProcessing;
 
 /**
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
 
   public static DriveSubsystem driveSubsystem = new DriveSubsystem();
   public static VisionProcessing visionProcessing = new VisionProcessing();
+  public static SpikeSubsystem spikeSubsystem = new SpikeSubsystem();
   public static OI m_oi;
 
   Command m_autonomousCommand;
