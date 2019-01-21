@@ -39,7 +39,7 @@ public class TurnXGyroDegrees extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(Robot.driveSubsystem.getPigeonYPR()[0]) > degrees;
+    return Math.abs(Robot.driveSubsystem.getPigeonYPR()[0]) >= Math.abs(degrees);
   }
 
   // Called once after isFinished returns true
