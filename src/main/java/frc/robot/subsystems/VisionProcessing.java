@@ -18,6 +18,7 @@ import org.opencv.core.Size;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.RotatedRect;
 import org.opencv.imgproc.Imgproc;
 
@@ -42,13 +43,14 @@ public class VisionProcessing extends Subsystem {
   public VisionProcessing(){
     usbCamera.setResolution(resolutionWidth, resolutionHeight);
     usbCamera.setFPS(30);
-    usbCamera.setExposureManual(10);
+    usbCamera.setExposureManual(15);
   }
   public UsbCamera usbCamera = CameraServer.getInstance().startAutomaticCapture();
   
   //public AxisCamera axisCamera = CameraServer.getInstance().addAxisCamera("10.3.86.23");
   public CvSink cvSink = CameraServer.getInstance().getVideo();
   public CvSource HSVOutputStream = CameraServer.getInstance().putVideo("Edges", resolutionWidth, resolutionHeight);
+  public CvSource TestOutputStream = CameraServer.getInstance().putVideo("Final", resolutionWidth, resolutionHeight);
 
 	Mat base = new Mat();
 	Mat mat = new Mat();
@@ -57,11 +59,19 @@ public class VisionProcessing extends Subsystem {
   Mat hierarchy;
 
 	Size blurSize = new Size(9, 9);
-	Scalar colorStart = new Scalar(0, 100, 100);
+	Scalar colorStart = new Scalar(0, 0, 100);
 	Scalar colorEnd = new Scalar(255, 255, 255);
 	Size erodeSize = new Size(10, 10);
 	Size dilateSize = new Size(10, 10);
   Size edgeDilateSize = new Size(4, 4);
+
+  public double getAngle(RotatedRect calculatedRect){
+    if(calculatedRect.size.width < calculatedRect.size.height){
+      return calculatedRect.angle+90;
+    }else{
+      return calculatedRect.angle;
+    }
+  }
 
   public void visionProcess(){
 
@@ -75,9 +85,6 @@ public class VisionProcessing extends Subsystem {
       Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2HSV);
       //COnverst Mat to a black and white image where pixils in the given range appear white
       Core.inRange(mat, colorStart, colorEnd, mat);
-
-      Imgproc.erode(mat, mat, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, erodeSize));
-      Imgproc.dilate(mat, mat, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, dilateSize));
     
       List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
       hierarchy = new Mat();
@@ -96,14 +103,53 @@ public class VisionProcessing extends Subsystem {
         Point[] vertices = new Point[4];
         r.points(vertices);
         MatOfPoint points = new MatOfPoint(vertices);
-        Imgproc.drawContours(mat, Arrays.asList(points), -1, new Scalar(63,50,156), 5);
+        Imgproc.drawContours(base, Arrays.asList(points), -1, new Scalar(140,255,255), 2);
       }
+
+      ArrayList<RotatedRect[]> pairs = new ArrayList<RotatedRect[]>(); 
+      RotatedRect[] pair = new RotatedRect[2];
+      double bestDistance;
+      double distance;
+      RotatedRect bestRect;
+      ArrayList<RotatedRect> possiblePairs = new ArrayList<RotatedRect>();
+      ArrayList<Double> possibleDistance = new ArrayList<Double>();
+      
 
       for(int n = 0 ; n < rects.size() ; n++){
-        SmartDashboard.putString("Angle for Rect Number", n + " = " + rects.get(n).angle);
+        for(int i = 0 ; i < rects.size() ; i++){
+          distance = Math.abs(rects.get(n).center.x - rects.get(i).center.x);
+          if(getAngle(rects.get(n)) < 0 && getAngle(rects.get(i)) > 0){
+            possiblePairs.add(rects.get(i));
+            possibleDistance.add(distance);
+          }
+        }
+        if(possiblePairs.size() > 1){
+          bestRect = possiblePairs.get(0);
+          bestDistance = possibleDistance.get(0);
+          for(int x = 0 ; x < possiblePairs.size() ; x++){
+            if(possibleDistance.get(x) < bestDistance){
+              bestRect = possiblePairs.get(x);
+              bestDistance = possibleDistance.get(x);
+            }
+          }
+          pair[0] = rects.get(n);
+          pair[1] = bestRect;
+        }
+        else if(possiblePairs.size() == 1){
+          pair[0] = rects.get(n);
+          pair[1] = possiblePairs.get(0);
+        }
       }
 
+      if(pairs.size() > 0){
+        for(int i = 0 ; i < pairs.size() ; i++){
+          Imgproc.line(base, pairs.get(i)[0].center, pairs.get(i)[1].center, new Scalar(0,255,255));
+        }
+      }
+      
       HSVOutputStream.putFrame(mat);
+      TestOutputStream.putFrame(base);
+
     }
   }
 

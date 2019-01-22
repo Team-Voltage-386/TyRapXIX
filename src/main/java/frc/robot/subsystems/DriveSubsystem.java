@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TankDrive;
 
 /**
@@ -48,10 +49,11 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void driveTank(double leftSpeed, double rightSpeed){
-    SmartDashboard.putNumber("Left speed", leftSpeed);
-    SmartDashboard.putNumber("Right speed", rightSpeed);
-    SmartDashboard.putNumber("Gyro Yaw", Robot.driveSubsystem.getPigeonYPR()[0]);
     differentialDrive.tankDrive(leftSpeed, rightSpeed); 
+  }
+
+  public void driveArcade(double xSpeed, double zRotation){
+    differentialDrive.arcadeDrive(xSpeed, zRotation);
   }
 
   public void straightDrive(){
@@ -99,6 +101,6 @@ public class DriveSubsystem extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new TankDrive());
+    setDefaultCommand(new ArcadeDrive());
   }
 }
