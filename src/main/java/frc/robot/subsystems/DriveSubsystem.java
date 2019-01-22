@@ -9,7 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
+import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Talon;
@@ -31,10 +31,13 @@ public class DriveSubsystem extends Subsystem {
   private static WPI_TalonSRX frontRight = new WPI_TalonSRX(RobotMap.frontRight);
   private static WPI_TalonSRX slaveRight = new WPI_TalonSRX(RobotMap.slaveRight);
 
+  private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
 
   private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterPort1,RobotMap.shifterPort2);
 
   private static DifferentialDrive diffDrive = new DifferentialDrive(frontLeft, frontRight);
+
+  // private static Encoder leftEncoder = new Encoder();
 
   public DriveSubsystem(){
     slaveLeft.follow(frontLeft);
@@ -53,6 +56,34 @@ public class DriveSubsystem extends Subsystem {
       shifter.set(DoubleSolenoid.Value.kForward);
     }
   }
+
+  public static void resetEncoders(){
+    frontLeft.setSelectedSensorPosition(0, 0, 10);
+    frontRight.setSelectedSensorPosition(0, 0, 10);
+  }
+
+  public double getYaw(){
+    return getPigeonYPR()[0];
+  }
+
+  public void resetGyro(){
+    pigeon.setYaw(0);
+  }
+
+  public double getLeftEncoder() {
+    return frontLeft.getSelectedSensorPosition(0);
+      }
+
+  public double getRightEncoder() {
+    return frontRight.getSelectedSensorPosition(0);
+      }
+
+  public double[] getPigeonYPR(){
+      double[] ypr_deg = new double[3];
+      pigeon.getYawPitchRoll(ypr_deg);
+      return ypr_deg;
+    }
+ 
 
 
   @Override

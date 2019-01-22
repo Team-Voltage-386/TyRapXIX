@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.ForwardThenLeft;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.SpikeSubsystem;
 
@@ -37,10 +38,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    Robot.driveSubsystem.resetEncoders();
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-    
   }
 
   /**
@@ -53,6 +54,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putNumber("Right Encoder Value",Robot.driveSubsystem.getRightEncoder());
+    SmartDashboard.putNumber("Yaw Degree",Robot.driveSubsystem.getYaw());
   }
 
   /**
@@ -82,7 +85,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    m_autonomousCommand = new ForwardThenLeft();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -96,6 +99,8 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.start();
     }
   }
+
+
 
   /**
    * This function is called periodically during autonomous.

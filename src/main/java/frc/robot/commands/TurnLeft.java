@@ -1,0 +1,67 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+package frc.robot.commands;
+
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
+import frc.robot.subsystems.DriveSubsystem;
+
+public class TurnLeft extends Command {
+
+  double degrees;
+  double error;
+  double speed;
+  double p = .02; //constant
+
+  public TurnLeft() {
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.driveSubsystem);
+    this.degrees=90;
+  }
+
+  // Called just before this Command runs the first time
+  @Override
+  protected void initialize() {
+    Robot.driveSubsystem.resetGyro();
+  }
+
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
+    SmartDashboard.putNumber("Error",error);
+    SmartDashboard.putNumber("Speed",speed); 
+    error = (degrees - Robot.driveSubsystem.getYaw());
+    speed=p*error;
+    if((speed < 0) && (speed > -0.4)){ //Depends on what speed actually is - pos/neg
+      speed = -0.4;
+    }
+    else if((speed > 0) && (speed< .4)){
+      speed=0.4;
+    }
+    DriveSubsystem.driveTank(speed,-1*speed);
+
+  }
+
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return false;// Math.abs(Robot.driveSubsystem.getYaw()) >= degrees;
+  }
+
+  // Called once after isFinished returns true
+  @Override
+  protected void end() {
+  }
+
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
+  @Override
+  protected void interrupted() {
+  }
+}
