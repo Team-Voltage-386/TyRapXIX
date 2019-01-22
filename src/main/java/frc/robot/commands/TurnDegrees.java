@@ -8,11 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class TurnDegrees extends Command {
 
-  private double p, currentAngle, angleGoal, prevAngle = 0, angleChange;
+  private double p, d, currentAngle, angleGoal, prevError, errorChange, leftSpeed, rightSpeed, error;
+  private final double pk = 0.015, dk = 0.02;
 
   public TurnDegrees(double angle) {
     // Use requires() here to declare subsystem dependencies
@@ -25,27 +27,37 @@ public class TurnDegrees extends Command {
   @Override
   protected void initialize() {
     Robot.driveSubsystem.resetPigeon();
+    SmartDashboard.putBoolean("auto ended", false);
+    prevError = 0;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     currentAngle = Robot.driveSubsystem.getPigeonYPR()[0];
-    angleChange = currentAngle - prevAngle;
-    p = (angleGoal-currentAngle)*0.015;
-    Robot.driveSubsystem.driveTank(p, -1*p);
-    prevAngle = currentAngle;
+    error = angleGoal-currentAngle;
+    p = error*pk;
+    errorChange = error - prevError;
+    d = errorChange*dk;
+    //leftSpeed = minimumSpeedCheck(p + d);
+    //rightSpeed = minimumSpeedCheck(-p + d);
+    leftSpeed = p + d;
+    rightSpeed = -p - d;
+    Robot.driveSubsystem.driveTank(leftSpeed, rightSpeed);
+    prevError = error;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(currentAngle) >= Math.abs(angleGoal) && Math.abs(currentAngle) <= 1.1 * Math.abs(angleGoal) && angleChange < 0.05;
-  }
+    return false;
+    //return Math.abs(currentAngle) >= Math.abs(angleGoal) && Math.abs(currentAngle) <= 1.01 * Math.abs(angleGoal) && angleChange < 0.01;
+  } ///RETRUN STATEMENT SHOULD NOT USE ANGLECHANGE
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    SmartDashboard.putBoolean("auto ended", true);
   }
 
   // Called when another command which requires one or more of the same
@@ -53,4 +65,17 @@ public class TurnDegrees extends Command {
   @Override
   protected void interrupted() {
   }
+
+  private double minimumSpeedCheck(double calculatedSpeed){
+    if(Math.abs(calculatedSpeed)<0.4){
+      if(calculatedSpeed<0){
+        calculatedSpeed=-0.4;
+      }
+      else{
+        calculatedSpeed=0.4;
+      }
+    }
+    return calculatedSpeed;
+  }
+
 }

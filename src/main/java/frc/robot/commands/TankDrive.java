@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveSubsystem;
@@ -26,6 +27,8 @@ public class TankDrive extends Command {
   @Override
   protected void execute() {
     Robot.driveSubsystem.driveTank(OI.xboxControl.getRawAxis(1),OI.xboxControl.getRawAxis(5));
+    SmartDashboard.putNumber("Left Speed", OI.xboxControl.getRawAxis(1));
+    SmartDashboard.putNumber("Right Speed", OI.xboxControl.getRawAxis(5));
   }
 
   // Make this return true when this Command no longer needs to run execute()

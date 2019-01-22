@@ -74,4 +74,12 @@ public class DriveSubsystem extends Subsystem {
     pigeon.setYaw(0);
   }
 
+  public double getEncoder(){
+    return frontRight.getSelectedSensorPosition();
+  }
+
+  public void resetEncoder(){
+    frontRight.setSelectedSensorPosition(0,0,10);
+  }
+
 }
