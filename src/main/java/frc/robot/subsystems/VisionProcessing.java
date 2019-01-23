@@ -106,49 +106,86 @@ public class VisionProcessing extends Subsystem {
         Imgproc.drawContours(base, Arrays.asList(points), -1, new Scalar(140,255,255), 2);
       }
 
-      ArrayList<RotatedRect[]> pairs = new ArrayList<RotatedRect[]>(); 
-      RotatedRect[] pair = new RotatedRect[2];
+      ArrayList<RotatedRect> bachelors = new ArrayList<RotatedRect>(); 
+      ArrayList<RotatedRect> bachelorettes = new ArrayList<RotatedRect>(); 
       double bestDistance;
-      double distance;
-      RotatedRect bestRect;
-      ArrayList<RotatedRect> possiblePairs = new ArrayList<RotatedRect>();
-      ArrayList<Double> possibleDistance = new ArrayList<Double>();
+      RotatedRect bachelor;
+      RotatedRect bachelorette;
+      boolean paired;
       
 
-      for(int n = 0 ; n < rects.size() ; n++){
-        for(int i = 0 ; i < rects.size() ; i++){
-          distance = Math.abs(rects.get(n).center.x - rects.get(i).center.x);
-          if(getAngle(rects.get(n)) < 0 && getAngle(rects.get(i)) > 0){
-            possiblePairs.add(rects.get(i));
-            possibleDistance.add(distance);
-          }
-        }
-        if(possiblePairs.size() > 1){
-          bestRect = possiblePairs.get(0);
-          bestDistance = possibleDistance.get(0);
-          for(int x = 0 ; x < possiblePairs.size() ; x++){
-            if(possibleDistance.get(x) < bestDistance){
-              bestRect = possiblePairs.get(x);
-              bestDistance = possibleDistance.get(x);
+      // for(int n = 0 ; n < rects.size() ; n++){
+      //   for(int i = 0 ; i < rects.size() ; i++){
+      //     distance = Math.abs(rects.get(n).center.x - rects.get(i).center.x);
+      //     if(getAngle(rects.get(n)) < 0 && getAngle(rects.get(i)) > 0){
+      //       possiblePairs.add(rects.get(i));
+      //       possibleDistance.add(distance);
+      //     }
+      //   }
+      //   if(possiblePairs.size() > 1){
+      //     bestRect = possiblePairs.get(0);
+      //     bestDistance = possibleDistance.get(0);
+      //     for(int x = 0 ; x < possiblePairs.size() ; x++){
+      //       if(possibleDistance.get(x) < bestDistance){
+      //         bestRect = possiblePairs.get(x);
+      //         bestDistance = possibleDistance.get(x);
+      //       }
+      //     }
+      //     pair[0] = rects.get(n);
+      //     pair[1] = bestRect;
+      //   }
+      //   else if(possiblePairs.size() == 1){
+      //     pair[0] = rects.get(n);
+      //     pair[1] = possiblePairs.get(0);
+      //   }
+      // }
+
+      while(rects.size() > 0){
+        bestDistance = mat.width();
+        bachelor = rects.get(0);
+        bachelorette = rects.get(0);
+        paired = false;
+
+        for(int i = 1; i < rects.size() ; i++){
+          if( (getAngle(bachelor)*getAngle(rects.get(i)) < 0) 
+          && Math.abs(rects.get(i).center.x - bachelor.center.x) < bestDistance){
+
+            if( (getAngle(rects.get(i)) < 0 && rects.get(i).center.x < bachelor.center.x) ||
+            (getAngle(rects.get(i)) > 0 && rects.get(i).center.x > bachelor.center.x) ){
+
+              bachelorette = rects.get(i);
+              bestDistance = Math.abs(rects.get(i).center.x - bachelor.center.x);
+              paired = true;
             }
           }
-          pair[0] = rects.get(n);
-          pair[1] = bestRect;
         }
-        else if(possiblePairs.size() == 1){
-          pair[0] = rects.get(n);
-          pair[1] = possiblePairs.get(0);
+
+        if(paired){
+          SmartDashboard.putNumber("Possible Pair Rect 0 x value", bachelor.center.x);
+          SmartDashboard.putNumber("Possible Pair Rect 1 x value", bachelorette.center.x);
+          bachelors.add(bachelor);
+          bachelorettes.add(bachelorette);
+
+          SmartDashboard.putNumber("Bachelor Index", rects.indexOf(bachelor));
+          SmartDashboard.putNumber("Bachelorette Index",rects.indexOf(bachelorette));
+          rects.remove(bachelor);
+          rects.remove(bachelorette);
+          
+        }else{
+          rects.remove(bachelor);
         }
       }
 
-      if(pairs.size() > 0){
-        for(int i = 0 ; i < pairs.size() ; i++){
-          Imgproc.line(base, pairs.get(i)[0].center, pairs.get(i)[1].center, new Scalar(0,255,255));
-        }
+      SmartDashboard.putNumber("Number of pairs",bachelors.size());
+      SmartDashboard.putNumber("Number of rects",rects.size());
+
+      for(int i = 0 ; i < bachelors.size() ; i++){
+        Imgproc.line(base, bachelors.get(i).center, bachelorettes.get(i).center, new Scalar(0,255,255));
+        SmartDashboard.putNumber("Pair " + i + ", Rect 0 x value", bachelors.get(i).center.x);
+        SmartDashboard.putNumber("Pair " + i + ", Rect 1 x value", bachelorettes.get(i).center.x);
       }
-      
-      HSVOutputStream.putFrame(mat);
-      TestOutputStream.putFrame(base);
+          
+      HSVOutputStream.putFrame(base);
 
     }
   }
