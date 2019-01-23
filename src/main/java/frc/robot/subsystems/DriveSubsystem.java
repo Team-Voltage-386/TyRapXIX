@@ -39,10 +39,28 @@ public class DriveSubsystem extends Subsystem {
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
   //private static PigeonIMU.GeneralStatus generalStatus = new PigeonIMU.GeneralStatus();
 
+  public static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
+  private static final int NO_TIMEOUT = 0;
+  final int kPeakCurrentAmps = 35; /* threshold to trigger current limit */
+  final int kPeakTimeMs = 0; /* how long after Peak current to trigger current limit */
+  final int kContinCurrentAmps = 25; /* hold current after limit is triggered */
+
   public DriveSubsystem(){
     slaveLeft.follow(frontLeft);
     slaveRight.follow(frontRight);
     shifter.set(DoubleSolenoid.Value.kForward);
+    frontLeft.configPeakCurrentLimit(kPeakCurrentAmps, 10);
+    frontLeft.configPeakCurrentDuration(kPeakTimeMs, 10); /* this is a necessary call to avoid errata. */
+    frontLeft.configContinuousCurrentLimit(kContinCurrentAmps, 10);
+    frontLeft.enableCurrentLimit(true); /* honor initial setting */
+
+    frontRight.configPeakCurrentLimit(kPeakCurrentAmps, 10);
+    frontRight.configPeakCurrentDuration(kPeakTimeMs, 10); /* this is a necessary call to avoid errata. */
+    frontRight.configContinuousCurrentLimit(kContinCurrentAmps, 10);
+    frontRight.enableCurrentLimit(true); /* honor initial setting */
+
+    frontRight.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS, NO_TIMEOUT);
+    frontLeft.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS, NO_TIMEOUT);
   }
 
   public void driveTank(double leftSpeed, double rightSpeed){

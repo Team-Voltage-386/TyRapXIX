@@ -14,7 +14,7 @@ import frc.robot.Robot;
 public class TurnDegrees extends Command {
 
   private double p, d, currentAngle, angleGoal, prevError, errorChange, leftSpeed, rightSpeed, error;
-  private final double pk = 0.015, dk = 0.02;
+  private final double pk = 0.015, dk = 0.03;
 
   public TurnDegrees(double angle) {
     // Use requires() here to declare subsystem dependencies
@@ -29,6 +29,7 @@ public class TurnDegrees extends Command {
     Robot.driveSubsystem.resetPigeon();
     SmartDashboard.putBoolean("auto ended", false);
     prevError = 0;
+    errorChange = 999999999;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -41,8 +42,8 @@ public class TurnDegrees extends Command {
     d = errorChange*dk;
     //leftSpeed = minimumSpeedCheck(p + d);
     //rightSpeed = minimumSpeedCheck(-p + d);
-    leftSpeed = p + d;
-    rightSpeed = -p - d;
+    leftSpeed = minimumSpeedCheck(p + d);
+    rightSpeed = minimumSpeedCheck(-p - d);
     Robot.driveSubsystem.driveTank(leftSpeed, rightSpeed);
     prevError = error;
   }
@@ -50,8 +51,8 @@ public class TurnDegrees extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
-    //return Math.abs(currentAngle) >= Math.abs(angleGoal) && Math.abs(currentAngle) <= 1.01 * Math.abs(angleGoal) && angleChange < 0.01;
+    //return false;
+    return Math.abs(currentAngle) >= Math.abs(angleGoal) && Math.abs(currentAngle) <= 1.01 * Math.abs(angleGoal) && errorChange < 0.001;
   } ///RETRUN STATEMENT SHOULD NOT USE ANGLECHANGE
 
   // Called once after isFinished returns true
@@ -67,12 +68,12 @@ public class TurnDegrees extends Command {
   }
 
   private double minimumSpeedCheck(double calculatedSpeed){
-    if(Math.abs(calculatedSpeed)<0.4){
+    if(Math.abs(calculatedSpeed) < 0.45){
       if(calculatedSpeed<0){
-        calculatedSpeed=-0.4;
+        calculatedSpeed=-0.45;
       }
       else{
-        calculatedSpeed=0.4;
+        calculatedSpeed=0.45;
       }
     }
     return calculatedSpeed;
