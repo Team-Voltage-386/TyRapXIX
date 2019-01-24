@@ -14,10 +14,10 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class TurnLeft extends Command {
 
-  double degrees;
-  double error;
-  double speed;
-  double p = .02; //constant
+  private double degrees,p,d,prevError,errorChange;
+  private double error = 99;
+  private double leftSpeed,rightSpeed;
+  private double pk = .02, dk = .02; //constants
 
   public TurnLeft() {
     // Use requires() here to declare subsystem dependencies
@@ -35,23 +35,29 @@ public class TurnLeft extends Command {
   @Override
   protected void execute() {
     SmartDashboard.putNumber("Error",error);
-    SmartDashboard.putNumber("Speed",speed); 
+    SmartDashboard.putNumber("Error Change",errorChange);
+    SmartDashboard.putNumber("Left Speed",p+d); 
+    SmartDashboard.putNumber("Right Speed",-p-d); 
     error = (degrees - Robot.driveSubsystem.getYaw());
-    speed=p*error;
-    if((speed < 0) && (speed > -0.4)){ //Depends on what speed actually is - pos/neg
-      speed = -0.4;
+    errorChange = error - prevError;
+    p=pk*error;
+    d=dk*errorChange;
+    if((p < 0) && (p > -0.4)){ 
+      p = -0.4;
     }
-    else if((speed > 0) && (speed< .4)){
-      speed=0.4;
+    else if((p > 0) && (p < .4)){
+      p=0.4;
     }
-    DriveSubsystem.driveTank(speed,-1*speed);
-
+    leftSpeed = p+d;
+    rightSpeed = -p-d;
+    DriveSubsystem.driveTank(leftSpeed,rightSpeed);
+    prevError = error;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;// Math.abs(Robot.driveSubsystem.getYaw()) >= degrees;
+    return ((Math.abs(Robot.driveSubsystem.getYaw()) >= degrees) && (errorChange < .2) && (Math.abs(Robot.driveSubsystem.getYaw()) < degrees*1.01));
   }
 
   // Called once after isFinished returns true
