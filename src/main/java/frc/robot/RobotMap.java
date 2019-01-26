@@ -21,12 +21,6 @@ public class RobotMap {
 
   public static int controllerPort = 0;
 
- /* public static int frontLeft = 1;
-  public static int slaveLeft = 4;
-  public static int frontRight = 2;
-  public static int slaveRight = 3;
-*/
-
   //solenoids 
   public static int shifterLow = 0; 
   public static int shifterHigh = 1;
@@ -69,9 +63,9 @@ public class RobotMap {
   public static int elbowEncoder = 2; 
   public static int driveLeftEncoder = 3; 
   public static int driveRightEncoder = 4;   
+  //drive user inputs 
+  public static int driveLeftJoystickVertical = 1;
+  public static int driveRightJoystickHorizontal = 4;
 
-  // If you are using multiple modules, make sure to define both the port
-  // number and the module. For example you with a rangefinder:
-  // public static int rangefinderPort = 1;
-  // public static int rangefinderModule = 1;
+  
 }
