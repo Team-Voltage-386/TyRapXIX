@@ -21,14 +21,54 @@ public class RobotMap {
 
   public static int controllerPort = 0;
 
-  public static int frontLeft = 1;
+ /* public static int frontLeft = 1;
   public static int slaveLeft = 4;
   public static int frontRight = 2;
   public static int slaveRight = 3;
+*/
 
-  public static int shifterPort1 = 6;
-  public static int shifterPort2 = 7;
+  //solenoids 
+  public static int shifterLow = 0; 
+  public static int shifterHigh = 1;
+  public static int hatchCaptureOpen = 2;
+  public static int hatchCaptureClosed = 3;
+  public static int beakRetractOpen = 4;
+  public static int beakRetractClosed = 5; 
 
+  //sparks
+  public static int rightClimbArm = 0; 
+  public static int leftClimbArm = 1; 
+  public static int elevatorDriveWheels = 2; 
+
+  //sensors 
+  public static int lineSensorLeft = 0;
+  public static int lineSensorCenter = 1;
+  public static int lineSensorRight = 2; 
+  public static int distanceSensorPing = 3;
+  public static int distanceSensorEcho = 4; 
+  public static int analogUltrasonic = 0;
+
+  //drive motors
+  public static int frontLeft = 1; //talon
+  public static int frontRight = 2; //talon
+  public static int rearLeftFollower = 3; //victor spx
+  public static int rearRightFollower = 4; //victor spx 
+
+  public static int spikeLightRing = 0; // LED Light Ring 
+
+  //to be defined - port numbers are placeholders 
+  //talons
+  public static int rearElevatorMotor = 5; 
+  public static int leftShoulderMotor = 6; 
+  public static int rightShoulderMotor = 7; 
+  public static int elbowMotor = 8;  
+  public static int cargoRollerMotor = 9; 
+  //encoders 
+  public static int shoulderEncoder = 0;
+  public static int rearElevatorEncoder = 1;
+  public static int elbowEncoder = 2; 
+  public static int driveLeftEncoder = 3; 
+  public static int driveRightEncoder = 4;   
 
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
