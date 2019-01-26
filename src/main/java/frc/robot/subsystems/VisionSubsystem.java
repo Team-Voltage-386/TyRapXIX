@@ -24,7 +24,7 @@ import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.commands.HatchVision;
+import frc.robot.commands.BallVision;
 
 
 
@@ -55,8 +55,8 @@ public class VisionSubsystem extends Subsystem {
 
 
   Size blurSize = new Size(9, 9);
-  Scalar colorStart = new Scalar(15, 113, 82);
-  Scalar colorEnd = new Scalar(62, 255, 255);
+  Scalar colorStart = new Scalar(0, 99, 165);
+  Scalar colorEnd = new Scalar(20, 253, 255);
   Size erodeSize = new Size(10, 10);
   Size dilateSize = new Size(10, 10);
   Size edgeDilateSize = new Size(4, 4);
@@ -67,10 +67,10 @@ public class VisionSubsystem extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new HatchVision());
+    setDefaultCommand(new BallVision());
   }
 
-  public void HatchVision(){
+  public void BallVision(){
     //Gets the unprocessed image
     cvSink.grabFrame(originalImage);
     //Blurs the image for ease of processing 1

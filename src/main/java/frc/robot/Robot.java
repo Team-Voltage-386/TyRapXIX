@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.HatchVision;
+import frc.robot.commands.BallVision;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
@@ -102,7 +102,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    m_autonomousCommand = new HatchVision(); //This probably shouldn't be here
+    m_autonomousCommand = new BallVision(); //This probably shouldn't be here
     Scheduler.getInstance().run();
   }
 
