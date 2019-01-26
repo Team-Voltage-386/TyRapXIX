@@ -102,6 +102,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    m_autonomousCommand = new HatchVision(); //This probably shouldn't be here
     Scheduler.getInstance().run();
   }
 
