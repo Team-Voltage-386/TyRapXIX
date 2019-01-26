@@ -8,12 +8,10 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
@@ -27,11 +25,11 @@ public class DriveSubsystem extends Subsystem {
   // here. Call these from Commands.
 
   private static WPI_TalonSRX frontLeft = new WPI_TalonSRX(RobotMap.frontLeft);
-  private static WPI_TalonSRX slaveLeft = new WPI_TalonSRX(RobotMap.slaveLeft);
   private static WPI_TalonSRX frontRight = new WPI_TalonSRX(RobotMap.frontRight);
-  private static WPI_TalonSRX slaveRight = new WPI_TalonSRX(RobotMap.slaveRight);
+  private static VictorSPX slaveLeft = new VictorSPX(RobotMap.rearLeftFollower);
+  private static VictorSPX slaveRight = new VictorSPX(RobotMap.rearRightFollower);
 
-  private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterPort1,RobotMap.shifterPort2);
+  private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterLow,RobotMap.shifterHigh);
 
   private static DifferentialDrive differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 
@@ -45,6 +43,9 @@ public class DriveSubsystem extends Subsystem {
     differentialDrive.tankDrive(leftSpeed, rightSpeed); 
   }
 
+  public static void driveArcade(double xSpeed, double zRotation){
+    differentialDrive.arcadeDrive(xSpeed, zRotation);
+  }
   public static void shift(){
     if(shifter.get()==DoubleSolenoid.Value.kForward){
       shifter.set(DoubleSolenoid.Value.kReverse);
