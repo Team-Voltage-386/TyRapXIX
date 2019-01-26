@@ -8,13 +8,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
-public class MoveFowardUltrasonic extends Command {
+public class MoveForwardUltrasonic extends Command {
 
   private double p, error, rightSpeed, leftSpeed, ultraGoalInches;
 
-  public MoveFowardUltrasonic(double goal) {
+  public MoveForwardUltrasonic(double goal) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.driveSubsystem);
@@ -24,6 +25,7 @@ public class MoveFowardUltrasonic extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    SmartDashboard.putBoolean("auto ended", false);
     Robot.driveSubsystem.resetPigeon();
   }
 
@@ -46,6 +48,7 @@ public class MoveFowardUltrasonic extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    SmartDashboard.putBoolean("auto ended", true);
   }
 
   // Called when another command which requires one or more of the same

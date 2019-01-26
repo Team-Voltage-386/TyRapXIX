@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.MoveForwardEncoderTicks;
 import frc.robot.commands.TurnDegrees;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.commands.MoveFowardUltrasonic;
+import frc.robot.commands.MoveForwardUltrasonic;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
     //m_autonomousCommand = m_chooser.getSelected();
 
     //m_autonomousCommand = new MoveForwardEncoderTicks(10000);
-    m_autonomousCommand = new MoveForwardUltrasonic(100);
+    m_autonomousCommand = new MoveForwardUltrasonic(20);
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -138,6 +138,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    SmartDashboard.putNumber("ultra value", Robot.driveSubsystem.getUltraDistance());
   }
 
   /**

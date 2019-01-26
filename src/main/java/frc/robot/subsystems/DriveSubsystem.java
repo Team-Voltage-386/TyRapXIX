@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.AnalogUltrasonic;
 import frc.robot.RobotMap;
 import frc.robot.commands.TankDrive;
 
@@ -28,7 +29,7 @@ public class DriveSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private static Ultrasonic ultrasonic = new Ultrasonic(RobotMap.ultraPingChannel,RobotMap.ultraEchoChannel);
+  private static AnalogUltrasonic ultrasonic = new AnalogUltrasonic(0, 1.181, 118.11);
 
   private static WPI_TalonSRX frontLeft = new WPI_TalonSRX(RobotMap.frontLeft);
   private static WPI_TalonSRX slaveLeft = new WPI_TalonSRX(RobotMap.slaveLeft);
@@ -104,7 +105,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public double getUltraDistance(){
-    return ultrasonic.getRangeInches();
+    return ultrasonic.getInches();
   }
 
 }

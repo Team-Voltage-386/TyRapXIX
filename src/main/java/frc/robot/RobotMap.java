@@ -31,8 +31,7 @@ public class RobotMap {
 
   public static int pigeonPort = 3;
 
-  public static int ultraEchoChannel = 8;
-  public static int ultraPingChannel = 9;
+  public static int analogUltraPort = 0;
 
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
