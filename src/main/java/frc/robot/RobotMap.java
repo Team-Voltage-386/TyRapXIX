@@ -42,7 +42,11 @@ public class RobotMap {
   public static int distanceSensorEcho = 4; 
   public static int analogUltrasonic = 0;
 
-  //drive motors
+  /*drive motors
+  There's a discrepancy between the drive motor types listed on trello and 
+  what's listed on the official port mappings sheet, so I input the motors
+  and added them into the drive subsystem as they are on the port mappings sheet. 
+  */
   public static int frontLeft = 1; //talon
   public static int frontRight = 2; //talon
   public static int rearLeftFollower = 3; //victor spx
