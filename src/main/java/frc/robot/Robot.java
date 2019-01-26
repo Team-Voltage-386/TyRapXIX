@@ -139,6 +139,8 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     SmartDashboard.putNumber("ultra value", Robot.driveSubsystem.getUltraDistance());
+    SmartDashboard.putNumber("Analogultra value", Robot.driveSubsystem.getAnalogUltraDistance());
+    SmartDashboard.putNumber("AnalogUltra Voltage", Robot.driveSubsystem.getAnalogUltraVoltage());
   }
 
   /**
@@ -146,5 +148,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    SmartDashboard.putNumber("ultra value", Robot.driveSubsystem.getUltraDistance());
   }
 }

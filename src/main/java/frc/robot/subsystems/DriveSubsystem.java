@@ -29,7 +29,8 @@ public class DriveSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private static AnalogUltrasonic ultrasonic = new AnalogUltrasonic(0, 1.181, 118.11);
+  private static AnalogUltrasonic analogUltrasonic = new AnalogUltrasonic(0, 1.181, 118.11);
+  private static Ultrasonic digitalUltrasonic = new Ultrasonic(8,9);
 
   private static WPI_TalonSRX frontLeft = new WPI_TalonSRX(RobotMap.frontLeft);
   private static WPI_TalonSRX slaveLeft = new WPI_TalonSRX(RobotMap.slaveLeft);
@@ -105,7 +106,15 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public double getUltraDistance(){
-    return ultrasonic.getInches();
+    return digitalUltrasonic.getRangeInches();
+  }
+
+  public double getAnalogUltraDistance(){
+    return analogUltrasonic.getInches();
+  }
+
+  public double getAnalogUltraVoltage(){
+    return analogUltrasonic.getVoltage();
   }
 
 }
