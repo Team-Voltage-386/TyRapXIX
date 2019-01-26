@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.MoveForwardEncoderTicks;
 import frc.robot.commands.TurnDegrees;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.MoveForwardUltrasonic;
+import frc.robot.commands.SetArmEncoderTicks;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,6 +31,7 @@ import frc.robot.commands.MoveForwardUltrasonic;
 public class Robot extends TimedRobot {
 
   public static DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public static ArmSubsystem armSubsystem = new ArmSubsystem();
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -40,6 +43,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    SmartDashboard.putNumber("pk ", 0);
+    SmartDashboard.putNumber("dk ", 0);
+    SmartDashboard.putNumber("ik ", 0);
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
@@ -64,6 +70,11 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
     SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
     SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
+
+    SmartDashboard.putNumber("ArmEncoderValue", Robot.armSubsystem.getArmEncoderValue());
+
+    SmartDashboard.putBoolean("TopLimitSwitch", Robot.armSubsystem.getTopLimitSwitch());
+    SmartDashboard.putBoolean("BottomLimitSwitch", Robot.armSubsystem.getBottomLimitSwitch());
 
   }
 
@@ -94,10 +105,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    
     //m_autonomousCommand = m_chooser.getSelected();
 
     //m_autonomousCommand = new MoveForwardEncoderTicks(10000);
-    m_autonomousCommand = new MoveForwardUltrasonic(20);
+    //m_autonomousCommand = new MoveForwardUltrasonic(20);
+    m_autonomousCommand = new SetArmEncoderTicks(-15);
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",

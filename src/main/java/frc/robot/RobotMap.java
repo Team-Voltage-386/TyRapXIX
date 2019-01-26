@@ -33,6 +33,13 @@ public class RobotMap {
 
   public static int analogUltraPort = 6;
 
+  public static int armEncoderChannelA = 1;
+  public static int armEncoderChannelB = 2;
+  public static int armMotorPrimary = 5;
+  public static int armMotorFollower = 6;
+  public static int topLimitSwitchPort = 3;
+  public static int bottomLimitSwitchPort = 4;
+
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
