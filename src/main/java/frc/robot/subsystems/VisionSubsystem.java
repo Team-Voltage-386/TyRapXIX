@@ -7,8 +7,14 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
@@ -18,6 +24,7 @@ import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.commands.HatchVision;
 
 
 
@@ -32,36 +39,64 @@ public class VisionSubsystem extends Subsystem {
 
   UsbCamera usbCamera = CameraServer.getInstance().startAutomaticCapture();
   CvSink cvSink = CameraServer.getInstance().getVideo();
-  CvSource HSVOutputStream = CameraServer.getInstance().putVideo("Edges", resolutionWidth, resolutionHeight);
-  Mat originalImage,alteredImage,edgeImage,grayscaleImage;
+  CvSource blurOutputStream = CameraServer.getInstance().putVideo("Blur", resolutionWidth, resolutionHeight);
+  CvSource hSVScaleOutputStream = CameraServer.getInstance().putVideo("Edges", resolutionWidth, resolutionHeight);
+  CvSource blackWhiteOutputStream = CameraServer.getInstance().putVideo("BlackWhite", resolutionWidth, resolutionHeight);
+  CvSource erodeDilateOutputStream = CameraServer.getInstance().putVideo("ErodeDilate", resolutionWidth, resolutionHeight);
+  CvSource grayScaleOutputStream = CameraServer.getInstance().putVideo("GrayScale", resolutionWidth, resolutionHeight);
+
+
+  Mat originalImage = new Mat();
+  Mat alteredImage = new Mat();
+  Mat edgeImage = new Mat();
+  Mat grayscaleImage = new Mat();
+
+
+
 
   Size blurSize = new Size(9, 9);
-  Scalar colorStart = new Scalar(20, 108, 139);
-  Scalar colorEnd = new Scalar(35, 255, 255);
+  Scalar colorStart = new Scalar(15, 113, 82);
+  Scalar colorEnd = new Scalar(62, 255, 255);
   Size erodeSize = new Size(10, 10);
   Size dilateSize = new Size(10, 10);
+  Size edgeDilateSize = new Size(4, 4);
+  Size edgeErodeSize = new Size(3,3);
+
+
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new HatchVision());
   }
 
   public void HatchVision(){
     //Gets the unprocessed image
     cvSink.grabFrame(originalImage);
-    //Blurs the image for ease of processing
+    //Blurs the image for ease of processing 1
     Imgproc.blur(originalImage,alteredImage,blurSize);
-    //Converts from RGB scale to HSV scale because HSV is more useful
+    blurOutputStream.putFrame(alteredImage);
+
+    //Converts from RGB scale to HSV scale because HSV is more useful 2
     Imgproc.cvtColor(alteredImage,alteredImage,Imgproc.COLOR_BGR2HSV);
-    //Converts the mat to grayscale (black/white) where pixels in the given range appear white
+    hSVScaleOutputStream.putFrame(alteredImage);
+
+    //Converts the mat to grayscale (black/white) where pixels in the given range appear white 3
     Core.inRange(alteredImage, colorStart, colorEnd, alteredImage);
-    //Erode and then dilate to sharpen the corners
+    blackWhiteOutputStream.putFrame(alteredImage);
+
+    //Erode and then dilate to sharpen the corners 4
     Imgproc.erode(alteredImage,alteredImage,Imgproc.getStructuringElement(Imgproc.MORPH_RECT, erodeSize));
     Imgproc.dilate(alteredImage,alteredImage,Imgproc.getStructuringElement(Imgproc.MORPH_RECT, dilateSize));
+    erodeDilateOutputStream.putFrame(alteredImage);
 
-    HSVOutputStream.putFrame(alteredImage);
+    //Makes a greyscale version of the original image for edge detection 5
+    Imgproc.cvtColor(originalImage, grayscaleImage, Imgproc.COLOR_BGR2GRAY);
+    grayScaleOutputStream.putFrame(grayscaleImage);
 
+
+    
+   
 
   }
 

@@ -13,6 +13,7 @@ import frc.robot.subsystems.VisionSubsystem;
 
 public class HatchVision extends Command {
   public HatchVision() {
+    requires(Robot.visionSubsystem);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
