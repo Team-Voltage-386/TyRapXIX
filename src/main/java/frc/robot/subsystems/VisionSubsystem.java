@@ -54,9 +54,11 @@ public class VisionSubsystem extends Subsystem {
   Mat grayscaleImage = new Mat();
 
 
-  public Mat hierarchy = new Mat(), mat = new Mat(), image = new Mat();
-  public List<MatOfPoint> finalContours = new ArrayList<>();
-  public List<RotatedRect> rects = new ArrayList<>();
+  public Mat hierarchy = new Mat();
+  public Mat mat = new Mat();
+  public Mat image = new Mat();
+  public List<MatOfPoint> finalContours = new ArrayList<MatOfPoint>();
+  public List<RotatedRect> rects = new ArrayList<RotatedRect>();
 
 
   Size blurSize = new Size(9, 9);
@@ -95,47 +97,49 @@ public class VisionSubsystem extends Subsystem {
     Imgproc.dilate(alteredImage,alteredImage,Imgproc.getStructuringElement(Imgproc.MORPH_RECT, dilateSize));
     erodeDilateOutputStream.putFrame(alteredImage);
 
-    //Makes a greyscale version of the original image for edge detection 5
-    Imgproc.cvtColor(originalImage, grayscaleImage, Imgproc.COLOR_BGR2GRAY);
-    //Dilate and erode to convers separate edges to continuous lines
-    Imgproc.dilate(grayscaleImage, grayscaleImage, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, edgeDilateSize));
-    Imgproc.erode(grayscaleImage, grayscaleImage, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3)));
-
-    //Erases the edge pixils from the color filtered image
-    Core.bitwise_not(grayscaleImage, grayscaleImage);
-    Core.bitwise_and(mat, grayscaleImage, mat);
-
     finalContours.clear();
-    //FInds the outlines of the white rectangles of the current image
-    Imgproc.findContours(mat, finalContours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+    //Finds the outlines of the white rectangles of the current image
+    Imgproc.findContours(alteredImage, finalContours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
     rects.clear();
-    //Makes rectangle objects for each of the contours
+
+   	//Makes rectangle objects for each of the contours
     for (int i = 0; i < finalContours.size(); i++) {
       RotatedRect rect = Imgproc.minAreaRect(new MatOfPoint2f(finalContours.get(i).toArray()));
       if (rect.size.height > 10 && rect.size.width > 10 && rect.angle < 10)
         rects.add(rect);
+        
+    }
+    for (int i = 0; i < rects.size(); i++) {
+      Point[] vertices = new Point[4];
+      rects.get(i).points(vertices);
+      MatOfPoint points = new MatOfPoint(vertices);
+      //The selected rectangle is green, others are white
+      Imgproc.drawContours(originalImage, Arrays.asList(points), -1, new Scalar(255, 255, 255), 5);
 
     }
+    contoursOutputStream.putFrame(originalImage);
+
+    
       //Finds the center of the rectangle
-      double y = rects.get(0).center.y;
-      double x = rects.get(0).center.x;
-      SmartDashboard.putNumber("X Value", x);
-      SmartDashboard.putNumber("Y Value", y);
+      // double y = rects.get(0).center.y;
+      // double x = rects.get(0).center.x;
+      // SmartDashboard.putNumber("X Value", x);
+      // SmartDashboard.putNumber("Y Value", y);
 
-      Point[] vertices = new Point[4];
-      rects.get(0).points(vertices);
-      MatOfPoint points = new MatOfPoint(vertices);
-      Imgproc.drawContours(originalImage, Arrays.asList(points), -1, new Scalar(0, 255, 0), 5);
-      contoursOutputStream.putFrame(originalImage);
+      // Point[] vertices = new Point[4];
+      // rects.get(0).points(vertices);
+      // MatOfPoint points = new MatOfPoint(vertices);
+      // Imgproc.drawContours(originalImage, Arrays.asList(points), -1, new Scalar(0, 255, 0), 5);
+      // contoursOutputStream.putFrame(originalImage);
 
-      double distanceFromCenter = x-160;
-      double angleFromCenter = Math.atan(distanceFromCenter);
-
-
-
-
+      // double distanceFromCenter = x-160;
+      // double angleFromCenter = Math.atan(distanceFromCenter);
   }
-
+  // public double getCenter(){
+  //   double x = rects.get(0).center.x;
+  //   return x;
+  // }
+  
   
 
 }
