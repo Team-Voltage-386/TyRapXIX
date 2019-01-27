@@ -106,8 +106,7 @@ public class VisionSubsystem extends Subsystem {
     for (int i = 0; i < finalContours.size(); i++) {
       RotatedRect rect = Imgproc.minAreaRect(new MatOfPoint2f(finalContours.get(i).toArray()));
       if (rect.size.height > 10 && rect.size.width > 10 && rect.angle < 10){
-        rects.add(rect);
-        SmartDashboard.putNumber("X Value", rects.get(i).center.x);
+        rects.add(rect);        
       }
 
     }
@@ -119,27 +118,11 @@ public class VisionSubsystem extends Subsystem {
       Imgproc.drawContours(originalImage, Arrays.asList(points), -1, new Scalar(255, 255, 255), 5);
 
     }
-    contoursOutputStream.putFrame(originalImage);
-    
-      //Finds the center of the rectangle
-      // double y = rects.get(0).center.y;
-      // double x = rects.get(0).center.x;
-      // SmartDashboard.putNumber("X Value", x);
-      // SmartDashboard.putNumber("Y Value", y);
-
-      // Point[] vertices = new Point[4];
-      // rects.get(0).points(vertices);
-      // MatOfPoint points = new MatOfPoint(vertices);
-      // Imgproc.drawContours(originalImage, Arrays.asList(points), -1, new Scalar(0, 255, 0), 5);
-      // contoursOutputStream.putFrame(originalImage);
-
+    contoursOutputStream.putFrame(originalImage);  
       // double distanceFromCenter = x-160;
       // double angleFromCenter = Math.atan(distanceFromCenter);
   }
-  // public double getCenter(){
-  //   double x = rects.get(0).center.x;
-  //   return x;
-  // }
+
   
   
 
