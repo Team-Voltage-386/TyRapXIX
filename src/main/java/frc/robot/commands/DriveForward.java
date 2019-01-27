@@ -17,7 +17,6 @@ public class DriveForward extends Command {
   private double rightSpeed;
 
   private double ticksRequired;
-  private double maxError;
   private double error;
   private double k = .01; //constant
   
