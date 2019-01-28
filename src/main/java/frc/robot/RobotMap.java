@@ -19,7 +19,8 @@ public class RobotMap {
   // public static int leftMotor = 1;
   // public static int rightMotor = 2;
 
-  public static int controllerPort = 0;
+  public static int driveControllerPort = 0;
+  public static int manipControllerPort = 1;
 
   //solenoids 
   public static int shifterLow = 0; 
