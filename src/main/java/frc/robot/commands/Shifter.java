@@ -15,9 +15,9 @@ import frc.robot.subsystems.DriveSubsystem;
  * Add your docs here.
  */
 public class Shifter extends InstantCommand {
-  /**
-   * Add your docs here.
-   */
+  
+  DriveSubsystem ob = new DriveSubsystem();
+
   public Shifter() {
     super();
     // Use requires() here to declare subsystem dependencies
@@ -28,7 +28,7 @@ public class Shifter extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    DriveSubsystem.shift();
+    ob.shift();
   }
 
 }

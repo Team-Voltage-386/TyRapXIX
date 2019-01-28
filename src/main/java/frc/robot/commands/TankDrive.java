@@ -13,6 +13,9 @@ import frc.robot.Robot;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class TankDrive extends Command {
+
+  DriveSubsystem ob = new DriveSubsystem();
+
   public TankDrive() {
     requires(Robot.driveSubsystem);
   }
@@ -25,7 +28,7 @@ public class TankDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    DriveSubsystem.driveTank(OI.xboxControl.getRawAxis(1),OI.xboxControl.getRawAxis(5));
+    ob.driveTank(OI.xboxControl.getRawAxis(1),OI.xboxControl.getRawAxis(5));
   }
 
   // Make this return true when this Command no longer needs to run execute()

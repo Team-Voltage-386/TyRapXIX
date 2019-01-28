@@ -39,14 +39,14 @@ public class DriveSubsystem extends Subsystem {
     shifter.set(DoubleSolenoid.Value.kForward);
   }
 
-  public static void driveTank(double leftSpeed, double rightSpeed){
+  public void driveTank(double leftSpeed, double rightSpeed){
     differentialDrive.tankDrive(leftSpeed, rightSpeed); 
   }
 
-  public static void driveArcade(double xSpeed, double zRotation){
+  public void driveArcade(double xSpeed, double zRotation){
     differentialDrive.arcadeDrive(xSpeed, zRotation);
   }
-  public static void shift(){
+  public void shift(){
     if(shifter.get()==DoubleSolenoid.Value.kForward){
       shifter.set(DoubleSolenoid.Value.kReverse);
     }else{
