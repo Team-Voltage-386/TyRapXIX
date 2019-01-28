@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.MoveForwardEncoderTicks;
-import frc.robot.commands.TurnDegrees;
+// import frc.robot.commands.MoveForwardEncoderTicks;
+// import frc.robot.commands.TurnDegrees;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.commands.MoveForwardUltrasonic;
 
@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /**
-   * This function is run when the robot is first started up and should be
+   * This function is run when the Probot is first started up and should be
    * used for any initialization code.
    */
   @Override
