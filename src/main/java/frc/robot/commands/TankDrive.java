@@ -8,15 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-<<<<<<< HEAD
-import frc.robot.Robot;
-import frc.robot.RobotMap;
-import frc.robot.OI;
-=======
-import frc.robot.OI;
-import frc.robot.Robot;
-import frc.robot.subsystems.DriveSubsystem;
->>>>>>> master
+import frc.robot.*;
 
 public class TankDrive extends Command {
   public TankDrive() {
@@ -31,11 +23,7 @@ public class TankDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-<<<<<<< HEAD
     Robot.driveSubsystem.driveTank(Robot.oi.xboxControl.getRawAxis(RobotMap.driveLeftJoystickVertical), Robot.oi.xboxControl.getRawAxis(RobotMap.driveRightJoystickHorizontal));
-=======
-    DriveSubsystem.driveTank(OI.xboxControl.getRawAxis(1),OI.xboxControl.getRawAxis(5));
->>>>>>> master
   }
 
   // Make this return true when this Command no longer needs to run execute()

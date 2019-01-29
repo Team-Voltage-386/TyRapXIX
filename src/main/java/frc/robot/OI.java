@@ -8,23 +8,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-<<<<<<< HEAD
-=======
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.Shifter;
->>>>>>> master
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-<<<<<<< HEAD
-  public Joystick xboxControl = new Joystick(RobotMap.driverPort);
-  public Joystick manipulator = new Joystick(RobotMap.manipulatorPort);
-  
-=======
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a
   //// joystick.
@@ -53,12 +45,11 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
 
-  public static Joystick xboxControl = new Joystick(RobotMap.controllerPort);
+  public static Joystick xboxControl = new Joystick(RobotMap.driverPort);
 
   Button a = new JoystickButton(xboxControl,1);
 
   public OI(){
     a.whenPressed(new Shifter());
   }
->>>>>>> master
 }
