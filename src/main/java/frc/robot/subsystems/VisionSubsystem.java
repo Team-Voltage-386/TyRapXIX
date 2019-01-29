@@ -13,10 +13,11 @@ import java.util.List;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import java.lang.Math;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
-import org.opencv.core.RotatedRect;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
@@ -58,7 +59,7 @@ public class VisionSubsystem extends Subsystem {
   public Mat mat = new Mat();
   public Mat image = new Mat();
   public List<MatOfPoint> finalContours = new ArrayList<MatOfPoint>();
-  public List<RotatedRect> rects = new ArrayList<RotatedRect>();
+  public List<Rect> rects = new ArrayList<Rect>();
 
 
   Size blurSize = new Size(9, 9);
@@ -69,7 +70,8 @@ public class VisionSubsystem extends Subsystem {
   Size edgeDilateSize = new Size(4, 4);
   Size edgeErodeSize = new Size(3,3);
 
-
+  public Double rightCenter = 0.0;
+  Rect rightRect;
 
   @Override
   public void initDefaultCommand() {
@@ -77,7 +79,11 @@ public class VisionSubsystem extends Subsystem {
     setDefaultCommand(new BallVision());
   }
 
-  public void BallVision(){
+  public VisionSubsystem(){
+    usbCamera.setExposureAuto();
+  }
+
+  public void ballVision(){
     //Gets the unprocessed image
     cvSink.grabFrame(originalImage);
     //Blurs the image for ease of processing 1
@@ -104,26 +110,50 @@ public class VisionSubsystem extends Subsystem {
 
    	//Makes rectangle objects for each of the contours
     for (int i = 0; i < finalContours.size(); i++) {
-      RotatedRect rect = Imgproc.minAreaRect(new MatOfPoint2f(finalContours.get(i).toArray()));
-      if (rect.size.height > 10 && rect.size.width > 10 && rect.angle < 10){
+      Rect rect = Imgproc.boundingRect(new MatOfPoint2f(finalContours.get(i).toArray()));
+      if (rect.height > 10 && rect.width > 10){
         rects.add(rect);        
       }
+    }
+
+    if (rects.size()<1){
+      rightCenter = 0.0; 
 
     }
+    else{
+      rightCenter = Math.abs(rects.get(0).x+rects.get(0).width/2 - 160.0) ;
+      for (int i = 0; i < rects.size(); i++){
+        Double x = Math.abs(rects.get(i).x+rects.get(i).width/2 - 160.0);
+        if (x<=rightCenter){
+          rightRect = rects.get(i);
+          rightCenter = x;
+                }
+         }
+      rects.remove(rightRect);
+
+      
+    }
+    // Imgproc.rectangle(originalImage, new Point(rightRect.x, rightRect.y), new Point(rightRect.x+rightRect.width, rightRect.y+rightRect.height), new Scalar(255, 255, 255));
+
     for (int i = 0; i < rects.size(); i++) {
-      Point[] vertices = new Point[4];
-      rects.get(i).points(vertices);
-      MatOfPoint points = new MatOfPoint(vertices);
-      //The selected rectangle is green, others are white
-      Imgproc.drawContours(originalImage, Arrays.asList(points), -1, new Scalar(255, 255, 255), 5);
-
+      if (i==0){
+        Imgproc.rectangle(originalImage, new Point(rects.get(i).x, rects.get(i).y), new Point(rects.get(i).x+rects.get(i).width, rects.get(i).y+rects.get(i).height), new Scalar(255, 255, 255));
+      }
+      else{
+        Imgproc.rectangle(originalImage, new Point(rects.get(i).x, rects.get(i).y), new Point(rects.get(i).x+rects.get(i).width, rects.get(i).y+rects.get(i).height), new Scalar(255-(i*50), 255-(i*50), 255-(i*50)));
+      }
     }
+
     contoursOutputStream.putFrame(originalImage);  
       // double distanceFromCenter = x-160;
       // double angleFromCenter = Math.atan(distanceFromCenter);
   }
 
-  
+  public Double getX(){
+    return rightCenter;
+  }  
+
+
   
 
 }
