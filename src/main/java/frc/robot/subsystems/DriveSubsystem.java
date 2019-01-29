@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
-import frc.robot.commands.TankDrive;
+import frc.robot.commands.ArcadeDrive;
 
 /**
  * Add your docs here.
@@ -27,6 +27,7 @@ public class DriveSubsystem extends Subsystem {
   private static WPI_TalonSRX frontRight = new WPI_TalonSRX(RobotMap.frontRight);
   private static VictorSPX slaveLeft = new VictorSPX(RobotMap.rearLeftFollower);
   private static VictorSPX slaveRight = new VictorSPX(RobotMap.rearRightFollower);
+
 
   private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterLow,RobotMap.shifterHigh);
 
@@ -57,6 +58,6 @@ public class DriveSubsystem extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new TankDrive());
+    setDefaultCommand(new ArcadeDrive());
   }
 }
