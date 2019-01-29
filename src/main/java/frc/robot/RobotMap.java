@@ -56,7 +56,7 @@ public class RobotMap {
   public static int spikeLightRing = 0; // LED Light Ring 
 
   //button inputs
-  public static int floorPickup = 1;
+  public static int floorPickup = 1; 
   public static int levelOneSelector = 2;
   public static int levelTwoSelector = 3; 
   public static int levelThreeSelector = 4;

@@ -49,7 +49,7 @@ public class OI {
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
   Button a = new JoystickButton(xboxDriveControl,1);
-
+ 
   public OI(){
     a.whenPressed(new Shifter());
 

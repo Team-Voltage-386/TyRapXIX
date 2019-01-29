@@ -33,7 +33,7 @@ public class HatchMode extends Command {
       //floor pickup
       desiredLevel = HatchLevels.hatchFloorPickup;
     }
-    else if (Robot.m_oi.xboxManipControl.getRawButton(RobotMap.levelOneSelector)){
+    else if (Robot.m_oi.xboxManipControl.getRawButton(RobotMap.levelOneSelector)){ 
       //level one
       desiredLevel = HatchLevels.hatchLevelOne;
     }

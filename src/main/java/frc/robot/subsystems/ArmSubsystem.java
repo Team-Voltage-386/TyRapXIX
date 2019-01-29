@@ -48,7 +48,7 @@ public class ArmSubsystem extends Subsystem {
   public void setHatchState(HatchLevels in){
     switch(in) {
       case hatchFloorPickup:
-        break;
+        break; 
       case hatchLevelOne:
         break;
       case hatchLevelTwo:

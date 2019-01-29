@@ -31,7 +31,7 @@ public class CargoMode extends Command {
     if (Robot.m_oi.xboxManipControl.getRawButton(RobotMap.floorPickup)){
       desiredLevel = CargoLevels.cargoFloorPickup;
     }
-    else if (Robot.m_oi.xboxManipControl.getRawButton(RobotMap.levelOneSelector)){
+    else if (Robot.m_oi.xboxManipControl.getRawButton(RobotMap.levelOneSelector)){ 
       //level one 
       desiredLevel = CargoLevels.cargoLevelOne; 
     }
