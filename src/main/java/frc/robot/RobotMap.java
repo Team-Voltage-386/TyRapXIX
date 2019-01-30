@@ -50,8 +50,8 @@ public class RobotMap {
   */
   public static int frontLeft = 1; //talon
   public static int frontRight = 2; //talon
-  public static int rearLeftFollower = 3; //victor spx
-  public static int rearRightFollower = 4; //victor spx 
+  public static int rearLeftFollower = 4; //victor spx 
+  public static int rearRightFollower = 3; //victor spx 
 
   public static int spikeLightRing = 0; // LED Light Ring 
 
@@ -76,7 +76,6 @@ public class RobotMap {
   public static int driveRightEncoder = 4;   
   //drive user inputs 
   public static int driveLeftJoystickVertical = 1;
-  public static int driveRightJoystickHorizontal = 4;
-
+  public static int driveRightJoystickHorizontal = 4; 
   
 }
