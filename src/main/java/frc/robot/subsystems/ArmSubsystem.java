@@ -14,25 +14,26 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class ArmSubsystem extends Subsystem {
 
-  public enum CargoLevels {
+  public enum Levels {
     cargoFloorPickup,
+    cargoPlayerStation,
     cargoLevelOne,
     cargoLevelTwo,
-    cargoLevelThree;
-  }
-
-  public enum HatchLevels {
+    cargoLevelThree,
     hatchFloorPickup,
     hatchLevelOne,
     hatchLevelTwo,
     hatchLevelThree;
   }
+
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public void setCargoLevel(CargoLevels in) {
+  public void setLevel(Levels in) {
     switch(in) {
       case cargoFloorPickup:
+        break;
+      case cargoPlayerStation:
         break;
       case cargoLevelOne:
         break;
@@ -40,13 +41,6 @@ public class ArmSubsystem extends Subsystem {
         break;
       case cargoLevelThree:
         break;
-      default:
-        break;
-    }
-  }
-
-  public void setHatchState(HatchLevels in){
-    switch(in) {
       case hatchFloorPickup:
         break; 
       case hatchLevelOne:

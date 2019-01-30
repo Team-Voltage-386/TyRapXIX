@@ -10,12 +10,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.RobotMap;
-import frc.robot.subsystems.ArmSubsystem.HatchLevels;
+import frc.robot.Robot;
+import frc.robot.subsystems.ArmSubsystem.Levels;
 
 
 public class HatchMode extends Command {
-  HatchLevels desiredLevel = HatchLevels.hatchLevelOne;
+  Levels desiredLevel = Levels.hatchLevelOne;
   public HatchMode() {
+    requires(Robot.armSubsystem);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -30,23 +32,23 @@ public class HatchMode extends Command {
   protected void execute() {
     if (OI.xboxManipControl.getRawButton(RobotMap.floorPickup)){
       //floor pickup
-      desiredLevel = HatchLevels.hatchFloorPickup;
+      desiredLevel = Levels.hatchFloorPickup;
     }
     else if (OI.xboxManipControl.getRawButton(RobotMap.levelOneSelector)){ 
       //level one
-      desiredLevel = HatchLevels.hatchLevelOne;
+      desiredLevel = Levels.hatchLevelOne;
     }
     else if (OI.xboxManipControl.getRawButton(RobotMap.levelTwoSelector)){
       //level two
-      desiredLevel = HatchLevels.hatchLevelTwo;
+      desiredLevel = Levels.hatchLevelTwo;
     }
     else if (OI.xboxManipControl.getRawButton(RobotMap.levelThreeSelector)){
       //level three 
-      desiredLevel = HatchLevels.hatchLevelThree;
+      desiredLevel = Levels.hatchLevelThree;
     }
     else{
-
     }
+    Robot.armSubsystem.setLevel(desiredLevel);
   }
 
   // Make this return true when this Command no longer needs to run execute()

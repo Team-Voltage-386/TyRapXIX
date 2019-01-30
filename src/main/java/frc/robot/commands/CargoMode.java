@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.subsystems.ArmSubsystem.CargoLevels;
+import frc.robot.subsystems.ArmSubsystem.Levels;
 
 
 public class CargoMode extends Command {
-  CargoLevels desiredLevel = CargoLevels.cargoLevelOne; 
+  Levels desiredLevel = Levels.cargoLevelOne; 
   public CargoMode() {  
     requires(Robot.armSubsystem);
   }
@@ -29,23 +29,27 @@ public class CargoMode extends Command {
   @Override
   protected void execute() {
     if (OI.xboxManipControl.getRawButton(RobotMap.floorPickup)){
-      desiredLevel = CargoLevels.cargoFloorPickup;
+      desiredLevel = Levels.cargoFloorPickup;
+    }
+    else if (OI.xboxManipControl.getRawButton(RobotMap.cargoPlayerStationPickup)){
+      //position for collecting cargo from the human player station
+      desiredLevel = Levels.cargoPlayerStation;
     }
     else if (OI.xboxManipControl.getRawButton(RobotMap.levelOneSelector)){ 
       //level one 
-      desiredLevel = CargoLevels.cargoLevelOne; 
+      desiredLevel = Levels.cargoLevelOne; 
     }
     else if (OI.xboxManipControl.getRawButton(RobotMap.levelTwoSelector)){
       //level two
-      desiredLevel = CargoLevels.cargoLevelTwo;
+      desiredLevel = Levels.cargoLevelTwo;
     }
     else if (OI.xboxManipControl.getRawButton(RobotMap.levelThreeSelector)){
       //level three
-      desiredLevel = CargoLevels.cargoLevelThree;
+      desiredLevel = Levels.cargoLevelThree;
     }
     else {
     }
-    Robot.armSubsystem.setCargoLevel(desiredLevel);
+    Robot.armSubsystem.setLevel(desiredLevel);
   }
   
 
