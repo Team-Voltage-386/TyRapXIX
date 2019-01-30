@@ -8,7 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.ArmSubsystem.HatchLevels;
@@ -29,19 +29,19 @@ public class HatchMode extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.m_oi.xboxManipControl.getRawButton(RobotMap.floorPickup)){
+    if (OI.xboxManipControl.getRawButton(RobotMap.floorPickup)){
       //floor pickup
       desiredLevel = HatchLevels.hatchFloorPickup;
     }
-    else if (Robot.m_oi.xboxManipControl.getRawButton(RobotMap.levelOneSelector)){ 
+    else if (OI.xboxManipControl.getRawButton(RobotMap.levelOneSelector)){ 
       //level one
       desiredLevel = HatchLevels.hatchLevelOne;
     }
-    else if (Robot.m_oi.xboxManipControl.getRawButton(RobotMap.levelTwoSelector)){
+    else if (OI.xboxManipControl.getRawButton(RobotMap.levelTwoSelector)){
       //level two
       desiredLevel = HatchLevels.hatchLevelTwo;
     }
-    else if (Robot.m_oi.xboxManipControl.getRawButton(RobotMap.levelThreeSelector)){
+    else if (OI.xboxManipControl.getRawButton(RobotMap.levelThreeSelector)){
       //level three 
       desiredLevel = HatchLevels.hatchLevelThree;
     }
