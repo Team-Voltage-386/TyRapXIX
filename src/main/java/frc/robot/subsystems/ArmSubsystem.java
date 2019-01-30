@@ -29,7 +29,6 @@ public class ArmSubsystem extends Subsystem {
 
   public ArmSubsystem(){
     followerArmMotor.follow(primaryArmMotor);
-    resetEncoder();
   }
 
   @Override

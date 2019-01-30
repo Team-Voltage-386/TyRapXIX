@@ -10,6 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.SetArmEncoderTicks;
+import frc.robot.commands.SetArmResetPosition;
 import frc.robot.commands.Shifter;
 
 /**
@@ -47,11 +50,20 @@ public class OI {
 
   public static Joystick xboxControl = new Joystick(RobotMap.controllerPort);
 
-  Button a = new JoystickButton(xboxControl,1);
+  Button a = new JoystickButton(xboxControl,5);
 
-  Button resetPigeonYawButton = new JoystickButton(xboxControl, 2);
+  Button tenTicksPosition = new JoystickButton(xboxControl, 1);
+  Button twentyTicksPosition = new JoystickButton(xboxControl, 2);
+  Button thirtyTicksPosition = new JoystickButton(xboxControl, 3);
+  Button zeroTicksPosition = new JoystickButton(xboxControl, 4);
 
   public OI(){
+    //SmartDashboard.putData("Go to 15 degrees", new SetArmEncoderTicks(-15));
+
     a.whenPressed(new Shifter());
+    tenTicksPosition.whenPressed(new SetArmEncoderTicks(-10));
+    twentyTicksPosition.whenPressed(new SetArmEncoderTicks(-20));
+    thirtyTicksPosition.whenPressed(new SetArmEncoderTicks(-30));
+    zeroTicksPosition.whenPressed(new SetArmResetPosition());
   }
 }

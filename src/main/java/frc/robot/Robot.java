@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("pk ", 0);
     SmartDashboard.putNumber("dk ", 0);
     SmartDashboard.putNumber("ik ", 0);
+
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
@@ -112,6 +113,8 @@ public class Robot extends TimedRobot {
     //m_autonomousCommand = new MoveForwardUltrasonic(20);
     m_autonomousCommand = new SetArmEncoderTicks(-15);
 
+    armSubsystem.resetEncoder();
+
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -136,6 +139,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     Robot.driveSubsystem.resetPigeon();
+    armSubsystem.resetEncoder();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
