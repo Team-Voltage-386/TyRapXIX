@@ -22,59 +22,59 @@ public class RobotMap {
   public static int driveControllerPort = 0;
   public static int manipControllerPort = 1;
 
-  //solenoids 
-  public static int shifterLow = 0; 
+  // solenoids
+  public static int shifterLow = 0;
   public static int shifterHigh = 1;
   public static int hatchCaptureOpen = 2;
   public static int hatchCaptureClosed = 3;
   public static int beakRetractOpen = 4;
-  public static int beakRetractClosed = 5; 
+  public static int beakRetractClosed = 5;
 
-  //sparks
-  public static int rightClimbArm = 0; 
-  public static int leftClimbArm = 1; 
+  // sparks
+  public static int rightClimbArm = 0;
+  public static int leftClimbArm = 1;
   public static int elevatorDriveWheels = 2;
-   
-  //pigeon
+
+  // pigeon
   public static int pigeonPort = 3;
 
-  //sensors 
+  // sensors
   public static int lineSensorLeft = 0;
   public static int lineSensorCenter = 1;
-  public static int lineSensorRight = 2; 
+  public static int lineSensorRight = 2;
   public static int distanceSensorPing = 3;
-  public static int distanceSensorEcho = 4; 
+  public static int distanceSensorEcho = 4;
   public static int analogUltrasonic = 0;
-  public static final int ENCODER_PORT = 0; 
-  
+  public static final int ENCODER_PORT = 0;
 
-  /*drive motors
-  There's a discrepancy between the drive motor types listed on trello and 
-  what's listed on the official port mappings sheet, so I input the motors
-  and added them into the drive subsystem as they are on the port mappings sheet. 
-  */
-  public static int frontLeft = 1; //talon
-  public static int frontRight = 2; //talon
-  public static int rearLeftFollower = 4; //victor spx 
-  public static int rearRightFollower = 3; //victor spx 
+  /*
+   * drive motors There's a discrepancy between the drive motor types listed on
+   * trello and what's listed on the official port mappings sheet, so I input the
+   * motors and added them into the drive subsystem as they are on the port
+   * mappings sheet.
+   */
+  public static int frontLeft = 1; // talon
+  public static int frontRight = 2; // talon
+  public static int rearLeftFollower = 4; // victor spx
+  public static int rearRightFollower = 3; // victor spx
 
-  public static int spikeLightRing = 0; // LED Light Ring 
+  public static int spikeLightRing = 0; // LED Light Ring
 
-  //to be defined - port numbers are placeholders 
-  //talons
-  public static int rearElevatorMotor = 5; 
-  public static int leftShoulderMotor = 6; 
-  public static int rightShoulderMotor = 7; 
-  public static int elbowMotor = 8;  
-  public static int cargoRollerMotor = 9; 
-  //encoders 
+  // to be defined - port numbers are placeholders
+  // talons
+  public static int rearElevatorMotor = 5;
+  public static int leftShoulderMotor = 6;
+  public static int rightShoulderMotor = 7;
+  public static int elbowMotor = 8;
+  public static int cargoRollerMotor = 9;
+  // encoders
   public static int shoulderEncoder = 0;
   public static int rearElevatorEncoder = 1;
-  public static int elbowEncoder = 2; 
-  public static int driveLeftEncoder = 3; 
-  public static int driveRightEncoder = 4;   
-  //drive user inputs 
+  public static int elbowEncoder = 2;
+  public static int driveLeftEncoder = 3;
+  public static int driveRightEncoder = 4;
+  // drive user inputs
   public static int driveLeftJoystickVertical = 1;
-  public static int driveRightJoystickHorizontal = 4; 
-  
+  public static int driveRightJoystickHorizontal = 4;
+
 }
