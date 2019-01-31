@@ -7,7 +7,11 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.OI;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
@@ -16,8 +20,28 @@ public class ArmSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
+  public static WPI_TalonSRX leftShoulder = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
+  public static WPI_TalonSRX rightShoulder = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
+
+  public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
+
+  public ArmSubsystem() {
+    leftShoulder.follow(rightShoulder);
+  }
+
+  public void shoulderManual() {
+    leftShoulder.set(OI.xboxManipCotrol.getRawAxis(RobotMap.manipLeftJoystickVertical));
+    // just needs to be a way to drive the motors from joystick inputs (getRawAxis)
+    // add in limit switches after that
+  }
+
+  public void elbowManual() {
+
+  }
+
   @Override
   public void initDefaultCommand() {
+
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
