@@ -46,10 +46,11 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
 
-  public static Joystick xboxControl = new Joystick(RobotMap.controllerPort);
+  public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
+  public static Joystick xboxManipCotrol = new Joystick(RobotMap.manipControllerPort);
 
-  Button a = new JoystickButton(xboxControl,1);
-  Button resetPigeonYawButton = new JoystickButton(xboxControl, 2);
+  Button a = new JoystickButton(xboxDriveControl,1);
+  Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
 
   public OI(){
     a.whenPressed(new Shifter());
