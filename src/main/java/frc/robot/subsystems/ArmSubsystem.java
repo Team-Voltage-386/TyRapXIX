@@ -13,12 +13,50 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * Add your docs here.
  */
 public class ArmSubsystem extends Subsystem {
+
+  public enum Levels {
+    cargoFloorPickup,
+    cargoPlayerStation,
+    cargoLevelOne,
+    cargoLevelTwo,
+    cargoLevelThree,
+    hatchFloorPickup,
+    hatchLevelOne,
+    hatchLevelTwo,
+    hatchLevelThree;
+  }
+
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
+  public void setLevel(Levels in) {
+    switch(in) {
+      case cargoFloorPickup:
+        break;
+      case cargoPlayerStation:
+        break;
+      case cargoLevelOne:
+        break;
+      case cargoLevelTwo:
+        break;
+      case cargoLevelThree:
+        break;
+      case hatchFloorPickup:
+        break; 
+      case hatchLevelOne:
+        break;
+      case hatchLevelTwo:
+        break;
+      case hatchLevelThree:
+        break;
+      default: 
+        break;
+    }
+  }
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
 }
+

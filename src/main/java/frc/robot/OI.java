@@ -47,7 +47,8 @@ public class OI {
   // button.whenReleased(new ExampleCommand());
 
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
-  public static Joystick xboxManipCotrol = new Joystick(RobotMap.manipControllerPort);
+  public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
+
 
   Button a = new JoystickButton(xboxDriveControl, 1);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
