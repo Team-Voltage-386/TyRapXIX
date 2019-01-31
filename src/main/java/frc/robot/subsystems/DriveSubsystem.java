@@ -88,8 +88,8 @@ public class DriveSubsystem extends Subsystem {
 
   public double[] getPigeonYPR() {
 	  double[] ypr_deg = new double[3];
-      pigeon.getYawPitchRoll(ypr_deg);
-      return ypr_deg;
+    pigeon.getYawPitchRoll(ypr_deg);
+    return ypr_deg;
   }
 
   public void resetPigeon(){
