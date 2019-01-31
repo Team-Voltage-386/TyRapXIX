@@ -13,7 +13,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.Robot;
 import frc.robot.commands.ArcadeDrive;
 
 /**
@@ -28,6 +30,7 @@ public class DriveSubsystem extends Subsystem {
   private static VictorSPX slaveLeft = new VictorSPX(RobotMap.rearLeftFollower);
   private static VictorSPX slaveRight = new VictorSPX(RobotMap.rearRightFollower);
 
+  public static int ENCODER_TIMEOUT = 10; //in milliseconds
 
   private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterLow,RobotMap.shifterHigh);
 
@@ -46,6 +49,12 @@ public class DriveSubsystem extends Subsystem {
   public void driveArcade(double xSpeed, double zRotation){
     differentialDrive.arcadeDrive(xSpeed, zRotation);
   }
+
+  public void displayDiagnostics(){
+    SmartDashboard.putNumber(Robot.ENCODER_TALON_1, getLeftEncoder());
+    SmartDashboard.putNumber(Robot.ENCODER_TALON_3, getRightEncoder());
+  }
+
   public void shift(){
     if(shifter.get()==DoubleSolenoid.Value.kForward){
       shifter.set(DoubleSolenoid.Value.kReverse);
@@ -53,6 +62,19 @@ public class DriveSubsystem extends Subsystem {
       shifter.set(DoubleSolenoid.Value.kForward);
     }
   }
+  public void resetEncoders() {
+    frontLeft.setSelectedSensorPosition(RobotMap.ENCODER_PORT, 0, ENCODER_TIMEOUT);
+    frontRight.setSelectedSensorPosition(RobotMap.ENCODER_PORT, 0, ENCODER_TIMEOUT);
+  }
+
+  
+ public double getLeftEncoder() {
+     return frontLeft.getSelectedSensorPosition(RobotMap.ENCODER_PORT);
+ }
+
+ public double getRightEncoder() {
+     return frontRight.getSelectedSensorPosition(RobotMap.ENCODER_PORT);
+ }
 
   @Override
   public void initDefaultCommand() {

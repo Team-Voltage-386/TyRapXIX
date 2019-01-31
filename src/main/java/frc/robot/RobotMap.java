@@ -42,6 +42,8 @@ public class RobotMap {
   public static int distanceSensorPing = 3;
   public static int distanceSensorEcho = 4; 
   public static int analogUltrasonic = 0;
+  public static final int ENCODER_PORT = 0; 
+  
 
   /*drive motors
   There's a discrepancy between the drive motor types listed on trello and 
