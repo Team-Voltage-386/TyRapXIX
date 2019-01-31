@@ -17,8 +17,6 @@ import frc.robot.RobotMap;
  * Add your docs here.
  */
 public class ArmSubsystem extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
 
   public static WPI_TalonSRX leftShoulder = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
   public static WPI_TalonSRX rightShoulder = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
@@ -29,14 +27,44 @@ public class ArmSubsystem extends Subsystem {
     leftShoulder.follow(rightShoulder);
   }
 
+  public enum Levels {
+    cargoFloorPickup, cargoPlayerStation, cargoLevelOne, cargoLevelTwo, cargoLevelThree, hatchFloorPickup,
+    hatchLevelOne, hatchLevelTwo, hatchLevelThree;
+  }
+
   public void shoulderManual() {
-    leftShoulder.set(OI.xboxManipCotrol.getRawAxis(RobotMap.manipLeftJoystickVertical));
+    leftShoulder.set(OI.xboxManipControl.getRawAxis(RobotMap.manipLeftJoystickVertical));
     // just needs to be a way to drive the motors from joystick inputs (getRawAxis)
     // add in limit switches after that
   }
 
   public void elbowManual() {
 
+  }
+
+  public void setLevel(Levels in) {
+    switch (in) {
+    case cargoFloorPickup:
+      break;
+    case cargoPlayerStation:
+      break;
+    case cargoLevelOne:
+      break;
+    case cargoLevelTwo:
+      break;
+    case cargoLevelThree:
+      break;
+    case hatchFloorPickup:
+      break;
+    case hatchLevelOne:
+      break;
+    case hatchLevelTwo:
+      break;
+    case hatchLevelThree:
+      break;
+    default:
+      break;
+    }
   }
 
   @Override
