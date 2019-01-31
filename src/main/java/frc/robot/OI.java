@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.ResetYaw;
 import frc.robot.commands.Shifter;
 
 /**
@@ -49,9 +50,10 @@ public class OI {
   public static Joystick xboxManipCotrol = new Joystick(RobotMap.manipControllerPort);
 
   Button a = new JoystickButton(xboxDriveControl,1);
+  Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
 
   public OI(){
     a.whenPressed(new Shifter());
-
+    resetPigeonYawButton.whenPressed(new ResetYaw());
   }
 }

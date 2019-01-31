@@ -33,7 +33,10 @@ public class RobotMap {
   //sparks
   public static int rightClimbArm = 0; 
   public static int leftClimbArm = 1; 
-  public static int elevatorDriveWheels = 2; 
+  public static int elevatorDriveWheels = 2;
+   
+  //pigeon
+  public static int pigeonPort = 3;
 
   //sensors 
   public static int lineSensorLeft = 0;
