@@ -126,24 +126,18 @@ public class VisionSubsystem extends Subsystem {
         Double x = Math.abs(rects.get(i).x+rects.get(i).width/2 - 160.0);
         if (x<=rightCenter){
           rightRect = rects.get(i);
-          rightCenter = x;
                 }
          }
       rects.remove(rightRect);
-
       
     }
     // Imgproc.rectangle(originalImage, new Point(rightRect.x, rightRect.y), new Point(rightRect.x+rightRect.width, rightRect.y+rightRect.height), new Scalar(255, 255, 255));
 
+    Imgproc.rectangle(originalImage, new Point(rightRect.x, rightRect.y), new Point(rightRect.x+rightRect.width,rightRect.y+rightRect.height), new Scalar(0,255,0));
     for (int i = 0; i < rects.size(); i++) {
-      if (i==0){
         Imgproc.rectangle(originalImage, new Point(rects.get(i).x, rects.get(i).y), new Point(rects.get(i).x+rects.get(i).width, rects.get(i).y+rects.get(i).height), new Scalar(255, 255, 255));
-      }
-      else{
-        Imgproc.rectangle(originalImage, new Point(rects.get(i).x, rects.get(i).y), new Point(rects.get(i).x+rects.get(i).width, rects.get(i).y+rects.get(i).height), new Scalar(255-(i*50), 255-(i*50), 255-(i*50)));
-      }
     }
-
+    
     contoursOutputStream.putFrame(originalImage);  
       // double distanceFromCenter = x-160;
       // double angleFromCenter = Math.atan(distanceFromCenter);
