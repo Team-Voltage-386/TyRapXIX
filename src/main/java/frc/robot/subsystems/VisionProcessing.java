@@ -13,13 +13,12 @@ import java.util.List;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
-import org.opencv.core.Rect;
 import org.opencv.core.RotatedRect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.cscore.CvSink;
@@ -27,7 +26,7 @@ import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.TurnToTarget;
 import frc.robot.commands.VisionProcess;
 
 /**
@@ -40,7 +39,7 @@ public class VisionProcessing extends Subsystem {
   public int resolutionWidth = 320;
   public int resolutionHeight = 240;
 
-  public VisionProcessing(){
+  public VisionProcessing() {
     usbCamera.setResolution(resolutionWidth, resolutionHeight);
     usbCamera.setFPS(30);
     usbCamera.setExposureManual(15);
@@ -49,18 +48,18 @@ public class VisionProcessing extends Subsystem {
   
   //public AxisCamera axisCamera = CameraServer.getInstance().addAxisCamera("10.3.86.23");
   public CvSink cvSink = CameraServer.getInstance().getVideo();
-  public CvSource HSVOutputStream = CameraServer.getInstance().putVideo("Edges", resolutionWidth, resolutionHeight);
-  public CvSource TestOutputStream = CameraServer.getInstance().putVideo("Final", resolutionWidth, resolutionHeight);
+  public CvSource HSVOutputStream = CameraServer.getInstance().putVideo("Final", resolutionWidth, resolutionHeight);
+  public CvSource TestOutputStream = CameraServer.getInstance().putVideo("Edges", resolutionWidth, resolutionHeight);
 
-	Mat base = new Mat();
-	Mat mat = new Mat();
+	public Mat base = new Mat();
+	public Mat mat = new Mat();
 	Mat grey = new Mat();
   Mat edges = new Mat();
   Mat hierarchy;
 
 	Size blurSize = new Size(9, 9);
-	Scalar colorStart = new Scalar(0, 0, 100);
-	Scalar colorEnd = new Scalar(255, 255, 255);
+	Scalar colorStart = new Scalar(75, 100, 100);
+	Scalar colorEnd = new Scalar(100, 255, 255);
 	Size erodeSize = new Size(10, 10);
 	Size dilateSize = new Size(10, 10);
   Size edgeDilateSize = new Size(4, 4);
@@ -73,10 +72,38 @@ public class VisionProcessing extends Subsystem {
     }
   }
 
-  public void visionProcess(){
+  public ArrayList<RotatedRect> sortRectX(ArrayList<RotatedRect> rects){
+    int n = rects.size(), min;
+    RotatedRect temp;
+
+    for(int i = 0 ; i<n-1 ; i++){
+			min = i;
+
+			for(int j = i+1 ; j<n ; j++){
+				if(rects.get(j).center.x < rects.get(min).center.x){
+					min = j;
+				}
+			}
+
+			if(min!=i){
+				temp = rects.get(min);
+				rects.set(min, rects.get(i));
+				rects.set(i, temp);
+			}
+				
+		}
+
+    return rects;
+  }
+  
+  public ArrayList<RotatedRect[]> visionProcess(){
 
     //Recive the inital image
     cvSink.grabFrame(base);
+
+    //Set up ArrayList for pairs
+    ArrayList<RotatedRect[]> pairs = new ArrayList<RotatedRect[]>(); 
+    RotatedRect[] pair = new RotatedRect[2];
 
     if(!base.empty()){
       //Blurs the image for ease of processing
@@ -92,102 +119,39 @@ public class VisionProcessing extends Subsystem {
       //Find contours
       Imgproc.findContours(mat, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
 
-      List<RotatedRect> rects = new ArrayList<>();
+      ArrayList<RotatedRect> rects = new ArrayList<>();
 
       for(int i = 0 ; i < contours.size() ; i++){
         RotatedRect rect = Imgproc.minAreaRect(new MatOfPoint2f(contours.get(i).toArray()));
         rects.add(rect);
       }
 
-      for(RotatedRect r : rects){
+      rects = sortRectX(rects);
+
+      for(int i = 0 ; i<rects.size()-1 ; i++){
+        if(getAngle(rects.get(i))<0 && getAngle(rects.get(i+1))>0){
+          pair[0] = rects.get(i);
+          pair[1] = rects.get(i+1);
+          pairs.add(pair);
+          i++;
+        }
+      }
+
+      for(int i = 0 ; i<pairs.size() ; i++){
+        Imgproc.line(base, pairs.get(i)[0].center, pairs.get(i)[1].center, new Scalar(0,255,255));
+      }
+
+      for(int i = 0 ; i<rects.size() ; i++){
         Point[] vertices = new Point[4];
-        r.points(vertices);
+        rects.get(i).points(vertices);
         MatOfPoint points = new MatOfPoint(vertices);
-        Imgproc.drawContours(base, Arrays.asList(points), -1, new Scalar(140,255,255), 2);
-      }
-
-      ArrayList<RotatedRect> bachelors = new ArrayList<RotatedRect>(); 
-      ArrayList<RotatedRect> bachelorettes = new ArrayList<RotatedRect>(); 
-      double bestDistance;
-      RotatedRect bachelor;
-      RotatedRect bachelorette;
-      boolean paired;
-      
-
-      // for(int n = 0 ; n < rects.size() ; n++){
-      //   for(int i = 0 ; i < rects.size() ; i++){
-      //     distance = Math.abs(rects.get(n).center.x - rects.get(i).center.x);
-      //     if(getAngle(rects.get(n)) < 0 && getAngle(rects.get(i)) > 0){
-      //       possiblePairs.add(rects.get(i));
-      //       possibleDistance.add(distance);
-      //     }
-      //   }
-      //   if(possiblePairs.size() > 1){
-      //     bestRect = possiblePairs.get(0);
-      //     bestDistance = possibleDistance.get(0);
-      //     for(int x = 0 ; x < possiblePairs.size() ; x++){
-      //       if(possibleDistance.get(x) < bestDistance){
-      //         bestRect = possiblePairs.get(x);
-      //         bestDistance = possibleDistance.get(x);
-      //       }
-      //     }
-      //     pair[0] = rects.get(n);
-      //     pair[1] = bestRect;
-      //   }
-      //   else if(possiblePairs.size() == 1){
-      //     pair[0] = rects.get(n);
-      //     pair[1] = possiblePairs.get(0);
-      //   }
-      // }
-
-      while(rects.size() > 0){
-        bestDistance = mat.width();
-        bachelor = rects.get(0);
-        bachelorette = rects.get(0);
-        paired = false;
-
-        for(int i = 1; i < rects.size() ; i++){
-          if( (getAngle(bachelor)*getAngle(rects.get(i)) < 0) 
-          && Math.abs(rects.get(i).center.x - bachelor.center.x) < bestDistance){
-
-            if( (getAngle(rects.get(i)) < 0 && rects.get(i).center.x < bachelor.center.x) ||
-            (getAngle(rects.get(i)) > 0 && rects.get(i).center.x > bachelor.center.x) ){
-
-              bachelorette = rects.get(i);
-              bestDistance = Math.abs(rects.get(i).center.x - bachelor.center.x);
-              paired = true;
-            }
-          }
-        }
-
-        if(paired){
-          SmartDashboard.putNumber("Possible Pair Rect 0 x value", bachelor.center.x);
-          SmartDashboard.putNumber("Possible Pair Rect 1 x value", bachelorette.center.x);
-          bachelors.add(bachelor);
-          bachelorettes.add(bachelorette);
-
-          SmartDashboard.putNumber("Bachelor Index", rects.indexOf(bachelor));
-          SmartDashboard.putNumber("Bachelorette Index",rects.indexOf(bachelorette));
-          rects.remove(bachelor);
-          rects.remove(bachelorette);
-          
-        }else{
-          rects.remove(bachelor);
-        }
-      }
-
-      SmartDashboard.putNumber("Number of pairs",bachelors.size());
-      SmartDashboard.putNumber("Number of rects",rects.size());
-
-      for(int i = 0 ; i < bachelors.size() ; i++){
-        Imgproc.line(base, bachelors.get(i).center, bachelorettes.get(i).center, new Scalar(0,255,255));
-        SmartDashboard.putNumber("Pair " + i + ", Rect 0 x value", bachelors.get(i).center.x);
-        SmartDashboard.putNumber("Pair " + i + ", Rect 1 x value", bachelorettes.get(i).center.x);
+        Imgproc.drawContours(base, Arrays.asList(points), -1, new Scalar(i*(255/rects.size()),255,255), 2);
       }
           
       HSVOutputStream.putFrame(base);
-
+      TestOutputStream.putFrame(mat);
     }
+    return pairs;
   }
 
   @Override

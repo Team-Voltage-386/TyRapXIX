@@ -26,7 +26,7 @@ public class ArcadeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveSubsystem.driveArcade(-OI.xboxControl.getRawAxis(1),OI.xboxControl.getRawAxis(4));
+    Robot.driveSubsystem.driveArcade(OI.xboxControl.getRawAxis(1),-OI.xboxControl.getRawAxis(4));
   }
 
   // Make this return true when this Command no longer needs to run execute()

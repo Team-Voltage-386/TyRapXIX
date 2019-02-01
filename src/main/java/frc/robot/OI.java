@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.Shifter;
 import frc.robot.commands.SpikeLight;
+import frc.robot.commands.TurnToTarget;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -48,11 +49,13 @@ public class OI {
 
   public static Joystick xboxControl = new Joystick(RobotMap.controllerPort);
 
-  Button shifter = new JoystickButton(xboxControl,1);
-  Button light = new JoystickButton(xboxControl,2);
+  Button a = new JoystickButton(xboxControl,1);
+  Button b = new JoystickButton(xboxControl,2);
+  Button rightBumper = new JoystickButton(xboxControl,6);
 
   public OI(){
-    shifter.whenPressed(new Shifter());
-    light.whenPressed(new SpikeLight());
+    a.whenPressed(new Shifter());
+    b.whenPressed(new SpikeLight());
+    rightBumper.whileHeld(new TurnToTarget());
   }
 }

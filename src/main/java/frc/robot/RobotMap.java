@@ -33,6 +33,9 @@ public class RobotMap {
 
   public static int lightRingPort = 0;
 
+  public static int leftControllerY = 1;
+  public static int rightControllerY = 5;
+
 
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
