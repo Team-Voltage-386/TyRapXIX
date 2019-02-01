@@ -69,6 +69,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
     SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
     SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
+
+    SmartDashboard.putNumber("Current Encoder Value", Robot.armSubsystem.getArmEncoder());
   }
 
   /**

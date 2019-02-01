@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
-import frc.robot.commands.HatchMode;
 
 /**
  * Add your docs here.
@@ -42,7 +41,6 @@ public class ArmSubsystem extends Subsystem {
     p = 0;
     i = 0;
     d = 0;
-
   }
 
   public enum Levels {
@@ -91,7 +89,6 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public void setArmTicks(double encoderGoal) {
-    SmartDashboard.putNumber("Current Encoder Value", getArmEncoder());
     SmartDashboard.putNumber("Current Encoder Goal", encoderGoal);
     error = getArmEncoder() - encoderGoal;
     errorChange = error - prevError;
