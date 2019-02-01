@@ -42,14 +42,13 @@ public class TurnToTarget extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    center = Robot.visionProcessing.base.width()/2;
     pairs = Robot.visionProcessing.visionProcess();
     if(pairs.size()!=0){
       bestPair = pairs.get(0);
 
       for(int i = 0 ; i<pairs.size() ; i++){
-        if(Math.abs((bestPair[0].center.x + bestPair[1].center.x)/2 - center) > 
-           Math.abs((pairs.get(i)[0].center.x + pairs.get(i)[1].center.x)/2 - center)){
+        if(pairs.get(i)[0].size.width*pairs.get(i)[0].size.height + pairs.get(i)[1].size.width*pairs.get(i)[1].size.height >
+          (bestPair[0].size.width * bestPair[0].size.height + bestPair[1].size.width * bestPair[1].size.height)){
             bestPair = pairs.get(i);
         }
       }
@@ -75,9 +74,6 @@ public class TurnToTarget extends Command {
       SmartDashboard.putNumber("Center of Pair", -1);
       SmartDashboard.putNumber("Center of Mat", center);
     }
-
-    
-    
     
   }
 

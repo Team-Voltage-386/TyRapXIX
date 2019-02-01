@@ -26,6 +26,7 @@ import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.TurnToTarget;
 import frc.robot.commands.VisionProcess;
 
@@ -126,10 +127,18 @@ public class VisionProcessing extends Subsystem {
         rects.add(rect);
       }
 
+      for(int i = 0 ; i<rects.size() ; i++){
+        Point[] vertices = new Point[4];
+        rects.get(i).points(vertices);
+        MatOfPoint points = new MatOfPoint(vertices);
+        Imgproc.drawContours(base, Arrays.asList(points), -1, new Scalar(i*(255/rects.size()),255,255), 2);
+      }
+
       rects = sortRectX(rects);
 
       for(int i = 0 ; i<rects.size()-1 ; i++){
         if(getAngle(rects.get(i))<0 && getAngle(rects.get(i+1))>0){
+          pair = new RotatedRect[2];
           pair[0] = rects.get(i);
           pair[1] = rects.get(i+1);
           pairs.add(pair);
@@ -137,15 +146,23 @@ public class VisionProcessing extends Subsystem {
         }
       }
 
+      SmartDashboard.putNumber("Number of Pairs", pairs.size());
+
       for(int i = 0 ; i<pairs.size() ; i++){
         Imgproc.line(base, pairs.get(i)[0].center, pairs.get(i)[1].center, new Scalar(0,255,255));
       }
 
-      for(int i = 0 ; i<rects.size() ; i++){
-        Point[] vertices = new Point[4];
-        rects.get(i).points(vertices);
-        MatOfPoint points = new MatOfPoint(vertices);
-        Imgproc.drawContours(base, Arrays.asList(points), -1, new Scalar(i*(255/rects.size()),255,255), 2);
+      if(pairs.size()>0){
+        RotatedRect[] bestPair = new RotatedRect[2];
+        bestPair = pairs.get(0);
+
+        for(int i = 0 ; i<pairs.size() ; i++){
+          if(pairs.get(i)[0].size.width*pairs.get(i)[0].size.height + pairs.get(i)[1].size.width*pairs.get(i)[1].size.height >
+            (bestPair[0].size.width * bestPair[0].size.height + bestPair[1].size.width * bestPair[1].size.height)){
+              bestPair = pairs.get(i);
+          }
+        }
+        Imgproc.line(base, bestPair[0].center, bestPair[1].center, new Scalar(255,0,0));
       }
           
       HSVOutputStream.putFrame(base);
