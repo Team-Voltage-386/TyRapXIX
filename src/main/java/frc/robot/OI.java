@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.Shifter;
@@ -47,7 +48,8 @@ public class OI {
 
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static Joystick xboxManipCotrol = new Joystick(RobotMap.manipControllerPort);
-
+  
+  public Button arcadeDriveBoostButton = new JoystickButton(xboxDriveControl, RobotMap.boostButton);
   Button a = new JoystickButton(xboxDriveControl,1);
 
   public OI(){

@@ -71,5 +71,6 @@ public class RobotMap {
   //drive user inputs 
   public static int driveLeftJoystickVertical = 1;
   public static int driveRightJoystickHorizontal = 4; 
+  public static int boostButton = 5;
   
 }
