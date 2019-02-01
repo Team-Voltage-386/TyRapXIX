@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -25,6 +26,7 @@ public class ArmSubsystem extends Subsystem {
 
   public ArmSubsystem() {
     leftShoulder.follow(rightShoulder);
+    leftShoulder.setInverted(InvertType.OpposeMaster);
   }
 
   public enum Levels {
