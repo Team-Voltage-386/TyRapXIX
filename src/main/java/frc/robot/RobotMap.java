@@ -77,10 +77,14 @@ public class RobotMap {
   public static int shoulderEncoder = 0;
   public static int rearElevatorEncoder = 1;
   public static int elbowEncoder = 2;
+
   public static int driveLeftEncoder = 3;
   public static int driveRightEncoder = 4;
   // drive user inputs
   public static int driveLeftJoystickVertical = 1;
   public static int driveRightJoystickHorizontal = 4;
+
+  //limit switches
+  public static int bottomArmLimitSwitch = 4;
 
 }
