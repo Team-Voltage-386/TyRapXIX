@@ -41,7 +41,7 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public void elbowManual() {
-
+    elbowMotor.set(OI.xboxManipControl.getRawAxis(RobotMap.manipRightJoystickVertical));
   }
 
   public void setLevel(Levels in) {
