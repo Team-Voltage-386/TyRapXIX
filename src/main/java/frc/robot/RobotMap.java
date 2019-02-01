@@ -86,4 +86,7 @@ public class RobotMap {
   public static int manipLeftJoystickVertical = 1;
   public static int manipRightJoystickVertical = 5;
 
+  // limit switches
+  public static int bottomArmLimitSwitch = 4;
+
 }
