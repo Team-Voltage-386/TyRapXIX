@@ -13,9 +13,10 @@ import frc.robot.RobotMap;
 import frc.robot.Robot;
 import frc.robot.subsystems.ArmSubsystem.Levels;
 
-
 public class HatchMode extends Command {
-  Levels desiredLevel = Levels.hatchLevelOne;
+
+  Levels desiredLevel;
+
   public HatchMode() {
     requires(Robot.armSubsystem);
     // Use requires() here to declare subsystem dependencies
@@ -25,28 +26,26 @@ public class HatchMode extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    desiredLevel = Levels.defaultLevel;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (OI.xboxManipControl.getRawButton(RobotMap.floorPickup)){
-      //floor pickup
+    if (OI.xboxManipControl.getRawButton(RobotMap.floorPickup)) {
+      // floor pickup
       desiredLevel = Levels.hatchFloorPickup;
-    }
-    else if (OI.xboxManipControl.getRawButton(RobotMap.levelOneSelector)){ 
-      //level one
+    } else if (OI.xboxManipControl.getRawButton(RobotMap.levelOneSelector)) {
+      // level one
       desiredLevel = Levels.hatchLevelOne;
-    }
-    else if (OI.xboxManipControl.getRawButton(RobotMap.levelTwoSelector)){
-      //level two
+    } else if (OI.xboxManipControl.getRawButton(RobotMap.levelTwoSelector)) {
+      // level two
       desiredLevel = Levels.hatchLevelTwo;
-    }
-    else if (OI.xboxManipControl.getRawButton(RobotMap.levelThreeSelector)){
-      //level three 
+    } else if (OI.xboxManipControl.getRawButton(RobotMap.levelThreeSelector)) {
+      // level three
       desiredLevel = Levels.hatchLevelThree;
-    }
-    else{
+    } else {
+      desiredLevel = Levels.defaultLevel;
     }
     Robot.armSubsystem.setLevel(desiredLevel);
   }

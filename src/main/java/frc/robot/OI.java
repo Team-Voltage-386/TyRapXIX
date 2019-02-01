@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.CargoMode;
+import frc.robot.commands.HatchMode;
 import frc.robot.commands.ResetYaw;
 import frc.robot.commands.Shifter;
 
@@ -49,12 +51,15 @@ public class OI {
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
-
   Button a = new JoystickButton(xboxDriveControl, 1);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
+  Button cargoModeButton = new JoystickButton(xboxManipControl, 7);
+  Button hatchModeButton = new JoystickButton(xboxManipControl, 8);
 
   public OI() {
     a.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
+    cargoModeButton.whenPressed(new CargoMode());
+    hatchModeButton.whenPressed(new HatchMode());
   }
 }
