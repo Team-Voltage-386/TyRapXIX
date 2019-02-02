@@ -23,8 +23,8 @@ public class RobotMap {
   public static int manipControllerPort = 1;
 
   // solenoids
-  public static int shifterLow = 0;
-  public static int shifterHigh = 1;
+  public static int shifterLow = 6;
+  public static int shifterHigh = 7;
   public static int hatchCaptureOpen = 2;
   public static int hatchCaptureClosed = 3;
   public static int beakRetractOpen = 4;
@@ -60,19 +60,19 @@ public class RobotMap {
 
   public static int spikeLightRing = 0; // LED Light Ring
 
-  //button inputs
+  // button inputs
   public static int floorPickup = 1;
-  public static int cargoPlayerStationPickup = 10; //placeholder - update with final button mapping 
+  public static int cargoPlayerStationPickup = 10; // placeholder - update with final button mapping
   public static int levelOneSelector = 2;
-  public static int levelTwoSelector = 3; 
+  public static int levelTwoSelector = 3;
   public static int levelThreeSelector = 4;
 
-//to be defined - port numbers are placeholders
+  // to be defined - port numbers are placeholders
   public static int rearElevatorMotor = 5;
   public static int leftShoulderMotor = 6;
   public static int rightShoulderMotor = 7;
   public static int elbowMotor = 8;
-  public static int cargoRollerMotor = 9;
+  public static int cargoRollerMotor = 9; // change to cargoCapture
   // encoders
   public static int shoulderEncoder = 0;
   public static int rearElevatorEncoder = 1;
@@ -84,7 +84,7 @@ public class RobotMap {
   public static int driveLeftJoystickVertical = 1;
   public static int driveRightJoystickHorizontal = 4;
 
-  //limit switches
+  // limit switches
   public static int bottomArmLimitSwitch = 4;
 
 }
