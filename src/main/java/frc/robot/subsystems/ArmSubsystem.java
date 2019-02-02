@@ -35,92 +35,85 @@ public class ArmSubsystem extends Subsystem {
 
   DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
 
-  public ArmSubsystem(){
+  public ArmSubsystem() {
     armMotorFollower.follow(armMotorMaster);
     prevError = 0;
-    p=0;
-    i=0;
-    d=0;
-    
+    p = 0;
+    i = 0;
+    d = 0;
+
   }
 
   public enum Levels {
-    cargoFloorPickup,
-    cargoPlayerStation,
-    cargoLevelOne,
-    cargoLevelTwo,
-    cargoLevelThree,
-    hatchFloorPickup,
-    hatchLevelOne,
-    hatchLevelTwo,
-    hatchLevelThree;
+    cargoFloorPickup, cargoPlayerStation, cargoLevelOne, cargoLevelTwo, cargoLevelThree, hatchFloorPickup,
+    hatchLevelOne, hatchLevelTwo, hatchLevelThree;
   }
 
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
   public void setLevel(Levels in) {
-    switch(in) {
-      case cargoFloorPickup:
-        setArmTicks(CARGO_FLOOR_TICKS);
-        break;
-      case cargoPlayerStation:
-        setArmTicks(CARGO_PLAYER_STATION_TICKS);
-        break;
-      case cargoLevelOne:
-        setArmTicks(CARGO_LEVEL_ONE_TICKS);
-        break;
-      case cargoLevelTwo:
-        setArmTicks(CARGO_LEVEL_TWO_TICKS);
-        break;
-      case cargoLevelThree:
-        setArmTicks(CARGO_LEVEL_THREE_TICKS);
-        break;
-      case hatchFloorPickup:
-        setArmTicks(HATCH_FLOOR_TICKS);
-        break; 
-      case hatchLevelOne:
-        setArmTicks(HATCH_LEVEL_ONE_TICKS);
-        break;
-      case hatchLevelTwo:
-        setArmTicks(HATCH_LEVEL_TWO_TICKS);
-        break;
-      case hatchLevelThree:
-        setArmTicks(HATCH_LEVEL_THREE_TICKS);
-        break;
-      default:
-        break;
+    switch (in) {
+    case cargoFloorPickup:
+      setArmTicks(CARGO_FLOOR_TICKS);
+      break;
+    case cargoPlayerStation:
+      setArmTicks(CARGO_PLAYER_STATION_TICKS);
+      break;
+    case cargoLevelOne:
+      setArmTicks(CARGO_LEVEL_ONE_TICKS);
+      break;
+    case cargoLevelTwo:
+      setArmTicks(CARGO_LEVEL_TWO_TICKS);
+      break;
+    case cargoLevelThree:
+      setArmTicks(CARGO_LEVEL_THREE_TICKS);
+      break;
+    case hatchFloorPickup:
+      setArmTicks(HATCH_FLOOR_TICKS);
+      break;
+    case hatchLevelOne:
+      setArmTicks(HATCH_LEVEL_ONE_TICKS);
+      break;
+    case hatchLevelTwo:
+      setArmTicks(HATCH_LEVEL_TWO_TICKS);
+      break;
+    case hatchLevelThree:
+      setArmTicks(HATCH_LEVEL_THREE_TICKS);
+      break;
+    default:
+      break;
     }
   }
 
-  public void setArmTicks(double encoderGoal){
+  public void setArmTicks(double encoderGoal) {
     error = getArmEncoder() - encoderGoal;
     errorChange = error - prevError;
-    p = error * pk /*SmartDashboard.getNumber("pk ", 0)*/;
-    i += error * ik /*SmartDashboard.getNumber("ik ", 0)*/;
-    d = errorChange * dk /*SmartDashboard.getNumber("dk ", 0)*/;
+    p = error * pk /* SmartDashboard.getNumber("pk ", 0) */;
+    i += error * ik /* SmartDashboard.getNumber("ik ", 0) */;
+    d = errorChange * dk /* SmartDashboard.getNumber("dk ", 0) */;
     speed = p + i + d;
     setArmMotorSpeed(speed);
     SmartDashboard.putNumber("ArmMotorSpeed", speed);
     prevError = error;
-    if(getBottomLimitSwitch()){ //Reset Encoder When Bottom Limit Switch is Pressed By Arm
+    if (getBottomLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
       resetEncoder();
     }
   }
 
-  public void setArmMotorSpeed(double speed){
+  public void setArmMotorSpeed(double speed) {
     armMotorMaster.set(speed);
   }
 
-  public double getArmEncoder(){
+  public double getArmEncoder() {
     return armMotorMaster.getSelectedSensorPosition();
   }
 
-  public void resetEncoder(){
+  public void resetEncoder() {
     armMotorMaster.setSelectedSensorPosition(0, 0, 10);
   }
 
-  public boolean getBottomLimitSwitch(){
+  public boolean getBottomLimitSwitch() {
     return bottomLimitSwitch.get();
   }
 
@@ -130,4 +123,3 @@ public class ArmSubsystem extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 }
-

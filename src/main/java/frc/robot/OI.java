@@ -49,12 +49,11 @@ public class OI {
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
-
-  Button a = new JoystickButton(xboxDriveControl, 1);
+  Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
 
   public OI() {
-    a.whenPressed(new Shifter());
+    shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
   }
 }
