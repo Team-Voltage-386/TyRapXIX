@@ -55,7 +55,7 @@ public class OI {
 
   public OI(){
     a.whenPressed(new Shifter());
-    arcadeDriveBoostButton.whenPressed(new SlowStop());
-    arcadeDriveBoostButton.whenReleased(new SlowStart());
+    // arcadeDriveBoostButton.whenPressed(new SlowStop());
+    // arcadeDriveBoostButton.whenReleased(new SlowStart());
   }
 }
