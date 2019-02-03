@@ -7,13 +7,17 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.Robot;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.OI;
 
@@ -26,8 +30,8 @@ public class DriveSubsystem extends Subsystem {
 
   private static WPI_TalonSRX frontLeft = new WPI_TalonSRX(RobotMap.frontLeft);
   private static WPI_TalonSRX frontRight = new WPI_TalonSRX(RobotMap.frontRight);
-  private static VictorSPX slaveLeft = new VictorSPX(RobotMap.rearLeftFollower);
-  private static VictorSPX slaveRight = new VictorSPX(RobotMap.rearRightFollower);
+  private static WPI_TalonSRX slaveLeft = new WPI_TalonSRX(RobotMap.rearLeftFollower);
+  private static WPI_VictorSPX slaveRight = new WPI_VictorSPX(RobotMap.rearRightFollower);
 
   public static final double DEFAULT_SPEED_MULTIPLIER = 0.75;
   public static final double BOOST_SPEED_MULTIPLIER = 1.0;
@@ -36,73 +40,72 @@ public class DriveSubsystem extends Subsystem {
   public static double speedMultiplier = BOOST_SPEED_MULTIPLIER;
   public static final double DEAD_BAND_LIMIT = 0.0001;
 
+  public static int ENCODER_TIMEOUT = 10; // in milliseconds
 
-  private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterLow,RobotMap.shifterHigh);
+  private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterLow, RobotMap.shifterHigh);
 
   private static DifferentialDrive differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 
-  public DriveSubsystem(){
+  private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
+
+  public DriveSubsystem() {
     slaveLeft.follow(frontLeft);
     slaveRight.follow(frontRight);
     shifter.set(DoubleSolenoid.Value.kForward);
+    frontLeft.setInverted(true);
+    frontRight.setInverted(true);
+    slaveLeft.setInverted(InvertType.FollowMaster);
+    slaveRight.setInverted(InvertType.FollowMaster);
   }
 
-  public void driveTank(double leftSpeed, double rightSpeed){
-    differentialDrive.tankDrive(leftSpeed, rightSpeed); 
+  public void driveTank(double leftSpeed, double rightSpeed) {
+    differentialDrive.tankDrive(leftSpeed, rightSpeed);
   }
 
-  double xSpeed = OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical);
-  double zRotation = OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
   public void driveArcade(double xSpeed, double zRotation) {
-    differentialDrive.arcadeDrive(adjustSpeed(xSpeed), deadBand(zRotation, DEAD_BAND_LIMIT));
+    differentialDrive.arcadeDrive(xSpeed, zRotation);
   }
 
-  public void shift(){
-    if(shifter.get()==DoubleSolenoid.Value.kForward){
+  public void displayDiagnostics() {
+    SmartDashboard.putNumber(Robot.ENCODER_TALON_1, getLeftEncoder());
+    SmartDashboard.putNumber(Robot.ENCODER_TALON_3, getRightEncoder());
+  }
+
+  public void shift() {
+    if (shifter.get() == DoubleSolenoid.Value.kForward) {
       shifter.set(DoubleSolenoid.Value.kReverse);
-    }else{
+    } else {
       shifter.set(DoubleSolenoid.Value.kForward);
     }
   }
 
-  
-   /**
-     * Boost the forward speed. Now used
-     */
-    public void startBoost() {
-      speedMultiplier = BOOST_SPEED_MULTIPLIER;
+  public void resetEncoders() {
+    frontLeft.setSelectedSensorPosition(RobotMap.ENCODER_PORT, 0, ENCODER_TIMEOUT);
+    frontRight.setSelectedSensorPosition(RobotMap.ENCODER_PORT, 0, ENCODER_TIMEOUT);
   }
 
-  /**
-   * Stop boosting the forward speed. Not used
-   */
-  public void stopBoost() {
-      speedMultiplier = DEFAULT_SPEED_MULTIPLIER;
+  public double getLeftEncoder() {
+    return frontLeft.getSelectedSensorPosition(RobotMap.ENCODER_PORT);
   }
 
-  /**
-     * Applies adjustments to the speed (such as inverting the direction for
-     * inverted motors, or applying a dead band).
-     * 
-     * @param speed The input speed
-     * @return The adjusted speed
-     */
-    private double adjustSpeed(double speed) {
-      return deadBand((-1 * BOOST_SPEED_MULTIPLIER * speed), DEAD_BAND_LIMIT);
+  public double getRightEncoder() {
+    return frontRight.getSelectedSensorPosition(RobotMap.ENCODER_PORT);
   }
-
-  private double deadBand(double in, double limit) {
-    if (Math.abs(in) < limit) {
-        return 0;
-    } else {
-        return in;
-    }
-}
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     setDefaultCommand(new ArcadeDrive());
+  }
+
+  public double[] getPigeonYPR() {
+    double[] ypr_deg = new double[3];
+    pigeon.getYawPitchRoll(ypr_deg);
+    return ypr_deg;
+  }
+
+  public void resetPigeon() {
+    pigeon.setYaw(0);
   }
 }

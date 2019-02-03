@@ -48,7 +48,7 @@ public class OI {
   // button.whenReleased(new ExampleCommand());
 
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
-  public static Joystick xboxManipCotrol = new Joystick(RobotMap.manipControllerPort);
+  public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
   
   public Button arcadeDriveBoostButton = new JoystickButton(xboxDriveControl, RobotMap.boostButton);
   public Button a = new JoystickButton(xboxDriveControl,1);
@@ -57,5 +57,10 @@ public class OI {
     a.whenPressed(new Shifter());
     // arcadeDriveBoostButton.whenPressed(new SlowStop());
     // arcadeDriveBoostButton.whenReleased(new SlowStart());
+
+  Button shifterButton = new JoystickButton(xboxDriveControl, 5);
+  Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
+  shifterButton.whenPressed(new Shifter());
+  resetPigeonYawButton.whenPressed(new ResetYaw());
   }
 }

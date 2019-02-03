@@ -11,10 +11,13 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.subsystems.ArmSubsystem.Levels;
 
-public class TankDrive extends Command {
-  public TankDrive() {
-    requires(Robot.driveSubsystem);
+
+public class CargoMode extends Command {
+  Levels desiredLevel = Levels.cargoLevelOne; 
+  public CargoMode() {  
+    requires(Robot.armSubsystem);
   }
 
   // Called just before this Command runs the first time
@@ -25,9 +28,30 @@ public class TankDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveSubsystem.driveTank(OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical),
-        OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal));
+    if (OI.xboxManipControl.getRawButton(RobotMap.floorPickup)){
+      desiredLevel = Levels.cargoFloorPickup;
+    }
+    else if (OI.xboxManipControl.getRawButton(RobotMap.cargoPlayerStationPickup)){
+      //position for collecting cargo from the human player station
+      desiredLevel = Levels.cargoPlayerStation;
+    }
+    else if (OI.xboxManipControl.getRawButton(RobotMap.levelOneSelector)){ 
+      //level one 
+      desiredLevel = Levels.cargoLevelOne; 
+    }
+    else if (OI.xboxManipControl.getRawButton(RobotMap.levelTwoSelector)){
+      //level two
+      desiredLevel = Levels.cargoLevelTwo;
+    }
+    else if (OI.xboxManipControl.getRawButton(RobotMap.levelThreeSelector)){
+      //level three
+      desiredLevel = Levels.cargoLevelThree;
+    }
+    else {
+    }
+    Robot.armSubsystem.setLevel(desiredLevel);
   }
+  
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
