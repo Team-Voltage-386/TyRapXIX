@@ -18,6 +18,8 @@ import frc.robot.RobotMap;
  */
 public class ArmSubsystem extends Subsystem {
 
+  // Variable Initializations and Constant Declarations for Encoder Levels and PID
+  // Constants
   private double prevError, error, errorChange, speed, p, i, d;
   private final double pk = 0.05, ik = 0.001, dk = 0.07;
   private final int CARGO_FLOOR_TICKS = 100;
@@ -30,28 +32,31 @@ public class ArmSubsystem extends Subsystem {
   private final int HATCH_LEVEL_TWO_TICKS = 100;
   private final int HATCH_LEVEL_THREE_TICKS = 100;
 
-  WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
-  WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
+  // Talon Motor Declarations
+  private WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
+  private WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
 
-  DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
+  // Limit Switch Declarations
+  private DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
 
+  // Default Constructor Called At Start of Code
   public ArmSubsystem() {
     armMotorFollower.follow(armMotorMaster);
     prevError = 0;
     p = 0;
     i = 0;
     d = 0;
-
   }
 
+  // Create Enumerations to be Used in CargoMode and HatchMode Commands
   public enum Levels {
     cargoFloorPickup, cargoPlayerStation, cargoLevelOne, cargoLevelTwo, cargoLevelThree, hatchFloorPickup,
     hatchLevelOne, hatchLevelTwo, hatchLevelThree;
   }
 
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+  // ArmSubsystem Methods
 
+  // Set the Arm to Constant Encoder Levels Based on Levels Enumeration
   public void setLevel(Levels in) {
     switch (in) {
     case cargoFloorPickup:
@@ -86,6 +91,7 @@ public class ArmSubsystem extends Subsystem {
     }
   }
 
+  // Set Arm to Given Goal Using PID
   public void setArmTicks(double encoderGoal) {
     error = getArmEncoder() - encoderGoal;
     errorChange = error - prevError;
@@ -101,22 +107,27 @@ public class ArmSubsystem extends Subsystem {
     }
   }
 
+  // Set Arm Motor Speed Method
   public void setArmMotorSpeed(double speed) {
     armMotorMaster.set(speed);
   }
 
+  // Get Current Talon Encoder Value
   public double getArmEncoder() {
     return armMotorMaster.getSelectedSensorPosition();
   }
 
+  // Reset Arm Encoder
   public void resetEncoder() {
     armMotorMaster.setSelectedSensorPosition(0, 0, 10);
   }
 
+  // Get Bottom Limit Switch Boolean (False = Pressed, True = Not Pressed)
   public boolean getBottomLimitSwitch() {
     return bottomLimitSwitch.get();
   }
 
+  // No Default Command for ArmSubsystem
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
