@@ -33,7 +33,8 @@ public class ArmSubsystem extends Subsystem {
   WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
   WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
 
-  DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
+  DigitalInput bottomLimitSwitch = new DigitalInput(4);
+  DigitalInput topLimitSwitch = new DigitalInput(5);
 
   public ArmSubsystem() {
     armMotorFollower.follow(armMotorMaster);
@@ -119,6 +120,10 @@ public class ArmSubsystem extends Subsystem {
 
   public boolean getBottomLimitSwitch() {
     return bottomLimitSwitch.get();
+  }
+
+  public boolean getTopLimitSwitch() {
+    return topLimitSwitch.get();
   }
 
   @Override

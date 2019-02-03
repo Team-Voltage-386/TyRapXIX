@@ -71,6 +71,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
 
     SmartDashboard.putNumber("Current Encoder Value", Robot.armSubsystem.getArmEncoder());
+    SmartDashboard.putBoolean("TopLimitSwitch", armSubsystem.getTopLimitSwitch());
+    SmartDashboard.putBoolean("BottomLimitSwitch", armSubsystem.getBottomLimitSwitch());
   }
 
   /**
