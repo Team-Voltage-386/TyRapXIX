@@ -13,6 +13,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
+
 /**
  * Add your docs here.
  */
@@ -34,6 +38,8 @@ public class ArmSubsystem extends Subsystem {
   WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
 
   DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
+  Boolean fwd_lmt = false;
+  Boolean rev_lmt = false;
 
   public ArmSubsystem() {
     armMotorFollower.follow(armMotorMaster);
@@ -41,6 +47,17 @@ public class ArmSubsystem extends Subsystem {
     p = 0;
     i = 0;
     d = 0;
+    // ** Commented code below copied from 3452 repo **/
+    // elevator_1.configForwardSoftLimitThreshold(topSoftLimit, GZSRX.TIMEOUT
+    // elevator_1.configForwardLimitSwitchSource(RemoteLimitSwitchSource.RemoteTalonSRX,
+    // LimitSwitchNormal.NormallyOpen, elevator_2.getDeviceID(), 10)
+
+    // ?? TBD there are two version of the config below. One needs the device ID and
+    // the other doesn't. If we're querying the encoder to which the breakout board
+    // is attached, do we use the one without the deviceID call?
+    armMotorMaster.configForwardLimitSwitchSource(RemoteLimitSwitchSource.RemoteTalonSRX,
+        LimitSwitchNormal.NormallyOpen, armMotorMaster.getDeviceID(), 10);
+    armMotorMaster.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen, 10);
   }
 
   public enum Levels {
@@ -99,6 +116,25 @@ public class ArmSubsystem extends Subsystem {
     setArmMotorSpeed(speed);
     SmartDashboard.putNumber("ArmMotorSpeed", speed);
     prevError = error;
+
+    // ** Commented code below copied from 3452 repo **/
+    // mIO.elevator_fwd_lmt =
+    // elevator_2.getSensorCollection().isFwdLimitSwitchClosed();
+    // mIO.elevator_rev_lmt =
+    // elevator_2.getSensorCollection().isRevLimitSwitchClosed();
+    fwd_lmt = armMotorMaster.getSensorCollection().isFwdLimitSwitchClosed();
+    rev_lmt = armMotorMaster.getSensorCollection().isRevLimitSwitchClosed();
+
+    // TBD??? What exactly does configClearPositionOnLimit do? Does it simply allow
+    // the encoder to be reset at some future time? Or will it automatically reset
+    // the encoder if the limit is reached?
+    armMotorMaster.configClearPositionOnLimitF(true, 10);
+    // if bottom limit is hit, reset the encoder to zero. Maybe not necessary if the
+    // above code does the reset for us?
+    if (rev_lmt) {
+      resetEncoder();
+    }
+
     /*
      * if (!(getBottomLimitSwitch())) { // Reset Encoder When Bottom Limit Switch is
      * Pressed By Arm resetEncoder(); }
@@ -118,7 +154,10 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public boolean getBottomLimitSwitch() {
-    return bottomLimitSwitch.get();
+    // mIO.elevator_fwd_lmt =
+    // elevator_2.getSensorCollection().isFwdLimitSwitchClosed();
+    return rev_lmt;
+    // return bottomLimitSwitch.get();
   }
 
   @Override
