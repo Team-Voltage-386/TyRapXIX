@@ -40,19 +40,11 @@ public class ArmSubsystem extends Subsystem {
   DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
 
   public ArmSubsystem() {
-<<<<<<< HEAD
     leftShoulder.follow(rightShoulder);
-=======
-    armMotorFollower.follow(armMotorMaster);
->>>>>>> e6151f074f37804a85de0d34d96fb9f714d48131
     prevError = 0;
     p = 0;
     i = 0;
     d = 0;
-<<<<<<< HEAD
-=======
-
->>>>>>> e6151f074f37804a85de0d34d96fb9f714d48131
   }
 
   public enum Levels {
@@ -120,7 +112,6 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public void setArmMotorSpeed(double speed) {
-<<<<<<< HEAD
     leftShoulder.set(speed);
   }
 
@@ -130,17 +121,6 @@ public class ArmSubsystem extends Subsystem {
 
   public void resetEncoder() {
     leftShoulder.setSelectedSensorPosition(0, 0, 10);
-=======
-    armMotorMaster.set(speed);
-  }
-
-  public double getArmEncoder() {
-    return armMotorMaster.getSelectedSensorPosition();
-  }
-
-  public void resetEncoder() {
-    armMotorMaster.setSelectedSensorPosition(0, 0, 10);
->>>>>>> e6151f074f37804a85de0d34d96fb9f714d48131
   }
 
   public boolean getBottomLimitSwitch() {
