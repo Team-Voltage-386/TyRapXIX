@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.Shifter;
+import frc.robot.commands.*;
+import frc.robot.subsystems.DriveSubsystem;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -50,10 +51,11 @@ public class OI {
   public static Joystick xboxManipCotrol = new Joystick(RobotMap.manipControllerPort);
   
   public Button arcadeDriveBoostButton = new JoystickButton(xboxDriveControl, RobotMap.boostButton);
-  Button a = new JoystickButton(xboxDriveControl,1);
+  public Button a = new JoystickButton(xboxDriveControl,1);
 
   public OI(){
     a.whenPressed(new Shifter());
-
+    arcadeDriveBoostButton.whenPressed(new SlowStop());
+    arcadeDriveBoostButton.whenReleased(new SlowStart());
   }
 }
