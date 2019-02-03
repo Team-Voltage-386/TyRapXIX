@@ -7,7 +7,10 @@
 
 package frc.robot.commands;
 
+import javax.swing.text.StyleContext.SmallAttributeSet;
+
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -29,7 +32,10 @@ public class ArcadeDrive extends Command {
   protected void execute() {
     double xSpeed = OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical);
     double zRotation = OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
-    Robot.driveSubsystem.driveArcade(xSpeed, zRotation);
+    // double leftSpeed = xSpeed + zRotation;
+    // double rightSpeed = (xSpeed - zRotation) * .91;
+    Robot.driveSubsystem.driveArcade(xSpeed, zRotation + xSpeed * SmartDashboard.getNumber("k value", 0));
+    // Robot.driveSubsystem.driveTank(leftSpeed, rightSpeed);
   }
 
   // Make this return true when this Command no longer needs to run execute()

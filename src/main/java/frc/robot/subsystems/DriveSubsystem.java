@@ -30,7 +30,9 @@ public class DriveSubsystem extends Subsystem {
   private static WPI_TalonSRX frontLeft = new WPI_TalonSRX(RobotMap.frontLeft);
   private static WPI_TalonSRX frontRight = new WPI_TalonSRX(RobotMap.frontRight);
   private static WPI_TalonSRX slaveLeft = new WPI_TalonSRX(RobotMap.rearLeftFollower);
-  private static WPI_VictorSPX slaveRight = new WPI_VictorSPX(RobotMap.rearRightFollower);
+  // private static WPI_VictorSPX slaveRight = new
+  // WPI_VictorSPX(RobotMap.rearRightFollower);
+  private static WPI_TalonSRX slaveRight = new WPI_TalonSRX(RobotMap.rearRightFollower);
 
   public static int ENCODER_TIMEOUT = 10; // in milliseconds
 
@@ -44,10 +46,10 @@ public class DriveSubsystem extends Subsystem {
     slaveLeft.follow(frontLeft);
     slaveRight.follow(frontRight);
     shifter.set(DoubleSolenoid.Value.kForward);
-    frontLeft.setInverted(true);
-    frontRight.setInverted(true);
-    slaveLeft.setInverted(InvertType.FollowMaster);
-    slaveRight.setInverted(InvertType.FollowMaster);
+    // frontLeft.setInverted(true);
+    // frontRight.setInverted(true);
+    // slaveLeft.setInverted(InvertType.FollowMaster);
+    // slaveRight.setInverted(InvertType.FollowMaster);
   }
 
   public void driveTank(double leftSpeed, double rightSpeed) {
@@ -55,7 +57,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void driveArcade(double xSpeed, double zRotation) {
-    differentialDrive.arcadeDrive(xSpeed, zRotation);
+    differentialDrive.arcadeDrive(xSpeed, -1 * zRotation);
   }
 
   public void displayDiagnostics() {
