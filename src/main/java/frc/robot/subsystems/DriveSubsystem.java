@@ -44,6 +44,7 @@ public class DriveSubsystem extends Subsystem {
     slaveLeft.follow(frontLeft);
     slaveRight.follow(frontRight);
     shifter.set(DoubleSolenoid.Value.kForward);
+    // invert the lead and the follower motors
     frontLeft.setInverted(true);
     frontRight.setInverted(true);
     slaveLeft.setInverted(InvertType.FollowMaster);
@@ -59,6 +60,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void displayDiagnostics() {
+    // display left and right encoder values on the dash during drive
     SmartDashboard.putNumber(Robot.ENCODER_TALON_1, getLeftEncoder());
     SmartDashboard.putNumber(Robot.ENCODER_TALON_3, getRightEncoder());
   }
