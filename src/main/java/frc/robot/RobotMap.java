@@ -23,8 +23,8 @@ public class RobotMap {
   public static int manipControllerPort = 1;
 
   // solenoids
-  public static int shifterLow = 0;
-  public static int shifterHigh = 1;
+  public static int shifterLow = 6;
+  public static int shifterHigh = 7;
   public static int hatchCaptureOpen = 2;
   public static int hatchCaptureClosed = 3;
   public static int beakRetractOpen = 4;
@@ -72,7 +72,7 @@ public class RobotMap {
   public static int leftShoulderMotor = 6;
   public static int rightShoulderMotor = 7;
   public static int elbowMotor = 8;
-  public static int cargoRollerMotor = 9;
+  public static int cargoRollerMotor = 9; // change to cargoCapture
   // encoders
   public static int shoulderEncoder = 0;
   public static int rearElevatorEncoder = 1;
