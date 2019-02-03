@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.Robot;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.OI;
 
 /**
  * Add your docs here.
