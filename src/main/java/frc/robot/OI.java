@@ -53,8 +53,8 @@ public class OI {
 
   Button a = new JoystickButton(xboxDriveControl, 1);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
-  Button cargoModeButton = new JoystickButton(xboxManipControl, 7);
-  Button hatchModeButton = new JoystickButton(xboxManipControl, 8);
+  Button cargoModeButton = new JoystickButton(xboxManipControl, 9);
+  Button hatchModeButton = new JoystickButton(xboxManipControl, 10);
 
   public OI() {
     a.whenPressed(new Shifter());

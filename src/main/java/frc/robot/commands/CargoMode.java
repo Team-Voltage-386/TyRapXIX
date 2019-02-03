@@ -43,8 +43,6 @@ public class CargoMode extends Command {
     } else if (OI.xboxManipControl.getRawButton(RobotMap.levelThreeSelector)) {
       // level three
       desiredLevel = Levels.cargoLevelThree;
-    } else {
-      desiredLevel = Levels.defaultLevel;
     }
     Robot.armSubsystem.setLevel(desiredLevel);
   }

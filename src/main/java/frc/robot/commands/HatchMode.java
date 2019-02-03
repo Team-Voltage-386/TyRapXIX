@@ -44,8 +44,6 @@ public class HatchMode extends Command {
     } else if (OI.xboxManipControl.getRawButton(RobotMap.levelThreeSelector)) {
       // level three
       desiredLevel = Levels.hatchLevelThree;
-    } else {
-      desiredLevel = Levels.defaultLevel;
     }
     Robot.armSubsystem.setLevel(desiredLevel);
   }
