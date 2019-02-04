@@ -7,7 +7,9 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
@@ -15,6 +17,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class EndgameClimbSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  
+  private Spark leftClimbArm = new Spark(RobotMap.leftClimbArm);
+  private Spark rightClimbArm = new Spark(RobotMap.rightClimbArm);
+  private Spark climbLegMotors = new Spark(RobotMap.elevatorDriveWheels);
 
   @Override
   public void initDefaultCommand() {
