@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.*;
+import frc.robot.subsystems.DriveSubsystem;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -53,9 +54,7 @@ public class OI {
 
   public OI(){
     a.whenPressed(new Shifter());
-    // arcadeDriveSlowButton.whenPressed(new SlowStart());
-    // arcadeDriveSlowButton.whenReleased(new SlowStop());
-
+    arcadeDriveSlowButton.whenPressed(new SlowDown());
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
   shifterButton.whenPressed(new Shifter());
