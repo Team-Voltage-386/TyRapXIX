@@ -53,6 +53,10 @@ public class Robot extends TimedRobot {
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
     Robot.armSubsystem.resetEncoder();
+    SmartDashboard.putNumber("pk ", 0);
+    SmartDashboard.putNumber("dk ", 0);
+    SmartDashboard.putNumber("ik ", 0);
+
   }
 
   /**
@@ -73,6 +77,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Current Encoder Value", Robot.armSubsystem.getArmEncoder());
     SmartDashboard.putBoolean("TopLimitSwitch", armSubsystem.getTopLimitSwitch());
     SmartDashboard.putBoolean("BottomLimitSwitch", armSubsystem.getBottomLimitSwitch());
+    SmartDashboard.putString("Current Arm Command", armSubsystem.getCurrentCommandName());
   }
 
   /**
@@ -128,6 +133,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    SmartDashboard.putNumber("ArmMotorSpeed", 0);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
