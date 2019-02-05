@@ -54,7 +54,7 @@ public class OI {
 
   public OI(){
     a.whenPressed(new Shifter());
-    arcadeDriveSlowButton.whenPressed(new SlowDown());
+    arcadeDriveSlowButton.whileHeld(new SlowDown());;
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
   shifterButton.whenPressed(new Shifter());

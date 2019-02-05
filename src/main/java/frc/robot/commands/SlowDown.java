@@ -29,7 +29,7 @@ public class SlowDown extends Command {
   protected void execute() {
     double xSpeed = OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical);
     double zRotation = OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
-    
+    xSpeed=xSpeed*.8;
     Robot.driveSubsystem.driveArcade(xSpeed, zRotation);
   }
 
