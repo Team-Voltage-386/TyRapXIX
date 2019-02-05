@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.commands.HatchMode;
 
 /**
  * Add your docs here.
@@ -26,9 +27,9 @@ public class ArmSubsystem extends Subsystem {
   private final int CARGO_LEVEL_TWO_TICKS = 32;
   private final int CARGO_LEVEL_THREE_TICKS = 40;
   private final int HATCH_FLOOR_TICKS = 40;
-  private final int HATCH_LEVEL_ONE_TICKS = 32;
-  private final int HATCH_LEVEL_TWO_TICKS = 25;
-  private final int HATCH_LEVEL_THREE_TICKS = 15;
+  private final int HATCH_LEVEL_ONE_TICKS = 60;
+  private final int HATCH_LEVEL_TWO_TICKS = 80;
+  private final int HATCH_LEVEL_THREE_TICKS = 100;
 
   WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
   WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
@@ -42,6 +43,7 @@ public class ArmSubsystem extends Subsystem {
     p = 0;
     i = 0;
     d = 0;
+    resetEncoder();
   }
 
   public enum Levels {
@@ -100,10 +102,9 @@ public class ArmSubsystem extends Subsystem {
     setArmMotorSpeed(speed);
     SmartDashboard.putNumber("ArmMotorSpeed", speed);
     prevError = error;
-    /*
-     * if (!(getBottomLimitSwitch())) { // Reset Encoder When Bottom Limit Switch is
-     * Pressed By Arm resetEncoder(); }
-     */
+    // if (!(getBottomLimitSwitch())) {
+    // resetEncoder();
+    // }
   }
 
   public void setArmMotorSpeed(double speed) {
@@ -130,6 +131,6 @@ public class ArmSubsystem extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    // setDefaultCommand(new HatchMode());
+    setDefaultCommand(new HatchMode());
   }
 }
