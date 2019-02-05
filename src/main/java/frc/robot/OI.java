@@ -51,13 +51,13 @@ public class OI {
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
-  Button a = new JoystickButton(xboxDriveControl, 1);
+  Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
   Button cargoModeButton = new JoystickButton(xboxManipControl, 9);
   Button hatchModeButton = new JoystickButton(xboxManipControl, 10);
 
   public OI() {
-    a.whenPressed(new Shifter());
+    shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
     cargoModeButton.whenPressed(new CargoMode());
     hatchModeButton.whenPressed(new HatchMode());
