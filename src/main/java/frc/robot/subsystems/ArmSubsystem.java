@@ -20,15 +20,15 @@ public class ArmSubsystem extends Subsystem {
 
   private double prevError, error, errorChange, speed, p, i, d;
   private final double pk = 0.05, ik = 0.001, dk = 0.07;
-  private final int CARGO_FLOOR_TICKS = -10;
-  private final int CARGO_PLAYER_STATION_TICKS = -15;
-  private final int CARGO_LEVEL_ONE_TICKS = -25;
-  private final int CARGO_LEVEL_TWO_TICKS = -32;
-  private final int CARGO_LEVEL_THREE_TICKS = -40;
-  private final int HATCH_FLOOR_TICKS = -40;
-  private final int HATCH_LEVEL_ONE_TICKS = -32;
-  private final int HATCH_LEVEL_TWO_TICKS = -25;
-  private final int HATCH_LEVEL_THREE_TICKS = -15;
+  private final int CARGO_FLOOR_TICKS = 10;
+  private final int CARGO_PLAYER_STATION_TICKS = 15;
+  private final int CARGO_LEVEL_ONE_TICKS = 25;
+  private final int CARGO_LEVEL_TWO_TICKS = 32;
+  private final int CARGO_LEVEL_THREE_TICKS = 40;
+  private final int HATCH_FLOOR_TICKS = 40;
+  private final int HATCH_LEVEL_ONE_TICKS = 32;
+  private final int HATCH_LEVEL_TWO_TICKS = 25;
+  private final int HATCH_LEVEL_THREE_TICKS = 15;
 
   WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
   WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
@@ -93,9 +93,9 @@ public class ArmSubsystem extends Subsystem {
     SmartDashboard.putNumber("Current Encoder Goal", encoderGoal);
     error = getArmEncoder() - encoderGoal;
     errorChange = error - prevError;
-    p = error * pk /* SmartDashboard.getNumber("pk ", 0) */;
-    i += error * ik /* SmartDashboard.getNumber("ik ", 0) */;
-    d = errorChange * dk /* SmartDashboard.getNumber("dk ", 0) */;
+    p = error * /* pk */ SmartDashboard.getNumber("pk ", 0);
+    i += error * /* ik */ SmartDashboard.getNumber("ik ", 0);
+    d = errorChange * /* dk */ SmartDashboard.getNumber("dk ", 0);
     speed = p + i + d;
     setArmMotorSpeed(speed);
     SmartDashboard.putNumber("ArmMotorSpeed", speed);
