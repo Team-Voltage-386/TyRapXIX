@@ -60,17 +60,17 @@ public class RobotMap {
 
   public static int spikeLightRing = 0; // LED Light Ring
 
-  //button inputs
+  // button inputs
   public static int floorPickup = 1;
-  public static int cargoPlayerStationPickup = 10; //placeholder - update with final button mapping 
+  public static int cargoPlayerStationPickup = 10; // placeholder - update with final button mapping
   public static int levelOneSelector = 2;
-  public static int levelTwoSelector = 3; 
+  public static int levelTwoSelector = 3;
   public static int levelThreeSelector = 4;
 
-//to be defined - port numbers are placeholders
-  public static int rearElevatorMotor = 5;
+  // to be defined - port numbers are placeholders
+  public static int rearElevatorMotor = 7;
   public static int leftShoulderMotor = 6;
-  public static int rightShoulderMotor = 7;
+  public static int rightShoulderMotor = 5;
   public static int elbowMotor = 8;
   public static int cargoRollerMotor = 9;
   // encoders
@@ -84,7 +84,7 @@ public class RobotMap {
   public static int driveLeftJoystickVertical = 1;
   public static int driveRightJoystickHorizontal = 4;
 
-  //limit switches
+  // limit switches
   public static int bottomArmLimitSwitch = 4;
 
 }

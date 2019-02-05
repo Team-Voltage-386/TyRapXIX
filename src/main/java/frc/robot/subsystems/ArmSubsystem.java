@@ -30,8 +30,8 @@ public class ArmSubsystem extends Subsystem {
   private final int HATCH_LEVEL_TWO_TICKS = -25;
   private final int HATCH_LEVEL_THREE_TICKS = -15;
 
-  WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
-  WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
+  WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
+  WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
 
   DigitalInput bottomLimitSwitch = new DigitalInput(4);
   DigitalInput topLimitSwitch = new DigitalInput(5);
@@ -111,7 +111,7 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public double getArmEncoder() {
-    return armMotorMaster.getSelectedSensorPosition();
+    return armMotorMaster.getSelectedSensorPosition(0);
   }
 
   public void resetEncoder() {
