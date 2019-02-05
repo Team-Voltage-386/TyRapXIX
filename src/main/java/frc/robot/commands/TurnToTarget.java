@@ -79,13 +79,13 @@ public class TurnToTarget extends Command {
       d = (error - prevError) * SmartDashboard.getNumber("kd",0);
       
 
-      Robot.driveSubsystem.driveTank(OI.xboxControl.getRawAxis(RobotMap.leftControllerY) -p - d - i,OI.xboxControl.getRawAxis(RobotMap.leftControllerY) + p + d + i);
+      Robot.driveSubsystem.driveTank(0.80*OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical) + p + d + i, OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical) - p - d - i);
 
       SmartDashboard.putNumber("Error", error);
       SmartDashboard.putNumber("Center of Pair", (bestPair[0].center.x + bestPair[1].center.x)/2 );
 
     }else{
-      Robot.driveSubsystem.driveTank(OI.xboxControl.getRawAxis(RobotMap.leftControllerY), OI.xboxControl.getRawAxis(RobotMap.leftControllerY));
+      Robot.driveSubsystem.driveTank(0.80*OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical), OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical));
 
       SmartDashboard.putNumber("Error", 0);
       SmartDashboard.putNumber("Center of Pair", -1);

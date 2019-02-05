@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
@@ -19,6 +21,12 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TankDrive;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.RobotMap;
+import frc.robot.Robot;
+import frc.robot.commands.ArcadeDrive;
 
 /**
  * Add your docs here.
@@ -28,13 +36,13 @@ public class DriveSubsystem extends Subsystem {
   // here. Call these from Commands.
 
   private static WPI_TalonSRX frontLeft = new WPI_TalonSRX(RobotMap.frontLeft);
-  private static WPI_TalonSRX slaveLeft = new WPI_TalonSRX(RobotMap.slaveLeft);
   private static WPI_TalonSRX frontRight = new WPI_TalonSRX(RobotMap.frontRight);
-  private static WPI_TalonSRX slaveRight = new WPI_TalonSRX(RobotMap.slaveRight);
+  private static WPI_TalonSRX slaveLeft = new WPI_TalonSRX(RobotMap.rearLeftFollower);
+  private static WPI_VictorSPX slaveRight = new WPI_VictorSPX(RobotMap.rearRightFollower);
 
-  private static Encoder leftEncoder = new Encoder(1,0);
+  public static int ENCODER_TIMEOUT = 10; // in milliseconds
 
-  private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterPort1,RobotMap.shifterPort2);
+  private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterLow, RobotMap.shifterHigh);
 
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
 
@@ -51,6 +59,10 @@ public class DriveSubsystem extends Subsystem {
     slaveLeft.follow(frontLeft);
     slaveRight.follow(frontRight);
     shifter.set(DoubleSolenoid.Value.kForward);
+    frontLeft.setInverted(true);
+    frontRight.setInverted(true);
+    slaveLeft.setInverted(InvertType.FollowMaster);
+    slaveRight.setInverted(InvertType.FollowMaster);
     resetEncoder();
     resetPigeon();
 
@@ -66,14 +78,13 @@ public class DriveSubsystem extends Subsystem {
 
     frontRight.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS, NO_TIMEOUT);
     frontLeft.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS, NO_TIMEOUT);
-
   }
 
-  public void driveTank(double leftSpeed, double rightSpeed){
-    differentialDrive.tankDrive(leftSpeed, rightSpeed); 
+  public void driveTank(double leftSpeed, double rightSpeed) {
+    differentialDrive.tankDrive(leftSpeed, rightSpeed);
   }
 
-  public void driveArcade(double xSpeed, double zRotation){
+  public void driveArcade(double xSpeed, double zRotation) {
     differentialDrive.arcadeDrive(xSpeed, zRotation);
   }
 
@@ -82,10 +93,15 @@ public class DriveSubsystem extends Subsystem {
     Robot.driveSubsystem.driveTank(-.5+p,-.5-p); 
   }
 
-  public void shift(){
-    if(shifter.get()==DoubleSolenoid.Value.kForward){
+  public void displayDiagnostics() {
+    SmartDashboard.putNumber(Robot.ENCODER_TALON_1, getLeftEncoder());
+    SmartDashboard.putNumber(Robot.ENCODER_TALON_3, getRightEncoder());
+  }
+
+  public void shift() {
+    if (shifter.get() == DoubleSolenoid.Value.kForward) {
       shifter.set(DoubleSolenoid.Value.kReverse);
-    }else{
+    } else {
       shifter.set(DoubleSolenoid.Value.kForward);
     }
   }
@@ -95,27 +111,22 @@ public class DriveSubsystem extends Subsystem {
     frontRight.setSelectedSensorPosition(0, 0, 10);
   }
 
-  public double getLeftEncoder() {
-    return leftEncoder.get();
-  }
-
-  public double getRightEncoder() {
-    return frontRight.getSelectedSensorPosition(0);
-  }
-
-  public double[] getPigeonYPR(){
-    double[] ypr_deg = new double[3];
-    pigeon.getYawPitchRoll(ypr_deg);
-    return ypr_deg;
-  }
-
-  public void resetPigeon(){
-    pigeon.setYaw(0);
-  }
-
   public void pTurn(int goal){
     double p = (getPigeonYPR()[0] - goal) * -0.01;
     driveTank(p,-1*p);
+  }
+  
+  public void resetEncoders() {
+    frontLeft.setSelectedSensorPosition(RobotMap.ENCODER_PORT, 0, ENCODER_TIMEOUT);
+    frontRight.setSelectedSensorPosition(RobotMap.ENCODER_PORT, 0, ENCODER_TIMEOUT);
+  }
+
+  public double getLeftEncoder() {
+    return frontLeft.getSelectedSensorPosition(RobotMap.ENCODER_PORT);
+  }
+
+  public double getRightEncoder() {
+    return frontRight.getSelectedSensorPosition(RobotMap.ENCODER_PORT);
   }
 
   @Override
@@ -123,5 +134,15 @@ public class DriveSubsystem extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     setDefaultCommand(new ArcadeDrive());
+  }
+
+  public double[] getPigeonYPR() {
+    double[] ypr_deg = new double[3];
+    pigeon.getYawPitchRoll(ypr_deg);
+    return ypr_deg;
+  }
+
+  public void resetPigeon() {
+    pigeon.setYaw(0);
   }
 }

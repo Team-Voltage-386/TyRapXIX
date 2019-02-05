@@ -8,16 +8,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.subsystems.ArmSubsystem.Levels;
 
-public class ArcadeDrive extends Command {
-  public ArcadeDrive() {
-    requires(Robot.driveSubsystem);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+
+public class CargoMode extends Command {
+  Levels desiredLevel = Levels.cargoLevelOne; 
+  public CargoMode() {  
+    requires(Robot.armSubsystem);
   }
 
   // Called just before this Command runs the first time
@@ -28,12 +28,30 @@ public class ArcadeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double xSpeed = OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical);
-    double zRotation = OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
-    Robot.driveSubsystem.driveArcade(xSpeed, zRotation);
-    SmartDashboard.putNumber("xSpeed", OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical));
-    SmartDashboard.putNumber("zRotation", OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal));
+    if (OI.xboxManipControl.getRawButton(RobotMap.floorPickup)){
+      desiredLevel = Levels.cargoFloorPickup;
+    }
+    else if (OI.xboxManipControl.getRawButton(RobotMap.cargoPlayerStationPickup)){
+      //position for collecting cargo from the human player station
+      desiredLevel = Levels.cargoPlayerStation;
+    }
+    else if (OI.xboxManipControl.getRawButton(RobotMap.levelOneSelector)){ 
+      //level one 
+      desiredLevel = Levels.cargoLevelOne; 
+    }
+    else if (OI.xboxManipControl.getRawButton(RobotMap.levelTwoSelector)){
+      //level two
+      desiredLevel = Levels.cargoLevelTwo;
+    }
+    else if (OI.xboxManipControl.getRawButton(RobotMap.levelThreeSelector)){
+      //level three
+      desiredLevel = Levels.cargoLevelThree;
+    }
+    else {
+    }
+    Robot.armSubsystem.setLevel(desiredLevel);
   }
+  
 
   // Make this return true when this Command no longer needs to run execute()
   @Override

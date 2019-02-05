@@ -8,14 +8,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.Robot;
+import frc.robot.subsystems.ArmSubsystem.Levels;
 
-public class ArcadeDrive extends Command {
-  public ArcadeDrive() {
-    requires(Robot.driveSubsystem);
+
+public class HatchMode extends Command {
+  Levels desiredLevel = Levels.hatchLevelOne;
+  public HatchMode() {
+    requires(Robot.armSubsystem);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -28,11 +30,25 @@ public class ArcadeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double xSpeed = OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical);
-    double zRotation = OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
-    Robot.driveSubsystem.driveArcade(xSpeed, zRotation);
-    SmartDashboard.putNumber("xSpeed", OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical));
-    SmartDashboard.putNumber("zRotation", OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal));
+    if (OI.xboxManipControl.getRawButton(RobotMap.floorPickup)){
+      //floor pickup
+      desiredLevel = Levels.hatchFloorPickup;
+    }
+    else if (OI.xboxManipControl.getRawButton(RobotMap.levelOneSelector)){ 
+      //level one
+      desiredLevel = Levels.hatchLevelOne;
+    }
+    else if (OI.xboxManipControl.getRawButton(RobotMap.levelTwoSelector)){
+      //level two
+      desiredLevel = Levels.hatchLevelTwo;
+    }
+    else if (OI.xboxManipControl.getRawButton(RobotMap.levelThreeSelector)){
+      //level three 
+      desiredLevel = Levels.hatchLevelThree;
+    }
+    else{
+    }
+    Robot.armSubsystem.setLevel(desiredLevel);
   }
 
   // Make this return true when this Command no longer needs to run execute()

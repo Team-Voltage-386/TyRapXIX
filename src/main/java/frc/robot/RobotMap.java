@@ -19,26 +19,72 @@ public class RobotMap {
   // public static int leftMotor = 1;
   // public static int rightMotor = 2;
 
-  public static int controllerPort = 0;
+  public static int driveControllerPort = 0;
+  public static int manipControllerPort = 1;
 
-  public static int frontLeft = 1;
-  public static int slaveLeft = 4;
-  public static int frontRight = 2;
-  public static int slaveRight = 3;
+  // solenoids
+  public static int shifterLow = 6;
+  public static int shifterHigh = 7;
+  public static int hatchCaptureOpen = 2;
+  public static int hatchCaptureClosed = 3;
+  public static int beakRetractOpen = 4;
+  public static int beakRetractClosed = 5;
 
-  public static int shifterPort1 = 6;
-  public static int shifterPort2 = 7;
+  // sparks
+  public static int rightClimbArm = 0;
+  public static int leftClimbArm = 1;
+  public static int elevatorDriveWheels = 2;
 
+  // pigeon
   public static int pigeonPort = 3;
 
-  public static int lightRingPort = 0;
+  // sensors
+  public static int lineSensorLeft = 0;
+  public static int lineSensorCenter = 1;
+  public static int lineSensorRight = 2;
+  public static int distanceSensorPing = 3;
+  public static int distanceSensorEcho = 4;
+  public static int analogUltrasonic = 0;
+  public static final int ENCODER_PORT = 0;
 
-  public static int leftControllerY = 1;
-  public static int rightControllerY = 5;
+  /*
+   * drive motors There's a discrepancy between the drive motor types listed on
+   * trello and what's listed on the official port mappings sheet, so I input the
+   * motors and added them into the drive subsystem as they are on the port
+   * mappings sheet.
+   */
+  public static int frontLeft = 1; // talon
+  public static int frontRight = 2; // talon
+  public static int rearLeftFollower = 4; // victor spx
+  public static int rearRightFollower = 3; // victor spx
 
+  public static int spikeLightRing = 0; // LED Light Ring
 
-  // If you are using multiple modules, make sure to define both the port
-  // number and the module. For example you with a rangefinder:
-  // public static int rangefinderPort = 1;
-  // public static int rangefinderModule = 1;
+  // button inputs
+  public static int floorPickup = 1;
+  public static int cargoPlayerStationPickup = 10; // placeholder - update with final button mapping
+  public static int levelOneSelector = 2;
+  public static int levelTwoSelector = 3;
+  public static int levelThreeSelector = 4;
+
+  // to be defined - port numbers are placeholders
+  public static int rearElevatorMotor = 5;
+  public static int leftShoulderMotor = 6;
+  public static int rightShoulderMotor = 7;
+  public static int elbowMotor = 8;
+  public static int cargoRollerMotor = 9; // change to cargoCapture
+  // encoders
+  public static int shoulderEncoder = 0;
+  public static int rearElevatorEncoder = 1;
+  public static int elbowEncoder = 2;
+
+  public static int driveLeftEncoder = 3;
+  public static int driveRightEncoder = 4;
+  // drive user inputs
+  public static int driveLeftJoystickVertical = 1;
+  public static int driveRightJoystickHorizontal = 4;
+
+  // limit switches
+  public static int bottomArmLimitSwitch = 4;
+
 }
