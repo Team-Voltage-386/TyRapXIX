@@ -59,8 +59,8 @@ public class VisionProcessing extends Subsystem {
   Mat hierarchy;
 
 	Size blurSize = new Size(9, 9);
-	Scalar colorStart = new Scalar(75, 100, 100);
-	Scalar colorEnd = new Scalar(100, 255, 255);
+	Scalar colorStart = new Scalar(50, 100, 50);
+	Scalar colorEnd = new Scalar(150, 255, 255);
 	Size erodeSize = new Size(10, 10);
 	Size dilateSize = new Size(10, 10);
   Size edgeDilateSize = new Size(4, 4);
@@ -150,19 +150,6 @@ public class VisionProcessing extends Subsystem {
 
       for(int i = 0 ; i<pairs.size() ; i++){
         Imgproc.line(base, pairs.get(i)[0].center, pairs.get(i)[1].center, new Scalar(0,255,255));
-      }
-
-      if(pairs.size()>0){
-        RotatedRect[] bestPair = new RotatedRect[2];
-        bestPair = pairs.get(0);
-
-        for(int i = 0 ; i<pairs.size() ; i++){
-          if(pairs.get(i)[0].size.width*pairs.get(i)[0].size.height + pairs.get(i)[1].size.width*pairs.get(i)[1].size.height >
-            (bestPair[0].size.width * bestPair[0].size.height + bestPair[1].size.width * bestPair[1].size.height)){
-              bestPair = pairs.get(i);
-          }
-        }
-        Imgproc.line(base, bestPair[0].center, bestPair[1].center, new Scalar(255,0,0));
       }
           
       HSVOutputStream.putFrame(base);

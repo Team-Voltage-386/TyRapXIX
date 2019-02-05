@@ -46,8 +46,8 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-    SmartDashboard.putNumber("kp",0);
-    SmartDashboard.putNumber("kd",0);
+    SmartDashboard.putNumber("kp",0.055);
+    SmartDashboard.putNumber("kd",0.1);
     SmartDashboard.putNumber("ki",0);
   }
 

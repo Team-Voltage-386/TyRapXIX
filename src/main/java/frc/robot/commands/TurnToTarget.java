@@ -10,6 +10,7 @@ package frc.robot.commands;
 import java.util.ArrayList;
 
 import org.opencv.core.RotatedRect;
+import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,9 +26,10 @@ public class TurnToTarget extends Command {
   }
 
   ArrayList<RotatedRect[]> pairs = new ArrayList<RotatedRect[]>();
-  RotatedRect[] bestPair = new RotatedRect[2];
-  double center;
+  RotatedRect[] bestPair;
   double prevError, error = 0, p, kp, d, kd, i, ki;
+  double bestPairChange;
+  boolean best;
 
   // Called just before this Command runs the first time
   @Override
@@ -37,26 +39,41 @@ public class TurnToTarget extends Command {
     pairs = Robot.visionProcessing.visionProcess();
     Robot.spikeSubsystem.lightSwitch();
     i = 0;
+    best = false;
+    if(pairs.size()>0){
+      bestPair = new RotatedRect[2];
+      bestPair = pairs.get(0);
+
+      for(int i = 0 ; i<pairs.size() ; i++){
+        if(Math.abs((pairs.get(i)[0].center.x + pairs.get(i)[1].center.x)/2 - Robot.visionProcessing.base.width()/2) <
+           Math.abs((bestPair[0].center.x + bestPair[1].center.x)/2 - Robot.visionProcessing.base.width()/2)){
+            bestPair = pairs.get(i);
+            best = true;
+        }
+      }
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     pairs = Robot.visionProcessing.visionProcess();
-    if(pairs.size()!=0){
-      bestPair = pairs.get(0);
 
-      for(int i = 0 ; i<pairs.size() ; i++){
-        if(pairs.get(i)[0].size.width*pairs.get(i)[0].size.height + pairs.get(i)[1].size.width*pairs.get(i)[1].size.height >
-          (bestPair[0].size.width * bestPair[0].size.height + bestPair[1].size.width * bestPair[1].size.height)){
-            bestPair = pairs.get(i);
+    if(pairs.size()>0){
+
+      bestPairChange = Robot.visionProcessing.base.width();
+
+      for(int i = 0 ; i < pairs.size() ; i++){
+        if(Math.abs((bestPair[0].center.x + bestPair[1].center.x)/2 - (pairs.get(i)[0].center.x + pairs.get(i)[1].center.x)/2) < bestPairChange){
+          bestPairChange = (bestPair[0].center.x + bestPair[1].center.x)/2 - (pairs.get(i)[0].center.x + pairs.get(i)[1].center.x)/2;
+          bestPair = pairs.get(i);
         }
       }
-      
+  
       prevError = error;
-      error = ((bestPair[0].center.x + bestPair[1].center.x)/2 - center) / bestPair[0].size.width;
+      error = ((bestPair[0].center.x + bestPair[1].center.x)/2 - Robot.visionProcessing.base.width()/2);
 
-      //kp = 0.065, ki = 0.09, kd = 0.0
+      //kp = 0.065, kd = 0.09, ki = 0.0
       p = error * SmartDashboard.getNumber("kp",0);
       i += error * SmartDashboard.getNumber("ki",0);
       d = (error - prevError) * SmartDashboard.getNumber("kd",0);
@@ -72,8 +89,8 @@ public class TurnToTarget extends Command {
 
       SmartDashboard.putNumber("Error", 0);
       SmartDashboard.putNumber("Center of Pair", -1);
-      SmartDashboard.putNumber("Center of Mat", center);
     }
+    
     
   }
 
