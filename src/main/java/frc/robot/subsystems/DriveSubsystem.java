@@ -55,6 +55,19 @@ public class DriveSubsystem extends Subsystem {
     frontRight.setInverted(true);
     slaveLeft.setInverted(InvertType.FollowMaster);
     slaveRight.setInverted(InvertType.FollowMaster);
+
+    frontLeft.configPeakCurrentLimit(kPeakCurrentAmps, 10);
+    frontLeft.configPeakCurrentDuration(kPeakTimeMs, 10); /* this is a necessary call to avoid errata. */
+    frontLeft.configContinuousCurrentLimit(kContinCurrentAmps, 10);
+    frontLeft.enableCurrentLimit(true); /* honor initial setting */
+
+    frontRight.configPeakCurrentLimit(kPeakCurrentAmps, 10);
+    frontRight.configPeakCurrentDuration(kPeakTimeMs, 10); /* this is a necessary call to avoid errata. */
+    frontRight.configContinuousCurrentLimit(kContinCurrentAmps, 10);
+    frontRight.enableCurrentLimit(true); /* honor initial setting */
+
+    frontRight.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS, NO_TIMEOUT);
+    frontLeft.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS, NO_TIMEOUT);
   }
 
   public void driveTank(double leftSpeed, double rightSpeed) {
