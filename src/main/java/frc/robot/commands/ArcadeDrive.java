@@ -22,8 +22,8 @@ public class ArcadeDrive extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-   // Called repeatedly when this Command is scheduled to run
-   
+    // Called repeatedly when this Command is scheduled to run
+
   }
 
   // Called repeatedly when this Command is scheduled to run

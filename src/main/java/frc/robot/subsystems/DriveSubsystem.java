@@ -20,7 +20,7 @@ import frc.robot.RobotMap;
 import frc.robot.Robot;
 import frc.robot.commands.ArcadeDrive;
 
-/**
+/*
  * Add your docs here.
  */
 public class DriveSubsystem extends Subsystem {
@@ -77,6 +77,7 @@ public class DriveSubsystem extends Subsystem {
       shifter.set(DoubleSolenoid.Value.kForward);
     }
   }
+
   public void resetEncoders() {
     frontLeft.setSelectedSensorPosition(RobotMap.ENCODER_PORT, 0, ENCODER_TIMEOUT);
     frontRight.setSelectedSensorPosition(RobotMap.ENCODER_PORT, 0, ENCODER_TIMEOUT);
