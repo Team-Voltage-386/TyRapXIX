@@ -14,10 +14,14 @@ import frc.robot.OI;
 import frc.robot.Robot;
 
 public class ManipulatorHatchMode extends Command {
+
+  private boolean prevState;
+
   public ManipulatorHatchMode() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.manipulatorSubsystem);
+    prevState = false;
   }
 
   // Called just before this Command runs the first time
@@ -31,8 +35,11 @@ public class ManipulatorHatchMode extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (OI.xboxManipControl.getRawButton(1)) { // TEMPORARY BUTTON PORT NUMBER
+    if (OI.xboxManipControl.getRawButton(1) && !prevState) { // TEMPORARY BUTTON PORT NUMBER
       Robot.manipulatorSubsystem.switchHatchSolenoidState();
+      prevState = true;
+    } else if (!OI.xboxManipControl.getRawButton(1)) { // TEMPORARY BUTTON PORT NUMBER
+      prevState = false;
     }
   }
 
