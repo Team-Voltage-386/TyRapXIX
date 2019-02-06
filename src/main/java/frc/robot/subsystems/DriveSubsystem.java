@@ -40,6 +40,13 @@ public class DriveSubsystem extends Subsystem {
 
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
 
+  final int kPeakCurrentAmps = 35; /* threshold to trigger current limit */
+  final int kPeakTimeMs = 0; /* how long after Peak current to trigger current limit */
+  final int kContinCurrentAmps = 25; /* hold current after limit is triggered */
+
+  public static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
+  private static final int NO_TIMEOUT = 0;
+
   public DriveSubsystem() {
     slaveLeft.follow(frontLeft);
     slaveRight.follow(frontRight);
