@@ -68,6 +68,8 @@ public class RobotMap {
   public static int levelThreeSelector = 4;
   public static int cargoPickup = 5; // placeholder
   public static int cargoRelease = 6; // placeholder
+  public static int beakTriggerOpen = 7; // placeholder
+  public static int beakTriggerClosed = 8; // placeholder
 
   // to be defined - port numbers are placeholders
   public static int rearElevatorMotor = 5;
