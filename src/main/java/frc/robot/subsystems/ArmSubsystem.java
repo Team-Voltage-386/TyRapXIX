@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.RobotMap;
+import frc.robot.commands.ArmManualControl;
 
 /**
  * Add your docs here.
@@ -52,15 +53,16 @@ public class ArmSubsystem extends Subsystem {
     hatchLevelOne, hatchLevelTwo, hatchLevelThree;
   }
 
-  public void shoulderManual() {
-    leftShoulder.set(OI.xboxManipControl.getRawAxis(RobotMap.manipLeftJoystickVertical));
-    // just needs to be a way to drive the motors from joystick inputs (getRawAxis)
-    // add in limit switches after that
-  }
+  // public void shoulderManual() {
+  // leftShoulder.set(OI.xboxManipControl.getRawAxis(RobotMap.manipLeftJoystickVertical));
+  // // just needs to be a way to drive the motors from joystick inputs
+  // (getRawAxis)
+  // // add in limit switches after that
+  // }
 
-  public void elbowManual() {
-    elbowMotor.set(OI.xboxManipControl.getRawAxis(RobotMap.manipRightJoystickVertical));
-  }
+  // public void elbowManual() {
+  // elbowMotor.set(OI.xboxManipControl.getRawAxis(RobotMap.manipRightJoystickVertical));
+  // }
 
   public void setLevel(Levels in) {
     switch (in) {
@@ -103,7 +105,7 @@ public class ArmSubsystem extends Subsystem {
     i += error * ik /* SmartDashboard.getNumber("ik ", 0) */;
     d = errorChange * dk /* SmartDashboard.getNumber("dk ", 0) */;
     speed = p + i + d;
-    setArmMotorSpeed(speed);
+    setShoulderMotorSpeed(speed);
     SmartDashboard.putNumber("ArmMotorSpeed", speed);
     prevError = error;
     if (getBottomLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
@@ -111,8 +113,12 @@ public class ArmSubsystem extends Subsystem {
     }
   }
 
-  public void setArmMotorSpeed(double speed) {
+  public void setShoulderMotorSpeed(double speed) {
     leftShoulder.set(speed);
+  }
+
+  public void setElbowMotorSpeed(double speed) {
+    elbowMotor.set(speed);
   }
 
   public double getArmEncoder() {
@@ -132,5 +138,6 @@ public class ArmSubsystem extends Subsystem {
 
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new ArmManualControl());
   }
 }
