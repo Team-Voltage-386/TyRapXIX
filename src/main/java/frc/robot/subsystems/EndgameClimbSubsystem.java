@@ -19,9 +19,9 @@ public class EndgameClimbSubsystem extends Subsystem {
 
   private Spark leftClimbArm = new Spark(RobotMap.leftClimbArm);
   private Spark rightClimbArm = new Spark(RobotMap.rightClimbArm);
-  private Spark climbLegMotors = new Spark(RobotMap.rearElevatorMotor);
-  private Spark climbLegWheels = new Spark(RobotMap.elevatorDriveWheels);
-  private DigitalInput climbLegsLimitSwitch = new DigitalInput(100); // Temporary Port Number for Limit Switch
+  private Spark climbElevatorMotor = new Spark(RobotMap.rearElevatorMotor);
+  private Spark climbElevatorWheels = new Spark(RobotMap.elevatorDriveWheels);
+  private DigitalInput elevatorLimitSwitch = new DigitalInput(100); // Temporary Port Number for Limit Switch
 
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -37,16 +37,16 @@ public class EndgameClimbSubsystem extends Subsystem {
     rightClimbArm.set(speed);
   }
 
-  public void setClimbLegSpeed(double speed) {
-    climbLegMotors.set(speed);
+  public void setElevatorSpeed(double speed) {
+    climbElevatorMotor.set(speed);
   }
 
-  public void setClimbWheelsSpeed(double speed) {
-    climbLegWheels.set(speed);
+  public void setElevatorWheelsSpeed(double speed) {
+    climbElevatorWheels.set(speed);
   }
 
-  public boolean getClimbLegsLimitSwitch() {
-    return climbLegsLimitSwitch.get();
+  public boolean getElevatorLimitSwitch() {
+    return elevatorLimitSwitch.get();
   }
 
 }

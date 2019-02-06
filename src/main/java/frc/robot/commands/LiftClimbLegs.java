@@ -30,7 +30,7 @@ public class LiftClimbLegs extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem.setClimbLegSpeed(0.5);
+    Robot.endgameClimbSubsystem.setElevatorSpeed(0.3); // arbitrary speed for now
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -7,15 +7,15 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ClimbPhaseOne extends Command {
+public class DeployClimbArms extends Command {
 
-  private double error;
-  private final double k = 0;
+  private double startTime;
 
-  public ClimbPhaseOne() {
+  public DeployClimbArms() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.endgameClimbSubsystem);
@@ -24,20 +24,19 @@ public class ClimbPhaseOne extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    startTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    error = Robot.driveSubsystem.getPigeonYPR()[1];
-    Robot.endgameClimbSubsystem.setClimbArmSpeeds(0.5 + (k * error)); // 0.5 is an arbitrary value for now
-    Robot.endgameClimbSubsystem.setElevatorSpeed(0.5 - (k * error)); // 0.5 is an arbitrary value for now
+    Robot.endgameClimbSubsystem.setClimbArmSpeeds(0.3); // arbitrary speed for now
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.endgameClimbSubsystem.getElevatorLimitSwitch();
+    return Timer.getFPGATimestamp() - startTime > 3;
   }
 
   // Called once after isFinished returns true

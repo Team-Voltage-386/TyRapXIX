@@ -7,7 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class EndgameClimbGroup extends CommandGroup {
@@ -31,8 +30,10 @@ public class EndgameClimbGroup extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
+
+    addSequential(new DeployClimbArms());
     addSequential(new ClimbPhaseOne());
-    addSequential(new UltrasonicDrive(30));
+    addSequential(new UltrasonicDriveElevatorWheels(30));
     addSequential(new LiftClimbLegs());
 
   }
