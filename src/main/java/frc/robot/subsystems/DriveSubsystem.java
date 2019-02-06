@@ -12,7 +12,9 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,6 +41,9 @@ public class DriveSubsystem extends Subsystem {
   private static DifferentialDrive differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
+
+  private static AnalogInput driveUltrasonic = new AnalogInput(3);
+  private static AnalogInput petentiometer = new AnalogInput(2);
 
   public DriveSubsystem() {
     slaveLeft.follow(frontLeft);
@@ -100,4 +105,17 @@ public class DriveSubsystem extends Subsystem {
   public void resetPigeon() {
     pigeon.setYaw(0);
   }
+
+  public double getUltrasonicVoltage() {
+    return driveUltrasonic.getAverageVoltage();
+  }
+
+  public double getUltrasonicDistance() {
+    return driveUltrasonic.getAverageVoltage(); // Needs to add distance conversion to inches frmo voltage
+  }
+
+  public double getPetentiometerVoltage() {
+    return petentiometer.getAverageVoltage();
+  }
+
 }

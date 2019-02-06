@@ -10,15 +10,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class UltrasonicDrive extends Command {
+public class ClimbPhaseOne extends Command {
 
-  double distanceGoalInches;
+  private double error;
+  private final double k = 0;
 
-  public UltrasonicDrive(double goal) {
+  public ClimbPhaseOne() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.driveSubsystem);
-    distanceGoalInches = goal;
+    requires(Robot.endgameClimbSubsystem);
   }
 
   // Called just before this Command runs the first time
@@ -29,13 +29,15 @@ public class UltrasonicDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveSubsystem.driveArcade(0.5, 0);
+    error = Robot.driveSubsystem.getPigeonYPR()[1];
+    Robot.endgameClimbSubsystem.setClimbArmSpeeds(0.5 + (k * error)); // 0.5 is an arbitrary value for now
+    Robot.endgameClimbSubsystem.setClimbLegSpeed(0.5 - (k * error)); // 0.5 is an arbitrary value for now
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.driveSubsystem.getUltrasonicDistance() < distanceGoalInches;
+    return Robot.endgameClimbSubsystem.getClimbLegsLimitSwitch();
   }
 
   // Called once after isFinished returns true
