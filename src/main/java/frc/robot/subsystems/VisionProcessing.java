@@ -45,102 +45,105 @@ public class VisionProcessing extends Subsystem {
     usbCamera.setFPS(30);
     usbCamera.setExposureManual(15);
   }
+
   public UsbCamera usbCamera = CameraServer.getInstance().startAutomaticCapture();
-  
-  //public AxisCamera axisCamera = CameraServer.getInstance().addAxisCamera("10.3.86.23");
+
+  // public AxisCamera axisCamera =
+  // CameraServer.getInstance().addAxisCamera("10.3.86.23");
   public CvSink cvSink = CameraServer.getInstance().getVideo();
   public CvSource HSVOutputStream = CameraServer.getInstance().putVideo("Final", resolutionWidth, resolutionHeight);
   public CvSource TestOutputStream = CameraServer.getInstance().putVideo("Edges", resolutionWidth, resolutionHeight);
 
-	public Mat base = new Mat();
-	public Mat mat = new Mat();
-	Mat grey = new Mat();
+  public Mat base = new Mat();
+  public Mat mat = new Mat();
+  Mat grey = new Mat();
   Mat edges = new Mat();
   Mat hierarchy;
 
-	Size blurSize = new Size(9, 9);
-	Scalar colorStart = new Scalar(50, 100, 50);
-	Scalar colorEnd = new Scalar(150, 255, 255);
-	Size erodeSize = new Size(10, 10);
-	Size dilateSize = new Size(10, 10);
+  Size blurSize = new Size(9, 9);
+  Scalar colorStart = new Scalar(50, 100, 50);
+  Scalar colorEnd = new Scalar(150, 255, 255);
+  Size erodeSize = new Size(10, 10);
+  Size dilateSize = new Size(10, 10);
   Size edgeDilateSize = new Size(4, 4);
 
-  public double getAngle(RotatedRect calculatedRect){
-    if(calculatedRect.size.width < calculatedRect.size.height){
-      return calculatedRect.angle+90;
-    }else{
+  public double getAngle(RotatedRect calculatedRect) {
+    if (calculatedRect.size.width < calculatedRect.size.height) {
+      return calculatedRect.angle + 90;
+    } else {
       return calculatedRect.angle;
     }
   }
 
-  public ArrayList<RotatedRect> sortRectX(ArrayList<RotatedRect> rects){
+  public ArrayList<RotatedRect> sortRectX(ArrayList<RotatedRect> rects) {
     int n = rects.size(), min;
     RotatedRect temp;
 
-    for(int i = 0 ; i<n-1 ; i++){
-			min = i;
+    for (int i = 0; i < n - 1; i++) {
+      min = i;
 
-			for(int j = i+1 ; j<n ; j++){
-				if(rects.get(j).center.x < rects.get(min).center.x){
-					min = j;
-				}
-			}
+      for (int j = i + 1; j < n; j++) {
+        if (rects.get(j).center.x < rects.get(min).center.x) {
+          min = j;
+        }
+      }
 
-			if(min!=i){
-				temp = rects.get(min);
-				rects.set(min, rects.get(i));
-				rects.set(i, temp);
-			}
-				
-		}
+      if (min != i) {
+        temp = rects.get(min);
+        rects.set(min, rects.get(i));
+        rects.set(i, temp);
+      }
+
+    }
 
     return rects;
   }
-  
-  public ArrayList<RotatedRect[]> visionProcess(){
 
-    //Recive the inital image
+  public ArrayList<RotatedRect[]> visionProcess() {
+
+    // Recive the inital image
     cvSink.grabFrame(base);
 
-    //Set up ArrayList for pairs
-    ArrayList<RotatedRect[]> pairs = new ArrayList<RotatedRect[]>(); 
+    // Set up ArrayList for pairs
+    ArrayList<RotatedRect[]> pairs = new ArrayList<RotatedRect[]>();
     RotatedRect[] pair = new RotatedRect[2];
 
-    if(!base.empty()){
-      //Blurs the image for ease of processing
+    if (!base.empty()) {
+      // Blurs the image for ease of processing
       Imgproc.blur(base, mat, blurSize);
-      //Converts from the RGB scale to HSV because HSV is more useful
+      // Converts from the RGB scale to HSV because HSV is more useful
       Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2HSV);
-      //COnverst Mat to a black and white image where pixils in the given range appear white
+      // COnverst Mat to a black and white image where pixils in the given range
+      // appear white
       Core.inRange(mat, colorStart, colorEnd, mat);
-    
+
       List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
       hierarchy = new Mat();
 
-      //Find contours
+      // Find contours
       Imgproc.findContours(mat, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
 
       ArrayList<RotatedRect> rects = new ArrayList<>();
 
-      for(int i = 0 ; i < contours.size() ; i++){
+      for (int i = 0; i < contours.size(); i++) {
         RotatedRect rect = Imgproc.minAreaRect(new MatOfPoint2f(contours.get(i).toArray()));
         rects.add(rect);
       }
 
-      for(int i = 0 ; i<rects.size() ; i++){
+      for (int i = 0; i < rects.size(); i++) {
         Point[] vertices = new Point[4];
         rects.get(i).points(vertices);
         MatOfPoint points = new MatOfPoint(vertices);
-        Imgproc.drawContours(base, Arrays.asList(points), -1, new Scalar(i*(255/rects.size()),255,255), 2);
+        Imgproc.drawContours(base, Arrays.asList(points), -1, new Scalar(i * (255 / rects.size()), 255, 255), 2);
       }
 
       rects = sortRectX(rects);
 
-      for(int i = 0 ; i<rects.size()-1 ; i++){
-        if(getAngle(rects.get(i))<0 && getAngle(rects.get(i+1))>0){
+      for (int i = 0; i < rects.size() - 1; i++) {
+        if (getAngle(rects.get(i)) < 0 && getAngle(rects.get(i + 1)) > 0) {
           pair = new RotatedRect[2];
           pair[0] = rects.get(i);
-          pair[1] = rects.get(i+1);
+          pair[1] = rects.get(i + 1);
           pairs.add(pair);
           i++;
         }
@@ -148,14 +151,18 @@ public class VisionProcessing extends Subsystem {
 
       SmartDashboard.putNumber("Number of Pairs", pairs.size());
 
-      for(int i = 0 ; i<pairs.size() ; i++){
-        Imgproc.line(base, pairs.get(i)[0].center, pairs.get(i)[1].center, new Scalar(0,255,255));
+      for (int i = 0; i < pairs.size(); i++) {
+        Imgproc.line(base, pairs.get(i)[0].center, pairs.get(i)[1].center, new Scalar(0, 255, 255));
       }
-          
+
       HSVOutputStream.putFrame(base);
       TestOutputStream.putFrame(mat);
     }
     return pairs;
+  }
+
+  public static double getPairCenter(RotatedRect[] pair) {
+    return (pair[0].center.x + pair[1].center.x) / 2;
   }
 
   @Override

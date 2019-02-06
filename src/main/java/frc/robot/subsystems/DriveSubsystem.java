@@ -55,7 +55,7 @@ public class DriveSubsystem extends Subsystem {
   public static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
   private static final int NO_TIMEOUT = 0;
 
-  public DriveSubsystem(){
+  public DriveSubsystem() {
     slaveLeft.follow(frontLeft);
     slaveRight.follow(frontRight);
     shifter.set(DoubleSolenoid.Value.kForward);
@@ -88,9 +88,9 @@ public class DriveSubsystem extends Subsystem {
     differentialDrive.arcadeDrive(xSpeed, zRotation);
   }
 
-  public void straightDrive(){
+  public void straightDrive() {
     double p = (Robot.driveSubsystem.getPigeonYPR()[0]) * -0.01;
-    Robot.driveSubsystem.driveTank(-.5+p,-.5-p); 
+    Robot.driveSubsystem.driveTank(-.5 + p, -.5 - p);
   }
 
   public void displayDiagnostics() {
@@ -106,16 +106,16 @@ public class DriveSubsystem extends Subsystem {
     }
   }
 
-  public void resetEncoder(){
+  public void resetEncoder() {
     frontLeft.setSelectedSensorPosition(0, 0, 10);
     frontRight.setSelectedSensorPosition(0, 0, 10);
   }
 
-  public void pTurn(int goal){
+  public void pTurn(int goal) {
     double p = (getPigeonYPR()[0] - goal) * -0.01;
-    driveTank(p,-1*p);
+    driveTank(p, -1 * p);
   }
-  
+
   public void resetEncoders() {
     frontLeft.setSelectedSensorPosition(RobotMap.ENCODER_PORT, 0, ENCODER_TIMEOUT);
     frontRight.setSelectedSensorPosition(RobotMap.ENCODER_PORT, 0, ENCODER_TIMEOUT);

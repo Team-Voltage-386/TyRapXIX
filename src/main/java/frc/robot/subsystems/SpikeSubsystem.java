@@ -26,16 +26,19 @@ public class SpikeSubsystem extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
-  public void spikeToggle(){
-    if(lightRelay.get()==Relay.Value.kOff){
+  public SpikeSubsystem() {
+    lightRelay.set(Relay.Value.kForward);
+  }
+
+  public void spikeToggle() {
+    if (lightRelay.get() == Relay.Value.kOff) {
       lightRelay.set(Relay.Value.kForward);
-    }
-    else if(lightRelay.get()==Relay.Value.kForward){
+    } else if (lightRelay.get() == Relay.Value.kForward) {
       lightRelay.set(Relay.Value.kOff);
     }
   }
 
-  public void lightSwitch(){
+  public void lightSwitch() {
     lightRelay.set(Relay.Value.kForward);
   }
 }

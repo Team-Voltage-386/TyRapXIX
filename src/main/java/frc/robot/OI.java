@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.DriveToTarget;
 import frc.robot.commands.ResetYaw;
 import frc.robot.commands.Shifter;
 import frc.robot.commands.SpikeLight;
@@ -51,16 +52,18 @@ public class OI {
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
-  Button a = new JoystickButton(xboxDriveControl,1);
-  Button rightBumper = new JoystickButton(xboxDriveControl,6);
+  Button a = new JoystickButton(xboxDriveControl, 1);
+  Button rightBumper = new JoystickButton(xboxDriveControl, 6);
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
+  Button driveToTargetButton = new JoystickButton(xboxDriveControl, 3);
 
-  public OI(){
+  public OI() {
     a.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new SpikeLight());
     rightBumper.whileHeld(new TurnToTarget());
     shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
+    driveToTargetButton.whenPressed(new DriveToTarget());
   }
 }

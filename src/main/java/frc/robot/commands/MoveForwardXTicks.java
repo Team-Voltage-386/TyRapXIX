@@ -32,7 +32,7 @@ public class MoveForwardXTicks extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveSubsystem.driveTank(-.5,-.5);
+    Robot.driveSubsystem.driveTank(-.5, -.5);
     SmartDashboard.putNumber("Left Encoder Value", Robot.driveSubsystem.getLeftEncoder());
     SmartDashboard.putNumber("Right Encoder Value", Robot.driveSubsystem.getRightEncoder());
   }
@@ -46,7 +46,7 @@ public class MoveForwardXTicks extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.driveSubsystem.driveTank(0,0);
+    Robot.driveSubsystem.driveTank(0, 0);
   }
 
   // Called when another command which requires one or more of the same

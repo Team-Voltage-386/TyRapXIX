@@ -19,8 +19,8 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.VisionProcessing;
 
-public class TurnToTarget extends Command {
-  public TurnToTarget() {
+public class DriveToTarget extends Command {
+  public DriveToTarget() {
     requires(Robot.visionProcessing);
     requires(Robot.driveSubsystem);
     requires(Robot.spikeSubsystem);
@@ -74,16 +74,13 @@ public class TurnToTarget extends Command {
       i += error * SmartDashboard.getNumber("ki", 0);
       d = (error - prevError) * SmartDashboard.getNumber("kd", 0);
 
-      Robot.driveSubsystem.driveTank(
-          (-.8 * OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical) + p + d + i),
-          -OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical) - p - d - i);
+      Robot.driveSubsystem.driveTank((-.8 * .75 + p + d + i), -.75 - p - d - i);
 
       SmartDashboard.putNumber("Error", error);
       SmartDashboard.putNumber("Center of Pair", VisionProcessing.getPairCenter(bestPair));
 
     } else {
-      Robot.driveSubsystem.driveTank(-0.8 * OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical),
-          -OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical));
+      Robot.driveSubsystem.driveTank(0, 0);
 
       SmartDashboard.putNumber("Error", 0);
       SmartDashboard.putNumber("Center of Pair", -1);

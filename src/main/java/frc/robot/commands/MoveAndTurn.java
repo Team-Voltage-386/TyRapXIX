@@ -34,6 +34,6 @@ public class MoveAndTurn extends CommandGroup {
 
     SmartDashboard.putString("Move", "forward");
     addSequential(new StraightDrive(10000));
-    
+
   }
 }
