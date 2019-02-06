@@ -41,4 +41,8 @@ public class SpikeSubsystem extends Subsystem {
   public void lightSwitch() {
     lightRelay.set(Relay.Value.kForward);
   }
+
+  public Relay.Value getState() {
+    return lightRelay.get();
+  }
 }
