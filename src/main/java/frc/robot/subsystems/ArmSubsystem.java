@@ -107,7 +107,11 @@ public class ArmSubsystem extends Subsystem {
     }
   }
 
-  // Set Arm Motor Speed Method
+  /**
+   * Set the arm motor speed to the specified value.
+   * 
+   * @param speed Values are between 0.0 and 1.0.
+   */
   public void setArmMotorSpeed(double speed) {
     armMotorMaster.set(speed);
   }
@@ -122,7 +126,14 @@ public class ArmSubsystem extends Subsystem {
     armMotorMaster.setSelectedSensorPosition(0, 0, 10);
   }
 
-  // Get Bottom Limit Switch Boolean (False = Pressed, True = Not Pressed)
+  /**
+   * Get bottom limit switch state.
+   * 
+   * The bottom limit switch is used to halt the arm motor once it is in its
+   * lowest position.
+   * 
+   * @return false if ressed, true if not pressed.
+   */
   public boolean getBottomLimitSwitch() {
     return bottomLimitSwitch.get();
   }
