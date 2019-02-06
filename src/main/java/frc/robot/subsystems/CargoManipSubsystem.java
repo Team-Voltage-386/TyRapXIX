@@ -9,12 +9,43 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.RobotMap;
+
 /**
  * Add your docs here.
  */
 public class CargoManipSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  public static DoubleSolenoid beakRetract = new DoubleSolenoid(RobotMap.beakRetractOpen, RobotMap.beakRetractClosed);
+
+  public static WPI_TalonSRX cargoRollers = new WPI_TalonSRX(RobotMap.cargoCapture);
+
+  double FORWARD_SPEED = .5;
+  double REVERSE_SPEED = -.5;
+
+  public CargoManipSubsystem() {
+  }
+
+  public enum CargoScoringStates {
+    rollersIn, rollersOut;
+  }
+
+  public void setState(CargoScoringStates in) {
+    switch (in) {
+    case rollersIn:
+      cargoRollers.set(FORWARD_SPEED);
+      break;
+    case rollersOut:
+      cargoRollers.set(REVERSE_SPEED);
+      break;
+    default:
+      break;
+    }
+  }
 
   @Override
   public void initDefaultCommand() {

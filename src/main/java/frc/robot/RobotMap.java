@@ -72,7 +72,7 @@ public class RobotMap {
   public static int leftShoulderMotor = 6;
   public static int rightShoulderMotor = 7;
   public static int elbowMotor = 8;
-  public static int cargoRollerMotor = 9; // change to cargoCapture
+  public static int cargoCapture = 9;
   // encoders
   public static int shoulderEncoder = 0;
   public static int rearElevatorEncoder = 1;
