@@ -13,8 +13,6 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 public class ArcadeDrive extends Command {
-  private static final double BRAKESPEED_MULTIPLIER = .8;
-
   public ArcadeDrive() {
     requires(Robot.driveSubsystem);
     // Use requires() here to declare subsystem dependencies
@@ -28,19 +26,12 @@ public class ArcadeDrive extends Command {
 
   }
 
-  // this puts it at regular speed with a slowdown button
-  /*
-   * @Override protected void execute() { double xSpeed =
-   * OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical); double
-   * zRotation =
-   * OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
-   * Robot.driveSubsystem.driveArcade(xSpeed, zRotation); }
-   */
-
+  // Called repeatedly when this Command is scheduled to run
+  @Override
   protected void execute() {
     double xSpeed = OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical);
     double zRotation = OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
-    Robot.driveSubsystem.driveArcade(xSpeed * BRAKESPEED_MULTIPLIER * -1, zRotation);
+    Robot.driveSubsystem.driveArcade(xSpeed, zRotation);
   }
 
   // Make this return true when this Command no longer needs to run execute()
