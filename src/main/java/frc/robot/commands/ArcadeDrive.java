@@ -13,7 +13,13 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 public class ArcadeDrive extends Command {
-  public ArcadeDrive() {
+  /**
+	 *
+	 */
+	
+	private static final double SPEEEED_REDUCTION = 0.8;
+
+public ArcadeDrive() {
     requires(Robot.driveSubsystem);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -31,7 +37,7 @@ public class ArcadeDrive extends Command {
   protected void execute() {
     double xSpeed = OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical);
     double zRotation = OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
-    Robot.driveSubsystem.driveArcade(xSpeed * -1, zRotation);
+    Robot.driveSubsystem.driveArcade(xSpeed * -1 * SPEEEED_REDUCTION, zRotation);
   }
 
   // Make this return true when this Command no longer needs to run execute()
