@@ -13,6 +13,8 @@ import frc.robot.OI;
 import frc.robot.RobotMap;
 
 public class SlowDown extends Command {
+  private static final double BRAKESPEED_MULTIPLIER = .8;
+
   public SlowDown() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -29,7 +31,7 @@ public class SlowDown extends Command {
   protected void execute() {
     double xSpeed = OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical);
     double zRotation = OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
-    xSpeed = xSpeed * .8;
+    xSpeed = xSpeed * BRAKESPEED_MULTIPLIER;
     Robot.driveSubsystem.driveArcade(xSpeed, zRotation);
   }
 
