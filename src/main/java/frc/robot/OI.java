@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.ResetYaw;
 import frc.robot.commands.Shifter;
+import frc.robot.commands.SlowDown;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -49,10 +50,12 @@ public class OI {
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
+  Button arcadeDriveSlowButton = new JoystickButton(xboxDriveControl, RobotMap.boostButton);
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
 
   public OI() {
+    arcadeDriveSlowButton.whileHeld(new SlowDown());
     shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
   }
