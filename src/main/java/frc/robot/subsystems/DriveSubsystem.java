@@ -32,13 +32,6 @@ public class DriveSubsystem extends Subsystem {
   private static WPI_TalonSRX slaveLeft = new WPI_TalonSRX(RobotMap.rearLeftFollower);
   private static WPI_VictorSPX slaveRight = new WPI_VictorSPX(RobotMap.rearRightFollower);
 
-  public static final double DEFAULT_SPEED_MULTIPLIER = 0.75;
-  public static final double BOOST_SPEED_MULTIPLIER = 1.0;
-  public static final double FAST_AUTO_MODE_SPEED = 0.9;// .75
-  public static final double SLOW_AUTO_MODE_SPEED = 0.5;
-  public static double speedMultiplier = BOOST_SPEED_MULTIPLIER;
-  public static final double DEAD_BAND_LIMIT = 0.0001;
-
   public static int ENCODER_TIMEOUT = 10; // in milliseconds
 
   private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterLow, RobotMap.shifterHigh);
