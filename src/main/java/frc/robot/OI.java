@@ -61,7 +61,7 @@ public class OI {
   public OI() {
     a.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new SpikeLight());
-    rightBumper.whileHeld(new TurnToTarget());
+    rightBumper.whenPressed(new TurnToTarget());
     shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
     driveToTargetButton.whenPressed(new DriveToTarget());

@@ -29,7 +29,7 @@ public class TurnToTarget extends Command {
   ArrayList<RotatedRect[]> pairs = new ArrayList<RotatedRect[]>();
   RotatedRect[] bestPair;
   double prevError, error = 0, p, kp, d, kd, i, ki;
-  double bestPairChange;
+  double bestPairChange, center;
   int indx;
   boolean best;
 
@@ -41,30 +41,53 @@ public class TurnToTarget extends Command {
     Robot.driveSubsystem.resetPigeon();
     pairs = Robot.visionProcessing.visionProcess();
     Robot.spikeSubsystem.lightSwitch();
-    i = 0;
-  }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
-    SmartDashboard.putString("Don't", "Execute");
-    pairs = Robot.visionProcessing.visionProcess();
+    center = (Robot.visionProcessing.base.width() / 2) - 20;
 
     if (pairs.size() > 0) {
-
-      bestPair = new RotatedRect[2];
       bestPair = pairs.get(0);
-
       for (int i = 0; i < pairs.size(); i++) {
-        if (Math.abs((Robot.visionProcessing.base.width() / 2) - (VisionProcessing.getPairCenter(pairs.get(i)))) <= Math
-            .abs((Robot.visionProcessing.base.width() / 2) - (VisionProcessing.getPairCenter(bestPair)))) {
+        if (Math.abs(center - (VisionProcessing.getPairCenter(pairs.get(i)))) <= Math
+            .abs(center - (VisionProcessing.getPairCenter(bestPair)))) {
           bestPair = pairs.get(i);
           best = true;
           indx = i;
         }
       }
+    }
+  }
+
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
+
+    SmartDashboard.putString("Don't", "Execute");
+    pairs = Robot.visionProcessing.visionProcess();
+
+    if (pairs.size() > 0 && best) {
+
+      bestPairChange = Math
+          .abs(VisionProcessing.getPairCenter(pairs.get(0)) - VisionProcessing.getPairCenter(bestPair));
 
       SmartDashboard.putNumber("Pair Indx", indx);
+      SmartDashboard.putNumber("Number of pairs", pairs.size());
+
+      for (int i = 0; i < pairs.size(); i++) {
+        if (Math.abs(
+            VisionProcessing.getPairCenter(pairs.get(i)) - VisionProcessing.getPairCenter(bestPair)) < bestPairChange) {
+          indx = i;
+          bestPairChange = Math
+              .abs(VisionProcessing.getPairCenter(pairs.get(indx)) - VisionProcessing.getPairCenter(bestPair));
+        }
+
+      }
+
+      try {
+        bestPair = pairs.get(indx);
+      } catch (Exception e) {
+        SmartDashboard.putString("Exception:", e + "");
+      }
+
       SmartDashboard.putNumber("Center of Screen", Robot.visionProcessing.base.width() / 2);
 
       prevError = error;
@@ -94,7 +117,7 @@ public class TurnToTarget extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return !OI.xboxDriveControl.getRawButton(6);
   }
 
   // Called once after isFinished returns true
