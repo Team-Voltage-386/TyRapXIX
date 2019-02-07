@@ -42,7 +42,7 @@ public class TurnToTarget extends Command {
     pairs = Robot.visionProcessing.visionProcess();
     Robot.spikeSubsystem.lightSwitch();
 
-    center = (Robot.visionProcessing.base.width() / 2) - 20;
+    center = (Robot.visionProcessing.base.width() / 2);
 
     if (pairs.size() > 0) {
       bestPair = pairs.get(0);
