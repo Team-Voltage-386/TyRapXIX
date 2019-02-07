@@ -13,13 +13,9 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 public class ArcadeDrive extends Command {
-  /**
-	 *
-	 */
-	
-	private static final double SPEEEED_REDUCTION = 0.8;
+  private static final double SPEEEED_REDUCTION = 0.8;
 
-public ArcadeDrive() {
+  public ArcadeDrive() {
     requires(Robot.driveSubsystem);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
