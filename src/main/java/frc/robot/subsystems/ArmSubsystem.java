@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.commands.ArmManualControl;
 
 /**
  * Add your docs here.
@@ -30,13 +31,14 @@ public class ArmSubsystem extends Subsystem {
   private final int HATCH_LEVEL_TWO_TICKS = 100;
   private final int HATCH_LEVEL_THREE_TICKS = 100;
 
-  WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
-  WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
+  private static WPI_TalonSRX leftShoulder = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
+  private static WPI_TalonSRX rightShoulder = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
+  public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
 
   DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
 
   public ArmSubsystem() {
-    armMotorFollower.follow(armMotorMaster);
+    leftShoulder.follow(rightShoulder);
     prevError = 0;
     p = 0;
     i = 0;
@@ -93,7 +95,7 @@ public class ArmSubsystem extends Subsystem {
     i += error * ik /* SmartDashboard.getNumber("ik ", 0) */;
     d = errorChange * dk /* SmartDashboard.getNumber("dk ", 0) */;
     speed = p + i + d;
-    setArmMotorSpeed(speed);
+    setShoulderMotorSpeed(speed);
     SmartDashboard.putNumber("ArmMotorSpeed", speed);
     prevError = error;
     if (getBottomLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
@@ -101,16 +103,20 @@ public class ArmSubsystem extends Subsystem {
     }
   }
 
-  public void setArmMotorSpeed(double speed) {
-    armMotorMaster.set(speed);
+  public void setShoulderMotorSpeed(double speed) {
+    leftShoulder.set(speed);
+  }
+
+  public void setElbowMotorSpeed(double speed) {
+    elbowMotor.set(speed);
   }
 
   public double getArmEncoder() {
-    return armMotorMaster.getSelectedSensorPosition();
+    return leftShoulder.getSelectedSensorPosition();
   }
 
   public void resetEncoder() {
-    armMotorMaster.setSelectedSensorPosition(0, 0, 10);
+    leftShoulder.setSelectedSensorPosition(0, 0, 10);
   }
 
   public boolean getBottomLimitSwitch() {
@@ -121,5 +127,6 @@ public class ArmSubsystem extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new ArmManualControl());
   }
 }

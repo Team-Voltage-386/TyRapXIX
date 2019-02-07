@@ -83,6 +83,9 @@ public class RobotMap {
   // drive user inputs
   public static int driveLeftJoystickVertical = 1;
   public static int driveRightJoystickHorizontal = 4;
+  // manip user inputs
+  public static int manipLeftJoystickVertical = 1;
+  public static int manipRightJoystickVertical = 5;
 
   // limit switches
   public static int bottomArmLimitSwitch = 4;
