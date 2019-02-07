@@ -50,7 +50,7 @@ public class OI {
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
-  Button arcadeDriveSlowButton = new JoystickButton(xboxDriveControl, RobotMap.boostButton);
+  Button arcadeDriveSlowButton = new JoystickButton(xboxDriveControl, RobotMap.slowButton);
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
 
