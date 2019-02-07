@@ -86,6 +86,8 @@ public class RobotMap {
   public static int driveRightEncoder = 4;
   // drive user inputs
   public static int driveLeftJoystickVertical = 1;
+  public static int speedModButton = 6;
+
   public static int driveRightJoystickHorizontal = 4;
 
   // limit switches

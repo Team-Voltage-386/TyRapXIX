@@ -8,39 +8,30 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.OI;
 import frc.robot.RobotMap;
 
-public class ArcadeDrive extends Command {
+public class SlowDown extends Command {
   private static final double BRAKESPEED_MULTIPLIER = .8;
 
-  public ArcadeDrive() {
-    requires(Robot.driveSubsystem);
+  public SlowDown() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.driveSubsystem);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    // Called repeatedly when this Command is scheduled to run
-
   }
 
-  // this puts it at regular speed with a slowdown button
-  /*
-   * @Override protected void execute() { double xSpeed =
-   * OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical); double
-   * zRotation =
-   * OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
-   * Robot.driveSubsystem.driveArcade(xSpeed, zRotation); }
-   */
-
+  // Called repeatedly when this Command is scheduled to run
+  @Override
   protected void execute() {
     double xSpeed = OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical);
     double zRotation = OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
-    Robot.driveSubsystem.driveArcade(xSpeed * BRAKESPEED_MULTIPLIER * -1, zRotation);
+    Robot.driveSubsystem.driveArcade(xSpeed * BRAKESPEED_MULTIPLIER, zRotation);
   }
 
   // Make this return true when this Command no longer needs to run execute()
