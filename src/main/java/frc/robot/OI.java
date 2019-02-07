@@ -10,8 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.ClimbPhaseOne;
+import frc.robot.commands.DeployClimbArms;
+import frc.robot.commands.LiftClimbLegs;
 import frc.robot.commands.ResetYaw;
 import frc.robot.commands.Shifter;
+import frc.robot.commands.UltrasonicDriveElevatorWheels;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -52,8 +56,17 @@ public class OI {
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
 
+  Button tempClimbArmsButton = new JoystickButton(xboxManipControl, 1);
+  Button tempClimbPhaseOneButton = new JoystickButton(xboxManipControl, 2);
+  Button tempUltrasonicDriveElevatorWheelsButton = new JoystickButton(xboxManipControl, 3);
+  Button tempLiftClimbLegsButton = new JoystickButton(xboxManipControl, 4);
+
   public OI() {
     shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
+    tempClimbArmsButton.whenPressed(new DeployClimbArms());
+    tempClimbPhaseOneButton.whenPressed(new ClimbPhaseOne());
+    tempUltrasonicDriveElevatorWheelsButton.whenPressed(new UltrasonicDriveElevatorWheels(30));
+    tempLiftClimbLegsButton.whenPressed(new LiftClimbLegs());
   }
 }
