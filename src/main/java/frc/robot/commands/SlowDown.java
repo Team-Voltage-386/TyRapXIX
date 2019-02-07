@@ -31,8 +31,7 @@ public class SlowDown extends Command {
   protected void execute() {
     double xSpeed = OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical);
     double zRotation = OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
-    xSpeed = xSpeed * BRAKESPEED_MULTIPLIER;
-    Robot.driveSubsystem.driveArcade(xSpeed, zRotation);
+    Robot.driveSubsystem.driveArcade(xSpeed * BRAKESPEED_MULTIPLIER, zRotation);
   }
 
   // Make this return true when this Command no longer needs to run execute()
