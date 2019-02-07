@@ -14,6 +14,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 public class ManipulatorCargoMode extends Command {
+
   public ManipulatorCargoMode() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -31,8 +32,11 @@ public class ManipulatorCargoMode extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() { // USES TEMPORARY JOYSTICK HORIZONTAL RIGHT
-    Robot.manipulatorSubsystem
-        .setCargoIntakeSpeed(OI.xboxManipControl.getRawAxis(RobotMap.driveRightJoystickHorizontal));
+    if (OI.xboxManipControl.getRawButton(RobotMap.cargoPickup)) { // 7
+      Robot.manipulatorSubsystem.setCargoIntakeSpeed(0.5);
+    } else if (OI.xboxManipControl.getRawButton(RobotMap.cargoRelease)) { // 8
+      Robot.manipulatorSubsystem.setCargoIntakeSpeed(-0.5);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

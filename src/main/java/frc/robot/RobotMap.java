@@ -86,6 +86,10 @@ public class RobotMap {
   // manip user inputs
   public static int manipLeftJoystickVertical = 1;
   public static int manipRightJoystickVertical = 5;
+  public static int cargoPickup = 5;
+  public static int cargoRelease = 6;
+  public static int beakTriggerOpen = 7;
+  public static int beakTriggerClosed = 8;
 
   // limit switches
   public static int bottomArmLimitSwitch = 4;
