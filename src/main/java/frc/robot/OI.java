@@ -10,10 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.MAXSpeedArcadeDrive;
 import frc.robot.commands.ResetYaw;
 import frc.robot.commands.Shifter;
-import frc.robot.commands.SlowDown;
-import frc.robot.commands.BoostThingy;
 import frc.robot.commands.HatchPickup;
 import frc.robot.commands.HatchRelease;
 import frc.robot.commands.CargoPickup;
@@ -54,10 +53,8 @@ public class OI {
 
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
-  // comment out which one you are or aren't using
-  Button arcadeDriveBoostButton = new JoystickButton(xboxDriveControl, RobotMap.speedModButton);
-  // Button arcadeDriveSlowButton = new JoystickButton(xboxDriveControl,
-  // RobotMap.speedModButton);
+
+  Button maxSpeeedButton = new JoystickButton(xboxDriveControl, RobotMap.speedModButton);
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
   Button cargoPickupButton = new JoystickButton(xboxManipControl, 7); // placeholder - right trigger
@@ -66,8 +63,7 @@ public class OI {
   Button hatchReleaseButton = new JoystickButton(xboxManipControl, 10); // placeholder - left trigger
 
   public OI() {
-    // arcadeDriveSlowButton.whileHeld(new SlowDown());
-    arcadeDriveBoostButton.whileHeld(new BoostThingy());
+    maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
     hatchPickupButton.whenPressed(new HatchPickup());
