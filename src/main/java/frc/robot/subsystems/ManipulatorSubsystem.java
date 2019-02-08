@@ -30,13 +30,21 @@ public class ManipulatorSubsystem extends Subsystem {
   public ManipulatorSubsystem() {
   }
 
+  /** Used in CargoRelease to prevent any hiccups from previous button inputs */
+  public void switchCargoSolenoidStateOpen() {
+    if (beakRetract.get() == Value.kForward) {
+      beakRetract.set(Value.kReverse);
+    } else {
+    }
+  }
+
   /**
    * Used in HatchRelease to ensure the beak isn't spread before the beak closes
    * in case of accidental button press.
    */
   public void switchCargoSolenoidStateClosed() {
-    if (beakRetract.get() == DoubleSolenoid.Value.kReverse) {
-      beakRetract.set(DoubleSolenoid.Value.kForward);
+    if (beakRetract.get() == Value.kReverse) {
+      beakRetract.set(Value.kForward);
     } else {
     }
   }
