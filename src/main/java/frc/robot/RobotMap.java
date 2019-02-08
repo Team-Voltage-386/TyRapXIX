@@ -92,6 +92,8 @@ public class RobotMap {
   public static int cargoRelease = 6;
   public static int beakTriggerOpen = 7;
   public static int beakTriggerClosed = 8;
+  public static int hatchModeButton = 10;
+  public static int cargoModeButton = 9;
 
   // limit switches
   public static int bottomArmLimitSwitch = 4;

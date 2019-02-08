@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 
 public class ManipulatorHatchMode extends Command {
 
@@ -35,15 +36,15 @@ public class ManipulatorHatchMode extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (OI.xboxManipControl.getRawButton(1) && !prevStateOpen) { // TEMP PORT NUMBER
+    if (OI.xboxManipControl.getRawButton(RobotMap.beakTriggerOpen) && !prevStateOpen) { // TEMP PORT NUMBER
       Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
       prevStateOpen = true;
-    } else if (!OI.xboxManipControl.getRawButton(1)) { // TEMP PORT NUMBER
+    } else if (!OI.xboxManipControl.getRawButton(RobotMap.beakTriggerOpen)) { // TEMP PORT NUMBER
       prevStateOpen = false;
-    } else if (OI.xboxManipControl.getRawButton(2) && !prevStateClose) { // TEMP PORT NUMBER
+    } else if (OI.xboxManipControl.getRawButton(RobotMap.beakTriggerClosed) && !prevStateClose) { // TEMP PORT NUMBER
       Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
       prevStateClose = true;
-    } else if (!OI.xboxManipControl.getRawButton(2)) { // TEMP PORT NUMBER
+    } else if (!OI.xboxManipControl.getRawButton(RobotMap.beakTriggerClosed)) { // TEMP PORT NUMBER
       prevStateClose = false;
     }
   }

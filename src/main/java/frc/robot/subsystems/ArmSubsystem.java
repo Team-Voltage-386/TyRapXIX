@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -31,18 +32,42 @@ public class ArmSubsystem extends Subsystem {
   private final int HATCH_LEVEL_TWO_TICKS = 100;
   private final int HATCH_LEVEL_THREE_TICKS = 100;
 
-  private static WPI_TalonSRX leftShoulder = new WPI_TalonSRX(RobotMap.leftShoulderMotor); // TEMP PORT NUMBER
-  private static WPI_TalonSRX rightShoulder = new WPI_TalonSRX(RobotMap.rightShoulderMotor); // TEMP PORT NUMBER
+  private static WPI_TalonSRX shoulderFollower = new WPI_TalonSRX(RobotMap.leftShoulderMotor); // TEMP PORT NUMBER
+  private static WPI_TalonSRX shoulderMaster = new WPI_TalonSRX(RobotMap.rightShoulderMotor); // TEMP PORT NUMBER
   public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor); // TEMP PORT NUMBER
 
   DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch); // TEMP PORT NUMBER
 
+  // TEMP CONSTANTS BELOW
+  private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
+  private static final int PEAK_TIME_MS = 0; /* how long after Peak current to trigger current limit */
+  private static final int CONTIN_CURRENT_AMPS = 25; /* hold current after limit is triggered */
+  private static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
+  // TEMP CONSTANTS ABOVE
+
   public ArmSubsystem() {
-    leftShoulder.follow(rightShoulder);
+
     prevError = 0;
     p = 0;
     i = 0;
     d = 0;
+
+    shoulderFollower.follow(shoulderMaster);
+    shoulderMaster.setInverted(true);
+    shoulderFollower.setInverted(InvertType.FollowMaster);
+
+    shoulderMaster.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
+    shoulderMaster.configPeakCurrentDuration(PEAK_TIME_MS); /* this is a necessary call to avoid errata. */
+    shoulderMaster.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
+    shoulderMaster.enableCurrentLimit(true); /* honor initial setting */
+    shoulderMaster.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
+
+    elbowMotor.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
+    elbowMotor.configPeakCurrentDuration(PEAK_TIME_MS); /* this is a necessary call to avoid errata. */
+    elbowMotor.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
+    elbowMotor.enableCurrentLimit(true); /* honor initial setting */
+    elbowMotor.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
+
   }
 
   public enum Levels {
@@ -103,7 +128,7 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public void setShoulderMotorSpeed(double speed) {
-    leftShoulder.set(speed);
+    shoulderMaster.set(speed);
   }
 
   public void setElbowMotorSpeed(double speed) {
@@ -111,11 +136,11 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public double getArmEncoder() {
-    return leftShoulder.getSelectedSensorPosition();
+    return shoulderMaster.getSelectedSensorPosition();
   }
 
   public void resetEncoder() {
-    leftShoulder.setSelectedSensorPosition(0, 0, 10);
+    shoulderMaster.setSelectedSensorPosition(0);
   }
 
   public boolean getBottomLimitSwitch() {

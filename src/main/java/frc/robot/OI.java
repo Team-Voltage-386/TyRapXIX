@@ -53,12 +53,11 @@ public class OI {
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
   Button maxSpeeedButton = new JoystickButton(xboxDriveControl, RobotMap.speedModButton);
-  Button shifterButton = new JoystickButton(xboxDriveControl, 5);
-  Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
-  Button cargoModeButton = new JoystickButton(xboxManipControl, 9);
-  Button hatchModeButton = new JoystickButton(xboxManipControl, 10);
-  Button hatchSolenoidButton = new JoystickButton(xboxManipControl, 1); // Temporary Button Numbers for all buttons not
-                                                                        // using RobotMap
+  Button shifterButton = new JoystickButton(xboxDriveControl, 5); // Needs to use RobotMap
+  Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2); // Needs to use RobotMap
+  Button cargoModeButton = new JoystickButton(xboxManipControl, RobotMap.cargoModeButton);
+  Button hatchModeButton = new JoystickButton(xboxManipControl, RobotMap.hatchModeButton);
+  // Temporary Button Numbers for all buttons not using RobotMap
 
   public OI() {
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
