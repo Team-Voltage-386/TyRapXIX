@@ -12,8 +12,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.subsystems.ManipulatorSubsystem.CargoIntakeDirection;
 
 public class ManipulatorCargoMode extends Command {
+
+  CargoIntakeDirection cargoIntakeDirection = CargoIntakeDirection.cargoOff;
 
   public ManipulatorCargoMode() {
     // Use requires() here to declare subsystem dependencies
@@ -24,19 +27,21 @@ public class ManipulatorCargoMode extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse);
-    Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kReverse); // This Solenoid State may be
-                                                                                     // backwards
+    Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
+    Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() { // USES TEMPORARY JOYSTICK HORIZONTAL RIGHT
-    if (OI.xboxManipControl.getRawButton(RobotMap.cargoPickup)) { // 7
-      Robot.manipulatorSubsystem.setCargoIntakeSpeed(0.5);
-    } else if (OI.xboxManipControl.getRawButton(RobotMap.cargoRelease)) { // 8
-      Robot.manipulatorSubsystem.setCargoIntakeSpeed(-0.5);
+    if (OI.xboxManipControl.getRawButton(RobotMap.cargoPickup)) { // 7 TEMP PORT NUMBER MAYBE BACKWARDS
+      cargoIntakeDirection = CargoIntakeDirection.cargoIn;
+    } else if (OI.xboxManipControl.getRawButton(RobotMap.cargoRelease)) { // 8 TEMP PORT NUMBER MAYBE BACKWARDS
+      cargoIntakeDirection = CargoIntakeDirection.cargoOut;
+    } else {
+      cargoIntakeDirection = CargoIntakeDirection.cargoOff;
     }
+    Robot.manipulatorSubsystem.setCargoIntakeDirection(cargoIntakeDirection);
   }
 
   // Make this return true when this Command no longer needs to run execute()

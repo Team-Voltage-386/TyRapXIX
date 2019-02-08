@@ -15,31 +15,36 @@ import frc.robot.Robot;
 
 public class ManipulatorHatchMode extends Command {
 
-  private boolean prevState;
+  private boolean prevStateOpen, prevStateClose;
 
   public ManipulatorHatchMode() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.manipulatorSubsystem);
-    prevState = false;
+    prevStateOpen = false;
+    prevStateClose = false;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward);
-    Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kForward); // This Solenoid State may be
-                                                                                     // backwards
+    Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
+    Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (OI.xboxManipControl.getRawButton(1) && !prevState) { // TEMPORARY BUTTON PORT NUMBER
-      Robot.manipulatorSubsystem.switchHatchSolenoidState();
-      prevState = true;
-    } else if (!OI.xboxManipControl.getRawButton(1)) { // TEMPORARY BUTTON PORT NUMBER
-      prevState = false;
+    if (OI.xboxManipControl.getRawButton(1) && !prevStateOpen) { // TEMP PORT NUMBER
+      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
+      prevStateOpen = true;
+    } else if (!OI.xboxManipControl.getRawButton(1)) { // TEMP PORT NUMBER
+      prevStateOpen = false;
+    } else if (OI.xboxManipControl.getRawButton(2) && !prevStateClose) { // TEMP PORT NUMBER
+      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
+      prevStateClose = true;
+    } else if (!OI.xboxManipControl.getRawButton(2)) { // TEMP PORT NUMBER
+      prevStateClose = false;
     }
   }
 

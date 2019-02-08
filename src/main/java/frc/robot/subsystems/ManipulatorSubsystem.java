@@ -21,10 +21,13 @@ public class ManipulatorSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  DoubleSolenoid cargoSolenoid = new DoubleSolenoid(RobotMap.beakRetractOpen, RobotMap.beakRetractClosed);
-  DoubleSolenoid hatchSolenoid = new DoubleSolenoid(RobotMap.hatchCaptureOpen, RobotMap.hatchCaptureClosed);
+  DoubleSolenoid cargoSolenoid = new DoubleSolenoid(RobotMap.beakRetractOpen, RobotMap.beakRetractClosed); // TEMP PORT
+                                                                                                           // NUMBERS
+  DoubleSolenoid hatchSolenoid = new DoubleSolenoid(RobotMap.hatchCaptureOpen, RobotMap.hatchCaptureClosed); // TEMP
+                                                                                                             // PORT
+                                                                                                             // NUMBERS
 
-  Spark cargoIntake = new Spark(RobotMap.cargoRollerMotor);
+  Spark cargoIntake = new Spark(RobotMap.cargoRollerMotor); // TEMP PORT NUMBER
 
   @Override
   public void initDefaultCommand() {
@@ -34,6 +37,11 @@ public class ManipulatorSubsystem extends Subsystem {
     setDefaultCommand(new ManipulatorHatchMode());
   }
 
+  public enum CargoIntakeDirection {
+    cargoOut, cargoIn, cargoOff;
+  }
+
+  // Not certain what location each state corresponds to
   public void switchCargoSolenoidState() {
     if (cargoSolenoid.get() == DoubleSolenoid.Value.kForward) {
       cargoSolenoid.set(DoubleSolenoid.Value.kReverse);
@@ -42,6 +50,7 @@ public class ManipulatorSubsystem extends Subsystem {
     }
   }
 
+  // Not Certain what location each state corresponds to
   public void switchHatchSolenoidState() {
     if (hatchSolenoid.get() == DoubleSolenoid.Value.kForward) {
       hatchSolenoid.set(DoubleSolenoid.Value.kReverse);
@@ -60,6 +69,16 @@ public class ManipulatorSubsystem extends Subsystem {
 
   public void setCargoIntakeSpeed(double speed) {
     cargoIntake.set(speed);
+  }
+
+  public void setCargoIntakeDirection(CargoIntakeDirection direction) {
+    if (direction == CargoIntakeDirection.cargoIn) {
+      setCargoIntakeSpeed(0.5); // TEMP MAYBE BACKWARDS
+    } else if (direction == CargoIntakeDirection.cargoOut) {
+      setCargoIntakeSpeed(-0.5); // TEMP MAYBE BACKWARDS
+    } else if (direction == CargoIntakeDirection.cargoOff) {
+      setCargoIntakeSpeed(0);
+    }
   }
 
 }

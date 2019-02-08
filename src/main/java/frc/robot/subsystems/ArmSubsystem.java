@@ -31,11 +31,11 @@ public class ArmSubsystem extends Subsystem {
   private final int HATCH_LEVEL_TWO_TICKS = 100;
   private final int HATCH_LEVEL_THREE_TICKS = 100;
 
-  private static WPI_TalonSRX leftShoulder = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
-  private static WPI_TalonSRX rightShoulder = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
-  public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
+  private static WPI_TalonSRX leftShoulder = new WPI_TalonSRX(RobotMap.leftShoulderMotor); // TEMP PORT NUMBER
+  private static WPI_TalonSRX rightShoulder = new WPI_TalonSRX(RobotMap.rightShoulderMotor); // TEMP PORT NUMBER
+  public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor); // TEMP PORT NUMBER
 
-  DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
+  DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch); // TEMP PORT NUMBER
 
   public ArmSubsystem() {
     leftShoulder.follow(rightShoulder);
@@ -43,7 +43,6 @@ public class ArmSubsystem extends Subsystem {
     p = 0;
     i = 0;
     d = 0;
-
   }
 
   public enum Levels {
