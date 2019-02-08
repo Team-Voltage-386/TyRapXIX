@@ -14,6 +14,8 @@ import frc.robot.Robot;
 public class LiftClimbLegs extends Command {
 
   private double startTime;
+  private final double ELEVATOR_SPEED = 0.3; // TEMP THIS SPEED NEEDS TO BE TESTED
+  private final double SECONDS_TIME_FOR_LIFT_LEGS = 2;
 
   public LiftClimbLegs() {
     // Use requires() here to declare subsystem dependencies
@@ -30,13 +32,13 @@ public class LiftClimbLegs extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem.setElevatorSpeed(0.3); // arbitrary speed for now
+    Robot.endgameClimbSubsystem.setElevatorSpeed(ELEVATOR_SPEED);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Timer.getFPGATimestamp() - startTime > 2.0;
+    return Timer.getFPGATimestamp() - startTime > SECONDS_TIME_FOR_LIFT_LEGS;
   }
 
   // Called once after isFinished returns true

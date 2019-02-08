@@ -56,10 +56,12 @@ public class OI {
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
 
+  // THESE BUTTONS ARE ALL TEMPORARY
   Button tempClimbArmsButton = new JoystickButton(xboxManipControl, 1);
   Button tempClimbPhaseOneButton = new JoystickButton(xboxManipControl, 2);
   Button tempUltrasonicDriveElevatorWheelsButton = new JoystickButton(xboxManipControl, 3);
   Button tempLiftClimbLegsButton = new JoystickButton(xboxManipControl, 4);
+  // THESE BUTTONS ARE ALL TEMPORARY
 
   public OI() {
     shifterButton.whenPressed(new Shifter());

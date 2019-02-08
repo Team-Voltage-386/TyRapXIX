@@ -12,7 +12,8 @@ import frc.robot.Robot;
 
 public class UltrasonicDriveElevatorWheels extends Command {
 
-  double distanceGoalInches;
+  private double distanceGoalInches;
+  private final double ELEVATOR_SPEED = 0.3; // TEMP THIS SPEED NEEDS TO BE TESTED
 
   public UltrasonicDriveElevatorWheels(double goal) {
     // Use requires() here to declare subsystem dependencies
@@ -29,7 +30,7 @@ public class UltrasonicDriveElevatorWheels extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(0.3); // arbitrary speed for now
+    Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(ELEVATOR_SPEED);
   }
 
   // Make this return true when this Command no longer needs to run execute()
