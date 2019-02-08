@@ -40,9 +40,9 @@ public class DriveSubsystem extends Subsystem {
 
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
 
-  final int kPeakCurrentAmps = 35; /* threshold to trigger current limit */
-  final int kPeakTimeMs = 0; /* how long after Peak current to trigger current limit */
-  final int kContinCurrentAmps = 25; /* hold current after limit is triggered */
+  private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
+  private static final int PEAK_TIME_MS = 0; /* how long after Peak current to trigger current limit */
+  private static final int CONTIN_CURRENT_AMPS = 25; /* hold current after limit is triggered */
 
   public static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
   private static final int NO_TIMEOUT = 0;
@@ -56,14 +56,14 @@ public class DriveSubsystem extends Subsystem {
     slaveLeft.setInverted(InvertType.FollowMaster);
     slaveRight.setInverted(InvertType.FollowMaster);
 
-    frontLeft.configPeakCurrentLimit(kPeakCurrentAmps, 10);
-    frontLeft.configPeakCurrentDuration(kPeakTimeMs, 10); /* this is a necessary call to avoid errata. */
-    frontLeft.configContinuousCurrentLimit(kContinCurrentAmps, 10);
+    frontLeft.configPeakCurrentLimit(PEAK_CURRENT_AMPS, ENCODER_TIMEOUT);
+    frontLeft.configPeakCurrentDuration(PEAK_TIME_MS, ENCODER_TIMEOUT); /* this is a necessary call to avoid errata. */
+    frontLeft.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS, ENCODER_TIMEOUT);
     frontLeft.enableCurrentLimit(true); /* honor initial setting */
 
-    frontRight.configPeakCurrentLimit(kPeakCurrentAmps, 10);
-    frontRight.configPeakCurrentDuration(kPeakTimeMs, 10); /* this is a necessary call to avoid errata. */
-    frontRight.configContinuousCurrentLimit(kContinCurrentAmps, 10);
+    frontRight.configPeakCurrentLimit(PEAK_CURRENT_AMPS, 10);
+    frontRight.configPeakCurrentDuration(PEAK_TIME_MS, 10); /* this is a necessary call to avoid errata. */
+    frontRight.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS, 10);
     frontRight.enableCurrentLimit(true); /* honor initial setting */
 
     frontRight.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS, NO_TIMEOUT);
