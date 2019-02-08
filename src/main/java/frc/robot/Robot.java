@@ -63,7 +63,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto mode", m_chooser);
     SmartDashboard.putNumber("kp", 0.001);
     SmartDashboard.putNumber("kd", 0.005);
-    SmartDashboard.putNumber("ki", 0.00001);
+    SmartDashboard.putNumber("ki", 0);
     Robot.armSubsystem.resetEncoder();
   }
 

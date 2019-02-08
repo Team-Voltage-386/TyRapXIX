@@ -44,7 +44,7 @@ public class VisionProcessing extends Subsystem {
   public VisionProcessing() {
     usbCamera.setResolution(resolutionWidth, resolutionHeight);
     usbCamera.setFPS(30);
-    usbCamera.setExposureManual(15);
+    usbCamera.setExposureManual(1);
   }
 
   public UsbCamera usbCamera = CameraServer.getInstance().startAutomaticCapture();
@@ -62,7 +62,7 @@ public class VisionProcessing extends Subsystem {
   Mat hierarchy;
 
   Size blurSize = new Size(9, 9);
-  Scalar colorStart = new Scalar(50, 100, 50);
+  Scalar colorStart = new Scalar(50, 100, 80);
   Scalar colorEnd = new Scalar(150, 255, 255);
   Size erodeSize = new Size(10, 10);
   Size dilateSize = new Size(10, 10);
