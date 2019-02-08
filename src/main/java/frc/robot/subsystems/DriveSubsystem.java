@@ -61,9 +61,9 @@ public class DriveSubsystem extends Subsystem {
     frontLeft.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS, ENCODER_TIMEOUT);
     frontLeft.enableCurrentLimit(true); /* honor initial setting */
 
-    frontRight.configPeakCurrentLimit(PEAK_CURRENT_AMPS, 10);
-    frontRight.configPeakCurrentDuration(PEAK_TIME_MS, 10); /* this is a necessary call to avoid errata. */
-    frontRight.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS, 10);
+    frontRight.configPeakCurrentLimit(PEAK_CURRENT_AMPS, ENCODER_TIMEOUT);
+    frontRight.configPeakCurrentDuration(PEAK_TIME_MS, ENCODER_TIMEOUT); /* this is a necessary call to avoid errata. */
+    frontRight.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS, ENCODER_TIMEOUT);
     frontRight.enableCurrentLimit(true); /* honor initial setting */
 
     frontRight.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS, NO_TIMEOUT);
