@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.MAXSpeedArcadeDrive;
 import frc.robot.commands.ManipulatorCargoMode;
 import frc.robot.commands.ManipulatorHatchMode;
 import frc.robot.commands.ResetYaw;
@@ -51,6 +52,7 @@ public class OI {
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
+  Button maxSpeeedButton = new JoystickButton(xboxDriveControl, RobotMap.speedModButton);
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
   Button cargoModeButton = new JoystickButton(xboxManipControl, 9);
@@ -59,6 +61,7 @@ public class OI {
                                                                         // using RobotMap
 
   public OI() {
+    maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
     cargoModeButton.whenPressed(new ManipulatorCargoMode());

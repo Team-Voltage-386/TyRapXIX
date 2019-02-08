@@ -20,7 +20,7 @@ import frc.robot.RobotMap;
 import frc.robot.Robot;
 import frc.robot.commands.ArcadeDrive;
 
-/**
+/*
  * Add your docs here.
  */
 public class DriveSubsystem extends Subsystem {
@@ -40,6 +40,13 @@ public class DriveSubsystem extends Subsystem {
 
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
 
+  private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
+  private static final int PEAK_TIME_MS = 0; /* how long after Peak current to trigger current limit */
+  private static final int CONTIN_CURRENT_AMPS = 25; /* hold current after limit is triggered */
+
+  public static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
+  private static final int NO_TIMEOUT = 0;
+
   public DriveSubsystem() {
     slaveLeft.follow(frontLeft);
     slaveRight.follow(frontRight);
@@ -48,6 +55,19 @@ public class DriveSubsystem extends Subsystem {
     frontRight.setInverted(true);
     slaveLeft.setInverted(InvertType.FollowMaster);
     slaveRight.setInverted(InvertType.FollowMaster);
+
+    frontLeft.configPeakCurrentLimit(PEAK_CURRENT_AMPS, ENCODER_TIMEOUT);
+    frontLeft.configPeakCurrentDuration(PEAK_TIME_MS, ENCODER_TIMEOUT); /* this is a necessary call to avoid errata. */
+    frontLeft.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS, ENCODER_TIMEOUT);
+    frontLeft.enableCurrentLimit(true); /* honor initial setting */
+
+    frontRight.configPeakCurrentLimit(PEAK_CURRENT_AMPS, ENCODER_TIMEOUT);
+    frontRight.configPeakCurrentDuration(PEAK_TIME_MS, ENCODER_TIMEOUT); /* this is a necessary call to avoid errata. */
+    frontRight.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS, ENCODER_TIMEOUT);
+    frontRight.enableCurrentLimit(true); /* honor initial setting */
+
+    frontRight.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS, NO_TIMEOUT);
+    frontLeft.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS, NO_TIMEOUT);
   }
 
   public void driveTank(double leftSpeed, double rightSpeed) {
