@@ -64,6 +64,15 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("kp", 0.001);
     SmartDashboard.putNumber("kd", 0.005);
     SmartDashboard.putNumber("ki", 0);
+
+    // Vision Thresholds
+    SmartDashboard.putNumber("Start H", 50);
+    SmartDashboard.putNumber("Start S", 40);
+    SmartDashboard.putNumber("Start V", 125);
+    SmartDashboard.putNumber("End H", 150);
+    SmartDashboard.putNumber("End S", 255);
+    SmartDashboard.putNumber("End V", 255);
+
     Robot.armSubsystem.resetEncoder();
   }
 

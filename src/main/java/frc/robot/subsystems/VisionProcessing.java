@@ -62,8 +62,8 @@ public class VisionProcessing extends Subsystem {
   Mat hierarchy;
 
   Size blurSize = new Size(9, 9);
-  Scalar colorStart = new Scalar(50, 100, 80);
-  Scalar colorEnd = new Scalar(150, 255, 255);
+  Scalar colorStart;
+  Scalar colorEnd;
   Size erodeSize = new Size(10, 10);
   Size dilateSize = new Size(10, 10);
   Size edgeDilateSize = new Size(4, 4);
@@ -101,6 +101,12 @@ public class VisionProcessing extends Subsystem {
   }
 
   public ArrayList<RotatedRect[]> visionProcess() {
+
+    // Vision Thresholds
+    colorStart = new Scalar(SmartDashboard.getNumber("Start H", 0), SmartDashboard.getNumber("Start S", 0),
+        SmartDashboard.getNumber("Start V", 0));
+    colorEnd = new Scalar(SmartDashboard.getNumber("End H", 255), SmartDashboard.getNumber("End S", 255),
+        SmartDashboard.getNumber("End V", 255));
 
     // Recive the inital image
     cvSink.grabFrame(base);
