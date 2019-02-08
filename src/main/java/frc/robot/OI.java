@@ -14,6 +14,10 @@ import frc.robot.commands.ResetYaw;
 import frc.robot.commands.Shifter;
 import frc.robot.commands.SlowDown;
 import frc.robot.commands.BoostThingy;
+import frc.robot.commands.HatchPickup;
+import frc.robot.commands.HatchRelease;
+import frc.robot.commands.CargoPickup;
+import frc.robot.commands.CargoRelease;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -56,11 +60,20 @@ public class OI {
   // RobotMap.speedModButton);
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
+  Button cargoPickupButton = new JoystickButton(xboxManipControl, 7); // placeholder - right trigger
+  Button cargoReleaseButton = new JoystickButton(xboxManipControl, 8); // placeholder - left trigger
+  Button hatchPickupButton = new JoystickButton(xboxManipControl, 9); // placeholder - right trigger
+  Button hatchReleaseButton = new JoystickButton(xboxManipControl, 10); // placeholder - left trigger
 
   public OI() {
     // arcadeDriveSlowButton.whileHeld(new SlowDown());
     arcadeDriveBoostButton.whileHeld(new BoostThingy());
     shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
+    hatchPickupButton.whenPressed(new HatchPickup());
+    hatchReleaseButton.whenPressed(new HatchRelease());
+    cargoPickupButton.whenPressed(new CargoPickup(4)); // placeholder second values
+    cargoReleaseButton.whenPressed(new CargoRelease(4)); // placeholder second values
+
   }
 }

@@ -7,46 +7,50 @@
 
 package frc.robot.commands;
 
-import frc.robot.Robot;
-import frc.robot.subsystems.BeakSubsystem.HatchScoringStates;
-import frc.robot.RobotMap;
-import frc.robot.OI;
 import edu.wpi.first.wpilibj.command.Command;
-
-// put the set state method IN the if statement so it only sets it when called
+import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Robot;
 
 /**
- * Add your docs here.
+ * Intended to run the motors to eject cargo without running the motors much
+ * longer than necessary.
  */
-public class HatchIntake extends Command {
-  // I believe this needs to be a way to trigger the opening and closing of the
-  // beak
 
-  public HatchIntake() {
-    requires(Robot.beakSubsystem);
+public class CargoRelease extends Command {
+  public static final double RELEASE_SPEED = -0.5;
+
+  Timer timer = new Timer();
+  double time;
+
+  public CargoRelease(double timeOut) {
+    this.time = timeOut;
+    requires(Robot.manipulatorSubsystem);
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+  }
+
+  // Called just before this Command runs the first time
+  @Override
+  protected void initialize() {
+    timer.start();
+  }
+
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
+    Robot.manipulatorSubsystem.setCargoIntakeSpeed(RELEASE_SPEED);
   }
 
   // Make this return true when this Command no longer needs to run execute()
-
-  @Override
-  protected void execute() {
-    if (OI.xboxManipControl.getRawButton(RobotMap.beakTriggerOpen)) {
-      Robot.beakSubsystem.setState(HatchScoringStates.beakOpen);
-    } else if (OI.xboxManipControl.getRawButton(RobotMap.beakTriggerClosed)) {
-      Robot.beakSubsystem.setState(HatchScoringStates.beakRelease);
-    } else {
-    }
-
-  }
-
   @Override
   protected boolean isFinished() {
-    return false;
+    return timer.get() > time;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.manipulatorSubsystem.stop();
   }
 
   // Called when another command which requires one or more of the same
