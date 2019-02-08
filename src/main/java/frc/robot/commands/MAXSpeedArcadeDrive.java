@@ -12,20 +12,16 @@ import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
-public class ArcadeDrive extends Command {
-  private static final double SPEEEED_REDUCTION = 0.8;
-
-  public ArcadeDrive() {
-    requires(Robot.driveSubsystem);
+public class MAXSpeedArcadeDrive extends Command {
+  public MAXSpeedArcadeDrive() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.driveSubsystem);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    // Called repeatedly when this Command is scheduled to run
-
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -33,7 +29,7 @@ public class ArcadeDrive extends Command {
   protected void execute() {
     double xSpeed = OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical);
     double zRotation = OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
-    Robot.driveSubsystem.driveArcade(xSpeed * -1 * SPEEEED_REDUCTION, zRotation);
+    Robot.driveSubsystem.driveArcade(xSpeed * -1, zRotation);
   }
 
   // Make this return true when this Command no longer needs to run execute()

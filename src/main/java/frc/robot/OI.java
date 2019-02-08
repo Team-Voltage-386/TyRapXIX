@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.ClimbPhaseOne;
 import frc.robot.commands.DeployClimbArms;
 import frc.robot.commands.LiftClimbLegs;
+import frc.robot.commands.MAXSpeedArcadeDrive;
 import frc.robot.commands.ResetYaw;
 import frc.robot.commands.Shifter;
 import frc.robot.commands.UltrasonicDriveElevatorWheels;
@@ -53,6 +54,7 @@ public class OI {
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
+  Button maxSpeeedButton = new JoystickButton(xboxDriveControl, RobotMap.speedModButton);
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
 
@@ -64,6 +66,7 @@ public class OI {
   // THESE BUTTONS ARE ALL TEMPORARY
 
   public OI() {
+    maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
     tempClimbArmsButton.whenPressed(new DeployClimbArms());
