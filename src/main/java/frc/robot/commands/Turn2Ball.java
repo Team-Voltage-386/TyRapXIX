@@ -13,7 +13,7 @@ import frc.robot.Robot;
 
 public class Turn2Ball extends Command {
   private double error, p, i, d;
-  private final double pk = .012, ik = 0, dk = 0;
+  private final double pk = .012, ik = 0, dk = .015;
 
   public Turn2Ball() {
     requires(Robot.ballVisionSubystem);
@@ -32,12 +32,14 @@ public class Turn2Ball extends Command {
   @Override
   protected void execute() {
     i = 0;
-    d = 0;
     double previousError = error;
     error = Robot.ballVisionSubystem.ballVision();
     SmartDashboard.putNumber("error", error);
     p = error * pk;
     SmartDashboard.putNumber("p", p);
+    d = (previousError - error) * dk;
+    SmartDashboard.putNumber("d", d);
+
     Robot.driveSubsystem.driveTank(-p + d + i, +p - i - d);
 
   }
