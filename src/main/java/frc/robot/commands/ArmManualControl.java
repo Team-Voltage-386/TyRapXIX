@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 
 public class ArmManualControl extends Command {
   public ArmManualControl() {
@@ -27,8 +26,8 @@ public class ArmManualControl extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.armSubsystem.setShoulderMotorSpeed(OI.xboxManipControl.getRawAxis(RobotMap.manipLeftJoystickVertical));
-    Robot.armSubsystem.setElbowMotorSpeed(OI.xboxManipControl.getRawAxis(RobotMap.manipRightJoystickVertical));
+    Robot.armSubsystem.setShoulderMotorSpeed(OI.xboxManipControl.getRawAxis(OI.driveLeftJoystickVertical));
+    Robot.armSubsystem.setElbowMotorSpeed(OI.xboxManipControl.getRawAxis(OI.driveRightJoystickHorizontal));
   }
 
   // Make this return true when this Command no longer needs to run execute()

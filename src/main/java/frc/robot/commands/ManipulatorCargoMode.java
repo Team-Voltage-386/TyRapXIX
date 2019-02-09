@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 import frc.robot.subsystems.ManipulatorSubsystem.CargoIntakeDirection;
 
 public class ManipulatorCargoMode extends Command {
@@ -34,9 +33,9 @@ public class ManipulatorCargoMode extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() { // USES TEMPORARY JOYSTICK HORIZONTAL RIGHT
-    if (OI.xboxManipControl.getRawButton(RobotMap.cargoPickup)) { // 7 TEMP PORT NUMBER MAYBE BACKWARDS
+    if (OI.xboxManipControl.getRawButton(OI.intake)) { // 7 TEMP PORT NUMBER MAYBE BACKWARDS
       cargoIntakeDirection = CargoIntakeDirection.cargoIn;
-    } else if (OI.xboxManipControl.getRawButton(RobotMap.cargoRelease)) { // 8 TEMP PORT NUMBER MAYBE BACKWARDS
+    } else if (OI.xboxManipControl.getRawButton(OI.outake)) { // 8 TEMP PORT NUMBER MAYBE BACKWARDS
       cargoIntakeDirection = CargoIntakeDirection.cargoOut;
     } else {
       cargoIntakeDirection = CargoIntakeDirection.cargoOff;
