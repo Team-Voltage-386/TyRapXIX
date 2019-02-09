@@ -48,16 +48,36 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
+  // drive user inputs
+  public static final int driveLeftJoystickVertical = 1;
+  public static final int driveRightJoystickHorizontal = 4;
+  public static final int speedModButton = 6;
+
+  // button inputs
+  public static final int floorPickup = 6; // right bumper
+  public static final int cargoPlayerStationPickup = 1; // X button
+  public static final int levelOneSelector = 2; // A button
+  public static final int levelTwoSelector = 3; // B button
+  public static final int levelThreeSelector = 4; // Y button
+  public static final int resetLevel = 8; // right trigger
+  public static final int intake = 5; // left bumper
+  public static final int outake = 7; // left trigger
+  public static final int manualShoulderAxis = 1; // left joystick y
+  public static final int manualElbowAxis = 3; // right joystick y
+
+  // manipulator mode buttons
+  public static final int hatchMode = 10; // start button
+  public static final int cargoMode = 9; // back button
 
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
-  Button maxSpeeedButton = new JoystickButton(xboxDriveControl, RobotMap.speedModButton);
-  Button shifterButton = new JoystickButton(xboxDriveControl, 5); // Needs to use RobotMap
-  Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2); // Needs to use RobotMap
-  Button cargoModeButton = new JoystickButton(xboxManipControl, RobotMap.cargoModeButton);
-  Button hatchModeButton = new JoystickButton(xboxManipControl, RobotMap.hatchModeButton);
+  Button cargoModeButton = new JoystickButton(xboxManipControl, cargoMode);
+  Button hatchModeButton = new JoystickButton(xboxManipControl, hatchMode);
+  Button maxSpeeedButton = new JoystickButton(xboxDriveControl, speedModButton);
   // Temporary Button Numbers for all buttons not using RobotMap
+  Button shifterButton = new JoystickButton(xboxDriveControl, 5);
+  Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
 
   public OI() {
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
