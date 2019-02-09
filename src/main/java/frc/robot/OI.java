@@ -114,8 +114,8 @@ public class OI {
   public static final int HATCH_MODE = 10; // start button
   public static final int CARGO_MODE = 9; // back button
 
-  public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
-  public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
+  public static final Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
+  public static final Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
   Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
