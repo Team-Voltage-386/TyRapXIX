@@ -57,67 +57,67 @@ import frc.robot.commands.Shifter;
 public class OI {
 
   // drive user inputs
-  public static final int driveLeftJoystickVertical = 1;
-  public static final int driveRightJoystickHorizontal = 4;
-  public static final int speedModButton = 6;
+  public static final int DRIVE_LEFT_JOYSTICK_VERTICAL = 1;
+  public static final int DRIVE_RIGHT_JOYSTICK_HORIZONTAL = 4;
+  public static final int SPEED_MOD_BUTTON = 6;
 
   // button inputs
   /**
    * This button is used to start the floorPickup command. the function is tied to
    * the <em>Right Bumper</em> which is ID 6
    */
-  public static final int floorPickup = 6; // right bumper
+  public static final int FLOOR_PICKUP = 6; // right bumper
   /**
    * The button runs the command to collect from player station. it's tied to the
    * <em>X Button</em> which is ID 10
    */
-  public static final int cargoPlayerStationPickup = 1; // X button
+  public static final int CARGO_PLAYER_STATION_PICKUP = 1; // X button
   /**
    * The button changes the selector to level 1. it's tied to the <em>A
    * Button</em> which is ID 2
    */
-  public static final int levelOneSelector = 2; // A button
+  public static final int LEVEL_ONE_SELECTOR = 2; // A button
   /**
    * The button changes the selector to level 2. it's tied to the <em>B
    * Button</em> which is ID 3
    */
-  public static final int levelTwoSelector = 3; // B button
+  public static final int LEVEL_TWO_SELECTOR = 3; // B button
   /**
    * The button changes the selector to level 3. it's tied to the <em>Y
    * Button</em> which is ID 4
    */
-  public static final int levelThreeSelector = 4; // Y button
+  public static final int LEVEL_THREE_SELECTOR = 4; // Y button
   /**  */
-  public static final int resetLevel = 8; // right trigger
+  public static final int RESET_LEVEL = 8; // right trigger
   /**
    * button used to intake cargo or hatch automatically. It's tied to the <em>Left
    * Bumper</em> which is ID 5
    */
-  public static final int intake = 5; // left bumper
+  public static final int INTAKE = 5; // left bumper
   /**
    * button used to send cargo/hatch automatically. It's tied to the <em>Left
    * Trigger</em> which is ID 7
    */
-  public static final int outake = 7; // left trigger
+  public static final int OUTAKE = 7; // left trigger
   /**
    * used the <em>Y Axis</em> of the <em>Left Analog Stick</em> to control the
    * shoulder's axis.
    */
-  public static final int manualShoulderAxis = 1; // left joystick y
+  public static final int MANUAL_SHOULDER_AXIS = 1; // left joystick y
   /**
    * used the <em>Y Axis</em> of the <em>Right Analog Stick</em> to control the
    * shoulder's axis.
    */
-  public static final int manualElbowAxis = 3; // right joystick y
+  public static final int MANUAL_ELBOW_AXIS = 3; // right joystick y
 
   // manipulator mode buttons
-  public static final int hatchMode = 10; // start button
-  public static final int cargoMode = 9; // back button
+  public static final int HATCH_MODE = 10; // start button
+  public static final int CARGO_MODE = 9; // back button
 
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
-  Button maxSpeeedButton = new JoystickButton(xboxDriveControl, speedModButton);
+  Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
 

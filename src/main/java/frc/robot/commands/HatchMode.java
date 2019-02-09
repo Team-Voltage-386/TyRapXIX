@@ -29,16 +29,16 @@ public class HatchMode extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (OI.xboxManipControl.getRawButton(OI.floorPickup)) {
+    if (OI.xboxManipControl.getRawButton(OI.FLOOR_PICKUP)) {
       // floor pickup
       desiredLevel = Levels.hatchFloorPickup;
-    } else if (OI.xboxManipControl.getRawButton(OI.levelOneSelector)) {
+    } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_ONE_SELECTOR)) {
       // level one
       desiredLevel = Levels.hatchLevelOne;
-    } else if (OI.xboxManipControl.getRawButton(OI.levelTwoSelector)) {
+    } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_TWO_SELECTOR)) {
       // level two
       desiredLevel = Levels.hatchLevelTwo;
-    } else if (OI.xboxManipControl.getRawButton(OI.levelThreeSelector)) {
+    } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_THREE_SELECTOR)) {
       // level three
       desiredLevel = Levels.hatchLevelThree;
     } else {

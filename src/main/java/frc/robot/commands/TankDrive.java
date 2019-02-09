@@ -24,8 +24,8 @@ public class TankDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveSubsystem.driveTank(OI.xboxDriveControl.getRawAxis(OI.driveLeftJoystickVertical),
-        OI.xboxDriveControl.getRawAxis(OI.driveRightJoystickHorizontal));
+    Robot.driveSubsystem.driveTank(OI.xboxDriveControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL),
+        OI.xboxDriveControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL));
   }
 
   // Make this return true when this Command no longer needs to run execute()
