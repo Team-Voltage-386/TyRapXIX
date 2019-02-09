@@ -53,9 +53,9 @@ public class OI {
 
   // button inputs
   public static final int floorPickup = 6; // right bumper
-  public static final int cargoPlayerStationPickup = 3; // X button
-  public static final int levelOneSelector = 1; // A button
-  public static final int levelTwoSelector = 2; // B button
+  public static final int cargoPlayerStationPickup = 1; // X button
+  public static final int levelOneSelector = 2; // A button
+  public static final int levelTwoSelector = 3; // B button
   public static final int levelThreeSelector = 4; // Y button
   public static final int resetLevel = 8; // right trigger
   public static final int intake = 5; // left bumper
