@@ -62,52 +62,15 @@ public class OI {
   public static final int SPEED_MOD_BUTTON = 6;
 
   // button inputs
-  /**
-   * This button is used to start the floorPickup command. the function is tied to
-   * the <em>Right Bumper</em> which is ID 6
-   */
   public static final int FLOOR_PICKUP = 6; // right bumper
-  /**
-   * The button runs the command to collect from player station. it's tied to the
-   * <em>X Button</em> which is ID 10
-   */
   public static final int CARGO_PLAYER_STATION_PICKUP = 1; // X button
-  /**
-   * The button changes the selector to level 1. it's tied to the <em>A
-   * Button</em> which is ID 2
-   */
   public static final int LEVEL_ONE_SELECTOR = 2; // A button
-  /**
-   * The button changes the selector to level 2. it's tied to the <em>B
-   * Button</em> which is ID 3
-   */
   public static final int LEVEL_TWO_SELECTOR = 3; // B button
-  /**
-   * The button changes the selector to level 3. it's tied to the <em>Y
-   * Button</em> which is ID 4
-   */
   public static final int LEVEL_THREE_SELECTOR = 4; // Y button
-  /**  */
   public static final int RESET_LEVEL = 8; // right trigger
-  /**
-   * button used to intake cargo or hatch automatically. It's tied to the <em>Left
-   * Bumper</em> which is ID 5
-   */
   public static final int INTAKE = 5; // left bumper
-  /**
-   * button used to send cargo/hatch automatically. It's tied to the <em>Left
-   * Trigger</em> which is ID 7
-   */
   public static final int OUTAKE = 7; // left trigger
-  /**
-   * used the <em>Y Axis</em> of the <em>Left Analog Stick</em> to control the
-   * shoulder's axis.
-   */
   public static final int MANUAL_SHOULDER_AXIS = 1; // left joystick y
-  /**
-   * used the <em>Y Axis</em> of the <em>Right Analog Stick</em> to control the
-   * shoulder's axis.
-   */
   public static final int MANUAL_ELBOW_AXIS = 3; // right joystick y
 
   // manipulator mode buttons
