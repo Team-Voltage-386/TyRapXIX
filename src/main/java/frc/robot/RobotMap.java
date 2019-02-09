@@ -46,6 +46,7 @@ public class RobotMap {
   public static int distanceSensorEcho = 4;
   public static int analogUltrasonic = 0;
   public static final int ENCODER_PORT = 0;
+  public static int potentiometer = 5; // TEMP PORT NUMBER
 
   /*
    * drive motors There's a discrepancy between the drive motor types listed on

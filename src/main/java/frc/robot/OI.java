@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.MAXSpeedArcadeDrive;
 import frc.robot.commands.ResetYaw;
 import frc.robot.commands.Shifter;
 
@@ -75,7 +74,6 @@ public class OI {
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
 
   public OI() {
-    maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
   }

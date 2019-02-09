@@ -8,10 +8,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.commands.ManualShoulderCode;
 
 /**
  * Add your docs here.
@@ -30,18 +32,29 @@ public class ArmSubsystem extends Subsystem {
   private final int HATCH_LEVEL_TWO_TICKS = 100;
   private final int HATCH_LEVEL_THREE_TICKS = 100;
 
-  WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
-  WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
+  private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor); // TEMP PORT NUMBER
 
-  DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
+  DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch); // TEMP PORT NUMBER
+
+  AnalogInput potentiometer = new AnalogInput(RobotMap.potentiometer);
+
+  // TEMP CONSTANTS BELOW
+  private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
+  private static final int PEAK_TIME_MS = 0; /* how long after Peak current to trigger current limit */
+  private static final int CONTIN_CURRENT_AMPS = 25; /* hold current after limit is triggered */
+  private static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
 
   public ArmSubsystem() {
-    armMotorFollower.follow(armMotorMaster);
     prevError = 0;
     p = 0;
     i = 0;
     d = 0;
 
+    shoulderMotor.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
+    shoulderMotor.configPeakCurrentDuration(PEAK_TIME_MS); /* this is a necessary call to avoid errata. */
+    shoulderMotor.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
+    shoulderMotor.enableCurrentLimit(true); /* honor initial setting */
+    shoulderMotor.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
   }
 
   public enum Levels {
@@ -93,7 +106,7 @@ public class ArmSubsystem extends Subsystem {
     i += error * ik /* SmartDashboard.getNumber("ik ", 0) */;
     d = errorChange * dk /* SmartDashboard.getNumber("dk ", 0) */;
     speed = p + i + d;
-    setArmMotorSpeed(speed);
+    setShoulderMotorSpeed(speed);
     SmartDashboard.putNumber("ArmMotorSpeed", speed);
     prevError = error;
     if (getBottomLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
@@ -101,24 +114,33 @@ public class ArmSubsystem extends Subsystem {
     }
   }
 
-  public void setArmMotorSpeed(double speed) {
-    armMotorMaster.set(speed);
+  public void setShoulderMotorSpeed(double speed) {
+    // IF STATEMENT MAY BE BACKWARDS PHYSICALLY
+    if ((getPotentiometeterVoltage() > 4.5 && speed > 0) || (getPotentiometeterVoltage() < 0.5 && speed < 0)) {
+      speed = 0;
+    }
+    shoulderMotor.set(speed);
   }
 
   public double getArmEncoder() {
-    return armMotorMaster.getSelectedSensorPosition();
+    return shoulderMotor.getSelectedSensorPosition();
   }
 
   public void resetEncoder() {
-    armMotorMaster.setSelectedSensorPosition(0, 0, 10);
+    shoulderMotor.setSelectedSensorPosition(0);
   }
 
   public boolean getBottomLimitSwitch() {
     return bottomLimitSwitch.get();
   }
 
+  public double getPotentiometeterVoltage() {
+    return potentiometer.getAverageVoltage();
+  }
+
   @Override
   public void initDefaultCommand() {
+    setDefaultCommand(new ManualShoulderCode());
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
