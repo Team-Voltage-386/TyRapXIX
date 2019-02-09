@@ -12,6 +12,9 @@ import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.ArmSubsystem.Levels;
 
+/**
+ * Command used to set mode for the Hatch
+ */
 public class HatchMode extends Command {
   Levels desiredLevel = Levels.hatchLevelOne;
 

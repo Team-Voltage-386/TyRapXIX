@@ -48,7 +48,7 @@ public class ArmSubsystem extends Subsystem {
     d = 0;
   }
 
-  // Create Enumerations to be Used in CargoMode and HatchMode Commands
+  /** Create Enumerations to be Used in CargoMode and HatchMode Commands */
   public enum Levels {
     cargoFloorPickup, cargoPlayerStation, cargoLevelOne, cargoLevelTwo, cargoLevelThree, hatchFloorPickup,
     hatchLevelOne, hatchLevelTwo, hatchLevelThree;
@@ -56,7 +56,7 @@ public class ArmSubsystem extends Subsystem {
 
   // ArmSubsystem Methods
 
-  // Set the Arm to Constant Encoder Levels Based on Levels Enumeration
+  /** Set the Arm to Constant Encoder Levels Based on Levels Enumeration */
   public void setLevel(Levels in) {
     switch (in) {
     case cargoFloorPickup:
@@ -91,7 +91,7 @@ public class ArmSubsystem extends Subsystem {
     }
   }
 
-  // Set Arm to Given Goal Using PID
+  /** Set Arm to Given Goal Using PID */
   public void setArmTicks(double encoderGoal) {
     /*
      * can someone explain why we dont move this to a command? (I know, but I want a

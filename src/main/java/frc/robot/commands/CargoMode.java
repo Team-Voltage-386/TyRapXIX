@@ -12,6 +12,10 @@ import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.ArmSubsystem.Levels;
 
+/**
+ * This command will constantly check for a specific button to be pressed and
+ * will set the mode for cargo accordingly
+ */
 public class CargoMode extends Command {
   Levels desiredLevel = Levels.cargoLevelOne;
 
