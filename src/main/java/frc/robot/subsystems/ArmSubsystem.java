@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,6 +37,8 @@ public class ArmSubsystem extends Subsystem {
   public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor); // TEMP PORT NUMBER
 
   DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch); // TEMP PORT NUMBER
+
+  AnalogInput potentiometer = new AnalogInput(RobotMap.potentiometer);
 
   // TEMP CONSTANTS BELOW
   private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
@@ -122,6 +126,10 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public void setShoulderMotorSpeed(double speed) {
+    // IF STATEMENT MAY BE BACKWARDS PHYSICALLY
+    if ((getPotentiometeterVoltage() > 4.5 && speed > 0) || (getPotentiometeterVoltage() < 0.5 && speed < 0)) {
+      speed = 0;
+    }
     shoulderMotor.set(speed);
   }
 
@@ -139,6 +147,10 @@ public class ArmSubsystem extends Subsystem {
 
   public boolean getBottomLimitSwitch() {
     return bottomLimitSwitch.get();
+  }
+
+  public double getPotentiometeterVoltage() {
+    return potentiometer.getAverageVoltage();
   }
 
   @Override
