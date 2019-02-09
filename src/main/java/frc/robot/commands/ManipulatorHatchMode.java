@@ -35,16 +35,10 @@ public class ManipulatorHatchMode extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (OI.xboxManipControl.getRawButton(OI.intake) && !prevStateOpen) { // TEMP PORT NUMBER
+    if (OI.xboxManipControl.getRawButton(OI.intake)) {
       Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
-      prevStateOpen = true;
-    } else if (!OI.xboxManipControl.getRawButton(OI.intake)) { // TEMP PORT NUMBER
-      prevStateOpen = false;
-    } else if (OI.xboxManipControl.getRawButton(OI.outake) && !prevStateClose) { // TEMP PORT NUMBER
-      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
-      prevStateClose = true;
-    } else if (!OI.xboxManipControl.getRawButton(OI.outake)) { // TEMP PORT NUMBER
-      prevStateClose = false;
+    } else if (OI.xboxManipControl.getRawButton(OI.outake)) {
+      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
     }
   }
 
