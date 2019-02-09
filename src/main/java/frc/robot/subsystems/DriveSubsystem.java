@@ -158,7 +158,7 @@ public class DriveSubsystem extends Subsystem {
     return ypr_deg;
   }
 
-  /** Resets the Pigeons Yaw/Pitch/Roll */
+  /** Resets the Pigeons Yaw/Pitch/Roll. Technically resets the yaw to 0 */
   public void resetPigeon() {
     pigeon.setYaw(0);
   }
