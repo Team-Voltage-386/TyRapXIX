@@ -122,6 +122,10 @@ public class ArmSubsystem extends Subsystem {
     shoulderMotor.set(speed);
   }
 
+  public void displayDiagnostics() {
+    SmartDashboard.putNumber("potentiometer voltage ", getPotentiometeterVoltage());
+  }
+
   public double getArmEncoder() {
     return shoulderMotor.getSelectedSensorPosition();
   }
