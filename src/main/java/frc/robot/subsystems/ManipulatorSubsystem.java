@@ -93,7 +93,7 @@ public class ManipulatorSubsystem extends Subsystem {
     if (direction == CargoIntakeDirection.cargoIn) {
       setCargoIntakeSpeed(CARGO_INTAKE_SPEED); // TEMP MAYBE BACKWARDS
     } else if (direction == CargoIntakeDirection.cargoOut) {
-      setCargoIntakeSpeed(-1 * CARGO_INTAKE_SPEED); // TEMP MAYBE BACKWARDS
+      setCargoIntakeSpeed(-CARGO_INTAKE_SPEED); // TEMP MAYBE BACKWARDS
     } else if (direction == CargoIntakeDirection.cargoOff) {
       setCargoIntakeSpeed(0);
     }

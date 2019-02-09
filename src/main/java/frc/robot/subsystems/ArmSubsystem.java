@@ -32,8 +32,7 @@ public class ArmSubsystem extends Subsystem {
   private final int HATCH_LEVEL_TWO_TICKS = 100;
   private final int HATCH_LEVEL_THREE_TICKS = 100;
 
-  private static WPI_TalonSRX shoulderFollower = new WPI_TalonSRX(RobotMap.leftShoulderMotor); // TEMP PORT NUMBER
-  private static WPI_TalonSRX shoulderMaster = new WPI_TalonSRX(RobotMap.rightShoulderMotor); // TEMP PORT NUMBER
+  private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor); // TEMP PORT NUMBER
   public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor); // TEMP PORT NUMBER
 
   DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch); // TEMP PORT NUMBER
@@ -52,15 +51,11 @@ public class ArmSubsystem extends Subsystem {
     i = 0;
     d = 0;
 
-    shoulderFollower.follow(shoulderMaster);
-    shoulderMaster.setInverted(true);
-    shoulderFollower.setInverted(InvertType.FollowMaster);
-
-    shoulderMaster.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
-    shoulderMaster.configPeakCurrentDuration(PEAK_TIME_MS); /* this is a necessary call to avoid errata. */
-    shoulderMaster.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
-    shoulderMaster.enableCurrentLimit(true); /* honor initial setting */
-    shoulderMaster.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
+    shoulderMotor.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
+    shoulderMotor.configPeakCurrentDuration(PEAK_TIME_MS); /* this is a necessary call to avoid errata. */
+    shoulderMotor.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
+    shoulderMotor.enableCurrentLimit(true); /* honor initial setting */
+    shoulderMotor.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
 
     elbowMotor.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
     elbowMotor.configPeakCurrentDuration(PEAK_TIME_MS); /* this is a necessary call to avoid errata. */
@@ -128,7 +123,7 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public void setShoulderMotorSpeed(double speed) {
-    shoulderMaster.set(speed);
+    shoulderMotor.set(speed);
   }
 
   public void setElbowMotorSpeed(double speed) {
@@ -136,11 +131,11 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public double getArmEncoder() {
-    return shoulderMaster.getSelectedSensorPosition();
+    return shoulderMotor.getSelectedSensorPosition();
   }
 
   public void resetEncoder() {
-    shoulderMaster.setSelectedSensorPosition(0);
+    shoulderMotor.setSelectedSensorPosition(0);
   }
 
   public boolean getBottomLimitSwitch() {
