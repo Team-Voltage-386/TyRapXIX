@@ -38,8 +38,8 @@ public class VisionProcessing extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public int resolutionWidth = 320;
-  public int resolutionHeight = 240;
+  public int resolutionWidth = 640;
+  public int resolutionHeight = 480;
 
   public VisionProcessing() {
     usbCamera.setResolution(resolutionWidth, resolutionHeight);
@@ -103,9 +103,9 @@ public class VisionProcessing extends Subsystem {
   public ArrayList<RotatedRect[]> visionProcess() {
 
     // Vision Thresholds
-    colorStart = new Scalar(SmartDashboard.getNumber("Start H", 0), SmartDashboard.getNumber("Start S", 0),
-        SmartDashboard.getNumber("Start V", 0));
-    colorEnd = new Scalar(SmartDashboard.getNumber("End H", 255), SmartDashboard.getNumber("End S", 255),
+    colorStart = new Scalar(SmartDashboard.getNumber("Start H", 50), SmartDashboard.getNumber("Start S", 40),
+        SmartDashboard.getNumber("Start V", 125));
+    colorEnd = new Scalar(SmartDashboard.getNumber("End H", 150), SmartDashboard.getNumber("End S", 255),
         SmartDashboard.getNumber("End V", 255));
 
     // Recive the inital image
@@ -115,14 +115,21 @@ public class VisionProcessing extends Subsystem {
     ArrayList<RotatedRect[]> pairs = new ArrayList<RotatedRect[]>();
     RotatedRect[] pair = new RotatedRect[2];
 
+    Mat dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3));
+    Mat erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3));
+
     if (!base.empty()) {
       // Blurs the image for ease of processing
       Imgproc.blur(base, mat, blurSize);
       // Converts from the RGB scale to HSV because HSV is more useful
       Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2HSV);
+
       // COnverst Mat to a black and white image where pixils in the given range
       // appear white
       Core.inRange(mat, colorStart, colorEnd, mat);
+
+      Imgproc.erode(mat, mat, dilateElement);
+      Imgproc.dilate(mat, mat, erodeElement);
 
       List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
       hierarchy = new Mat();
