@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
-import frc.robot.commands.ManualShoulder;
 
 /**
  * Add your docs here.
@@ -31,13 +30,13 @@ public class ArmSubsystem extends Subsystem {
   private final int HATCH_LEVEL_TWO_TICKS = 100;
   private final int HATCH_LEVEL_THREE_TICKS = 100;
 
-  public static WPI_TalonSRX leftShoulder = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
-  public static WPI_TalonSRX rightShoulder = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
+  WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
+  WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
 
   DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
 
   public ArmSubsystem() {
-    rightShoulder.follow(leftShoulder);
+    armMotorFollower.follow(armMotorMaster);
     prevError = 0;
     p = 0;
     i = 0;
@@ -94,7 +93,7 @@ public class ArmSubsystem extends Subsystem {
     i += error * ik /* SmartDashboard.getNumber("ik ", 0) */;
     d = errorChange * dk /* SmartDashboard.getNumber("dk ", 0) */;
     speed = p + i + d;
-    setShoulderMotorSpeed(speed);
+    setArmMotorSpeed(speed);
     SmartDashboard.putNumber("ArmMotorSpeed", speed);
     prevError = error;
     if (getBottomLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
@@ -102,16 +101,16 @@ public class ArmSubsystem extends Subsystem {
     }
   }
 
-  public void setShoulderMotorSpeed(double speed) {
-    leftShoulder.set(speed);
+  public void setArmMotorSpeed(double speed) {
+    armMotorMaster.set(speed);
   }
 
   public double getArmEncoder() {
-    return leftShoulder.getSelectedSensorPosition();
+    return armMotorMaster.getSelectedSensorPosition();
   }
 
   public void resetEncoder() {
-    leftShoulder.setSelectedSensorPosition(0, 0, 10);
+    armMotorMaster.setSelectedSensorPosition(0, 0, 10);
   }
 
   public boolean getBottomLimitSwitch() {
@@ -120,7 +119,6 @@ public class ArmSubsystem extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new ManualShoulder());
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }

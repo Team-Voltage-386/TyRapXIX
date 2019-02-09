@@ -60,10 +60,6 @@ public class RobotMap {
 
   public static int spikeLightRing = 0; // LED Light Ring
 
-  // manip user inputs
-  public static int manipLeftJoystickVertical = 1;
-  public static int manipRightJoystickVertical = 5;
-
   // to be defined - port numbers are placeholders
   public static int rearElevatorMotor = 5;
   public static int leftShoulderMotor = 6;
