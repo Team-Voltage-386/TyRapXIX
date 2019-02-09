@@ -12,7 +12,8 @@ import frc.robot.Robot;
 
 public class UltrasonicDrive extends Command {
 
-  double distanceGoalInches;
+  private final double WHEEL_SPEED = 0.5; // TEMP constant needs to be tested (PID may be used later too)
+  private double distanceGoalInches;
 
   public UltrasonicDrive(double goal) {
     // Use requires() here to declare subsystem dependencies
@@ -29,7 +30,7 @@ public class UltrasonicDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveSubsystem.driveArcade(0.5, 0);
+    Robot.driveSubsystem.driveArcade(WHEEL_SPEED, 0);
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -41,10 +41,7 @@ public class DriveSubsystem extends Subsystem {
 
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
 
-  // For Testing Purposes of AnalogInputs
-  private static AnalogInput driveUltrasonic = new AnalogInput(3);
-  private static AnalogInput petentiometer = new AnalogInput(2);
-  // For Testing Purposes of AnalogInputs
+  private static AnalogInput driveUltrasonic = new AnalogInput(RobotMap.driveUltrasonicPort);
 
   private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
   private static final int PEAK_TIME_MS = 0; /* how long after Peak current to trigger current limit */
@@ -127,19 +124,13 @@ public class DriveSubsystem extends Subsystem {
     pigeon.setYaw(0);
   }
 
-  // For Testing Purposes of AnalogInputs
   public double getUltrasonicVoltage() {
     return driveUltrasonic.getAverageVoltage();
   }
 
-  // For Testing Purposes of AnalogInputs
+  // Currently just returns voltage - not distance
   public double getUltrasonicDistance() {
     return driveUltrasonic.getAverageVoltage(); // Needs to add distance conversion to inches from voltage
-  }
-
-  // For Testing Purposes of AnalogInputs
-  public double getPetentiometerVoltage() {
-    return petentiometer.getAverageVoltage();
   }
 
 }

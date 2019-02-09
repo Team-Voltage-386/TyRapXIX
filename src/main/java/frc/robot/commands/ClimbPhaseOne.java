@@ -31,7 +31,7 @@ public class ClimbPhaseOne extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    error = Robot.driveSubsystem.getPigeonYPR()[1];
+    error = Robot.driveSubsystem.getPigeonYPR()[1]; // Both drive and climb use Pigeon
     Robot.endgameClimbSubsystem.setClimbArmSpeeds(DEFAULT_ARM_SPEED + (K * error));
     Robot.endgameClimbSubsystem.setElevatorSpeed(DEFAULT_ELEVATOR_SPEED - (K * error));
   }

@@ -71,7 +71,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
 
     SmartDashboard.putNumber("Ultrasonic Voltage", Robot.driveSubsystem.getUltrasonicVoltage());
-    SmartDashboard.putNumber("Petentiometer Voltage", Robot.driveSubsystem.getPetentiometerVoltage());
   }
 
   /**

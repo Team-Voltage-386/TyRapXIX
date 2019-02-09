@@ -13,6 +13,9 @@ public class EndgameClimbGroup extends CommandGroup {
   /**
    * Add your docs here.
    */
+
+  private final double ULTRASONIC_DRIVE_DISTANCE = 30;
+
   public EndgameClimbGroup() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
@@ -33,7 +36,7 @@ public class EndgameClimbGroup extends CommandGroup {
 
     addSequential(new DeployClimbArms());
     addSequential(new ClimbPhaseOne());
-    addSequential(new UltrasonicDriveElevatorWheels(30));
+    addSequential(new UltrasonicDriveElevatorWheels(ULTRASONIC_DRIVE_DISTANCE));
     addSequential(new LiftClimbLegs());
 
   }
