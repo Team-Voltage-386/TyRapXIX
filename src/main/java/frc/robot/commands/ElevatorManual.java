@@ -26,9 +26,14 @@ public class ElevatorManual extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem
-        .setElevatorSpeed(-1 * OI.xboxManipControl.getRawAxis(OI.manipLeftJoystickVertical));
+    /**
+     * Joystick up (negative speed) moves elevator down, Joystick down (positive
+     * speed) moves elevator up
+     */
+    Robot.endgameClimbSubsystem.setElevatorSpeed(OI.xboxManipControl.getRawAxis(OI.manipLeftJoystickVertical));
+    /** Direction needs to be tested */
     Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(OI.xboxManipControl.getRawAxis(OI.manipRightJoystickVertical));
+    /** Positive speed should deploy arms, negative retracts */
     Robot.endgameClimbSubsystem.setClimbArmSpeeds(OI.xboxDriveControl.getRawAxis(OI.driveLeftJoystickVertical));
   }
 
