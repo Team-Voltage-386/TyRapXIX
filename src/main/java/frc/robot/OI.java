@@ -87,10 +87,27 @@ public class OI {
    * Button</em> which is ID 4
    */
   public static final int levelThreeSelector = 4; // Y button
+  /**  */
   public static final int resetLevel = 8; // right trigger
+  /**
+   * button used to intake cargo or hatch automatically. It's tied to the <em>Left
+   * Bumper</em> which is ID 5
+   */
   public static final int intake = 5; // left bumper
+  /**
+   * button used to send cargo/hatch automatically. It's tied to the <em>Left
+   * Trigger</em> which is ID 7
+   */
   public static final int outake = 7; // left trigger
+  /**
+   * used the <em>Y Axis</em> of the <em>Left Analog Stick</em> to control the
+   * shoulder's axis.
+   */
   public static final int manualShoulderAxis = 1; // left joystick y
+  /**
+   * used the <em>Y Axis</em> of the <em>Right Analog Stick</em> to control the
+   * shoulder's axis.
+   */
   public static final int manualElbowAxis = 3; // right joystick y
 
   // manipulator mode buttons
