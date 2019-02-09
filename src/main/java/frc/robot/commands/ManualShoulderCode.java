@@ -18,15 +18,9 @@ public class ManualShoulderCode extends Command {
     requires(Robot.armSubsystem);
   }
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
-    Robot.armSubsystem.setShoulderMotorSpeed(OI.xboxManipControl.getRawAxis(OI.driveLeftJoystickVertical));
-  }
-
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.armSubsystem.setShoulderMotorSpeed(-1 * OI.xboxManipControl.getRawAxis(OI.driveLeftJoystickVertical));
   }
 
   // Make this return true when this Command no longer needs to run execute()

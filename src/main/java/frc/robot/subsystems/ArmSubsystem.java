@@ -32,7 +32,7 @@ public class ArmSubsystem extends Subsystem {
   private final int HATCH_LEVEL_TWO_TICKS = 100;
   private final int HATCH_LEVEL_THREE_TICKS = 100;
 
-  private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor); // TEMP PORT NUMBER
+  private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.shoulderMotor); // TEMP PORT NUMBER
 
   DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch); // TEMP PORT NUMBER
 
@@ -116,7 +116,15 @@ public class ArmSubsystem extends Subsystem {
 
   public void setShoulderMotorSpeed(double speed) {
     // IF STATEMENT MAY BE BACKWARDS PHYSICALLY
-    if ((getPotentiometeterVoltage() > 4.5 && speed > 0) || (getPotentiometeterVoltage() < 0.5 && speed < 0)) {
+    // if ((getPotentiometeterVoltage() > 4.5 && speed > 0) ||
+    // (getPotentiometeterVoltage() < 0.5 && speed < 0)) {
+    // speed = 0;
+    // }
+    if (speed > 0 && getPotentiometeterVoltage() < 3.8) {
+      speed = .75 * speed;
+    } else if (speed < 0 && getPotentiometeterVoltage() > 1.5) {
+      speed = .2 * speed;
+    } else {
       speed = 0;
     }
     shoulderMotor.set(speed);
@@ -124,6 +132,7 @@ public class ArmSubsystem extends Subsystem {
 
   public void displayDiagnostics() {
     SmartDashboard.putNumber("potentiometer voltage ", getPotentiometeterVoltage());
+    SmartDashboard.putNumber("Talon current", shoulderMotor.getOutputCurrent());
   }
 
   public double getArmEncoder() {

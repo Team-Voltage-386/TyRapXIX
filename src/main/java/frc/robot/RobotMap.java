@@ -46,7 +46,7 @@ public class RobotMap {
   public static int distanceSensorEcho = 4;
   public static int analogUltrasonic = 0;
   public static final int ENCODER_PORT = 0;
-  public static int potentiometer = 5; // TEMP PORT NUMBER
+  public static int potentiometer = 1;
 
   /*
    * drive motors There's a discrepancy between the drive motor types listed on
@@ -63,8 +63,7 @@ public class RobotMap {
 
   // to be defined - port numbers are placeholders
   public static int rearElevatorMotor = 5;
-  public static int leftShoulderMotor = 6;
-  public static int rightShoulderMotor = 7;
+  public static int shoulderMotor = 6;
   public static int elbowMotor = 8;
   public static int cargoRollerMotor = 9; // change to cargoCapture
   // encoders
