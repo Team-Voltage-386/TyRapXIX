@@ -56,13 +56,16 @@ public class Robot extends TimedRobot {
   }
 
   /**
+   * <p>
    * This function is called every robot packet, no matter the mode. Use this for
    * items like diagnostics that you want ran during disabled, autonomous,
    * teleoperated and test.
+   * </p>
    *
    * <p>
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
+   * </p>
    */
   @Override
   public void robotPeriodic() {
@@ -86,16 +89,19 @@ public class Robot extends TimedRobot {
   }
 
   /**
+   * <p>
    * This autonomous (along with the chooser code above) shows how to select
    * between different autonomous modes using the dashboard. The sendable chooser
    * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
    * remove all of the chooser code and uncomment the getString code to get the
    * auto name from the text box below the Gyro
+   * </p>
    *
    * <p>
    * You can add additional auto modes by adding additional commands to the
    * chooser code above (like the commented example) or additional comparisons to
    * the switch structure below with additional strings & commands.
+   * </p>
    */
   @Override
   public void autonomousInit() {
@@ -122,12 +128,13 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
   }
 
+  /**
+   * This makes sure that the autonomous stops running when teleop starts running.
+   * If you want the autonomous to continue until interrupted by another command,
+   * remove this line or comment it out.
+   */
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
