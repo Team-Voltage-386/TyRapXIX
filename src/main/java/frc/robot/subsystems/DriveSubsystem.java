@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,6 +29,8 @@ public class DriveSubsystem extends Subsystem {
   private static WPI_TalonSRX frontRight = new WPI_TalonSRX(RobotMap.frontRight);
   private static WPI_TalonSRX slaveLeft = new WPI_TalonSRX(RobotMap.rearLeftFollower);
   private static WPI_VictorSPX slaveRight = new WPI_VictorSPX(RobotMap.rearRightFollower);
+
+  private static Ultrasonic ultrasonic = new Ultrasonic(RobotMap.distanceSensorPing, RobotMap.distanceSensorEcho);
 
   public static int ENCODER_TIMEOUT = 10; // in milliseconds
 
@@ -64,6 +67,8 @@ public class DriveSubsystem extends Subsystem {
 
     frontRight.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
     frontLeft.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
+
+    ultrasonic.setAutomaticMode(true);
   }
 
   public void driveTank(double leftSpeed, double rightSpeed) {
@@ -113,5 +118,9 @@ public class DriveSubsystem extends Subsystem {
 
   public void resetPigeon() {
     pigeon.setYaw(0);
+  }
+
+  public double getUltrasonicDistance() {
+    return ultrasonic.getRangeInches();
   }
 }
