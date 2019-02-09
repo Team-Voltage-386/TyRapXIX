@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.MAXSpeedArcadeDrive;
 import frc.robot.commands.ResetYaw;
 import frc.robot.commands.Shifter;
+import frc.robot.commands.Turn2Ball;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -53,10 +54,13 @@ public class OI {
   Button maxSpeeedButton = new JoystickButton(xboxDriveControl, RobotMap.speedModButton);
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
+  Button turnToBallButton = new JoystickButton(xboxDriveControl, 3);
 
   public OI() {
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
+    turnToBallButton.whenPressed(new Turn2Ball());
+
   }
 }
