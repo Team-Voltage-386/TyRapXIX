@@ -47,6 +47,9 @@ public class ArmSubsystem extends Subsystem {
   private static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
   // TEMP CONSTANTS ABOVE
 
+  private static final double MAX_SHOULDER_VOLTAGE = 4.5;
+  private static final double MIN_SHOULDER_VOLTAGE = 0.5;
+
   public ArmSubsystem() {
 
     prevError = 0;
@@ -127,7 +130,8 @@ public class ArmSubsystem extends Subsystem {
 
   public void setShoulderMotorSpeed(double speed) {
     // IF STATEMENT MAY BE BACKWARDS PHYSICALLY
-    if ((getPotentiometeterVoltage() > 4.5 && speed > 0) || (getPotentiometeterVoltage() < 0.5 && speed < 0)) {
+    if ((getPotentiometeterVoltage() > MAX_SHOULDER_VOLTAGE && speed > 0)
+        || (getPotentiometeterVoltage() < MIN_SHOULDER_VOLTAGE && speed < 0)) {
       speed = 0;
     }
     shoulderMotor.set(speed);

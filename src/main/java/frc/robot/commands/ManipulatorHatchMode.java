@@ -15,14 +15,10 @@ import frc.robot.Robot;
 
 public class ManipulatorHatchMode extends Command {
 
-  private boolean prevStateOpen, prevStateClose;
-
   public ManipulatorHatchMode() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.manipulatorSubsystem);
-    prevStateOpen = false;
-    prevStateClose = false;
   }
 
   // Called just before this Command runs the first time
