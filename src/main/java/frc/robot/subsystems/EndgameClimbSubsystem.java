@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -20,9 +22,10 @@ public class EndgameClimbSubsystem extends Subsystem {
 
   private Spark leftClimbArm = new Spark(RobotMap.leftClimbArm);
   private Spark rightClimbArm = new Spark(RobotMap.rightClimbArm);
-  private Spark climbElevatorMotor = new Spark(RobotMap.rearElevatorMotor);
+  private WPI_TalonSRX climbElevatorMotor = new WPI_TalonSRX(RobotMap.rearElevatorMotor);
   private Spark climbElevatorWheels = new Spark(RobotMap.elevatorDriveWheels);
-  private DigitalInput elevatorLimitSwitch = new DigitalInput(RobotMap.elevatorLimitSwitch); // TEMP Port Number
+  // private DigitalInput elevatorLimitSwitch = new
+  // DigitalInput(RobotMap.elevatorLimitSwitch); // TEMP Port Number
 
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -36,7 +39,7 @@ public class EndgameClimbSubsystem extends Subsystem {
 
   public void setClimbArmSpeeds(double speed) {
     leftClimbArm.set(speed);
-    rightClimbArm.set(speed);
+    rightClimbArm.set(-1 * speed);
   }
 
   public void setElevatorSpeed(double speed) {
@@ -47,8 +50,8 @@ public class EndgameClimbSubsystem extends Subsystem {
     climbElevatorWheels.set(speed);
   }
 
-  public boolean getElevatorLimitSwitch() {
-    return elevatorLimitSwitch.get();
-  }
+  // public boolean getElevatorLimitSwitch() {
+  // return elevatorLimitSwitch.get();
+  // }
 
 }

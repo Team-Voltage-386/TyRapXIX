@@ -52,7 +52,7 @@ public class OI {
 
   // manipulator user inputs
   public static final int manipLeftJoystickVertical = 1;
-  public static final int manipRightJoystickVertical = 5;
+  public static final int manipRightJoystickVertical = 3;
 
   // button inputs
   public static final int floorPickup = 6; // right bumper

@@ -26,10 +26,10 @@ public class ElevatorManual extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem.setElevatorSpeed(OI.xboxManipControl.getRawAxis(OI.manipLeftJoystickVertical) * .2);
     Robot.endgameClimbSubsystem
-        .setElevatorWheelsSpeed(OI.xboxManipControl.getRawAxis(OI.manipRightJoystickVertical) * .2);
-    Robot.endgameClimbSubsystem.setClimbArmSpeeds(OI.xboxDriveControl.getRawAxis(OI.driveLeftJoystickVertical) * .2);
+        .setElevatorSpeed(-1 * OI.xboxManipControl.getRawAxis(OI.manipLeftJoystickVertical));
+    Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(OI.xboxManipControl.getRawAxis(OI.manipRightJoystickVertical));
+    Robot.endgameClimbSubsystem.setClimbArmSpeeds(OI.xboxDriveControl.getRawAxis(OI.driveLeftJoystickVertical));
   }
 
   // Make this return true when this Command no longer needs to run execute()
