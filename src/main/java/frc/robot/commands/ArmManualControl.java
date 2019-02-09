@@ -26,7 +26,9 @@ public class ArmManualControl extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.armSubsystem.setShoulderMotorSpeed(OI.xboxManipControl.getRawAxis(OI.driveLeftJoystickVertical));
+    // Inverse Speed so that joystick up (negative speed) makes the arm go up
+    Robot.armSubsystem.setShoulderMotorSpeed(-1 * OI.xboxManipControl.getRawAxis(OI.driveLeftJoystickVertical));
+    // Needs to be tested
     Robot.armSubsystem.setElbowMotorSpeed(OI.xboxManipControl.getRawAxis(OI.driveRightJoystickHorizontal));
   }
 

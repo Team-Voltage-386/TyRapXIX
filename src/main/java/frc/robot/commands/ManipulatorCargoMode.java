@@ -38,6 +38,7 @@ public class ManipulatorCargoMode extends Command {
     } else if (OI.xboxManipControl.getRawButton(OI.outake)) { // 8 TEMP PORT NUMBER MAYBE BACKWARDS
       cargoIntakeDirection = CargoIntakeDirection.cargoOut;
     } else {
+      // This ensures that the motor actually stops when button is not pressed
       cargoIntakeDirection = CargoIntakeDirection.cargoOff;
     }
     Robot.manipulatorSubsystem.setCargoIntakeDirection(cargoIntakeDirection);
