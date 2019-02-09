@@ -13,6 +13,7 @@ import frc.robot.OI;
 
 public class ElevatorManual extends Command {
   public ElevatorManual() {
+    requires(Robot.endgameClimbSubsystem);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
