@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.BallVisionSubsystem;
 import frc.robot.subsystems.BeakSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.CargoManipSubsystem;
@@ -34,6 +35,7 @@ public class Robot extends TimedRobot {
   public static CargoManipSubsystem cargoManipSubsystem = new CargoManipSubsystem();
   public static DriveSubsystem driveSubsystem = new DriveSubsystem();
   public static EndgameClimbSubsystem endgameClimbSubsystem = new EndgameClimbSubsystem();
+  public static BallVisionSubsystem ballVisionSubystem = new BallVisionSubsystem();
   public static OI m_oi;
 
   Command m_autonomousCommand;
