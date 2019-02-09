@@ -47,8 +47,8 @@ public class ArmSubsystem extends Subsystem {
   private static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
   // TEMP CONSTANTS ABOVE
 
-  private static final double MAX_SHOULDER_VOLTAGE = 4.5;
-  private static final double MIN_SHOULDER_VOLTAGE = 0.5;
+  private static final double MAX_SHOULDER_VOLTAGE = 4.5; // TEMP
+  private static final double MIN_SHOULDER_VOLTAGE = 0.5; // TEMP
 
   public ArmSubsystem() {
 
