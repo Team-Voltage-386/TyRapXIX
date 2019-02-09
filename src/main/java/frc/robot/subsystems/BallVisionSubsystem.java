@@ -29,6 +29,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.BallVision;
+import frc.robot.commands.Turn2Ball;
 
 /**
  * Add your docs here.
@@ -61,7 +62,7 @@ public class BallVisionSubsystem extends Subsystem {
   public List<Rect> rects = new ArrayList<Rect>();
 
   Size blurSize = new Size(9, 9);
-  Scalar colorStart = new Scalar(0, 99, 165);
+  Scalar colorStart = new Scalar(0, 150, 165);
   Scalar colorEnd = new Scalar(20, 253, 255);
   Size erodeSize = new Size(10, 10);
   Size dilateSize = new Size(10, 10);
@@ -74,7 +75,6 @@ public class BallVisionSubsystem extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new BallVision());
   }
 
   public BallVisionSubsystem() {
@@ -118,16 +118,25 @@ public class BallVisionSubsystem extends Subsystem {
     if (rects.size() < 1) {
       rightCenter = 0.0;
 
-    } else {
-      rightCenter = Math.abs(rects.get(0).x + rects.get(0).width / 2 - 160.0);
+    }
+    // else {
+    // rightCenter = Math.abs(rects.get(0).x + rects.get(0).width / 2 - 160.0);
+    // for (int i = 0; i < rects.size(); i++) {
+    // Double x = Math.abs(rects.get(i).x + rects.get(i).width / 2 - 160.0);
+    // if (x <= rightCenter) {
+    // rightRect = rects.get(i);
+    // }
+    // }
+    else {
+      rightCenter = Math.abs(rects.get(0).y + rects.get(0).height / 2 - 120.0);
       for (int i = 0; i < rects.size(); i++) {
-        Double x = Math.abs(rects.get(i).x + rects.get(i).width / 2 - 160.0);
-        if (x <= rightCenter) {
+        Double y = Math.abs(rects.get(i).y + rects.get(i).height / 2 - 120.0);
+        if (y <= rightCenter) {
           rightRect = rects.get(i);
         }
       }
+      rightCenter = Math.abs(rightRect.x + rects.get(0).width / 2 - 160.0);
       rects.remove(rightRect);
-
     }
     // Imgproc.rectangle(originalImage, new Point(rightRect.x, rightRect.y), new
     // Point(rightRect.x+rightRect.width, rightRect.y+rightRect.height), new
@@ -144,8 +153,13 @@ public class BallVisionSubsystem extends Subsystem {
     contoursOutputStream.putFrame(originalImage);
     // double distanceFromCenter = x-160;
     // double angleFromCenter = Math.atan(distanceFromCenter);
+    double error;
+    if ((rightCenter == 0.0)) {
+      error = 0;
+    } else {
+      error = (rightCenter - originalImage.width() / 2);
+    }
 
-    double error = (rightCenter - originalImage.width() / 2);
     return error;
   }
 
