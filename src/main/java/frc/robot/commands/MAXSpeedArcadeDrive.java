@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 
 public class MAXSpeedArcadeDrive extends Command {
   public MAXSpeedArcadeDrive() {
@@ -27,8 +26,8 @@ public class MAXSpeedArcadeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double xSpeed = OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical);
-    double zRotation = OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
+    double xSpeed = OI.xboxDriveControl.getRawAxis(OI.driveLeftJoystickVertical);
+    double zRotation = OI.xboxDriveControl.getRawAxis(OI.driveRightJoystickHorizontal);
     Robot.driveSubsystem.driveArcade(xSpeed * -1, zRotation);
   }
 
