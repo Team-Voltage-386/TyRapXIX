@@ -93,6 +93,10 @@ public class ArmSubsystem extends Subsystem {
 
   // Set Arm to Given Goal Using PID
   public void setArmTicks(double encoderGoal) {
+    /*
+     * can someone explain why we dont move this to a command? (I know, but I want a
+     * reference for future students)
+     */
     error = getArmEncoder() - encoderGoal;
     errorChange = error - prevError;
     p = error * pk /* SmartDashboard.getNumber("pk ", 0) */;
@@ -116,12 +120,12 @@ public class ArmSubsystem extends Subsystem {
     armMotorMaster.set(speed);
   }
 
-  // Get Current Talon Encoder Value
+  /** Get Current Talon Encoder Value */
   public double getArmEncoder() {
     return armMotorMaster.getSelectedSensorPosition();
   }
 
-  // Reset Arm Encoder
+  /** Reset Arm Encoder */
   public void resetEncoder() {
     armMotorMaster.setSelectedSensorPosition(0, 0, 10);
   }
