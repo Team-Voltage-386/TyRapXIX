@@ -71,12 +71,12 @@ public class OI {
    * The button runs the command to collect from player station. it's tied to the
    * <em>X Button</em> which is ID 10
    */
-  public static final int cargoPlayerStationPickup = 3; // X button
+  public static final int cargoPlayerStationPickup = 1; // X button
   /**
    * The button changes the selector to level 1. it's tied to the <em>A
    * Button</em> which is ID 2
    */
-  public static final int levelOneSelector = 1; // A button
+  public static final int levelOneSelector = 2; // A button
   /**
    * The button changes the selector to level 2. it's tied to the <em>B
    * Button</em> which is ID 3
