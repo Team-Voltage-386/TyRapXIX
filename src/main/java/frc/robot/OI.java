@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.MAXSpeedArcadeDrive;
 import frc.robot.commands.ResetYaw;
 import frc.robot.commands.Shifter;
 
@@ -55,13 +56,56 @@ import frc.robot.commands.Shifter;
  */
 public class OI {
 
+  // drive user inputs
+  public static final int driveLeftJoystickVertical = 1;
+  public static final int driveRightJoystickHorizontal = 4;
+  public static final int speedModButton = 6;
+
+  // button inputs
+  /**
+   * This button is used to start the floorPickup command. the function is tied to
+   * the <em>Right Bumper</em> which is ID 6
+   */
+  public static final int floorPickup = 6; // right bumper
+  /**
+   * The button runs the command to collect from player station. it's tied to the
+   * <em>X Button</em> which is ID 10
+   */
+  public static final int cargoPlayerStationPickup = 3; // X button
+  /**
+   * The button changes the selector to level 1. it's tied to the <em>A
+   * Button</em> which is ID 2
+   */
+  public static final int levelOneSelector = 1; // A button
+  /**
+   * The button changes the selector to level 2. it's tied to the <em>B
+   * Button</em> which is ID 3
+   */
+  public static final int levelTwoSelector = 3; // B button
+  /**
+   * The button changes the selector to level 3. it's tied to the <em>Y
+   * Button</em> which is ID 4
+   */
+  public static final int levelThreeSelector = 4; // Y button
+  public static final int resetLevel = 8; // right trigger
+  public static final int intake = 5; // left bumper
+  public static final int outake = 7; // left trigger
+  public static final int manualShoulderAxis = 1; // left joystick y
+  public static final int manualElbowAxis = 3; // right joystick y
+
+  // manipulator mode buttons
+  public static final int hatchMode = 10; // start button
+  public static final int cargoMode = 9; // back button
+
   public static Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
+  Button maxSpeeedButton = new JoystickButton(xboxDriveControl, speedModButton);
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
 
   public OI() {
+    maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
   }

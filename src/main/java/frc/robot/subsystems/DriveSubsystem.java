@@ -20,13 +20,10 @@ import frc.robot.RobotMap;
 import frc.robot.Robot;
 import frc.robot.commands.ArcadeDrive;
 
-/**
+/*
  * Add your docs here.
  */
 public class DriveSubsystem extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-
   private static WPI_TalonSRX frontLeft = new WPI_TalonSRX(RobotMap.frontLeft);
   private static WPI_TalonSRX frontRight = new WPI_TalonSRX(RobotMap.frontRight);
   private static WPI_TalonSRX slaveLeft = new WPI_TalonSRX(RobotMap.rearLeftFollower);
@@ -40,6 +37,12 @@ public class DriveSubsystem extends Subsystem {
 
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
 
+  private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
+  private static final int PEAK_TIME_MS = 0; /* how long after Peak current to trigger current limit */
+  private static final int CONTIN_CURRENT_AMPS = 25; /* hold current after limit is triggered */
+
+  private static final double OPEN_LOOP_RAMP_SECONDS = 0.1; // 100 milliseconds
+
   public DriveSubsystem() {
     slaveLeft.follow(frontLeft);
     slaveRight.follow(frontRight);
@@ -49,6 +52,19 @@ public class DriveSubsystem extends Subsystem {
     frontRight.setInverted(true);
     slaveLeft.setInverted(InvertType.FollowMaster);
     slaveRight.setInverted(InvertType.FollowMaster);
+
+    frontLeft.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
+    frontLeft.configPeakCurrentDuration(PEAK_TIME_MS);
+    frontLeft.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
+    frontLeft.enableCurrentLimit(true);
+
+    frontRight.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
+    frontRight.configPeakCurrentDuration(PEAK_TIME_MS);
+    frontRight.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
+    frontRight.enableCurrentLimit(true);
+
+    frontRight.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
+    frontLeft.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
   }
 
   public void driveTank(double leftSpeed, double rightSpeed) {
@@ -74,8 +90,8 @@ public class DriveSubsystem extends Subsystem {
   }
 
   public void resetEncoders() {
-    frontLeft.setSelectedSensorPosition(RobotMap.ENCODER_PORT, 0, ENCODER_TIMEOUT);
-    frontRight.setSelectedSensorPosition(RobotMap.ENCODER_PORT, 0, ENCODER_TIMEOUT);
+    frontLeft.setSelectedSensorPosition(0);
+    frontRight.setSelectedSensorPosition(0);
   }
 
   public double getLeftEncoder() {
@@ -88,8 +104,6 @@ public class DriveSubsystem extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
     setDefaultCommand(new ArcadeDrive());
   }
 

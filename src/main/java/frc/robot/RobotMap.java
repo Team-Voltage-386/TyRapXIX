@@ -61,33 +61,6 @@ public class RobotMap {
 
   public static int spikeLightRing = 0; // LED Light Ring
 
-  // button inputs
-  /**
-   * This button is used to start the floorPickup command. the function is tied to
-   * the <em>X Button</em> which is ID 1
-   */
-  public static int floorPickup = 1;
-  /**
-   * The button runs the command to collect from player station. it's tied to
-   * <em>Back Button</em> which is ID 10
-   */
-  public static int cargoPlayerStationPickup = 10; // placeholder - update with final button mapping
-  /**
-   * The button changes the selector to level 1. it's tied to the <em>A
-   * Button</em> which is ID 2
-   */
-  public static int levelOneSelector = 2;
-  /**
-   * The button changes the selector to level 2. it's tied to the <em>B
-   * Button</em> which is ID 3
-   */
-  public static int levelTwoSelector = 3;
-  /**
-   * The button changes the selector to level 3. it's tied to the <em>Y
-   * Button</em> which is ID 4
-   */
-  public static int levelThreeSelector = 4;
-
   // to be defined - port numbers are placeholders
 
   public static int rearElevatorMotor = 5;
@@ -102,9 +75,6 @@ public class RobotMap {
 
   public static int driveLeftEncoder = 3;
   public static int driveRightEncoder = 4;
-  // drive user inputs
-  public static int driveLeftJoystickVertical = 1;
-  public static int driveRightJoystickHorizontal = 4;
 
   // limit switches
   public static int bottomArmLimitSwitch = 4;

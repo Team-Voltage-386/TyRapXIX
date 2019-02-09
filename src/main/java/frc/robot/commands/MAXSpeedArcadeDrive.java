@@ -11,8 +11,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
-public class TankDrive extends Command {
-  public TankDrive() {
+public class MAXSpeedArcadeDrive extends Command {
+  public MAXSpeedArcadeDrive() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
     requires(Robot.driveSubsystem);
   }
 
@@ -24,8 +26,9 @@ public class TankDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveSubsystem.driveTank(OI.xboxDriveControl.getRawAxis(OI.driveLeftJoystickVertical),
-        OI.xboxDriveControl.getRawAxis(OI.driveRightJoystickHorizontal));
+    double xSpeed = OI.xboxDriveControl.getRawAxis(OI.driveLeftJoystickVertical);
+    double zRotation = OI.xboxDriveControl.getRawAxis(OI.driveRightJoystickHorizontal);
+    Robot.driveSubsystem.driveArcade(xSpeed * -1, zRotation);
   }
 
   // Make this return true when this Command no longer needs to run execute()

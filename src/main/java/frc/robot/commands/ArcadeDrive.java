@@ -10,9 +10,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 
 public class ArcadeDrive extends Command {
+  private static final double SPEEEED_REDUCTION = 0.8;
+
   public ArcadeDrive() {
     requires(Robot.driveSubsystem);
     // Use requires() here to declare subsystem dependencies
@@ -22,14 +23,16 @@ public class ArcadeDrive extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    // Called repeatedly when this Command is scheduled to run
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double xSpeed = OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical);
-    double zRotation = OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
-    Robot.driveSubsystem.driveArcade(xSpeed, zRotation);
+    double xSpeed = OI.xboxDriveControl.getRawAxis(OI.driveLeftJoystickVertical);
+    double zRotation = OI.xboxDriveControl.getRawAxis(OI.driveRightJoystickHorizontal);
+    Robot.driveSubsystem.driveArcade(xSpeed * -1 * SPEEEED_REDUCTION, zRotation);
   }
 
   // Make this return true when this Command no longer needs to run execute()
