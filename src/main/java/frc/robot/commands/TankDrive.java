@@ -11,6 +11,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
+/**
+ * setup used to run the driver controller in Tank Drive. In this mode, <em>Left
+ * Analog Stick</em> controls the left motors on the robot, and <em>Right Analog
+ * Stick</em> controls the right side of the robot
+ */
 public class TankDrive extends Command {
   public TankDrive() {
     requires(Robot.driveSubsystem);

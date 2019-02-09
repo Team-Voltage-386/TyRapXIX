@@ -11,6 +11,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
+/**
+ * setup used to run the driver controller in arcade drive. in this mode,
+ * <em>Left Analog Y Axis</em> goes forward, and <em>Right Analog X Axis</em>
+ * (Left/Right) turn the robot
+ */
 public class ArcadeDrive extends Command {
   private static final double SPEEEED_REDUCTION = 0.8;
 

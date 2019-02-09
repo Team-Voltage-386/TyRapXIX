@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
 /**
- * Add your docs here.
+ * Resets the Pigeons Yaw/Pitch/Roll
  */
 public class ResetYaw extends InstantCommand {
   /**
