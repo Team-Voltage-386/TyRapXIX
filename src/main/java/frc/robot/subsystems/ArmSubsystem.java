@@ -44,6 +44,9 @@ public class ArmSubsystem extends Subsystem {
   private static final int CONTIN_CURRENT_AMPS = 25; /* hold current after limit is triggered */
   private static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
 
+  private final double UPWARDS_SHOULDER_LIMITER = 0.75; // TEMP NEEDS TESTING
+  private final double DOWNWARDS_SHOULDER_LIMITER = 0.2; // TEMP NEEDS TESTING
+
   public ArmSubsystem() {
     prevError = 0;
     p = 0;
@@ -114,16 +117,14 @@ public class ArmSubsystem extends Subsystem {
     }
   }
 
+  /**
+   * Positive speed moves arm up, negative moves arm down
+   */
   public void setShoulderMotorSpeed(double speed) {
-    // IF STATEMENT MAY BE BACKWARDS PHYSICALLY
-    // if ((getPotentiometeterVoltage() > 4.5 && speed > 0) ||
-    // (getPotentiometeterVoltage() < 0.5 && speed < 0)) {
-    // speed = 0;
-    // }
     if (speed > 0 && getPotentiometeterVoltage() < 3.8) {
-      speed = .75 * speed;
+      speed = UPWARDS_SHOULDER_LIMITER * speed;
     } else if (speed < 0 && getPotentiometeterVoltage() > 1.5) {
-      speed = .2 * speed;
+      speed = DOWNWARDS_SHOULDER_LIMITER * speed;
     } else {
       speed = 0;
     }
