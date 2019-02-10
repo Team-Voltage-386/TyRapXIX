@@ -70,7 +70,7 @@ public class BallVisionSubsystem extends Subsystem {
   Size edgeErodeSize = new Size(3, 3);
 
   public Double rightCenter = 0.0;
-  Rect rightRect;
+  Rect rightRect = new Rect(0, 0, 0, 0);
 
   @Override
   public void initDefaultCommand() {
@@ -117,11 +117,8 @@ public class BallVisionSubsystem extends Subsystem {
 
     if (rects.size() < 1) {
       rightCenter = 0.0;
-
     }
-    // else {
-    // rightCenter = Math.abs(rects.get(0).x + rects.get(0).width / 2 - 160.0);
-    // for (int i = 0; i < rects.size(); i++) {
+
     // Double x = Math.abs(rects.get(i).x + rects.get(i).width / 2 - 160.0);
     // if (x <= rightCenter) {
     // rightRect = rects.get(i);
@@ -155,9 +152,9 @@ public class BallVisionSubsystem extends Subsystem {
     // double angleFromCenter = Math.atan(distanceFromCenter);
     double error;
     if ((rightCenter == 0.0)) {
-      error = 0;
+      error = 0.0;
     } else {
-      error = (rightCenter - originalImage.width() / 2);
+      error = (rightCenter - originalImage.width() / 2 + 0.0);
     }
 
     return error;

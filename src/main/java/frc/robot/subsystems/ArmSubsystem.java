@@ -30,13 +30,14 @@ public class ArmSubsystem extends Subsystem {
   private final int HATCH_LEVEL_TWO_TICKS = 100;
   private final int HATCH_LEVEL_THREE_TICKS = 100;
 
-  WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
-  WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
+  // WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
+  // WPI_TalonSRX armMotorFollower = new
+  // WPI_TalonSRX(RobotMap.rightShoulderMotor);
 
   DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
 
   public ArmSubsystem() {
-    armMotorFollower.follow(armMotorMaster);
+    // armMotorFollower.follow(armMotorMaster);
     prevError = 0;
     p = 0;
     i = 0;
@@ -87,7 +88,7 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public void setArmTicks(double encoderGoal) {
-    error = getArmEncoder() - encoderGoal;
+    // error = getArmEncoder() - encoderGoal;
     errorChange = error - prevError;
     p = error * pk /* SmartDashboard.getNumber("pk ", 0) */;
     i += error * ik /* SmartDashboard.getNumber("ik ", 0) */;
@@ -102,15 +103,15 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public void setArmMotorSpeed(double speed) {
-    armMotorMaster.set(speed);
+    // armMotorMaster.set(speed);
   }
 
-  public double getArmEncoder() {
-    return armMotorMaster.getSelectedSensorPosition();
-  }
+  // public double getArmEncoder() {
+  // return armMotorMaster.getSelectedSensorPosition();
+  // }
 
   public void resetEncoder() {
-    armMotorMaster.setSelectedSensorPosition(0, 0, 10);
+    // armMotorMaster.setSelectedSensorPosition(0, 0, 10);
   }
 
   public boolean getBottomLimitSwitch() {
