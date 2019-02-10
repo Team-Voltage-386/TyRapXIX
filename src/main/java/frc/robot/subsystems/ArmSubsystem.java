@@ -130,10 +130,10 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public void setShoulderMotorSpeed(double speed) {
-    // BAD STATEMENT BELOW && getShoulderPotentiometeterVoltage() < 5
-    if (speed > 0) {
+    // BAD STATEMENT BELOW
+    if (speed > 0 && getShoulderPotentiometeterVoltage() < 3.5) {
       speed = 0.65 * speed;
-    } else if (speed < 0) {
+    } else if (speed < 0 && getShoulderPotentiometeterVoltage() > 1.5) {
       speed = 0.2 * speed;
     } else {
       speed = 0;
