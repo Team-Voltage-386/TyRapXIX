@@ -93,13 +93,13 @@ public class ArmSubsystem extends Subsystem {
   /**
    * Set Arm to Given Goal Using PID.
    * 
+   * The PID variables are handled inside this method implementation because
+   * multiple commands are used to control the arm and set it to different
+   * heights.
+   * 
    * @param encocderGoal The target goal value.
    */
   public void setArmTicks(double encoderGoal) {
-    /*
-     * can someone explain why we dont move this to a command? (I know, but I want a
-     * reference for future students)
-     */
     error = getArmEncoder() - encoderGoal;
     errorChange = error - prevError;
     p = error * pk /* SmartDashboard.getNumber("pk ", 0) */;
