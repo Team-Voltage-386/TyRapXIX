@@ -26,8 +26,8 @@ public class ManipulatorCargoMode extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
-    Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
+    Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
+    Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
   }
 
   // Called repeatedly when this Command is scheduled to run

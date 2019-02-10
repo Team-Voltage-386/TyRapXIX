@@ -25,16 +25,16 @@ public class ManipulatorHatchMode extends Command {
   @Override
   protected void initialize() {
     Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
-    Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
+    Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     if (OI.xboxManipControl.getRawButton(OI.intake)) {
-      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
-    } else if (OI.xboxManipControl.getRawButton(OI.outake)) {
       Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
+    } else if (OI.xboxManipControl.getRawButton(OI.outake)) {
+      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
     }
   }
 

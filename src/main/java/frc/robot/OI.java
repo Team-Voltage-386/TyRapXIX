@@ -49,7 +49,8 @@ public class OI {
   // button.whenReleased(new ExampleCommand());
   // drive user inputs
   public static final int driveLeftJoystickVertical = 1;
-  public static final int driveRightJoystickHorizontal = 4;
+  public static final int driveRightJoystickVertical = 3;
+  public static final int driveRightJoystickHorizontal = 2;
   public static final int speedModButton = 6;
 
   // button inputs

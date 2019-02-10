@@ -38,7 +38,8 @@ public class ArmSubsystem extends Subsystem {
 
   DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch); // TEMP PORT NUMBER
 
-  AnalogInput potentiometer = new AnalogInput(RobotMap.potentiometer);
+  AnalogInput shoulderPotentiometer = new AnalogInput(RobotMap.shoulderPotentiometer);
+  AnalogInput elbowPotentiometer = new AnalogInput(RobotMap.elbowPotentiometer);
 
   // TEMP CONSTANTS BELOW
   private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
@@ -129,15 +130,26 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public void setShoulderMotorSpeed(double speed) {
-    // IF STATEMENT MAY BE BACKWARDS PHYSICALLY
-    if ((getPotentiometeterVoltage() > MAX_SHOULDER_VOLTAGE && speed > 0)
-        || (getPotentiometeterVoltage() < MIN_SHOULDER_VOLTAGE && speed < 0)) {
+    // BAD STATEMENT BELOW && getShoulderPotentiometeterVoltage() < 5
+    if (speed > 0) {
+      speed = 0.65 * speed;
+    } else if (speed < 0) {
+      speed = 0.2 * speed;
+    } else {
       speed = 0;
     }
     shoulderMotor.set(speed);
   }
 
+  // 1.53 middle potentiometer
   public void setElbowMotorSpeed(double speed) {
+    if (speed > 0 && getElbowPotentiometeterVoltage() < 5) { // 2.65 max
+      speed = 0.35 * speed;
+    } else if (speed < 0 && getElbowPotentiometeterVoltage() > 0) { //
+      speed = 1 * speed;
+    } else {
+      speed = 0;
+    }
     elbowMotor.set(speed);
   }
 
@@ -153,8 +165,12 @@ public class ArmSubsystem extends Subsystem {
     return bottomLimitSwitch.get();
   }
 
-  public double getPotentiometeterVoltage() {
-    return potentiometer.getAverageVoltage();
+  public double getShoulderPotentiometeterVoltage() {
+    return shoulderPotentiometer.getAverageVoltage();
+  }
+
+  public double getElbowPotentiometeterVoltage() {
+    return elbowPotentiometer.getAverageVoltage();
   }
 
   @Override
