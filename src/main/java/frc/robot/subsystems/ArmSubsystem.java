@@ -1,9 +1,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.OI;
 import frc.robot.RobotMap;
 
 /**
@@ -30,25 +33,55 @@ public class ArmSubsystem extends Subsystem {
   private final int HATCH_LEVEL_THREE_TICKS = 100;
 
   // Talon Motor Declarations
-  private WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
-  private WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
+  private WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
+  private WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
 
   // Limit Switch Declarations
-  private DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
+  private DigitalInput bottomShoulderLimitSwitch = new DigitalInput(RobotMap.bottomShoulderLimitSwitch);
+
+  AnalogInput potentiometer = new AnalogInput(RobotMap.potentiometer);
+
+  // TEMP CONSTANTS BELOW
+  private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
+  private static final int PEAK_TIME_MS = 0; /* how long after Peak current to trigger current limit */
+  private static final int CONTIN_CURRENT_AMPS = 25; /* hold current after limit is triggered */
+  private static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
+  // TEMP CONSTANTS ABOVE
+  private static final double MAX_SHOULDER_VOLTAGE = 3.8; // TEMP
+  private static final double MIN_SHOULDER_VOLTAGE = 1.5; // TEMP
+
+  private final double UPWARDS_SHOULDER_LIMITER = 0.75; // TEMP NEEDS TESTING
+  private final double DOWNWARDS_SHOULDER_LIMITER = 0.2; // TEMP NEEDS TESTING
 
   // Default Constructor Called At Start of Code
   public ArmSubsystem() {
-    armMotorFollower.follow(armMotorMaster);
     prevError = 0;
     p = 0;
     i = 0;
     d = 0;
+
+    shoulderMotor.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
+    shoulderMotor.configPeakCurrentDuration(PEAK_TIME_MS); /* this is a necessary call to avoid errata. */
+    shoulderMotor.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
+    shoulderMotor.enableCurrentLimit(true); /* honor initial setting */
+    shoulderMotor.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
+
+    elbowMotor.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
+    elbowMotor.configPeakCurrentDuration(PEAK_TIME_MS); /* this is a necessary call to avoid errata. */
+    elbowMotor.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
+    elbowMotor.enableCurrentLimit(true); /* honor initial setting */
+    elbowMotor.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
+
   }
 
   /** Enumerations used in CargoMode and HatchMode Commands */
   public enum Levels {
     cargoFloorPickup, cargoPlayerStation, cargoLevelOne, cargoLevelTwo, cargoLevelThree, hatchFloorPickup,
-    hatchLevelOne, hatchLevelTwo, hatchLevelThree;
+    hatchLevelOne, hatchLevelTwo, hatchLevelThree, manualControl;
+  }
+
+  public void setLevel(Levels in) {
+    setLevel(in, 0);
   }
 
   /**
@@ -56,34 +89,37 @@ public class ArmSubsystem extends Subsystem {
    * 
    * @param in The level to move the arm to.
    */
-  public void setLevel(Levels in) {
+  public void setLevel(Levels in, double manualOverride) {
     switch (in) {
+    case manualControl:
+      setShoulderMotorSpeed(manualOverride);
+      break;
     case cargoFloorPickup:
-      setArmTicks(CARGO_FLOOR_TICKS);
+      setShoulderTicks(CARGO_FLOOR_TICKS);
       break;
     case cargoPlayerStation:
-      setArmTicks(CARGO_PLAYER_STATION_TICKS);
+      setShoulderTicks(CARGO_PLAYER_STATION_TICKS);
       break;
     case cargoLevelOne:
-      setArmTicks(CARGO_LEVEL_ONE_TICKS);
+      setShoulderTicks(CARGO_LEVEL_ONE_TICKS);
       break;
     case cargoLevelTwo:
-      setArmTicks(CARGO_LEVEL_TWO_TICKS);
+      setShoulderTicks(CARGO_LEVEL_TWO_TICKS);
       break;
     case cargoLevelThree:
-      setArmTicks(CARGO_LEVEL_THREE_TICKS);
+      setShoulderTicks(CARGO_LEVEL_THREE_TICKS);
       break;
     case hatchFloorPickup:
-      setArmTicks(HATCH_FLOOR_TICKS);
+      setShoulderTicks(HATCH_FLOOR_TICKS);
       break;
     case hatchLevelOne:
-      setArmTicks(HATCH_LEVEL_ONE_TICKS);
+      setShoulderTicks(HATCH_LEVEL_ONE_TICKS);
       break;
     case hatchLevelTwo:
-      setArmTicks(HATCH_LEVEL_TWO_TICKS);
+      setShoulderTicks(HATCH_LEVEL_TWO_TICKS);
       break;
     case hatchLevelThree:
-      setArmTicks(HATCH_LEVEL_THREE_TICKS);
+      setShoulderTicks(HATCH_LEVEL_THREE_TICKS);
       break;
     default:
       break;
@@ -99,16 +135,16 @@ public class ArmSubsystem extends Subsystem {
    * 
    * @param encocderGoal The target goal value.
    */
-  public void setArmTicks(double encoderGoal) {
-    error = getArmEncoder() - encoderGoal;
+  public void setShoulderTicks(double encoderGoal) {
+    error = getShoulderEncoder() - encoderGoal;
     errorChange = error - prevError;
     p = error * pk /* SmartDashboard.getNumber("pk ", 0) */;
     i += error * ik /* SmartDashboard.getNumber("ik ", 0) */;
     d = errorChange * dk /* SmartDashboard.getNumber("dk ", 0) */;
     speed = p + i + d;
-    setArmMotorSpeed(speed);
+    setShoulderMotorSpeed(speed);
     prevError = error;
-    if (getBottomLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
+    if (getBottomShoulderLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
       resetEncoder();
     }
   }
@@ -118,8 +154,15 @@ public class ArmSubsystem extends Subsystem {
    * 
    * @param speed Values are between 0.0 and 1.0.
    */
-  public void setArmMotorSpeed(double speed) {
-    armMotorMaster.set(speed);
+  public void setShoulderMotorSpeed(double speed) {
+    if (speed > 0 && getPotentiometeterVoltage() < MAX_SHOULDER_VOLTAGE) {
+      speed = UPWARDS_SHOULDER_LIMITER * speed;
+    } else if (speed < 0 && getPotentiometeterVoltage() > MIN_SHOULDER_VOLTAGE) {
+      speed = DOWNWARDS_SHOULDER_LIMITER * speed;
+    } else {
+      speed = 0;
+    }
+    shoulderMotor.set(speed);
   }
 
   /**
@@ -127,15 +170,15 @@ public class ArmSubsystem extends Subsystem {
    * 
    * @return The current encoder value.
    */
-  public double getArmEncoder() {
-    return armMotorMaster.getSelectedSensorPosition();
+  public double getShoulderEncoder() {
+    return shoulderMotor.getSelectedSensorPosition();
   }
 
   /**
    * Reset Arm Encoder.
    */
   public void resetEncoder() {
-    armMotorMaster.setSelectedSensorPosition(0, 0, 10);
+    shoulderMotor.setSelectedSensorPosition(0, 0, 10);
   }
 
   /**
@@ -143,15 +186,19 @@ public class ArmSubsystem extends Subsystem {
    * 
    * @return false if tiggered, true if not triggered.
    */
-  public boolean getBottomLimitSwitch() {
-    return bottomLimitSwitch.get();
+  public boolean getBottomShoulderLimitSwitch() {
+    return bottomShoulderLimitSwitch.get();
   }
 
   /**
    * Displays Diagnostics on SmartDashboard.
    */
   public void displayDiagnostics() {
-    SmartDashboard.putNumber("Arm Motor Speed", armMotorMaster.get());
+    SmartDashboard.putNumber("Shoulder Motor Speed", shoulderMotor.get());
+  }
+
+  public double getPotentiometeterVoltage() {
+    return potentiometer.getAverageVoltage();
   }
 
   // No Default Command for ArmSubsystem
