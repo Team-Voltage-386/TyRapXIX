@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.MAXSpeedArcadeDrive;
 import frc.robot.commands.Shifter;
+import frc.robot.commands.RunAutoLevelOne;
+import frc.robot.commands.RunAutoLevelTwo;
+import frc.robot.commands.RunAutoLevelThree;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -71,9 +74,15 @@ public class OI {
 
   Button maxSpeeedButton = new JoystickButton(xboxDriveControl, speedModButton);
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
+  Button autoLevelOne = new JoystickButton(xboxDriveControl, 1); // TEMP
+  Button autoLevelTwo = new JoystickButton(xboxDriveControl, 2); // TEMP
+  Button autoLevelThree = new JoystickButton(xboxDriveControl, 3); // TEMP
 
   public OI() {
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
+    autoLevelOne.whenPressed(new RunAutoLevelOne());
+    autoLevelTwo.whenPressed(new RunAutoLevelTwo());
+    autoLevelThree.whenPressed(new RunAutoLevelThree());
   }
 }

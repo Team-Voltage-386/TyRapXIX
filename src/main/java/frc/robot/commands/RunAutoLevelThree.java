@@ -7,19 +7,19 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.Robot;
 
 /**
  * Add your docs here.
  */
-public class RunAutoLevelOne extends InstantCommand {
+public class RunAutoLevelThree extends InstantCommand {
   /**
    * Add your docs here.
    */
-  public RunAutoLevelOne() {
+  public RunAutoLevelThree() {
     requires(Robot.driveSubsystem);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -31,11 +31,12 @@ public class RunAutoLevelOne extends InstantCommand {
     if (Robot.driveSubsystem.getUltrasonicDistance() > Robot.driveSubsystem.MINIMUM_CLEARANCE_DISTANCE) {
       /** Needs testing - solenoid states may be reversed */
       if (Robot.manipulatorSubsystem.beakRetract.get() == Value.kForward) {
-        new AutoScoringGroup(ArmSubsystem.Levels.cargoLevelOne).start();
+        new AutoScoringGroup(ArmSubsystem.Levels.cargoLevelThree).start();
       } else if (Robot.manipulatorSubsystem.beakRetract.get() == Value.kReverse) {
-        new AutoScoringGroup(ArmSubsystem.Levels.hatchLevelOne).start();
+        new AutoScoringGroup(ArmSubsystem.Levels.hatchLevelThree).start();
       }
     } else {
     }
   }
+
 }
