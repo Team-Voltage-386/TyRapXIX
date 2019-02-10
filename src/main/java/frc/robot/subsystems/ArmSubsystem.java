@@ -21,14 +21,23 @@ public class ArmSubsystem extends Subsystem {
   private double prevError, error, errorChange, speed, power, p, i, d;
   private final double pk = 0.05, ik = 0.001, dk = 0.07;
   private final int CARGO_FLOOR_TICKS = 100;
+  private final int CARGO_FLOOR_ANGLE = 100;
   private final int CARGO_PLAYER_STATION_TICKS = 100;
+  private final int CARGO_PLAYER_STATION_ANGLE = 100;
   private final int CARGO_LEVEL_ONE_TICKS = 100;
+  private final int CARGO_LEVEL_ONE_ANGLE = 100;
   private final int CARGO_LEVEL_TWO_TICKS = 100;
+  private final int CARGO_LEVEL_TWO_ANGLE = 100;
   private final int CARGO_LEVEL_THREE_TICKS = 100;
+  private final int CARGO_LEVEL_THREE_ANGLE = 100;
   private final int HATCH_FLOOR_TICKS = 100;
+  private final int HATCH_FLOOR_ANGLE = 100;
   private final int HATCH_LEVEL_ONE_TICKS = 100;
+  private final int HATCH_LEVEL_ONE_ANGLE = 100;
   private final int HATCH_LEVEL_TWO_TICKS = 100;
+  private final int HATCH_LEVEL_TWO_ANGLE = 100;
   private final int HATCH_LEVEL_THREE_TICKS = 100;
+  private final int HATCH_LEVEL_THREE_ANGLE = 100;
 
   WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
   WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
@@ -56,30 +65,39 @@ public class ArmSubsystem extends Subsystem {
     switch (in) {
     case cargoFloorPickup:
       setArmTicks(CARGO_FLOOR_TICKS);
+      setElbowRotation(CARGO_FLOOR_ANGLE);
       break;
     case cargoPlayerStation:
       setArmTicks(CARGO_PLAYER_STATION_TICKS);
+      setElbowRotation(CARGO_PLAYER_STATION_ANGLE);
       break;
     case cargoLevelOne:
       setArmTicks(CARGO_LEVEL_ONE_TICKS);
+      setElbowRotation(CARGO_LEVEL_ONE_ANGLE);
       break;
     case cargoLevelTwo:
       setArmTicks(CARGO_LEVEL_TWO_TICKS);
+      setElbowRotation(CARGO_LEVEL_TWO_ANGLE);
       break;
     case cargoLevelThree:
       setArmTicks(CARGO_LEVEL_THREE_TICKS);
+      setElbowRotation(CARGO_LEVEL_THREE_ANGLE);
       break;
     case hatchFloorPickup:
       setArmTicks(HATCH_FLOOR_TICKS);
+      setElbowRotation(HATCH_FLOOR_ANGLE);
       break;
     case hatchLevelOne:
       setArmTicks(HATCH_LEVEL_ONE_TICKS);
+      setElbowRotation(HATCH_LEVEL_ONE_ANGLE);
       break;
     case hatchLevelTwo:
       setArmTicks(HATCH_LEVEL_TWO_TICKS);
+      setElbowRotation(HATCH_LEVEL_TWO_ANGLE);
       break;
     case hatchLevelThree:
       setArmTicks(HATCH_LEVEL_THREE_TICKS);
+      setElbowRotation(HATCH_LEVEL_THREE_ANGLE);
       break;
     default:
       break;
@@ -99,6 +117,10 @@ public class ArmSubsystem extends Subsystem {
     if (getBottomLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
       resetEncoder();
     }
+  }
+
+  public void setElbowRotation(double angleGoal) {
+    // NEEDS TO BE NOT EMPTY - Should be similar to shoulder setTicks
   }
 
   public void setArmMotorSpeed(double speed) {
