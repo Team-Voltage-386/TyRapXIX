@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -32,7 +33,7 @@ public class DriveSubsystem extends Subsystem {
 
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
 
-  public static Ultrasonic driveUltrasonic = new Ultrasonic(RobotMap.distancePing, RobotMap.distanceEcho);
+  public static AnalogInput driveUltrasonic = new AnalogInput(RobotMap.analogUltrasonic);
 
   /** threshold to trigger current limit */
   private static final int PEAK_CURRENT_AMPS = 35;
@@ -138,8 +139,8 @@ public class DriveSubsystem extends Subsystem {
     setDefaultCommand(new ArcadeDrive());
   }
 
-  public double getUltrasonicDistance() {
-    return driveUltrasonic.getRangeInches();
+  public double getUltrasonicVoltage() {
+    return driveUltrasonic.getAverageVoltage();
   }
 
   /**

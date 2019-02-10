@@ -39,6 +39,7 @@ public class ArmSubsystem extends Subsystem {
   // Talon Motor Declarations
   private WPI_TalonSRX armMotorMaster = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
   private WPI_TalonSRX armMotorFollower = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
+  private WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
 
   // Limit Switch Declarations
   private DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
@@ -141,6 +142,10 @@ public class ArmSubsystem extends Subsystem {
    */
   public void setArmMotorSpeed(double speed) {
     armMotorMaster.set(speed);
+  }
+
+  public void setElbowMotorSpeed(double speed) {
+    elbowMotor.set(speed);
   }
 
   /**

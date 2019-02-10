@@ -14,7 +14,7 @@ import frc.robot.subsystems.ArmSubsystem.Levels;
 public class DriveFullyForward extends Command {
 
   private Levels level;
-  private double error, ultrasonicGoal;
+  private double error, ultrasonicGoalVoltage;
   private final double DEFAULT_FORWARD_SPEED = 0.4; // TEMP NEEDS TO BE TESTED
   private final double k = 0; // TEMP NEEDS TO BE TESTED FOR GYRO COMPENSATION
 
@@ -31,17 +31,17 @@ public class DriveFullyForward extends Command {
     Robot.driveSubsystem.resetPigeon();
     error = 0;
     if (level == Levels.cargoLevelOne) {
-      ultrasonicGoal = 100; // TEMP NEEDS TO BE TESTED
+      ultrasonicGoalVoltage = 100; // TEMP NEEDS TO BE TESTED
     } else if (level == Levels.cargoLevelTwo) {
-      ultrasonicGoal = 100; // TEMP NEEDS TO BE TESTED
+      ultrasonicGoalVoltage = 100; // TEMP NEEDS TO BE TESTED
     } else if (level == Levels.cargoLevelThree) {
-      ultrasonicGoal = 100; // TEMP NEEDS TO BE TESTED
+      ultrasonicGoalVoltage = 100; // TEMP NEEDS TO BE TESTED
     } else if (level == Levels.hatchLevelOne) {
-      ultrasonicGoal = 100; // TEMP NEEDS TO BE TESTED
+      ultrasonicGoalVoltage = 100; // TEMP NEEDS TO BE TESTED
     } else if (level == Levels.hatchLevelTwo) {
-      ultrasonicGoal = 100; // TEMP NEEDS TO BE TESTED
+      ultrasonicGoalVoltage = 100; // TEMP NEEDS TO BE TESTED
     } else if (level == Levels.hatchLevelThree) {
-      ultrasonicGoal = 100; // TEMP NEEDS TO BE TESTED
+      ultrasonicGoalVoltage = 100; // TEMP NEEDS TO BE TESTED
     }
   }
 
@@ -56,7 +56,7 @@ public class DriveFullyForward extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.driveSubsystem.getUltrasonicDistance() < ultrasonicGoal;
+    return Robot.driveSubsystem.getUltrasonicVoltage() < ultrasonicGoalVoltage;
   }
 
   // Called once after isFinished returns true

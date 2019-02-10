@@ -7,51 +7,40 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
 
-public class DeployObject extends Command {
+public class BackUp extends Command {
 
-  private Timer timer = new Timer();
-  private double startTime;
-  private final double CARGO_OUTTAKE_TIME = 3; // TEMP NEEDS TO BE TESTED
+  private final double BACK_UP_SPEED = 0.4;
+  private final double ULTRASONIC_CLEARANCE_DISTANCE_VOLTAGE = 2; // TEMP
 
-  public DeployObject() {
-    requires(Robot.manipulatorSubsystem);
+  public BackUp() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.driveSubsystem);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.manipulatorSubsystem.getCargoSolenoidState() == Value.kForward) { // May be backwards
-      Robot.manipulatorSubsystem.setHatchSolenoidState(Value.kReverse); // May be backwards
-    } else if (Robot.manipulatorSubsystem.getCargoSolenoidState() == Value.kReverse) { // May be backwards
-      Robot.manipulatorSubsystem.setCargoIntakeSpeed(-.5);
-    }
-
+    Robot.driveSubsystem.driveArcade(-BACK_UP_SPEED, 0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Timer.getFPGATimestamp() - startTime > CARGO_OUTTAKE_TIME
-        || Robot.manipulatorSubsystem.getCargoSolenoidState() == Value.kForward;
+    return Robot.driveSubsystem.getUltrasonicVoltage() > ULTRASONIC_CLEARANCE_DISTANCE_VOLTAGE;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.manipulatorSubsystem.setCargoIntakeSpeed(0);
   }
 
   // Called when another command which requires one or more of the same

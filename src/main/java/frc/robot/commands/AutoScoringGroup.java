@@ -16,6 +16,7 @@ public class AutoScoringGroup extends CommandGroup {
    */
 
   public AutoScoringGroup(Levels level) {
+
     // addSequential(new TurnToTarget());
     addSequential(new LiftArms(level));
     addSequential(new AdjustElbow(level));

@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ArmSubsystem.Levels;
 import frc.robot.Robot;
 
 /**
@@ -28,12 +28,12 @@ public class RunAutoLevelThree extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    if (Robot.driveSubsystem.getUltrasonicDistance() > Robot.driveSubsystem.MINIMUM_CLEARANCE_DISTANCE) {
+    if (Robot.driveSubsystem.getUltrasonicVoltage() > Robot.driveSubsystem.MINIMUM_CLEARANCE_DISTANCE) {
       /** Needs testing - solenoid states may be reversed */
       if (Robot.manipulatorSubsystem.getCargoSolenoidState() == Value.kForward) {
-        new AutoScoringGroup(ArmSubsystem.Levels.cargoLevelThree).start();
+        new AutoScoringGroup(Levels.cargoLevelThree).start();
       } else if (Robot.manipulatorSubsystem.getCargoSolenoidState() == Value.kReverse) {
-        new AutoScoringGroup(ArmSubsystem.Levels.hatchLevelThree).start();
+        new AutoScoringGroup(Levels.hatchLevelThree).start();
       }
     } else {
     }
