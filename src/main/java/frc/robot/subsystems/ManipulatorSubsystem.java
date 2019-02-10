@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.ManipulatorHatchMode;
 
 /**
  * Add your docs here.
@@ -52,7 +51,6 @@ public class ManipulatorSubsystem extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     // setDefaultCommand(new ManipulatorManualControl());
-    setDefaultCommand(new ManipulatorHatchMode());
   }
 
   public enum CargoIntakeDirection {
@@ -67,8 +65,6 @@ public class ManipulatorSubsystem extends Subsystem {
       cargSolenoid.set(DoubleSolenoid.Value.kForward);
     }
   }
-
-}
 
   // Not Certain what location each state corresponds to
   public void switchHatchSolenoidState() {
@@ -92,7 +88,7 @@ public class ManipulatorSubsystem extends Subsystem {
   }
 
   public Value getCargoSolenoidState() {
-    cargSolenoid.get();
+    return cargSolenoid.get();
   }
 
   public void setCargoIntakeDirection(CargoIntakeDirection direction) {
