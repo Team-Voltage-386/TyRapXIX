@@ -14,7 +14,6 @@ import frc.robot.Robot;
 
 public class DeployObject extends Command {
 
-  private Timer timer = new Timer();
   private double startTime;
   private final double CARGO_OUTTAKE_TIME = 3; // TEMP NEEDS TO BE TESTED
 
