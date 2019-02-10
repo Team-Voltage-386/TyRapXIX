@@ -30,9 +30,9 @@ public class RunAutoLevelOne extends InstantCommand {
   protected void initialize() {
     if (Robot.driveSubsystem.getUltrasonicDistance() > Robot.driveSubsystem.MINIMUM_CLEARANCE_DISTANCE) {
       /** Needs testing - solenoid states may be reversed */
-      if (Robot.manipulatorSubsystem.beakRetract.get() == Value.kForward) {
+      if (Robot.manipulatorSubsystem.getCargoSolenoidState() == Value.kForward) {
         new AutoScoringGroup(ArmSubsystem.Levels.cargoLevelOne).start();
-      } else if (Robot.manipulatorSubsystem.beakRetract.get() == Value.kReverse) {
+      } else if (Robot.manipulatorSubsystem.getCargoSolenoidState() == Value.kReverse) {
         new AutoScoringGroup(ArmSubsystem.Levels.hatchLevelOne).start();
       }
     } else {
