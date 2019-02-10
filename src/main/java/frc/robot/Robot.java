@@ -7,9 +7,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
@@ -36,6 +40,10 @@ public class Robot extends TimedRobot {
   public static EndgameClimbSubsystem endgameClimbSubsystem = new EndgameClimbSubsystem();
   public static OI m_oi;
 
+  NetworkTableEntry testEntry;
+  double[] testValue;
+  double[] defaultValue;
+
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -49,6 +57,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    defaultValue = new double[1];
+    defaultValue[0] = 4.0;
+    // NetworkTableInstance testInstance = NetworkTableInstance.getDefault();
+    // NetworkTable table = testInstance.getTable("datatable");
+    // testEntry = table.getEntry("X");
+    // testInstance.startClientTeam(386);
+    // testValue = testEntry.getDouble(2.0);
+  
+   
+
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
@@ -66,9 +84,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    NetworkTableInstance testInstance = NetworkTableInstance.getDefault();
+    NetworkTable table = testInstance.getTable("datatable");
+    testEntry = table.getEntry("X");
+    testInstance.startClientTeam(386);
+    testValue = testEntry.getDoubleArray(defaultValue);
+ 
     SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
     SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
-    SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
+    SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]); 
+    SmartDashboard.putNumber("Network Table Test",testValue[0]);
+   // SmartDashboard.putNumber("Number Test",defaultValue[0]);
   }
 
   /**
@@ -99,7 +125,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    // m_autonomousCommand = new NetworkTableTest();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -140,6 +166,8 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     driveSubsystem.displayDiagnostics();
+
+
   }
 
   /**
