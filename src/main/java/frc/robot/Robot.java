@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
   public static CargoManipSubsystem cargoManipSubsystem = new CargoManipSubsystem();
   public static DriveSubsystem driveSubsystem = new DriveSubsystem();
   public static VisionProcessing visionProcessing = new VisionProcessing();
-  public static SpikeSubsystem spikeSubsystem = new SpikeSubsystem();
+  // public static SpikeSubsystem spikeSubsystem = new SpikeSubsystem();
   public static EndgameClimbSubsystem endgameClimbSubsystem = new EndgameClimbSubsystem();
   public static OI m_oi;
 
@@ -90,7 +90,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
     SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
     SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
-    SmartDashboard.putString("Spike State", Robot.spikeSubsystem.getState() + "");
+    // SmartDashboard.putString("Spike State", Robot.spikeSubsystem.getState() +
+    // "");
   }
 
   /**

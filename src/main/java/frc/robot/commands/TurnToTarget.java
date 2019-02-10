@@ -23,7 +23,7 @@ public class TurnToTarget extends Command {
   public TurnToTarget() {
     requires(Robot.visionProcessing);
     requires(Robot.driveSubsystem);
-    requires(Robot.spikeSubsystem);
+    // requires(Robot.spikeSubsystem);
   }
 
   ArrayList<RotatedRect[]> pairs = new ArrayList<RotatedRect[]>();
@@ -40,7 +40,7 @@ public class TurnToTarget extends Command {
     Robot.driveSubsystem.resetEncoder();
     Robot.driveSubsystem.resetPigeon();
     pairs = Robot.visionProcessing.visionProcess();
-    Robot.spikeSubsystem.lightSwitch();
+    // Robot.spikeSubsystem.lightSwitch();
 
     center = (Robot.visionProcessing.base.width() / 2);
 

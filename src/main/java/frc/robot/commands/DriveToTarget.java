@@ -23,7 +23,7 @@ public class DriveToTarget extends Command {
   public DriveToTarget() {
     requires(Robot.visionProcessing);
     requires(Robot.driveSubsystem);
-    requires(Robot.spikeSubsystem);
+    // requires(Robot.spikeSubsystem);
   }
 
   ArrayList<RotatedRect[]> pairs = new ArrayList<RotatedRect[]>();
@@ -40,7 +40,7 @@ public class DriveToTarget extends Command {
     Robot.driveSubsystem.resetEncoder();
     Robot.driveSubsystem.resetPigeon();
     pairs = Robot.visionProcessing.visionProcess();
-    Robot.spikeSubsystem.lightSwitch();
+    // Robot.spikeSubsystem.lightSwitch();
     i = 0;
   }
 
@@ -74,7 +74,7 @@ public class DriveToTarget extends Command {
       i += error * SmartDashboard.getNumber("ki", 0);
       d = (error - prevError) * SmartDashboard.getNumber("kd", 0);
 
-      Robot.driveSubsystem.driveTank((-.8 * .75 + p + d + i), -.75 - p - d - i);
+      // Robot.driveSubsystem.driveTank((-.8 * .75 + p + d + i), -.75 - p - d - i);
 
       SmartDashboard.putNumber("Error", error);
       SmartDashboard.putNumber("Center of Pair", VisionProcessing.getPairCenter(bestPair));

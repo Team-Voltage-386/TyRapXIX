@@ -20,13 +20,13 @@ public class SpikeLight extends InstantCommand {
   public SpikeLight() {
     super();
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.spikeSubsystem);
+    // requires(Robot.spikeSubsystem);
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.spikeSubsystem.spikeToggle();
+    // Robot.spikeSubsystem.spikeToggle();
   }
 
 }
