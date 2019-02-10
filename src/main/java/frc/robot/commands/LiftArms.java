@@ -11,10 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class LiftArms extends Command {
-  Levels desiredLevel = Levels.cargoLevelOne;
 
   public LiftArms() {
-    requires(Robot.armSubsystem);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
