@@ -18,7 +18,7 @@ import frc.robot.RobotMap;
  */
 public class ArmSubsystem extends Subsystem {
 
-  private double prevError, error, errorChange, speed, p, i, d;
+  private double prevError, error, errorChange, speed, power, p, i, d;
   private final double pk = 0.05, ik = 0.001, dk = 0.07;
   private final int CARGO_FLOOR_TICKS = 100;
   private final int CARGO_PLAYER_STATION_TICKS = 100;
@@ -92,9 +92,9 @@ public class ArmSubsystem extends Subsystem {
     p = error * pk /* SmartDashboard.getNumber("pk ", 0) */;
     i += error * ik /* SmartDashboard.getNumber("ik ", 0) */;
     d = errorChange * dk /* SmartDashboard.getNumber("dk ", 0) */;
-    speed = p + i + d;
-    setArmMotorSpeed(speed);
-    SmartDashboard.putNumber("ArmMotorSpeed", speed);
+    power = p + i + d;
+    setArmMotorSpeed(power);
+    SmartDashboard.putNumber("ArmMotorPower", power);
     prevError = error;
     if (getBottomLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
       resetEncoder();
@@ -115,6 +115,14 @@ public class ArmSubsystem extends Subsystem {
 
   public boolean getBottomLimitSwitch() {
     return bottomLimitSwitch.get();
+  }
+
+  public double getShoulderSpeed() {
+    return errorChange; // errorChange from the PID calculations should be equal to speed
+  }
+
+  public double getShoulderPower() {
+    return power;
   }
 
   @Override

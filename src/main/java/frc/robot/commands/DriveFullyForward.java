@@ -11,35 +11,52 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.ArmSubsystem.Levels;
 
-public class LiftArms extends Command {
+public class DriveFullyForward extends Command {
 
   private Levels level;
-  private final double MAX_POWER_FOR_ISFINISHED = 1; // TEMP NEEDS TO BE TESTED
-  private final double MAX_SPEED_FOR_ISFINISHED = 1; // TEMP NEEDS TO BE TESTED
+  private double error, ultrasonicGoal;
+  private final double DEFAULT_FORWARD_SPEED = 0.4; // TEMP NEEDS TO BE TESTED
+  private final double k = 0; // TEMP NEEDS TO BE TESTED FOR GYRO COMPENSATION
 
-  public LiftArms(Levels levelInput) {
-    requires(Robot.armSubsystem);
+  public DriveFullyForward(Levels levelInput) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.driveSubsystem);
     level = levelInput;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.driveSubsystem.resetPigeon();
+    error = 0;
+    if (level == Levels.cargoLevelOne) {
+      ultrasonicGoal = 100; // TEMP NEEDS TO BE TESTED
+    } else if (level == Levels.cargoLevelTwo) {
+      ultrasonicGoal = 100; // TEMP NEEDS TO BE TESTED
+    } else if (level == Levels.cargoLevelThree) {
+      ultrasonicGoal = 100; // TEMP NEEDS TO BE TESTED
+    } else if (level == Levels.hatchLevelOne) {
+      ultrasonicGoal = 100; // TEMP NEEDS TO BE TESTED
+    } else if (level == Levels.hatchLevelTwo) {
+      ultrasonicGoal = 100; // TEMP NEEDS TO BE TESTED
+    } else if (level == Levels.hatchLevelThree) {
+      ultrasonicGoal = 100; // TEMP NEEDS TO BE TESTED
+    }
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.armSubsystem.setLevel(level);
+    error = Robot.driveSubsystem.getPigeonYPR()[0];
+    // - and + may be backwards
+    Robot.driveSubsystem.driveTank(DEFAULT_FORWARD_SPEED - (error * k), DEFAULT_FORWARD_SPEED + (error * k));
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.armSubsystem.getShoulderSpeed() < MAX_SPEED_FOR_ISFINISHED
-        && Robot.armSubsystem.getShoulderPower() < MAX_POWER_FOR_ISFINISHED;
+    return Robot.driveSubsystem.getUltrasonicDistance() < ultrasonicGoal;
   }
 
   // Called once after isFinished returns true
