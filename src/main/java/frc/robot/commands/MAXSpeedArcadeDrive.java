@@ -11,10 +11,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
+/**
+ * ArcadeDrive without a speed limiter (i.e. at 100% power).
+ */
 public class MAXSpeedArcadeDrive extends Command {
   public MAXSpeedArcadeDrive() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.driveSubsystem);
   }
 

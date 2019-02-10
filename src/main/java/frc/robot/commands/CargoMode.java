@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -14,7 +7,7 @@ import frc.robot.subsystems.ArmSubsystem.Levels;
 
 /**
  * This command will constantly check for a specific button to be pressed and
- * will set the mode for cargo accordingly
+ * will set the mode for cargo accordingly.
  */
 public class CargoMode extends Command {
   Levels desiredLevel = Levels.cargoLevelOne;
@@ -46,6 +39,9 @@ public class CargoMode extends Command {
       // level three
       desiredLevel = Levels.cargoLevelThree;
     } else {
+      // If no condition matches, then the desiredLevel value is left at its previous
+      // state. Note that its starting state is initialized at the top of this class
+      // definition.
     }
     Robot.armSubsystem.setLevel(desiredLevel);
   }
