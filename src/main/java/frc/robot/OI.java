@@ -3,8 +3,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.BackUp;
+import frc.robot.commands.DeployObject;
+import frc.robot.commands.DriveFullyForward;
 import frc.robot.commands.MAXSpeedArcadeDrive;
 import frc.robot.commands.Shifter;
+import frc.robot.subsystems.ArmSubsystem.Levels;
 import frc.robot.commands.RunAutoLevelOne;
 import frc.robot.commands.RunAutoLevelTwo;
 import frc.robot.commands.RunAutoLevelThree;
@@ -45,11 +49,21 @@ public class OI {
   Button autoLevelTwo = new JoystickButton(xboxDriveControl, 2); // TEMP
   Button autoLevelThree = new JoystickButton(xboxDriveControl, 3); // TEMP
 
+  Button tempDriveFullyForward = new JoystickButton(xboxManipControl, 1);
+  Button tempDeployObject = new JoystickButton(xboxManipControl, 2);
+  Button tempBackUp = new JoystickButton(xboxManipControl, 3);
+
   public OI() {
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
     autoLevelOne.whenPressed(new RunAutoLevelOne());
     autoLevelTwo.whenPressed(new RunAutoLevelTwo());
     autoLevelThree.whenPressed(new RunAutoLevelThree());
+    // ultrasonic distance needs to be measured for each level by Voltage
+    tempDriveFullyForward.whenPressed(new DriveFullyForward(Levels.cargoLevelOne)); // needs to test each scoring level
+    // manually shift solenoid state? or only test one of them
+    tempDeployObject.whenPressed(new DeployObject());
+    // Test clearance distance with ultrasonic
+    tempBackUp.whenPressed(new BackUp());
   }
 }
