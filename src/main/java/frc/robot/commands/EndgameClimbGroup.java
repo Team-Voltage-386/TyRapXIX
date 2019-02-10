@@ -2,6 +2,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * Command group that defines the command sequence of the endgame climb.
+ */
 public class EndgameClimbGroup extends CommandGroup {
   /**
    * Add your docs here.
