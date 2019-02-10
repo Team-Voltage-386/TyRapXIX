@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -12,6 +5,10 @@ import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.ArmSubsystem.Levels;
 
+/**
+ * This command will constantly check for a specific button to be pressed and
+ * will set the mode for cargo accordingly.
+ */
 public class CargoMode extends Command {
   Levels desiredLevel = Levels.cargoLevelOne;
 
@@ -27,21 +24,24 @@ public class CargoMode extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (OI.xboxManipControl.getRawButton(OI.floorPickup)) {
+    if (OI.xboxManipControl.getRawButton(OI.FLOOR_PICKUP)) {
       desiredLevel = Levels.cargoFloorPickup;
-    } else if (OI.xboxManipControl.getRawButton(OI.cargoPlayerStationPickup)) {
+    } else if (OI.xboxManipControl.getRawButton(OI.CARGO_PLAYER_STATION_PICKUP)) {
       // position for collecting cargo from the human player station
       desiredLevel = Levels.cargoPlayerStation;
-    } else if (OI.xboxManipControl.getRawButton(OI.levelOneSelector)) {
+    } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_ONE_SELECTOR)) {
       // level one
       desiredLevel = Levels.cargoLevelOne;
-    } else if (OI.xboxManipControl.getRawButton(OI.levelTwoSelector)) {
+    } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_TWO_SELECTOR)) {
       // level two
       desiredLevel = Levels.cargoLevelTwo;
-    } else if (OI.xboxManipControl.getRawButton(OI.levelThreeSelector)) {
+    } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_THREE_SELECTOR)) {
       // level three
       desiredLevel = Levels.cargoLevelThree;
     } else {
+      // If no condition matches, then the desiredLevel value is left at its previous
+      // state. Note that its starting state is initialized at the top of this class
+      // definition.
     }
     Robot.armSubsystem.setLevel(desiredLevel);
   }
