@@ -107,7 +107,6 @@ public class ArmSubsystem extends Subsystem {
     d = errorChange * dk /* SmartDashboard.getNumber("dk ", 0) */;
     speed = p + i + d;
     setArmMotorSpeed(speed);
-    SmartDashboard.putNumber("ArmMotorSpeed", speed);
     prevError = error;
     if (getBottomLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
       resetEncoder();
@@ -146,6 +145,13 @@ public class ArmSubsystem extends Subsystem {
    */
   public boolean getBottomLimitSwitch() {
     return bottomLimitSwitch.get();
+  }
+
+  /**
+   * Displays Diagnostics on SmartDashboard.
+   */
+  public void displayDiagnostics() {
+    SmartDashboard.putNumber("Arm Motor Speed", armMotorMaster.get());
   }
 
   // No Default Command for ArmSubsystem

@@ -30,10 +30,6 @@ public class Robot extends TimedRobot {
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-  // encoder and sensor labels
-  public static final String ENCODER_TALON_1 = "Encoder Talon 1";
-  public static final String ENCODER_TALON_3 = "Encoder Talon 3";
-
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -56,9 +52,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
-    SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
-    SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
+    driveSubsystem.displayDiagnostics();
+    armSubsystem.displayDiagnostics();
   }
 
   /**
@@ -121,7 +116,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    driveSubsystem.displayDiagnostics();
   }
 
   /**
