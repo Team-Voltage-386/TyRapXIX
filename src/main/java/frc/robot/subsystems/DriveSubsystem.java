@@ -91,14 +91,14 @@ public class DriveSubsystem extends Subsystem {
   }
 
   /**
-   * Displays Encoder Diagnostics on SmartDashboard.
-   * 
-   * This method should be invoked from one or more of the Robot periodic methods.
+   * Displays Diagnostics on SmartDashboard.
    */
   public void displayDiagnostics() {
-    // display left and right encoder values on the dash during drive
-    SmartDashboard.putNumber(Robot.ENCODER_TALON_1, getLeftEncoder());
-    SmartDashboard.putNumber(Robot.ENCODER_TALON_3, getRightEncoder());
+    SmartDashboard.putNumber("Encoder Talon 1", getLeftEncoder());
+    SmartDashboard.putNumber("Encoder Talon 3", getRightEncoder());
+    SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
+    SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
+    SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
   }
 
   /**
