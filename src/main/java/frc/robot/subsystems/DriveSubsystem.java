@@ -65,9 +65,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   /**
-   * setup used to run the driver controller in Tank Drive. In this mode, <em>Left
-   * Analog Stick</em> controls the left motors on the robot, and <em>Right Analog
-   * Stick</em> controls the right side of the robot
+   * Set the speed of the left and right motor groups.
    * 
    * @param leftSpeed  controls the percentage for the left motors to go
    *                   forward/backward. 1.00 is 100% forward speed on the left
@@ -81,9 +79,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   /**
-   * setup used to run the driver controller in arcade drive. in this mode,
-   * <em>Left Analog Y Axis</em> goes forward, and <em>Right Analog X Axis</em>
-   * (Left/Right) turn the robot
+   * Set the speed and rotation of the robot.
    * 
    * @param xSpeed    Percent speed for forward/backward. 1.00 is 100% forward
    *                  speed while -1.00 is -100% forward (backward) speed
@@ -106,20 +102,7 @@ public class DriveSubsystem extends Subsystem {
   }
 
   /**
-   * <h2>The Gear Shift function</h2>
-   * <p>
-   * a toggle function that switches between high gear and low gear
-   * </p>
-   * <h3>High Gear</h3>
-   * <p>
-   * This is when the robot goes faster and the wheels roll freely, but it cant
-   * turn without browning out
-   * </p>
-   * <h3>Low Gear</h3>
-   * <p>
-   * This is when the robot goes slower, but its more controllable. needs to be in
-   * low gear to turn or move to exact positions easily
-   * </p>
+   * Shift gears.
    */
   public void shift() {
     if (shifter.get() == DoubleSolenoid.Value.kForward) {
@@ -153,7 +136,8 @@ public class DriveSubsystem extends Subsystem {
   /**
    * Returns the yaw/pitch/roll from the Pigeon.
    * 
-   * @return The yaw, pitch, and roll as an array of doubles.
+   * @return The an array of doubles with yaw as value 0, pitch as value 1, and
+   *         roll as value 2.
    */
   public double[] getPigeonYPR() {
     double[] ypr_deg = new double[3];

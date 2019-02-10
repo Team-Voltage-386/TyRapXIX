@@ -142,9 +142,6 @@ public class ArmSubsystem extends Subsystem {
   /**
    * Get bottom limit switch state.
    * 
-   * The bottom limit switch is used to halt the arm motor once it is in its
-   * lowest position.
-   * 
    * @return false if tiggered, true if not triggered.
    */
   public boolean getBottomLimitSwitch() {
