@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.OI;
 import frc.robot.RobotMap;
 
 /**
@@ -76,7 +77,11 @@ public class ArmSubsystem extends Subsystem {
   /** Enumerations used in CargoMode and HatchMode Commands */
   public enum Levels {
     cargoFloorPickup, cargoPlayerStation, cargoLevelOne, cargoLevelTwo, cargoLevelThree, hatchFloorPickup,
-    hatchLevelOne, hatchLevelTwo, hatchLevelThree;
+    hatchLevelOne, hatchLevelTwo, hatchLevelThree, manualControl;
+  }
+
+  public void setLevel(Levels in) {
+    setLevel(in, 0);
   }
 
   /**
@@ -84,8 +89,11 @@ public class ArmSubsystem extends Subsystem {
    * 
    * @param in The level to move the arm to.
    */
-  public void setLevel(Levels in) {
+  public void setLevel(Levels in, double manualOverride) {
     switch (in) {
+    case manualControl:
+      setShoulderMotorSpeed(manualOverride);
+      break;
     case cargoFloorPickup:
       setShoulderTicks(CARGO_FLOOR_TICKS);
       break;
