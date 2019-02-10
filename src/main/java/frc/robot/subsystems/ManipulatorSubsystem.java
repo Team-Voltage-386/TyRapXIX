@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 /**
  * Add your docs here.
@@ -15,6 +17,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class ManipulatorSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+
+  public DoubleSolenoid beakRetract = new DoubleSolenoid(RobotMap.beakRetractOpen, RobotMap.beakRetractClosed); // channels
+                                                                                                                // may
+                                                                                                                // be
+                                                                                                                // reversed
 
   @Override
   public void initDefaultCommand() {

@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -37,9 +38,13 @@ public class DriveSubsystem extends Subsystem {
 
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
 
+  public static Ultrasonic driveUltrasonic = new Ultrasonic(RobotMap.distancePing, RobotMap.distanceEcho);
+
   private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
   private static final int PEAK_TIME_MS = 0; /* how long after Peak current to trigger current limit */
   private static final int CONTIN_CURRENT_AMPS = 25; /* hold current after limit is triggered */
+
+  public int MINIMUM_CLEARANCE_DISTANCE = 25; // TEMP - inches from game elements bot must be before lifting arms
 
   private static final double OPEN_LOOP_RAMP_SECONDS = 0.1; // 100 milliseconds
 
@@ -103,6 +108,10 @@ public class DriveSubsystem extends Subsystem {
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new ArcadeDrive());
+  }
+
+  public double getUltrasonicDistance() {
+    return driveUltrasonic.getRangeInches();
   }
 
   public double[] getPigeonYPR() {

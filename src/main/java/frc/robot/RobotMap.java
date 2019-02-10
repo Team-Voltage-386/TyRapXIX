@@ -42,8 +42,8 @@ public class RobotMap {
   public static int lineSensorLeft = 0;
   public static int lineSensorCenter = 1;
   public static int lineSensorRight = 2;
-  public static int distanceSensorPing = 3;
-  public static int distanceSensorEcho = 4;
+  public static int distancePing = 3;
+  public static int distanceEcho = 4;
   public static int analogUltrasonic = 0;
   public static final int ENCODER_PORT = 0;
 
