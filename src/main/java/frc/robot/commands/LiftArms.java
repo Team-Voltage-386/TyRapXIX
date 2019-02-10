@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class LiftArms extends Command {
-  Levels desiredLevel = Levels.cargoLevelOne;
 
   public LiftArms() {
     requires(Robot.armSubsystem);
