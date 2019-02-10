@@ -6,13 +6,12 @@ import frc.robot.Robot;
 import frc.robot.subsystems.ArmSubsystem.Levels;
 
 /**
- * This command will constantly check for a specific button to be pressed and
- * will set the mode for cargo accordingly.
+ * Command used to set mode for the Hatch
  */
-public class CargoMode extends Command {
-  Levels desiredLevel = Levels.cargoLevelOne;
+public class ArmHatchMode extends Command {
+  Levels desiredLevel = Levels.hatchLevelOne;
 
-  public CargoMode() {
+  public ArmHatchMode() {
     requires(Robot.armSubsystem);
   }
 
@@ -28,19 +27,17 @@ public class CargoMode extends Command {
         || OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) < -0.1) {
       Robot.armSubsystem.setShoulderMotorSpeed(OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL));
     } else if (OI.xboxManipControl.getRawButton(OI.FLOOR_PICKUP)) {
-      desiredLevel = Levels.cargoFloorPickup;
-    } else if (OI.xboxManipControl.getRawButton(OI.CARGO_PLAYER_STATION_PICKUP)) {
-      // position for collecting cargo from the human player station
-      desiredLevel = Levels.cargoPlayerStation;
+      // floor pickup
+      desiredLevel = Levels.hatchFloorPickup;
     } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_ONE_SELECTOR)) {
       // level one
-      desiredLevel = Levels.cargoLevelOne;
+      desiredLevel = Levels.hatchLevelOne;
     } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_TWO_SELECTOR)) {
       // level two
-      desiredLevel = Levels.cargoLevelTwo;
+      desiredLevel = Levels.hatchLevelTwo;
     } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_THREE_SELECTOR)) {
       // level three
-      desiredLevel = Levels.cargoLevelThree;
+      desiredLevel = Levels.hatchLevelThree;
     } else {
       // If no condition matches, then the desiredLevel value is left at its previous
       // state. Note that its starting state is initialized at the top of this class
