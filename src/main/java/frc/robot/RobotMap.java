@@ -71,6 +71,6 @@ public class RobotMap {
   public static int driveRightEncoder = 4;
 
   // limit switches
-  public static int bottomArmLimitSwitch = 4;
+  public static int bottomShoulderLimitSwitch = 4;
 
 }

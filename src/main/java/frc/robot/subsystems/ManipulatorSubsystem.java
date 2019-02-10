@@ -27,6 +27,7 @@ public class ManipulatorSubsystem extends Subsystem {
   private static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
   // TEMP CONSTANTS ABOVE
   private static final double CARGO_INTAKE_SPEED = 0.5;
+  private static final double CARGO_OUTTAKE_SPEED = -0.5;
 
   public ManipulatorSubsystem() {
 
@@ -83,7 +84,7 @@ public class ManipulatorSubsystem extends Subsystem {
     if (direction == CargoIntakeDirection.cargoIn) {
       setCargoIntakeSpeed(CARGO_INTAKE_SPEED); // TEMP MAYBE BACKWARDS
     } else if (direction == CargoIntakeDirection.cargoOut) {
-      setCargoIntakeSpeed(-CARGO_INTAKE_SPEED); // TEMP MAYBE BACKWARDS
+      setCargoIntakeSpeed(CARGO_OUTTAKE_SPEED); // TEMP MAYBE BACKWARDS
     } else if (direction == CargoIntakeDirection.cargoOff) {
       setCargoIntakeSpeed(0);
     }

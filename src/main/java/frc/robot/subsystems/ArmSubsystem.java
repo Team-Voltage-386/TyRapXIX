@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
-import frc.robot.commands.ManualShoulderCode;
 
 /**
  * The ArmSubsystem is responsible for the shoulder and elbow motor control.
@@ -37,7 +36,7 @@ public class ArmSubsystem extends Subsystem {
   private WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
 
   // Limit Switch Declarations
-  private DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
+  private DigitalInput bottomShoulderLimitSwitch = new DigitalInput(RobotMap.bottomShoulderLimitSwitch);
 
   AnalogInput potentiometer = new AnalogInput(RobotMap.potentiometer);
 
@@ -88,31 +87,31 @@ public class ArmSubsystem extends Subsystem {
   public void setLevel(Levels in) {
     switch (in) {
     case cargoFloorPickup:
-      setArmTicks(CARGO_FLOOR_TICKS);
+      setShoulderTicks(CARGO_FLOOR_TICKS);
       break;
     case cargoPlayerStation:
-      setArmTicks(CARGO_PLAYER_STATION_TICKS);
+      setShoulderTicks(CARGO_PLAYER_STATION_TICKS);
       break;
     case cargoLevelOne:
-      setArmTicks(CARGO_LEVEL_ONE_TICKS);
+      setShoulderTicks(CARGO_LEVEL_ONE_TICKS);
       break;
     case cargoLevelTwo:
-      setArmTicks(CARGO_LEVEL_TWO_TICKS);
+      setShoulderTicks(CARGO_LEVEL_TWO_TICKS);
       break;
     case cargoLevelThree:
-      setArmTicks(CARGO_LEVEL_THREE_TICKS);
+      setShoulderTicks(CARGO_LEVEL_THREE_TICKS);
       break;
     case hatchFloorPickup:
-      setArmTicks(HATCH_FLOOR_TICKS);
+      setShoulderTicks(HATCH_FLOOR_TICKS);
       break;
     case hatchLevelOne:
-      setArmTicks(HATCH_LEVEL_ONE_TICKS);
+      setShoulderTicks(HATCH_LEVEL_ONE_TICKS);
       break;
     case hatchLevelTwo:
-      setArmTicks(HATCH_LEVEL_TWO_TICKS);
+      setShoulderTicks(HATCH_LEVEL_TWO_TICKS);
       break;
     case hatchLevelThree:
-      setArmTicks(HATCH_LEVEL_THREE_TICKS);
+      setShoulderTicks(HATCH_LEVEL_THREE_TICKS);
       break;
     default:
       break;
@@ -128,8 +127,8 @@ public class ArmSubsystem extends Subsystem {
    * 
    * @param encocderGoal The target goal value.
    */
-  public void setArmTicks(double encoderGoal) {
-    error = getArmEncoder() - encoderGoal;
+  public void setShoulderTicks(double encoderGoal) {
+    error = getShoulderEncoder() - encoderGoal;
     errorChange = error - prevError;
     p = error * pk /* SmartDashboard.getNumber("pk ", 0) */;
     i += error * ik /* SmartDashboard.getNumber("ik ", 0) */;
@@ -137,7 +136,7 @@ public class ArmSubsystem extends Subsystem {
     speed = p + i + d;
     setShoulderMotorSpeed(speed);
     prevError = error;
-    if (getBottomLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
+    if (getBottomShoulderLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
       resetEncoder();
     }
   }
@@ -163,7 +162,7 @@ public class ArmSubsystem extends Subsystem {
    * 
    * @return The current encoder value.
    */
-  public double getArmEncoder() {
+  public double getShoulderEncoder() {
     return shoulderMotor.getSelectedSensorPosition();
   }
 
@@ -179,15 +178,15 @@ public class ArmSubsystem extends Subsystem {
    * 
    * @return false if tiggered, true if not triggered.
    */
-  public boolean getBottomLimitSwitch() {
-    return bottomLimitSwitch.get();
+  public boolean getBottomShoulderLimitSwitch() {
+    return bottomShoulderLimitSwitch.get();
   }
 
   /**
    * Displays Diagnostics on SmartDashboard.
    */
   public void displayDiagnostics() {
-    SmartDashboard.putNumber("Arm Motor Speed", shoulderMotor.get());
+    SmartDashboard.putNumber("Shoulder Motor Speed", shoulderMotor.get());
   }
 
   public double getPotentiometeterVoltage() {
@@ -199,6 +198,5 @@ public class ArmSubsystem extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new ManualShoulderCode());
   }
 }
