@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -21,7 +14,8 @@ import frc.robot.Robot;
 import frc.robot.commands.ArcadeDrive;
 
 /*
- * Add your docs here.
+ * The DriveSubsystem is the interface for controlling the drive train. It provides methods
+ * for driving the motors and retrieving encoder values from those motors.
  */
 public class DriveSubsystem extends Subsystem {
   private static WPI_TalonSRX frontLeft = new WPI_TalonSRX(RobotMap.frontLeft);
@@ -36,6 +30,7 @@ public class DriveSubsystem extends Subsystem {
   private static DifferentialDrive differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
+
   /** threshold to trigger current limit */
   private static final int PEAK_CURRENT_AMPS = 35;
   /** how long after Peak current to trigger current limit */
@@ -99,7 +94,11 @@ public class DriveSubsystem extends Subsystem {
     differentialDrive.arcadeDrive(xSpeed, zRotation);
   }
 
-  /** Displays Encoder Diagnostics on SmartDashboard */
+  /**
+   * Displays Encoder Diagnostics on SmartDashboard.
+   * 
+   * This method should be invoked from one or more of the Robot periodic methods.
+   */
   public void displayDiagnostics() {
     // display left and right encoder values on the dash during drive
     SmartDashboard.putNumber(Robot.ENCODER_TALON_1, getLeftEncoder());
@@ -151,14 +150,20 @@ public class DriveSubsystem extends Subsystem {
     setDefaultCommand(new ArcadeDrive());
   }
 
-  /** gets the yaw/pitch/roll from the Pigeon */
+  /**
+   * Returns the yaw/pitch/roll from the Pigeon.
+   * 
+   * @return The yaw, pitch, and roll as an array of doubles.
+   */
   public double[] getPigeonYPR() {
     double[] ypr_deg = new double[3];
     pigeon.getYawPitchRoll(ypr_deg);
     return ypr_deg;
   }
 
-  /** Resets the Pigeons Yaw/Pitch/Roll. Technically resets the yaw to 0 */
+  /**
+   * Resets the Pigeon's yaw to 0.
+   */
   public void resetPigeon() {
     pigeon.setYaw(0);
   }

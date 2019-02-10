@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -14,7 +7,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
 /**
- * Add your docs here.
+ * The ArmSubsystem is responsible for the shoulder and elbow motor control.
+ * 
+ * The shoulder motor moves the arm up and down.
+ * 
+ * The elbow motor moves the manipulator up and down.
  */
 public class ArmSubsystem extends Subsystem {
 
@@ -48,15 +45,17 @@ public class ArmSubsystem extends Subsystem {
     d = 0;
   }
 
-  /** Create Enumerations to be Used in CargoMode and HatchMode Commands */
+  /** Enumerations used in CargoMode and HatchMode Commands */
   public enum Levels {
     cargoFloorPickup, cargoPlayerStation, cargoLevelOne, cargoLevelTwo, cargoLevelThree, hatchFloorPickup,
     hatchLevelOne, hatchLevelTwo, hatchLevelThree;
   }
 
-  // ArmSubsystem Methods
-
-  /** Set the Arm to Constant Encoder Levels Based on Levels Enumeration */
+  /**
+   * Set the Arm to Constant Encoder Levels Based on Levels Enumeration.
+   * 
+   * @param in The level to move the arm to.
+   */
   public void setLevel(Levels in) {
     switch (in) {
     case cargoFloorPickup:
@@ -91,7 +90,11 @@ public class ArmSubsystem extends Subsystem {
     }
   }
 
-  /** Set Arm to Given Goal Using PID */
+  /**
+   * Set Arm to Given Goal Using PID.
+   * 
+   * @param encocderGoal The target goal value.
+   */
   public void setArmTicks(double encoderGoal) {
     /*
      * can someone explain why we dont move this to a command? (I know, but I want a
@@ -120,12 +123,18 @@ public class ArmSubsystem extends Subsystem {
     armMotorMaster.set(speed);
   }
 
-  /** Get Current Talon Encoder Value */
+  /**
+   * Get Current Talon Encoder Value
+   * 
+   * @return The current encoder value.
+   */
   public double getArmEncoder() {
     return armMotorMaster.getSelectedSensorPosition();
   }
 
-  /** Reset Arm Encoder */
+  /**
+   * Reset Arm Encoder.
+   */
   public void resetEncoder() {
     armMotorMaster.setSelectedSensorPosition(0, 0, 10);
   }
@@ -136,7 +145,7 @@ public class ArmSubsystem extends Subsystem {
    * The bottom limit switch is used to halt the arm motor once it is in its
    * lowest position.
    * 
-   * @return false if ressed, true if not pressed.
+   * @return false if tiggered, true if not triggered.
    */
   public boolean getBottomLimitSwitch() {
     return bottomLimitSwitch.get();
