@@ -23,6 +23,7 @@ public class OI {
   public static final int DRIVE_LEFT_JOYSTICK_VERTICAL = 1;
   public static final int DRIVE_RIGHT_JOYSTICK_HORIZONTAL = 4;
   public static final int SPEED_MOD_BUTTON = 6;
+  public static final int SHIFT_BUTTON = 5;
 
   // button inputs
   public static final int FLOOR_PICKUP = 6; // right bumper
@@ -43,8 +44,6 @@ public class OI {
   public static final Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static final Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
-  Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
-  Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button autoLevelOne = new JoystickButton(xboxDriveControl, 1); // TEMP
   Button autoLevelTwo = new JoystickButton(xboxDriveControl, 2); // TEMP
   Button autoLevelThree = new JoystickButton(xboxDriveControl, 3); // TEMP
@@ -52,6 +51,8 @@ public class OI {
   Button tempDriveFullyForward = new JoystickButton(xboxManipControl, 1);
   Button tempDeployObject = new JoystickButton(xboxManipControl, 2);
   Button tempBackUp = new JoystickButton(xboxManipControl, 3);
+  private Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
+  private Button shifterButton = new JoystickButton(xboxDriveControl, SHIFT_BUTTON);
 
   public OI() {
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());

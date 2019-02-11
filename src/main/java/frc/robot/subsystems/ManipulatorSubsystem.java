@@ -14,8 +14,7 @@ public class ManipulatorSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  // TEMP PORT NUMBER
-  public DoubleSolenoid cargSolenoid = new DoubleSolenoid(RobotMap.beakRetractOpen, RobotMap.beakRetractClosed);
+  DoubleSolenoid cargoSolenoid = new DoubleSolenoid(RobotMap.beakRetractOpen, RobotMap.beakRetractClosed);
   // TEMP PORT NUMBER
   DoubleSolenoid hatchSolenoid = new DoubleSolenoid(RobotMap.hatchCaptureOpen, RobotMap.hatchCaptureClosed);
 
@@ -28,6 +27,7 @@ public class ManipulatorSubsystem extends Subsystem {
   private static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
   // TEMP CONSTANTS ABOVE
   private static final double CARGO_INTAKE_SPEED = 0.5;
+  private static final double CARGO_OUTTAKE_SPEED = -0.5;
 
   public ManipulatorSubsystem() {
 
@@ -52,10 +52,10 @@ public class ManipulatorSubsystem extends Subsystem {
 
   // Not certain what location each state corresponds to
   public void switchCargoSolenoidState() {
-    if (cargSolenoid.get() == DoubleSolenoid.Value.kForward) {
-      cargSolenoid.set(DoubleSolenoid.Value.kReverse);
+    if (cargoSolenoid.get() == DoubleSolenoid.Value.kForward) {
+      cargoSolenoid.set(DoubleSolenoid.Value.kReverse);
     } else {
-      cargSolenoid.set(DoubleSolenoid.Value.kForward);
+      cargoSolenoid.set(DoubleSolenoid.Value.kForward);
     }
   }
 
@@ -69,7 +69,7 @@ public class ManipulatorSubsystem extends Subsystem {
   }
 
   public void setCargoSolenoidState(Value state) {
-    cargSolenoid.set(state);
+    cargoSolenoid.set(state);
   }
 
   public void setHatchSolenoidState(Value state) {
@@ -81,14 +81,14 @@ public class ManipulatorSubsystem extends Subsystem {
   }
 
   public Value getCargoSolenoidState() {
-    return cargSolenoid.get();
+    return cargoSolenoid.get();
   }
 
   public void setCargoIntakeDirection(CargoIntakeDirection direction) {
     if (direction == CargoIntakeDirection.cargoIn) {
       setCargoIntakeSpeed(CARGO_INTAKE_SPEED); // TEMP MAYBE BACKWARDS
     } else if (direction == CargoIntakeDirection.cargoOut) {
-      setCargoIntakeSpeed(-CARGO_INTAKE_SPEED); // TEMP MAYBE BACKWARDS
+      setCargoIntakeSpeed(CARGO_OUTTAKE_SPEED); // TEMP MAYBE BACKWARDS
     } else if (direction == CargoIntakeDirection.cargoOff) {
       setCargoIntakeSpeed(0);
     }

@@ -42,6 +42,7 @@ public class RobotMap {
   public static int distanceEcho = 4;
   public static int analogUltrasonic = 0;
   public static final int ENCODER_PORT = 0;
+  public static int potentiometer = 1;
 
   /** Front left motor Talon Device ID: 1 */
   public static int frontLeft = 1; // talon
@@ -70,6 +71,6 @@ public class RobotMap {
   public static int driveRightEncoder = 4;
 
   // limit switches
-  public static int bottomArmLimitSwitch = 4;
+  public static int bottomShoulderLimitSwitch = 4;
 
 }

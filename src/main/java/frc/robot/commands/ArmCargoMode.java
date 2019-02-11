@@ -9,10 +9,10 @@ import frc.robot.subsystems.ArmSubsystem.Levels;
  * This command will constantly check for a specific button to be pressed and
  * will set the mode for cargo accordingly.
  */
-public class CargoMode extends Command {
+public class ArmCargoMode extends Command {
   Levels desiredLevel = Levels.cargoLevelOne;
 
-  public CargoMode() {
+  public ArmCargoMode() {
     requires(Robot.armSubsystem);
   }
 
@@ -24,7 +24,10 @@ public class CargoMode extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (OI.xboxManipControl.getRawButton(OI.FLOOR_PICKUP)) {
+    if (OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) > 0.1
+        || OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) < -0.1) {
+      desiredLevel = Levels.manualControl;
+    } else if (OI.xboxManipControl.getRawButton(OI.FLOOR_PICKUP)) {
       desiredLevel = Levels.cargoFloorPickup;
     } else if (OI.xboxManipControl.getRawButton(OI.CARGO_PLAYER_STATION_PICKUP)) {
       // position for collecting cargo from the human player station
@@ -43,7 +46,7 @@ public class CargoMode extends Command {
       // state. Note that its starting state is initialized at the top of this class
       // definition.
     }
-    Robot.armSubsystem.setLevel(desiredLevel);
+    Robot.armSubsystem.setLevel(desiredLevel, OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL));
   }
 
   // Make this return true when this Command no longer needs to run execute()
