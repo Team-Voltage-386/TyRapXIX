@@ -33,9 +33,9 @@ public class ManipulatorCargoMode extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() { // USES TEMPORARY JOYSTICK HORIZONTAL RIGHT
-    if (OI.xboxManipControl.getRawButton(OI.intake)) { // 7 TEMP PORT NUMBER MAYBE BACKWARDS
+    if (OI.xboxManipControl.getRawButton(OI.INTAKE)) { // 7 TEMP PORT NUMBER MAYBE BACKWARDS
       cargoIntakeDirection = CargoIntakeDirection.cargoIn;
-    } else if (OI.xboxManipControl.getRawButton(OI.outake)) { // 8 TEMP PORT NUMBER MAYBE BACKWARDS
+    } else if (OI.xboxManipControl.getRawButton(OI.OUTAKE)) { // 8 TEMP PORT NUMBER MAYBE BACKWARDS
       cargoIntakeDirection = CargoIntakeDirection.cargoOut;
     } else {
       // This ensures that the motor actually stops when button is not pressed

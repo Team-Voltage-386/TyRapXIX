@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -21,7 +14,8 @@ import frc.robot.Robot;
 import frc.robot.commands.ArcadeDrive;
 
 /*
- * Add your docs here.
+ * The DriveSubsystem is the interface for controlling the drive train. It provides methods
+ * for driving the motors and retrieving encoder values from those motors.
  */
 public class DriveSubsystem extends Subsystem {
   private static WPI_TalonSRX frontLeft = new WPI_TalonSRX(RobotMap.frontLeft);
@@ -37,9 +31,12 @@ public class DriveSubsystem extends Subsystem {
 
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
 
-  private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
-  private static final int PEAK_TIME_MS = 0; /* how long after Peak current to trigger current limit */
-  private static final int CONTIN_CURRENT_AMPS = 25; /* hold current after limit is triggered */
+  /** threshold to trigger current limit */
+  private static final int PEAK_CURRENT_AMPS = 35;
+  /** how long after Peak current to trigger current limit */
+  private static final int PEAK_TIME_MS = 0;
+  /* hold current after limit is triggered */
+  private static final int CONTIN_CURRENT_AMPS = 25;
 
   private static final double OPEN_LOOP_RAMP_SECONDS = 0.1; // 100 milliseconds
 
@@ -47,6 +44,7 @@ public class DriveSubsystem extends Subsystem {
     slaveLeft.follow(frontLeft);
     slaveRight.follow(frontRight);
     shifter.set(DoubleSolenoid.Value.kForward);
+    // invert the lead and the follower motors
     frontLeft.setInverted(true);
     frontRight.setInverted(true);
     slaveLeft.setInverted(InvertType.FollowMaster);
@@ -66,19 +64,46 @@ public class DriveSubsystem extends Subsystem {
     frontLeft.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
   }
 
+  /**
+   * Set the speed of the left and right motor groups.
+   * 
+   * @param leftSpeed  controls the percentage for the left motors to go
+   *                   forward/backward. 1.00 is 100% forward speed on the left
+   *                   motors, and -1.00 is 100% backwards
+   * @param rightSpeed controls the percentage for the left motors to go
+   *                   forward/backward. 1.00 is 100% forward speed for the right
+   *                   motors, and -1.00 is 100% backwards
+   */
   public void driveTank(double leftSpeed, double rightSpeed) {
     differentialDrive.tankDrive(leftSpeed, rightSpeed);
   }
 
+  /**
+   * Set the speed and rotation of the robot.
+   * 
+   * @param xSpeed    Percent speed for forward/backward. 1.00 is 100% forward
+   *                  speed while -1.00 is -100% forward (backward) speed
+   * @param zRotation percent speed dictating how much it's turning left or right.
+   *                  1.00 is 100% to the right and -1.00 is 100% to the left
+   */
   public void driveArcade(double xSpeed, double zRotation) {
     differentialDrive.arcadeDrive(xSpeed, zRotation);
   }
 
+  /**
+   * Displays Diagnostics on SmartDashboard.
+   */
   public void displayDiagnostics() {
-    SmartDashboard.putNumber(Robot.ENCODER_TALON_1, getLeftEncoder());
-    SmartDashboard.putNumber(Robot.ENCODER_TALON_3, getRightEncoder());
+    SmartDashboard.putNumber("Encoder Talon 1", getLeftEncoder());
+    SmartDashboard.putNumber("Encoder Talon 3", getRightEncoder());
+    SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
+    SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
+    SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
   }
 
+  /**
+   * Shift gears.
+   */
   public void shift() {
     if (shifter.get() == DoubleSolenoid.Value.kForward) {
       shifter.set(DoubleSolenoid.Value.kReverse);
@@ -87,15 +112,18 @@ public class DriveSubsystem extends Subsystem {
     }
   }
 
+  /** Resets the Encoder tick values */
   public void resetEncoders() {
     frontLeft.setSelectedSensorPosition(0);
     frontRight.setSelectedSensorPosition(0);
   }
 
+  /** Gets the Left Encoders position in ticks */
   public double getLeftEncoder() {
     return frontLeft.getSelectedSensorPosition(RobotMap.ENCODER_PORT);
   }
 
+  /** Gets the Right Encoder's position in ticks */
   public double getRightEncoder() {
     return frontRight.getSelectedSensorPosition(RobotMap.ENCODER_PORT);
   }
@@ -105,12 +133,21 @@ public class DriveSubsystem extends Subsystem {
     setDefaultCommand(new ArcadeDrive());
   }
 
+  /**
+   * Returns the yaw/pitch/roll from the Pigeon.
+   * 
+   * @return The an array of doubles with yaw as value 0, pitch as value 1, and
+   *         roll as value 2.
+   */
   public double[] getPigeonYPR() {
     double[] ypr_deg = new double[3];
     pigeon.getYawPitchRoll(ypr_deg);
     return ypr_deg;
   }
 
+  /**
+   * Resets the Pigeon's yaw to 0.
+   */
   public void resetPigeon() {
     pigeon.setYaw(0);
   }
