@@ -3,8 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.MAXSpeedArcadeDrive;
-import frc.robot.commands.Shifter;
+import frc.robot.commands.DriveCommands.MAXSpeedArcadeDrive;
+import frc.robot.commands.DriveCommands.Shifter;
 
 /**
  * This class is the glue that binds the controls on the physical operator
