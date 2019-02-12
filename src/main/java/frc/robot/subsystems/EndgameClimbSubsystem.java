@@ -48,8 +48,5 @@ public class EndgameClimbSubsystem extends Subsystem {
     climbElevatorWheels.set(speed);
   }
 
-  // public boolean getElevatorLimitSwitch() {
-  // return elevatorLimitSwitch.get();
-  // }
 
 }
