@@ -211,7 +211,10 @@ public class ArmSubsystem extends Subsystem {
    * Displays Diagnostics on SmartDashboard.
    */
   public void displayDiagnostics() {
-    SmartDashboard.putNumber("Shoulder Motor Speed", shoulderMotor.get());
+    SmartDashboard.putNumber("Shoulder Motor Power", shoulderMotor.get());
+    SmartDashboard.putNumber("Shoulder Current", shoulderMotor.getOutputCurrent());
+    SmartDashboard.putNumber("Shoulder Potentiometer", shoulderPotentiometer.getAverageVoltage());
+    SmartDashboard.putNumber("Shoulder Position", getElbowPosition());
   }
 
   public double getShoulderPotentiometeterVoltage() {
