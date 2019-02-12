@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.manipulator.ManipulatorCargoMode;
+import frc.robot.commands.manipulator.ManipulatorHatchMode;
 import frc.robot.commands.drive.MAXSpeedArcadeDrive;
 import frc.robot.commands.drive.Shifter;
 
@@ -40,11 +42,16 @@ public class OI {
   public static final Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static final Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
-  private Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
-  private Button shifterButton = new JoystickButton(xboxDriveControl, SHIFT_BUTTON);
+  Button cargoModeButton = new JoystickButton(xboxManipControl, CARGO_MODE);
+  Button hatchModeButton = new JoystickButton(xboxManipControl, HATCH_MODE);
+  Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
+  // Temporary Button Numbers for all buttons not using RobotMap
+  Button shifterButton = new JoystickButton(xboxDriveControl, 5);
 
   public OI() {
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
+    cargoModeButton.whenPressed(new ManipulatorCargoMode());
+    hatchModeButton.whenPressed(new ManipulatorHatchMode());
   }
 }

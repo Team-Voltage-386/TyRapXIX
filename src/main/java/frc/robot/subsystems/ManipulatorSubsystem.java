@@ -6,14 +6,17 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.manipulator.ManipulatorHatchMode;
 
 /**
  * Add your docs here.
  */
+
 public class ManipulatorSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
+  // TEMP PORT NUMBER
   DoubleSolenoid cargoSolenoid = new DoubleSolenoid(RobotMap.beakRetractOpen, RobotMap.beakRetractClosed);
   // TEMP PORT NUMBER
   DoubleSolenoid hatchSolenoid = new DoubleSolenoid(RobotMap.hatchCaptureOpen, RobotMap.hatchCaptureClosed);
@@ -44,6 +47,7 @@ public class ManipulatorSubsystem extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     // setDefaultCommand(new ManipulatorManualControl());
+    setDefaultCommand(new ManipulatorHatchMode());
   }
 
   public enum CargoIntakeDirection {

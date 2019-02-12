@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.commands.arm.ArmManualControl;
 
 /**
  * The ArmSubsystem is responsible for the shoulder and elbow motor control.
@@ -17,28 +18,35 @@ import frc.robot.RobotMap;
  */
 public class ArmSubsystem extends Subsystem {
 
-  // Variable Initializations and Constant Declarations for Encoder Levels and PID
-  // Constants
-  private double prevError, error, errorChange, speed, p, i, d;
-  private final double pk = 0.05, ik = 0.001, dk = 0.07;
-  private final int CARGO_FLOOR_TICKS = 100;
-  private final int CARGO_PLAYER_STATION_TICKS = 100;
-  private final int CARGO_LEVEL_ONE_TICKS = 100;
-  private final int CARGO_LEVEL_TWO_TICKS = 100;
-  private final int CARGO_LEVEL_THREE_TICKS = 100;
-  private final int HATCH_FLOOR_TICKS = 100;
-  private final int HATCH_LEVEL_ONE_TICKS = 100;
-  private final int HATCH_LEVEL_TWO_TICKS = 100;
-  private final int HATCH_LEVEL_THREE_TICKS = 100;
+  private double prevError, error, errorChange, elbowPower, shoulderPower, p, i, d;
+  private final double shoulderPK = 0, shoulderIK = 0, shoulderDK = 0;
+  private final double elbowPK = 0, elbowIK = 0, elbowDK = 0;
+  private final double CARGO_FLOOR_SHOULDER = 0.1;
+  private final double CARGO_FLOOR_ELBOW = 0.1;
+  private final double CARGO_PLAYER_STATION_SHOULDER = 0.2;
+  private final double CARGO_PLAYER_STATION_ELBOW = 0.2;
+  private final double CARGO_LEVEL_ONE_SHOULDER = 0.3;
+  private final double CARGO_LEVEL_ONE_ELBOW = 0.3;
+  private final double CARGO_LEVEL_TWO_SHOULDER = 0.4;
+  private final double CARGO_LEVEL_TWO_ELBOW = 0.4;
+  private final double CARGO_LEVEL_THREE_SHOULDER = 0.5;
+  private final double CARGO_LEVEL_THREE_ELBOW = 0.5;
+  private final double HATCH_FLOOR_SHOULDER = 0.6;
+  private final double HATCH_FLOOR_ELBOW = 0.6;
+  private final double HATCH_LEVEL_ONE_SHOULDER = 0.7;
+  private final double HATCH_LEVEL_ONE_ELBOW = 0.7;
+  private final double HATCH_LEVEL_TWO_SHOULDER = 0.8;
+  private final double HATCH_LEVEL_TWO_ELBOW = 0.8;
+  private final double HATCH_LEVEL_THREE_SHOULDER = 0.9;
+  private final double HATCH_LEVEL_THREE_ELBOW = 0.9;
 
-  // Talon Motor Declarations
-  private WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
-  private WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
+  private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor); // TEMP PORT NUMBER
+  public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor); // TEMP PORT NUMBER
 
-  // Limit Switch Declarations
-  private DigitalInput bottomShoulderLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
+  DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch); // TEMP PORT NUMBER
 
-  AnalogInput potentiometer = new AnalogInput(RobotMap.potentiometer);
+  AnalogInput shoulderPotentiometer = new AnalogInput(RobotMap.shoulderPotentiometer);
+  AnalogInput elbowPotentiometer = new AnalogInput(RobotMap.elbowPotentiometer);
 
   // TEMP CONSTANTS BELOW
   private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
@@ -46,11 +54,18 @@ public class ArmSubsystem extends Subsystem {
   private static final int CONTIN_CURRENT_AMPS = 25; /* hold current after limit is triggered */
   private static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
   // TEMP CONSTANTS ABOVE
-  private static final double MAX_SHOULDER_VOLTAGE = 3.8; // TEMP
-  private static final double MIN_SHOULDER_VOLTAGE = 1.5; // TEMP
 
-  private final double UPWARDS_SHOULDER_LIMITER = 0.75; // TEMP NEEDS TESTING
+  private static final double MAX_SHOULDER_VOLTAGE = 3.5;
+  private static final double MIN_SHOULDER_VOLTAGE = 1.0;
+
+  private static final double MAX_ELBOW_VOLTAGE = 2.65;
+  private static final double MIN_ELBOW_VOLTAGE = 1.5;
+
+  private final double UPWARDS_SHOULDER_LIMITER = 0.65; // TEMP NEEDS TESTING
   private final double DOWNWARDS_SHOULDER_LIMITER = 0.2; // TEMP NEEDS TESTING
+
+  private final double UPWARDS_ELBOW_LIMITER = 1;
+  private final double DOWNWARDS_ELBOW_LIMITER = 0.35;
 
   // Default Constructor Called At Start of Code
   public ArmSubsystem() {
@@ -89,95 +104,98 @@ public class ArmSubsystem extends Subsystem {
    * @param in The level to move the arm to.
    */
   public void setLevel(Levels in, double manualOverride) {
+    // NEEDS TO IMPLEMENT SETTING ELBOW STATES ONCE SHOULDER IS TESTED AND TUNED
+    // WITH PID
     switch (in) {
     case manualControl:
       setShoulderMotorSpeed(manualOverride);
       break;
     case cargoFloorPickup:
-      setShoulderTicks(CARGO_FLOOR_TICKS);
+      setShoulderPosition(CARGO_FLOOR_SHOULDER);
       break;
     case cargoPlayerStation:
-      setShoulderTicks(CARGO_PLAYER_STATION_TICKS);
+      setShoulderPosition(CARGO_PLAYER_STATION_SHOULDER);
       break;
     case cargoLevelOne:
-      setShoulderTicks(CARGO_LEVEL_ONE_TICKS);
+      setShoulderPosition(CARGO_LEVEL_ONE_SHOULDER);
       break;
     case cargoLevelTwo:
-      setShoulderTicks(CARGO_LEVEL_TWO_TICKS);
+      setShoulderPosition(CARGO_LEVEL_TWO_SHOULDER);
       break;
     case cargoLevelThree:
-      setShoulderTicks(CARGO_LEVEL_THREE_TICKS);
+      setShoulderPosition(CARGO_LEVEL_THREE_SHOULDER);
       break;
     case hatchFloorPickup:
-      setShoulderTicks(HATCH_FLOOR_TICKS);
+      setShoulderPosition(HATCH_FLOOR_SHOULDER);
       break;
     case hatchLevelOne:
-      setShoulderTicks(HATCH_LEVEL_ONE_TICKS);
+      setShoulderPosition(HATCH_LEVEL_ONE_SHOULDER);
       break;
     case hatchLevelTwo:
-      setShoulderTicks(HATCH_LEVEL_TWO_TICKS);
+      setShoulderPosition(HATCH_LEVEL_TWO_SHOULDER);
       break;
     case hatchLevelThree:
-      setShoulderTicks(HATCH_LEVEL_THREE_TICKS);
+      setShoulderPosition(HATCH_LEVEL_THREE_SHOULDER);
       break;
     default:
       break;
     }
   }
 
-  /**
-   * Set Arm to Given Goal Using PID.
-   * 
-   * The PID variables are handled inside this method implementation because
-   * multiple commands are used to control the arm and set it to different
-   * heights.
-   * 
-   * @param encocderGoal The target goal value.
-   */
-  public void setShoulderTicks(double encoderGoal) {
-    error = getShoulderEncoder() - encoderGoal;
+  public void setShoulderPosition(double positionGoal) {
+    error = getShoulderPosition() - positionGoal;
     errorChange = error - prevError;
-    p = error * pk /* SmartDashboard.getNumber("pk ", 0) */;
-    i += error * ik /* SmartDashboard.getNumber("ik ", 0) */;
-    d = errorChange * dk /* SmartDashboard.getNumber("dk ", 0) */;
-    speed = p + i + d;
-    setShoulderMotorSpeed(speed);
+    p = error * shoulderPK /* SmartDashboard.getNumber("shoulderPK ", 0) */;
+    i += error * shoulderIK /* SmartDashboard.getNumber("shoulderIK" ", 0) */;
+    d = errorChange * shoulderDK /* SmartDashboard.getNumber("shoulderDK ", 0) */;
+    shoulderPower = p + i + d;
+    setShoulderMotorSpeed(shoulderPower);
+    SmartDashboard.putNumber("ShoulderMotorSpeed", shoulderPower);
     prevError = error;
-    if (getBottomShoulderLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
-      resetEncoder();
-    }
   }
 
-  /**
-   * Set the arm motor speed to the specified value.
-   * 
-   * @param speed Values are between 0.0 and 1.0.
-   */
-  public void setShoulderMotorSpeed(double speed) {
-    if (speed > 0 && getPotentiometeterVoltage() < MAX_SHOULDER_VOLTAGE) {
-      speed = UPWARDS_SHOULDER_LIMITER * speed;
-    } else if (speed < 0 && getPotentiometeterVoltage() > MIN_SHOULDER_VOLTAGE) {
-      speed = DOWNWARDS_SHOULDER_LIMITER * speed;
+  public void setShoulderMotorSpeed(double power) {
+    if (power > 0 && getShoulderPotentiometeterVoltage() < MAX_SHOULDER_VOLTAGE) {
+      power = UPWARDS_SHOULDER_LIMITER * power;
+    } else if (power < 0 && getShoulderPotentiometeterVoltage() > MIN_SHOULDER_VOLTAGE) {
+      power = DOWNWARDS_SHOULDER_LIMITER * power;
     } else {
-      speed = 0;
+      power = 0;
     }
-    shoulderMotor.set(speed);
+    shoulderMotor.set(power);
   }
 
-  /**
-   * Get Current Talon Encoder Value
-   * 
-   * @return The current encoder value.
-   */
-  public double getShoulderEncoder() {
-    return shoulderMotor.getSelectedSensorPosition();
+  public double getShoulderPosition() {
+    return (shoulderPotentiometer.getAverageVoltage() - MIN_SHOULDER_VOLTAGE)
+        / (MAX_SHOULDER_VOLTAGE - MIN_SHOULDER_VOLTAGE);
   }
 
-  /**
-   * Reset Arm Encoder.
-   */
-  public void resetEncoder() {
-    shoulderMotor.setSelectedSensorPosition(0, 0, 10);
+  public void setElbowPosition(double positionGoal) {
+    error = getElbowPosition() - positionGoal;
+    errorChange = error - prevError;
+    p = error * elbowPK /* SmartDashboard.getNumber("elbowPK ", 0) */;
+    i += error * elbowIK /* SmartDashboard.getNumber("elbowIK ", 0) */;
+    d = errorChange * elbowDK /* SmartDashboard.getNumber("elbowDK ", 0) */;
+    elbowPower = p + i + d;
+    setShoulderMotorSpeed(elbowPower);
+    SmartDashboard.putNumber("ElbowMotorPower", elbowPower);
+    prevError = error;
+  }
+
+  // 1.53 middle potentiometer
+  public void setElbowMotorSpeed(double power) {
+    if (power > 0 && getElbowPotentiometeterVoltage() < MAX_ELBOW_VOLTAGE) {
+      power = DOWNWARDS_ELBOW_LIMITER * power;
+    } else if (power < 0 && getElbowPotentiometeterVoltage() > MIN_ELBOW_VOLTAGE) {
+      power = UPWARDS_ELBOW_LIMITER * power;
+    } else {
+      power = 0;
+    }
+    elbowMotor.set(power);
+  }
+
+  public double getElbowPosition() {
+    return (elbowPotentiometer.getAverageVoltage() - MIN_ELBOW_VOLTAGE) / (MAX_ELBOW_VOLTAGE - MIN_ELBOW_VOLTAGE);
   }
 
   /**
@@ -186,24 +204,31 @@ public class ArmSubsystem extends Subsystem {
    * @return false if tiggered, true if not triggered.
    */
   public boolean getBottomShoulderLimitSwitch() {
-    return bottomShoulderLimitSwitch.get();
+    return bottomLimitSwitch.get();
   }
 
   /**
    * Displays Diagnostics on SmartDashboard.
    */
   public void displayDiagnostics() {
-    SmartDashboard.putNumber("Shoulder Motor Speed", shoulderMotor.get());
+    SmartDashboard.putNumber("Shoulder Motor Power", shoulderMotor.get());
+    SmartDashboard.putNumber("Shoulder Current", shoulderMotor.getOutputCurrent());
+    SmartDashboard.putNumber("Shoulder Potentiometer", shoulderPotentiometer.getAverageVoltage());
+    SmartDashboard.putNumber("Shoulder Position", getElbowPosition());
   }
 
-  public double getPotentiometeterVoltage() {
-    return potentiometer.getAverageVoltage();
+  public double getShoulderPotentiometeterVoltage() {
+    return shoulderPotentiometer.getAverageVoltage();
   }
 
-  // No Default Command for ArmSubsystem
+  public double getElbowPotentiometeterVoltage() {
+    return elbowPotentiometer.getAverageVoltage();
+  }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new ArmManualControl());
   }
 }

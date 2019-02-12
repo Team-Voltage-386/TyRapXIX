@@ -39,7 +39,6 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-    Robot.armSubsystem.resetEncoder();
   }
 
   /**
@@ -52,6 +51,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
+    SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
+    SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
+
+    SmartDashboard.putNumber("Shoulder Potentiometer", Robot.armSubsystem.getShoulderPotentiometeterVoltage());
+    SmartDashboard.putNumber("Elbow Potentiometer", Robot.armSubsystem.getElbowPotentiometeterVoltage());
+
+    SmartDashboard.putString("Mode", armSubsystem.getCurrentCommandName());
     driveSubsystem.displayDiagnostics();
     armSubsystem.displayDiagnostics();
   }

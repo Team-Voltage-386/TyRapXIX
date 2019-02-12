@@ -42,7 +42,8 @@ public class RobotMap {
   public static int distanceSensorEcho = 4;
   public static int analogUltrasonic = 0;
   public static final int ENCODER_PORT = 0;
-  public static int potentiometer = 1;
+  public static int shoulderPotentiometer = 1; // TEMP PORT NUMBER
+  public static int elbowPotentiometer = 2;
 
   /** Front left motor Talon Device ID: 1 */
   public static int frontLeft = 1; // talon
@@ -58,8 +59,7 @@ public class RobotMap {
   // to be defined - port numbers are placeholders
 
   public static int rearElevatorMotor = 5;
-  public static int leftShoulderMotor = 6;
-  public static int rightShoulderMotor = 7;
+  public static int rightShoulderMotor = 6;
   public static int elbowMotor = 8;
   public static int cargoRollerMotor = 9; // change to cargoCapture
   // encoders
