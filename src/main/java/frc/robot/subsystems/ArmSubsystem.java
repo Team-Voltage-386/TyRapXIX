@@ -21,15 +21,24 @@ public class ArmSubsystem extends Subsystem {
   private double prevError, error, errorChange, elbowPower, shoulderPower, p, i, d;
   private final double shoulderPK = 0, shoulderIK = 0, shoulderDK = 0;
   private final double elbowPK = 0, elbowIK = 0, elbowDK = 0;
-  private final int CARGO_FLOOR_TICKS = 100;
-  private final int CARGO_PLAYER_STATION_TICKS = 100;
-  private final int CARGO_LEVEL_ONE_TICKS = 100;
-  private final int CARGO_LEVEL_TWO_TICKS = 100;
-  private final int CARGO_LEVEL_THREE_TICKS = 100;
-  private final int HATCH_FLOOR_TICKS = 100;
-  private final int HATCH_LEVEL_ONE_TICKS = 100;
-  private final int HATCH_LEVEL_TWO_TICKS = 100;
-  private final int HATCH_LEVEL_THREE_TICKS = 100;
+  private final double CARGO_FLOOR_SHOULDER = 0.1;
+  private final double CARGO_FLOOR_ELBOW = 0.1;
+  private final double CARGO_PLAYER_STATION_SHOULDER = 0.2;
+  private final double CARGO_PLAYER_STATION_ELBOW = 0.2;
+  private final double CARGO_LEVEL_ONE_SHOULDER = 0.3;
+  private final double CARGO_LEVEL_ONE_ELBOW = 0.3;
+  private final double CARGO_LEVEL_TWO_SHOULDER = 0.4;
+  private final double CARGO_LEVEL_TWO_ELBOW = 0.4;
+  private final double CARGO_LEVEL_THREE_SHOULDER = 0.5;
+  private final double CARGO_LEVEL_THREE_ELBOW = 0.5;
+  private final double HATCH_FLOOR_SHOULDER = 0.6;
+  private final double HATCH_FLOOR_ELBOW = 0.6;
+  private final double HATCH_LEVEL_ONE_SHOULDER = 0.7;
+  private final double HATCH_LEVEL_ONE_ELBOW = 0.7;
+  private final double HATCH_LEVEL_TWO_SHOULDER = 0.8;
+  private final double HATCH_LEVEL_TWO_ELBOW = 0.8;
+  private final double HATCH_LEVEL_THREE_SHOULDER = 0.9;
+  private final double HATCH_LEVEL_THREE_ELBOW = 0.9;
 
   private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor); // TEMP PORT NUMBER
   public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor); // TEMP PORT NUMBER
@@ -95,36 +104,38 @@ public class ArmSubsystem extends Subsystem {
    * @param in The level to move the arm to.
    */
   public void setLevel(Levels in, double manualOverride) {
+    // NEEDS TO IMPLEMENT SETTING ELBOW STATES ONCE SHOULDER IS TESTED AND TUNED
+    // WITH PID
     switch (in) {
     case manualControl:
       setShoulderMotorSpeed(manualOverride);
       break;
     case cargoFloorPickup:
-      setShoulderPosition(CARGO_FLOOR_TICKS);
+      setShoulderPosition(CARGO_FLOOR_SHOULDER);
       break;
     case cargoPlayerStation:
-      setShoulderPosition(CARGO_PLAYER_STATION_TICKS);
+      setShoulderPosition(CARGO_PLAYER_STATION_SHOULDER);
       break;
     case cargoLevelOne:
-      setShoulderPosition(CARGO_LEVEL_ONE_TICKS);
+      setShoulderPosition(CARGO_LEVEL_ONE_SHOULDER);
       break;
     case cargoLevelTwo:
-      setShoulderPosition(CARGO_LEVEL_TWO_TICKS);
+      setShoulderPosition(CARGO_LEVEL_TWO_SHOULDER);
       break;
     case cargoLevelThree:
-      setShoulderPosition(CARGO_LEVEL_THREE_TICKS);
+      setShoulderPosition(CARGO_LEVEL_THREE_SHOULDER);
       break;
     case hatchFloorPickup:
-      setShoulderPosition(HATCH_FLOOR_TICKS);
+      setShoulderPosition(HATCH_FLOOR_SHOULDER);
       break;
     case hatchLevelOne:
-      setShoulderPosition(HATCH_LEVEL_ONE_TICKS);
+      setShoulderPosition(HATCH_LEVEL_ONE_SHOULDER);
       break;
     case hatchLevelTwo:
-      setShoulderPosition(HATCH_LEVEL_TWO_TICKS);
+      setShoulderPosition(HATCH_LEVEL_TWO_SHOULDER);
       break;
     case hatchLevelThree:
-      setShoulderPosition(HATCH_LEVEL_THREE_TICKS);
+      setShoulderPosition(HATCH_LEVEL_THREE_SHOULDER);
       break;
     default:
       break;
