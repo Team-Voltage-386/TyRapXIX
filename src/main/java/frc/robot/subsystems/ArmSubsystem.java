@@ -36,7 +36,7 @@ public class ArmSubsystem extends Subsystem {
   private WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
 
   // Limit Switch Declarations
-  private DigitalInput bottomShoulderLimitSwitch = new DigitalInput(RobotMap.bottomShoulderLimitSwitch);
+  private DigitalInput bottomShoulderLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch);
 
   AnalogInput potentiometer = new AnalogInput(RobotMap.potentiometer);
 

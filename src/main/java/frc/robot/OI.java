@@ -17,6 +17,9 @@ public class OI {
   public static final int DRIVE_RIGHT_JOYSTICK_HORIZONTAL = 4;
   public static final int SPEED_MOD_BUTTON = 6;
   public static final int SHIFT_BUTTON = 5;
+  // manipulator user inputs
+  public static final int manipLeftJoystickVertical = 1;
+  public static final int manipRightJoystickVertical = 3;
 
   // button inputs
   public static final int FLOOR_PICKUP = 6; // right bumper

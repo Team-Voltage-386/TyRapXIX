@@ -7,9 +7,12 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.climb.ElevatorManual;
 
 /**
  * Add your docs here.
@@ -18,7 +21,7 @@ public class EndgameClimbSubsystem extends Subsystem {
 
   private Spark leftClimbArm = new Spark(RobotMap.leftClimbArm);
   private Spark rightClimbArm = new Spark(RobotMap.rightClimbArm);
-  private Spark climbElevatorMotor = new Spark(RobotMap.rearElevatorMotor);
+  private WPI_TalonSRX climbElevatorMotor = new WPI_TalonSRX(RobotMap.rearElevatorMotor);
   private Spark climbElevatorWheels = new Spark(RobotMap.elevatorDriveWheels);
 
   // Put methods for controlling this subsystem
@@ -28,11 +31,12 @@ public class EndgameClimbSubsystem extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new ElevatorManual());
   }
 
   public void setClimbArmSpeeds(double speed) {
     leftClimbArm.set(speed);
-    rightClimbArm.set(speed);
+    rightClimbArm.set(-1 * speed);
   }
 
   public void setElevatorSpeed(double speed) {
