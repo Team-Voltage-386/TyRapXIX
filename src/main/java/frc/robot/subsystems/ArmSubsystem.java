@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -17,7 +10,11 @@ import frc.robot.RobotMap;
 import frc.robot.commands.ArmManualControl;
 
 /**
- * Add your docs here.
+ * The ArmSubsystem is responsible for the shoulder and elbow motor control.
+ * 
+ * The shoulder motor moves the arm up and down.
+ * 
+ * The elbow motor moves the manipulator up and down.
  */
 public class ArmSubsystem extends Subsystem {
 
@@ -37,7 +34,7 @@ public class ArmSubsystem extends Subsystem {
   private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor); // TEMP PORT NUMBER
   public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor); // TEMP PORT NUMBER
 
-  DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomArmLimitSwitch); // TEMP PORT NUMBER
+  DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomShoulderLimitSwitch); // TEMP PORT NUMBER
 
   AnalogInput shoulderPotentiometer = new AnalogInput(RobotMap.shoulderPotentiometer);
   AnalogInput elbowPotentiometer = new AnalogInput(RobotMap.elbowPotentiometer);
@@ -55,8 +52,14 @@ public class ArmSubsystem extends Subsystem {
   private static final double MAX_ELBOW_VOLTAGE = 2.65;
   private static final double MIN_ELBOW_VOLTAGE = 1.5;
 
-  public ArmSubsystem() {
+  private final double UPWARDS_SHOULDER_LIMITER = 0.65; // TEMP NEEDS TESTING
+  private final double DOWNWARDS_SHOULDER_LIMITER = 0.2; // TEMP NEEDS TESTING
 
+  private final double UPWARDS_ELBOW_LIMITER = 1;
+  private final double DOWNWARDS_ELBOW_LIMITER = 0.35;
+
+  // Default Constructor Called At Start of Code
+  public ArmSubsystem() {
     prevError = 0;
     p = 0;
     i = 0;
@@ -76,16 +79,26 @@ public class ArmSubsystem extends Subsystem {
 
   }
 
+  /** Enumerations used in CargoMode and HatchMode Commands */
   public enum Levels {
     cargoFloorPickup, cargoPlayerStation, cargoLevelOne, cargoLevelTwo, cargoLevelThree, hatchFloorPickup,
-    hatchLevelOne, hatchLevelTwo, hatchLevelThree;
+    hatchLevelOne, hatchLevelTwo, hatchLevelThree, manualControl;
   }
 
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-
   public void setLevel(Levels in) {
+    setLevel(in, 0);
+  }
+
+  /**
+   * Set the Arm to Constant Encoder Levels Based on Levels Enumeration.
+   * 
+   * @param in The level to move the arm to.
+   */
+  public void setLevel(Levels in, double manualOverride) {
     switch (in) {
+    case manualControl:
+      setShoulderMotorSpeed(manualOverride);
+      break;
     case cargoFloorPickup:
       setShoulderPosition(CARGO_FLOOR_TICKS);
       break;
@@ -132,9 +145,9 @@ public class ArmSubsystem extends Subsystem {
 
   public void setShoulderMotorSpeed(double power) {
     if (power > 0 && getShoulderPotentiometeterVoltage() < MAX_SHOULDER_VOLTAGE) {
-      power = 0.65 * power;
+      power = UPWARDS_SHOULDER_LIMITER * power;
     } else if (power < 0 && getShoulderPotentiometeterVoltage() > MIN_SHOULDER_VOLTAGE) {
-      power = 0.2 * power;
+      power = DOWNWARDS_SHOULDER_LIMITER * power;
     } else {
       power = 0;
     }
@@ -161,9 +174,9 @@ public class ArmSubsystem extends Subsystem {
   // 1.53 middle potentiometer
   public void setElbowMotorSpeed(double power) {
     if (power > 0 && getElbowPotentiometeterVoltage() < MAX_ELBOW_VOLTAGE) {
-      power = 0.35 * power;
+      power = DOWNWARDS_ELBOW_LIMITER * power;
     } else if (power < 0 && getElbowPotentiometeterVoltage() > MIN_ELBOW_VOLTAGE) {
-      power = 1 * power;
+      power = UPWARDS_ELBOW_LIMITER * power;
     } else {
       power = 0;
     }
@@ -174,8 +187,20 @@ public class ArmSubsystem extends Subsystem {
     return (elbowPotentiometer.getAverageVoltage() - MIN_ELBOW_VOLTAGE) / (MAX_ELBOW_VOLTAGE - MIN_ELBOW_VOLTAGE);
   }
 
-  public boolean getBottomLimitSwitch() {
+  /**
+   * Get bottom limit switch state.
+   * 
+   * @return false if tiggered, true if not triggered.
+   */
+  public boolean getBottomShoulderLimitSwitch() {
     return bottomLimitSwitch.get();
+  }
+
+  /**
+   * Displays Diagnostics on SmartDashboard.
+   */
+  public void displayDiagnostics() {
+    SmartDashboard.putNumber("Shoulder Motor Speed", shoulderMotor.get());
   }
 
   public double getShoulderPotentiometeterVoltage() {

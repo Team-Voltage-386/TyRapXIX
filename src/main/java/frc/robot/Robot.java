@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -37,10 +30,6 @@ public class Robot extends TimedRobot {
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-  // encoder and sensor labels
-  public static final String ENCODER_TALON_1 = "Encoder Talon 1";
-  public static final String ENCODER_TALON_3 = "Encoder Talon 3";
-
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -57,7 +46,6 @@ public class Robot extends TimedRobot {
    * items like diagnostics that you want ran during disabled, autonomous,
    * teleoperated and test.
    *
-   * <p>
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
@@ -71,6 +59,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Elbow Potentiometer", Robot.armSubsystem.getElbowPotentiometeterVoltage());
 
     SmartDashboard.putString("Mode", armSubsystem.getCurrentCommandName());
+    driveSubsystem.displayDiagnostics();
+    armSubsystem.displayDiagnostics();
   }
 
   /**
@@ -88,16 +78,7 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * This autonomous (along with the chooser code above) shows how to select
-   * between different autonomous modes using the dashboard. The sendable chooser
-   * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
-   * remove all of the chooser code and uncomment the getString code to get the
-   * auto name from the text box below the Gyro
-   * 
-   * <p>
-   * You can add additional auto modes by adding additional commands to the
-   * chooser code above (like the commented example) or additional comparisons to
-   * the switch structure below with additional strings & commands.
+   * This method is executed once when autonomous mode is started.
    */
   @Override
   public void autonomousInit() {
@@ -124,12 +105,13 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
   }
 
+  /**
+   * This makes sure that the autonomous stops running when teleop starts running.
+   * If you want the autonomous to continue until interrupted by another command,
+   * remove this line or comment it out.
+   */
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -141,7 +123,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    driveSubsystem.displayDiagnostics();
   }
 
   /**
