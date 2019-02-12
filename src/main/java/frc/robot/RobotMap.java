@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 /**
@@ -14,12 +7,15 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
-  // For example to map the left and right motors, you could define the
-  // following variables to use with your drivetrain subsystem.
-  // public static int leftMotor = 1;
-  // public static int rightMotor = 2;
-
+  /**
+   * USB port number that our driver's controller is on on the drive station. It's
+   * static and never changes from USB port 0
+   */
   public static int driveControllerPort = 0;
+  /**
+   * USB Port number for the manipulator controller on the driver station. the
+   * port will always be USB port 1
+   */
   public static int manipControllerPort = 1;
 
   // solenoids
@@ -46,21 +42,21 @@ public class RobotMap {
   public static int distanceSensorEcho = 4;
   public static int analogUltrasonic = 0;
   public static final int ENCODER_PORT = 0;
+  public static int potentiometer = 1;
 
-  /*
-   * drive motors There's a discrepancy between the drive motor types listed on
-   * trello and what's listed on the official port mappings sheet, so I input the
-   * motors and added them into the drive subsystem as they are on the port
-   * mappings sheet.
-   */
+  /** Front left motor Talon Device ID: 1 */
   public static int frontLeft = 1; // talon
+  /** Front right motor Talon Device ID: 2 */
   public static int frontRight = 2; // talon
-  public static int rearLeftFollower = 4; // victor spx
+  /** Rear left follower motor Talon Device ID: 4 */
+  public static int rearLeftFollower = 4; // talon
+  /** Rear right follower motor Victor SPX Device ID: 3 */
   public static int rearRightFollower = 3; // victor spx
 
   public static int spikeLightRing = 0; // LED Light Ring
 
   // to be defined - port numbers are placeholders
+
   public static int rearElevatorMotor = 5;
   public static int leftShoulderMotor = 6;
   public static int rightShoulderMotor = 7;
@@ -77,5 +73,5 @@ public class RobotMap {
   // limit switches
   public static int bottomArmLimitSwitch = 4;
   // public static int elevatorLimitSwitch = 100; // TEMP
-  
+
 }

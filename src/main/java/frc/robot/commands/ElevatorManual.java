@@ -34,7 +34,7 @@ public class ElevatorManual extends Command {
     /** Direction needs to be tested */
     Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(OI.xboxManipControl.getRawAxis(OI.manipRightJoystickVertical));
     /** Positive speed should deploy arms, negative retracts */
-    Robot.endgameClimbSubsystem.setClimbArmSpeeds(OI.xboxDriveControl.getRawAxis(OI.driveLeftJoystickVertical));
+    Robot.endgameClimbSubsystem.setClimbArmSpeeds(OI.xboxDriveControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL));
   }
 
   // Make this return true when this Command no longer needs to run execute()
