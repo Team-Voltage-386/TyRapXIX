@@ -5,43 +5,31 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.arm;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.subsystems.ManipulatorSubsystem.CargoIntakeDirection;
 
-public class ManipulatorCargoMode extends Command {
-
-  CargoIntakeDirection cargoIntakeDirection = CargoIntakeDirection.cargoOff;
-
-  public ManipulatorCargoMode() {
+public class ArmManualControl extends Command {
+  public ArmManualControl() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.manipulatorSubsystem);
+    requires(Robot.armSubsystem);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
-    Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() { // USES TEMPORARY JOYSTICK HORIZONTAL RIGHT
-    if (OI.xboxManipControl.getRawButton(OI.INTAKE)) { // 7 TEMP PORT NUMBER MAYBE BACKWARDS
-      cargoIntakeDirection = CargoIntakeDirection.cargoIn;
-    } else if (OI.xboxManipControl.getRawButton(OI.OUTAKE)) { // 8 TEMP PORT NUMBER MAYBE BACKWARDS
-      cargoIntakeDirection = CargoIntakeDirection.cargoOut;
-    } else {
-      // This ensures that the motor actually stops when button is not pressed
-      cargoIntakeDirection = CargoIntakeDirection.cargoOff;
-    }
-    Robot.manipulatorSubsystem.setCargoIntakeDirection(cargoIntakeDirection);
+  protected void execute() {
+    // Inverse Speed so that joystick up (negative speed) makes the arm go up
+    Robot.armSubsystem.setShoulderMotorSpeed(OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL));
+    // Needs to be tested
+    Robot.armSubsystem.setElbowMotorSpeed(OI.xboxManipControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL));
   }
 
   // Make this return true when this Command no longer needs to run execute()

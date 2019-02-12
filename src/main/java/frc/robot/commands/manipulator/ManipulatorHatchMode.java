@@ -5,31 +5,37 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.manipulator;
 
 import edu.wpi.first.wpilibj.command.Command;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.OI;
 import frc.robot.Robot;
 
-public class ArmManualControl extends Command {
-  public ArmManualControl() {
+public class ManipulatorHatchMode extends Command {
+
+  public ManipulatorHatchMode() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.armSubsystem);
+    requires(Robot.manipulatorSubsystem);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
+    Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    // Inverse Speed so that joystick up (negative speed) makes the arm go up
-    Robot.armSubsystem.setShoulderMotorSpeed(OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL));
-    // Needs to be tested
-    Robot.armSubsystem.setElbowMotorSpeed(OI.xboxManipControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL));
+    if (OI.xboxManipControl.getRawButton(OI.INTAKE)) {
+      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
+    } else if (OI.xboxManipControl.getRawButton(OI.OUTAKE)) {
+      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
