@@ -16,7 +16,8 @@ public class OI {
 
   // drive user inputs
   public static final int DRIVE_LEFT_JOYSTICK_VERTICAL = 1;
-  public static final int DRIVE_RIGHT_JOYSTICK_HORIZONTAL = 4;
+  public static final int DRIVE_RIGHT_JOYSTICK_HORIZONTAL = 4; // TEMP
+  public static final int DRIVE_RIGHT_JOYSTICK_VERTICAL = 3;
   public static final int SPEED_MOD_BUTTON = 6;
   public static final int SHIFT_BUTTON = 5;
 

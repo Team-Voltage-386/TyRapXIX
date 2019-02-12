@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.commands.arm.ArmHatchMode;
 import frc.robot.commands.arm.ArmManualControl;
 
 /**
@@ -34,7 +35,7 @@ public class ArmSubsystem extends Subsystem {
   private final double HATCH_FLOOR_SHOULDER = 0.6;
   private final double HATCH_FLOOR_ELBOW = 0.6;
   private final double HATCH_LEVEL_ONE_SHOULDER = 0.7;
-  private final double HATCH_LEVEL_ONE_ELBOW = 0.7;
+  private final double HATCH_LEVEL_ONE_ELBOW = 1.45;
   private final double HATCH_LEVEL_TWO_SHOULDER = 0.8;
   private final double HATCH_LEVEL_TWO_ELBOW = 0.8;
   private final double HATCH_LEVEL_THREE_SHOULDER = 0.9;
@@ -56,12 +57,12 @@ public class ArmSubsystem extends Subsystem {
   // TEMP CONSTANTS ABOVE
 
   private static final double MAX_SHOULDER_VOLTAGE = 3.5;
-  private static final double MIN_SHOULDER_VOLTAGE = 1.0;
+  private static final double MIN_SHOULDER_VOLTAGE = 1.05;
 
-  private static final double MAX_ELBOW_VOLTAGE = 2.65;
+  private static final double MAX_ELBOW_VOLTAGE = 2.55;
   private static final double MIN_ELBOW_VOLTAGE = 1.5;
 
-  private final double UPWARDS_SHOULDER_LIMITER = 0.65; // TEMP NEEDS TESTING
+  private final double UPWARDS_SHOULDER_LIMITER = 1; // was at 0.65 // TEMP NEEDS TESTING
   private final double DOWNWARDS_SHOULDER_LIMITER = 0.2; // TEMP NEEDS TESTING
 
   private final double UPWARDS_ELBOW_LIMITER = 1;
@@ -130,6 +131,7 @@ public class ArmSubsystem extends Subsystem {
       break;
     case hatchLevelOne:
       setShoulderPosition(HATCH_LEVEL_ONE_SHOULDER);
+      setElbowPosition(HATCH_LEVEL_ONE_ELBOW);
       break;
     case hatchLevelTwo:
       setShoulderPosition(HATCH_LEVEL_TWO_SHOULDER);
@@ -171,22 +173,24 @@ public class ArmSubsystem extends Subsystem {
   }
 
   public void setElbowPosition(double positionGoal) {
-    error = getElbowPosition() - positionGoal;
+    error = elbowPotentiometer.getAverageVoltage() - positionGoal;
+    // error = getElbowPosition() - positionGoal;
     errorChange = error - prevError;
-    p = error * elbowPK /* SmartDashboard.getNumber("elbowPK ", 0) */;
-    i += error * elbowIK /* SmartDashboard.getNumber("elbowIK ", 0) */;
-    d = errorChange * elbowDK /* SmartDashboard.getNumber("elbowDK ", 0) */;
+    p = error * /* elbowPK */ SmartDashboard.getNumber("elbowPK ", 0);
+    i += error * /* elbowIK */ SmartDashboard.getNumber("elbowIK ", 0);
+    d = errorChange * /* elbowDK */ SmartDashboard.getNumber("elbowDK ", 0);
     elbowPower = p + i + d;
-    setShoulderMotorSpeed(elbowPower);
+    setElbowMotorSpeed(elbowPower);
     SmartDashboard.putNumber("ElbowMotorPower", elbowPower);
+    SmartDashboard.putNumber("Current Goal", positionGoal);
     prevError = error;
   }
 
   // 1.53 middle potentiometer
   public void setElbowMotorSpeed(double power) {
-    if (power > 0 && getElbowPotentiometeterVoltage() < MAX_ELBOW_VOLTAGE) {
+    if (power > 0 && getElbowPotentiometeterVoltage() > MIN_ELBOW_VOLTAGE) {
       power = DOWNWARDS_ELBOW_LIMITER * power;
-    } else if (power < 0 && getElbowPotentiometeterVoltage() > MIN_ELBOW_VOLTAGE) {
+    } else if (power < 0 && getElbowPotentiometeterVoltage() < MAX_ELBOW_VOLTAGE) {
       power = UPWARDS_ELBOW_LIMITER * power;
     } else {
       power = 0;
@@ -214,7 +218,7 @@ public class ArmSubsystem extends Subsystem {
     SmartDashboard.putNumber("Shoulder Motor Power", shoulderMotor.get());
     SmartDashboard.putNumber("Shoulder Current", shoulderMotor.getOutputCurrent());
     SmartDashboard.putNumber("Shoulder Potentiometer", shoulderPotentiometer.getAverageVoltage());
-    SmartDashboard.putNumber("Shoulder Position", getElbowPosition());
+    SmartDashboard.putNumber("Shoulder Position", getShoulderPosition());
   }
 
   public double getShoulderPotentiometeterVoltage() {
@@ -229,6 +233,7 @@ public class ArmSubsystem extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new ArmManualControl());
+    // setDefaultCommand(new ArmManualControl());
+    setDefaultCommand(new ArmHatchMode());
   }
 }

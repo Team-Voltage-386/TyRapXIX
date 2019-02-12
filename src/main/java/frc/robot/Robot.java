@@ -39,6 +39,9 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+    SmartDashboard.putNumber("elbowPK ", 0);
+    SmartDashboard.putNumber("elbowIK ", 0);
+    SmartDashboard.putNumber("elbowDK ", 0);
   }
 
   /**

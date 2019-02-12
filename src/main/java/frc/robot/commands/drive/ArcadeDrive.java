@@ -30,7 +30,7 @@ public class ArcadeDrive extends Command {
   protected void execute() {
     double xSpeed = OI.xboxDriveControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL);
     double zRotation = OI.xboxDriveControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL);
-    Robot.driveSubsystem.driveArcade(xSpeed * -1 * SPEEEED_REDUCTION, zRotation);
+    Robot.driveSubsystem.driveArcade(xSpeed * SPEEEED_REDUCTION, -1 * zRotation);
   }
 
   // Make this return true when this Command no longer needs to run execute()
