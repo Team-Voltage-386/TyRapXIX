@@ -18,10 +18,9 @@ import frc.robot.commands.arm.ArmManualControl;
  */
 public class ArmSubsystem extends Subsystem {
 
-  // Variable Initializations and Constant Declarations for Encoder Levels and PID
-  // Constants
-  private double prevError, error, errorChange, speed, p, i, d;
-  private final double pk = 0.05, ik = 0.001, dk = 0.07;
+  private double prevError, error, errorChange, elbowPower, shoulderPower, p, i, d;
+  private final double shoulderPK = 0, shoulderIK = 0, shoulderDK = 0;
+  private final double elbowPK = 0, elbowIK = 0, elbowDK = 0;
   private final int CARGO_FLOOR_TICKS = 100;
   private final int CARGO_PLAYER_STATION_TICKS = 100;
   private final int CARGO_LEVEL_ONE_TICKS = 100;
@@ -47,11 +46,17 @@ public class ArmSubsystem extends Subsystem {
   private static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
   // TEMP CONSTANTS ABOVE
 
-  private static final double MAX_SHOULDER_VOLTAGE = 4.5; // TEMP
-  private static final double MIN_SHOULDER_VOLTAGE = 0.5; // TEMP
+  private static final double MAX_SHOULDER_VOLTAGE = 3.5;
+  private static final double MIN_SHOULDER_VOLTAGE = 1.0;
 
-  private final double UPWARDS_SHOULDER_LIMITER = 0.75; // TEMP NEEDS TESTING
+  private static final double MAX_ELBOW_VOLTAGE = 2.65;
+  private static final double MIN_ELBOW_VOLTAGE = 1.5;
+
+  private final double UPWARDS_SHOULDER_LIMITER = 0.65; // TEMP NEEDS TESTING
   private final double DOWNWARDS_SHOULDER_LIMITER = 0.2; // TEMP NEEDS TESTING
+
+  private final double UPWARDS_ELBOW_LIMITER = 1;
+  private final double DOWNWARDS_ELBOW_LIMITER = 0.35;
 
   // Default Constructor Called At Start of Code
   public ArmSubsystem() {
@@ -95,102 +100,91 @@ public class ArmSubsystem extends Subsystem {
       setShoulderMotorSpeed(manualOverride);
       break;
     case cargoFloorPickup:
-      setShoulderTicks(CARGO_FLOOR_TICKS);
+      setShoulderPosition(CARGO_FLOOR_TICKS);
       break;
     case cargoPlayerStation:
-      setShoulderTicks(CARGO_PLAYER_STATION_TICKS);
+      setShoulderPosition(CARGO_PLAYER_STATION_TICKS);
       break;
     case cargoLevelOne:
-      setShoulderTicks(CARGO_LEVEL_ONE_TICKS);
+      setShoulderPosition(CARGO_LEVEL_ONE_TICKS);
       break;
     case cargoLevelTwo:
-      setShoulderTicks(CARGO_LEVEL_TWO_TICKS);
+      setShoulderPosition(CARGO_LEVEL_TWO_TICKS);
       break;
     case cargoLevelThree:
-      setShoulderTicks(CARGO_LEVEL_THREE_TICKS);
+      setShoulderPosition(CARGO_LEVEL_THREE_TICKS);
       break;
     case hatchFloorPickup:
-      setShoulderTicks(HATCH_FLOOR_TICKS);
+      setShoulderPosition(HATCH_FLOOR_TICKS);
       break;
     case hatchLevelOne:
-      setShoulderTicks(HATCH_LEVEL_ONE_TICKS);
+      setShoulderPosition(HATCH_LEVEL_ONE_TICKS);
       break;
     case hatchLevelTwo:
-      setShoulderTicks(HATCH_LEVEL_TWO_TICKS);
+      setShoulderPosition(HATCH_LEVEL_TWO_TICKS);
       break;
     case hatchLevelThree:
-      setShoulderTicks(HATCH_LEVEL_THREE_TICKS);
+      setShoulderPosition(HATCH_LEVEL_THREE_TICKS);
       break;
     default:
       break;
     }
   }
 
-  /**
-   * Set Arm to Given Goal Using PID.
-   * 
-   * The PID variables are handled inside this method implementation because
-   * multiple commands are used to control the arm and set it to different
-   * heights.
-   * 
-   * @param encocderGoal The target goal value.
-   */
-  public void setShoulderTicks(double encoderGoal) {
-    error = getShoulderEncoder() - encoderGoal;
+  public void setShoulderPosition(double positionGoal) {
+    error = getShoulderPosition() - positionGoal;
     errorChange = error - prevError;
-    p = error * pk /* SmartDashboard.getNumber("pk ", 0) */;
-    i += error * ik /* SmartDashboard.getNumber("ik ", 0) */;
-    d = errorChange * dk /* SmartDashboard.getNumber("dk ", 0) */;
-    speed = p + i + d;
-    setShoulderMotorSpeed(speed);
+    p = error * shoulderPK /* SmartDashboard.getNumber("shoulderPK ", 0) */;
+    i += error * shoulderIK /* SmartDashboard.getNumber("shoulderIK" ", 0) */;
+    d = errorChange * shoulderDK /* SmartDashboard.getNumber("shoulderDK ", 0) */;
+    shoulderPower = p + i + d;
+    setShoulderMotorSpeed(shoulderPower);
+    SmartDashboard.putNumber("ShoulderMotorSpeed", shoulderPower);
     prevError = error;
-    if (getBottomShoulderLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
-      resetEncoder();
-    }
   }
 
-  /**
-   * Set the arm motor speed to the specified value.
-   * 
-   * @param speed Values are between 0.0 and 1.0.
-   */
-  public void setShoulderMotorSpeed(double speed) {
-    if (speed > 0 && getShoulderPotentiometeterVoltage() < MAX_SHOULDER_VOLTAGE) {
-      speed = UPWARDS_SHOULDER_LIMITER * speed;
-    } else if (speed < 0 && getShoulderPotentiometeterVoltage() > MIN_SHOULDER_VOLTAGE) {
-      speed = DOWNWARDS_SHOULDER_LIMITER * speed;
+  public void setShoulderMotorSpeed(double power) {
+    if (power > 0 && getShoulderPotentiometeterVoltage() < MAX_SHOULDER_VOLTAGE) {
+      power = UPWARDS_SHOULDER_LIMITER * power;
+    } else if (power < 0 && getShoulderPotentiometeterVoltage() > MIN_SHOULDER_VOLTAGE) {
+      power = DOWNWARDS_SHOULDER_LIMITER * power;
     } else {
-      speed = 0;
+      power = 0;
     }
-    shoulderMotor.set(speed);
+    shoulderMotor.set(power);
+  }
+
+  public double getShoulderPosition() {
+    return (shoulderPotentiometer.getAverageVoltage() - MIN_SHOULDER_VOLTAGE)
+        / (MAX_SHOULDER_VOLTAGE - MIN_SHOULDER_VOLTAGE);
+  }
+
+  public void setElbowPosition(double positionGoal) {
+    error = getElbowPosition() - positionGoal;
+    errorChange = error - prevError;
+    p = error * elbowPK /* SmartDashboard.getNumber("elbowPK ", 0) */;
+    i += error * elbowIK /* SmartDashboard.getNumber("elbowIK ", 0) */;
+    d = errorChange * elbowDK /* SmartDashboard.getNumber("elbowDK ", 0) */;
+    elbowPower = p + i + d;
+    setShoulderMotorSpeed(elbowPower);
+    SmartDashboard.putNumber("ElbowMotorPower", elbowPower);
+    prevError = error;
   }
 
   // 1.53 middle potentiometer
-  public void setElbowMotorSpeed(double speed) {
-    if (speed > 0 && getElbowPotentiometeterVoltage() < 5) { // 2.65 max
-      speed = 0.35 * speed;
-    } else if (speed < 0 && getElbowPotentiometeterVoltage() > 0) { //
-      speed = 1 * speed;
+  public void setElbowMotorSpeed(double power) {
+    if (power > 0 && getElbowPotentiometeterVoltage() < MAX_ELBOW_VOLTAGE) {
+      power = DOWNWARDS_ELBOW_LIMITER * power;
+    } else if (power < 0 && getElbowPotentiometeterVoltage() > MIN_ELBOW_VOLTAGE) {
+      power = UPWARDS_ELBOW_LIMITER * power;
     } else {
-      speed = 0;
+      power = 0;
     }
-    elbowMotor.set(speed);
+    elbowMotor.set(power);
   }
 
-  /**
-   * Get Current Talon Encoder Value
-   * 
-   * @return The current encoder value.
-   */
-  public double getShoulderEncoder() {
-    return shoulderMotor.getSelectedSensorPosition();
-  }
-
-  /**
-   * Reset Arm Encoder.
-   */
-  public void resetEncoder() {
-    shoulderMotor.setSelectedSensorPosition(0, 0, 10);
+  public double getElbowPosition() {
+    return (elbowPotentiometer.getAverageVoltage() - MIN_ELBOW_VOLTAGE) / (MAX_ELBOW_VOLTAGE - MIN_ELBOW_VOLTAGE);
   }
 
   /**

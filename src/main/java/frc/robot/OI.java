@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.drive.MAXSpeedArcadeDrive;
-import frc.robot.commands.ManipulatorCargoMode;
-import frc.robot.commands.ManipulatorHatchMode;
+import frc.robot.commands.manipulator.ManipulatorCargoMode;
+import frc.robot.commands.manipulator.ManipulatorHatchMode;
 import frc.robot.commands.drive.Shifter;
 
 /**

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.ManipulatorHatchMode;
+import frc.robot.commands.manipulator.ManipulatorHatchMode;
 
 /**
  * Add your docs here.
