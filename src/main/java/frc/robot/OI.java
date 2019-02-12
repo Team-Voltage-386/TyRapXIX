@@ -7,8 +7,6 @@ import frc.robot.commands.drive.MAXSpeedArcadeDrive;
 import frc.robot.commands.manipulator.ManipulatorCargoMode;
 import frc.robot.commands.manipulator.ManipulatorHatchMode;
 import frc.robot.commands.drive.Shifter;
-import frc.robot.commands.manipulator.ManipulatorCargoMode;
-import frc.robot.commands.manipulator.ManipulatorHatchMode;
 
 /**
  * This class is the glue that binds the controls on the physical operator
