@@ -35,11 +35,11 @@ public class ArmSubsystem extends Subsystem {
   private final double HATCH_FLOOR_SHOULDER = 0.6;
   private final double HATCH_FLOOR_ELBOW = 0.6;
   private final double HATCH_LEVEL_ONE_SHOULDER = 0.7;
-  private final double HATCH_LEVEL_ONE_ELBOW = 1.45;
+  private final double HATCH_LEVEL_ONE_ELBOW = 2.5; // Straight Forwards
   private final double HATCH_LEVEL_TWO_SHOULDER = 0.8;
-  private final double HATCH_LEVEL_TWO_ELBOW = 0.8;
+  private final double HATCH_LEVEL_TWO_ELBOW = 0.5; // Straight Down
   private final double HATCH_LEVEL_THREE_SHOULDER = 0.9;
-  private final double HATCH_LEVEL_THREE_ELBOW = 0.9;
+  private final double HATCH_LEVEL_THREE_ELBOW = 2.00;
 
   private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor); // TEMP PORT NUMBER
   public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor); // TEMP PORT NUMBER
@@ -59,14 +59,14 @@ public class ArmSubsystem extends Subsystem {
   private static final double MAX_SHOULDER_VOLTAGE = 3.5;
   private static final double MIN_SHOULDER_VOLTAGE = 1.05;
 
-  private static final double MAX_ELBOW_VOLTAGE = 2.55;
-  private static final double MIN_ELBOW_VOLTAGE = 1.5;
+  private static final double MAX_ELBOW_VOLTAGE = 4.5;
+  private static final double MIN_ELBOW_VOLTAGE = 0.1;
 
   private final double UPWARDS_SHOULDER_LIMITER = 1; // was at 0.65 // TEMP NEEDS TESTING
   private final double DOWNWARDS_SHOULDER_LIMITER = 0.2; // TEMP NEEDS TESTING
 
   private final double UPWARDS_ELBOW_LIMITER = 1;
-  private final double DOWNWARDS_ELBOW_LIMITER = 0.35;
+  private final double DOWNWARDS_ELBOW_LIMITER = 0.5;
 
   // Default Constructor Called At Start of Code
   public ArmSubsystem() {
@@ -135,9 +135,11 @@ public class ArmSubsystem extends Subsystem {
       break;
     case hatchLevelTwo:
       setShoulderPosition(HATCH_LEVEL_TWO_SHOULDER);
+      setElbowPosition(HATCH_LEVEL_TWO_ELBOW);
       break;
     case hatchLevelThree:
       setShoulderPosition(HATCH_LEVEL_THREE_SHOULDER);
+      setElbowPosition(HATCH_LEVEL_THREE_ELBOW);
       break;
     default:
       break;
@@ -188,10 +190,12 @@ public class ArmSubsystem extends Subsystem {
 
   // 1.53 middle potentiometer
   public void setElbowMotorSpeed(double power) {
-    if (power > 0 && getElbowPotentiometeterVoltage() > MIN_ELBOW_VOLTAGE) {
+    if (power > 0.05 /* && getElbowPotentiometeterVoltage() > MIN_ELBOW_VOLTAGE */) {
       power = DOWNWARDS_ELBOW_LIMITER * power;
-    } else if (power < 0 && getElbowPotentiometeterVoltage() < MAX_ELBOW_VOLTAGE) {
+    } else if (power < -0.05 && getElbowPotentiometeterVoltage() < MAX_ELBOW_VOLTAGE) {
       power = UPWARDS_ELBOW_LIMITER * power;
+    } else if (getElbowPotentiometeterVoltage() < MAX_ELBOW_VOLTAGE) {
+      power = -0.1;
     } else {
       power = 0;
     }
@@ -234,6 +238,6 @@ public class ArmSubsystem extends Subsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
     // setDefaultCommand(new ArmManualControl());
-    setDefaultCommand(new ArmHatchMode());
+    setDefaultCommand(new ArmManualControl());
   }
 }

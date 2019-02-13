@@ -2,9 +2,11 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.manipulator.ManipulatorHatchMode;
 
@@ -22,6 +24,8 @@ public class ManipulatorSubsystem extends Subsystem {
   DoubleSolenoid hatchSolenoid = new DoubleSolenoid(RobotMap.hatchCaptureOpen, RobotMap.hatchCaptureClosed);
 
   WPI_TalonSRX cargoIntakeMotor = new WPI_TalonSRX(RobotMap.cargoRollerMotor); // TEMP PORT NUMBER
+
+  DigitalInput easyButton = new DigitalInput(8); // TEMP
 
   // TEMP CONSTANTS BELOW
   private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
@@ -92,6 +96,10 @@ public class ManipulatorSubsystem extends Subsystem {
     } else if (direction == CargoIntakeDirection.cargoOff) {
       setCargoIntakeSpeed(0);
     }
+  }
+
+  public void displayDiagnostics() {
+    SmartDashboard.putBoolean("easyButton", easyButton.get());
   }
 
 }

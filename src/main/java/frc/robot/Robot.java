@@ -64,6 +64,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("Mode", armSubsystem.getCurrentCommandName());
     driveSubsystem.displayDiagnostics();
     armSubsystem.displayDiagnostics();
+    manipulatorSubsystem.displayDiagnostics();
   }
 
   /**
