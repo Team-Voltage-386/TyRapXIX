@@ -58,9 +58,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
     SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
 
-    SmartDashboard.putNumber("Shoulder Potentiometer", Robot.armSubsystem.getShoulderPotentiometeterVoltage());
-    SmartDashboard.putNumber("Elbow Potentiometer", Robot.armSubsystem.getElbowPotentiometeterVoltage());
-
     SmartDashboard.putString("Mode", armSubsystem.getCurrentCommandName());
     driveSubsystem.displayDiagnostics();
     armSubsystem.displayDiagnostics();

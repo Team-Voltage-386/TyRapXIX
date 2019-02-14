@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.OI;
 import frc.robot.RobotMap;
-import frc.robot.commands.arm.ArmHatchMode;
 import frc.robot.commands.arm.ArmManualControl;
 
 /**
@@ -20,26 +20,21 @@ import frc.robot.commands.arm.ArmManualControl;
 public class ArmSubsystem extends Subsystem {
 
   private double prevError, error, errorChange, elbowPower, shoulderPower, p, i, d;
-  private final double shoulderPK = 0, shoulderIK = 0, shoulderDK = 0;
-  private final double elbowPK = 0, elbowIK = 0, elbowDK = 0;
-  private final double CARGO_FLOOR_SHOULDER = 0.1;
-  private final double CARGO_FLOOR_ELBOW = 0.1;
-  private final double CARGO_PLAYER_STATION_SHOULDER = 0.2;
-  private final double CARGO_PLAYER_STATION_ELBOW = 0.2;
-  private final double CARGO_LEVEL_ONE_SHOULDER = 0.3;
-  private final double CARGO_LEVEL_ONE_ELBOW = 0.3;
-  private final double CARGO_LEVEL_TWO_SHOULDER = 0.4;
-  private final double CARGO_LEVEL_TWO_ELBOW = 0.4;
-  private final double CARGO_LEVEL_THREE_SHOULDER = 0.5;
-  private final double CARGO_LEVEL_THREE_ELBOW = 0.5;
-  private final double HATCH_FLOOR_SHOULDER = 0.6;
-  private final double HATCH_FLOOR_ELBOW = 0.6;
-  private final double HATCH_LEVEL_ONE_SHOULDER = 0.7;
-  private final double HATCH_LEVEL_ONE_ELBOW = 2.5; // Straight Forwards
-  private final double HATCH_LEVEL_TWO_SHOULDER = 0.8;
-  private final double HATCH_LEVEL_TWO_ELBOW = 0.5; // Straight Down
-  private final double HATCH_LEVEL_THREE_SHOULDER = 0.9;
-  private final double HATCH_LEVEL_THREE_ELBOW = 2.00;
+  private final double shoulderPK = 0, shoulderIK = 0, shoulderDK = 0;// TEMP
+  private final double elbowPK = 0, elbowIK = 0, elbowDK = 0;// TEMP
+  private final double manualShoulderK = 0; // TEMP
+  private final double CARGO_FLOOR_SHOULDER = 0.1;// TEMP
+  private final double CARGO_PLAYER_STATION_SHOULDER = 0.2;// TEMP
+  private final double CARGO_LEVEL_ONE_SHOULDER = 0.142;
+  private final double CARGO_LEVEL_TWO_SHOULDER = 0.543;
+  private final double CARGO_LEVEL_THREE_SHOULDER = 0.922;
+  private final double HATCH_FLOOR_SHOULDER = 0.6; // TEMP
+  private final double HATCH_LEVEL_ONE_SHOULDER = 0.07266;
+  private final double HATCH_LEVEL_TWO_SHOULDER = 0.495;
+  private final double HATCH_LEVEL_THREE_SHOULDER = 0.8975;
+  private final double DEFAULT_STATE_ELBOW = 3.2;
+  private final double STRAIGHT_FORWARDS_ELBOW = 2.35;
+  private final double PARALLEL_TO_FLOOR_ELBOW = 0.23;
 
   private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor); // TEMP PORT NUMBER
   public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor); // TEMP PORT NUMBER
@@ -50,9 +45,9 @@ public class ArmSubsystem extends Subsystem {
   AnalogInput elbowPotentiometer = new AnalogInput(RobotMap.elbowPotentiometer);
 
   // TEMP CONSTANTS BELOW
-  private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
+  private static final int PEAK_CURRENT_AMPS = 55; /* threshold to trigger current limit */
   private static final int PEAK_TIME_MS = 0; /* how long after Peak current to trigger current limit */
-  private static final int CONTIN_CURRENT_AMPS = 25; /* hold current after limit is triggered */
+  private static final int CONTIN_CURRENT_AMPS = 39; /* hold current after limit is triggered */
   private static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
   // TEMP CONSTANTS ABOVE
 
@@ -81,9 +76,9 @@ public class ArmSubsystem extends Subsystem {
     shoulderMotor.enableCurrentLimit(true); /* honor initial setting */
     shoulderMotor.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
 
-    elbowMotor.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
+    elbowMotor.configPeakCurrentLimit(15);
     elbowMotor.configPeakCurrentDuration(PEAK_TIME_MS); /* this is a necessary call to avoid errata. */
-    elbowMotor.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
+    elbowMotor.configContinuousCurrentLimit(11);
     elbowMotor.enableCurrentLimit(true); /* honor initial setting */
     elbowMotor.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
 
@@ -109,7 +104,9 @@ public class ArmSubsystem extends Subsystem {
     // WITH PID
     switch (in) {
     case manualControl:
-      setShoulderMotorSpeed(manualOverride);
+      // May be backwards
+      setShoulderPosition(
+          getShoulderPosition() + (manualShoulderK * OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL)));
       break;
     case cargoFloorPickup:
       setShoulderPosition(CARGO_FLOOR_SHOULDER);
@@ -128,18 +125,18 @@ public class ArmSubsystem extends Subsystem {
       break;
     case hatchFloorPickup:
       setShoulderPosition(HATCH_FLOOR_SHOULDER);
+      // setElbowPosition(PARALLEL_TO_FLOOR_ELBOW);
       break;
     case hatchLevelOne:
       setShoulderPosition(HATCH_LEVEL_ONE_SHOULDER);
-      setElbowPosition(HATCH_LEVEL_ONE_ELBOW);
+      // setElbowPosition(STRAIGHT_FORWARDS_ELBOW);
       break;
     case hatchLevelTwo:
       setShoulderPosition(HATCH_LEVEL_TWO_SHOULDER);
-      setElbowPosition(HATCH_LEVEL_TWO_ELBOW);
+      // setElbowPosition(STRAIGHT_FORWARDS_ELBOW);
       break;
     case hatchLevelThree:
       setShoulderPosition(HATCH_LEVEL_THREE_SHOULDER);
-      setElbowPosition(HATCH_LEVEL_THREE_ELBOW);
       break;
     default:
       break;
@@ -155,6 +152,7 @@ public class ArmSubsystem extends Subsystem {
     shoulderPower = p + i + d;
     setShoulderMotorSpeed(shoulderPower);
     SmartDashboard.putNumber("ShoulderMotorSpeed", shoulderPower);
+    SmartDashboard.putNumber("positionGoal", positionGoal);
     prevError = error;
   }
 
@@ -174,8 +172,8 @@ public class ArmSubsystem extends Subsystem {
         / (MAX_SHOULDER_VOLTAGE - MIN_SHOULDER_VOLTAGE);
   }
 
-  public void setElbowPosition(double positionGoal) {
-    error = elbowPotentiometer.getAverageVoltage() - positionGoal;
+  public void setElbowPosition(double positionVoltage) {
+    error = elbowPotentiometer.getAverageVoltage() - positionVoltage;
     // error = getElbowPosition() - positionGoal;
     errorChange = error - prevError;
     p = error * /* elbowPK */ SmartDashboard.getNumber("elbowPK ", 0);
@@ -184,18 +182,18 @@ public class ArmSubsystem extends Subsystem {
     elbowPower = p + i + d;
     setElbowMotorSpeed(elbowPower);
     SmartDashboard.putNumber("ElbowMotorPower", elbowPower);
-    SmartDashboard.putNumber("Current Goal", positionGoal);
+    SmartDashboard.putNumber("Current Goal", positionVoltage);
     prevError = error;
   }
 
   // 1.53 middle potentiometer
   public void setElbowMotorSpeed(double power) {
     if (power > 0.05 /* && getElbowPotentiometeterVoltage() > MIN_ELBOW_VOLTAGE */) {
-      power = DOWNWARDS_ELBOW_LIMITER * power;
+      power = /* DOWNWARDS_ELBOW_LIMITER **/ power;
     } else if (power < -0.05 && getElbowPotentiometeterVoltage() < MAX_ELBOW_VOLTAGE) {
       power = UPWARDS_ELBOW_LIMITER * power;
     } else if (getElbowPotentiometeterVoltage() < MAX_ELBOW_VOLTAGE) {
-      power = -0.1;
+      power = 0;// -.1
     } else {
       power = 0;
     }
@@ -223,6 +221,8 @@ public class ArmSubsystem extends Subsystem {
     SmartDashboard.putNumber("Shoulder Current", shoulderMotor.getOutputCurrent());
     SmartDashboard.putNumber("Shoulder Potentiometer", shoulderPotentiometer.getAverageVoltage());
     SmartDashboard.putNumber("Shoulder Position", getShoulderPosition());
+    SmartDashboard.putNumber("Elbow Potentiometer", getElbowPotentiometeterVoltage());
+    SmartDashboard.putNumber("Elbow Power", elbowMotor.get());
   }
 
   public double getShoulderPotentiometeterVoltage() {

@@ -32,9 +32,9 @@ public class ManipulatorHatchMode extends Command {
   @Override
   protected void execute() {
     if (OI.xboxManipControl.getRawButton(OI.INTAKE)) {
-      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
-    } else if (OI.xboxManipControl.getRawButton(OI.OUTAKE)) {
       Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
+    } else if (OI.xboxManipControl.getRawButton(OI.OUTAKE)) {
+      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
     }
   }
 
