@@ -8,20 +8,25 @@
 package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTableValue;
+import edu.wpi.first.networktables.TableEntryListener;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.testCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.BeakSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.CargoManipSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.EndgameClimbSubsystem;
+import frc.robot.subsystems.SpikeSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -38,13 +43,21 @@ public class Robot extends TimedRobot {
   public static CargoManipSubsystem cargoManipSubsystem = new CargoManipSubsystem();
   public static DriveSubsystem driveSubsystem = new DriveSubsystem();
   public static EndgameClimbSubsystem endgameClimbSubsystem = new EndgameClimbSubsystem();
+  public static SpikeSubsystem spikeSubsystem = new SpikeSubsystem();
   public static OI m_oi;
 
-  NetworkTableEntry testEntry;
-  double[] testValue;
-  double[] defaultValue;
+  NetworkTableEntry numberOfPairs;
+  // NetworkTableEntry imgWidth;
+  // NetworkTableEntry imgHeight;
+  double pairsNum;
+  double defaultValue;
+  // double defaultWidth;
+  // double defaultHeight;
+  // double actualWidth;
+  // double actualHeight;
 
   Command m_autonomousCommand;
+  Command testerCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // encoder and sensor labels
@@ -57,8 +70,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    defaultValue = new double[1];
-    defaultValue[0] = 4.0;
+    defaultValue = 2.0;
+    //spikeSubsystem.spikeToggle();
+    // defaultValue[1] = 3.0;
+    // defaultWidth = 5;
+    // defaultHeight = 5;
     // NetworkTableInstance testInstance = NetworkTableInstance.getDefault();
     // NetworkTable table = testInstance.getTable("datatable");
     // testEntry = table.getEntry("X");
@@ -84,17 +100,30 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    testerCommand = new testCommand();
+
     NetworkTableInstance testInstance = NetworkTableInstance.getDefault();
+    testInstance.startServer();
+    testInstance.setServerTeam(386, 1735);
     NetworkTable table = testInstance.getTable("datatable");
-    testEntry = table.getEntry("X");
-    testInstance.startClientTeam(386);
-    testValue = testEntry.getDoubleArray(defaultValue);
+    numberOfPairs = table.getEntry("X");
+    // imgWidth = table.getEntry("Y");
+    // imgHeight = table.getEntry("Z");
+    pairsNum = numberOfPairs.getDouble(defaultValue);
+    // actualHeight = imgHeight.getDouble(defaultHeight);
+    // defaultValue = new double[3];
+    // defaultValue[0] = 1;
+    // valueOfEntry = testEntry.getDoubleArray(defaultValue);
  
     SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
     SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
     SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]); 
-    SmartDashboard.putNumber("Network Table Test",testValue[0]);
-   // SmartDashboard.putNumber("Number Test",defaultValue[0]);
+    SmartDashboard.putNumber("Number of Pairs",pairsNum);
+    // SmartDashboard.putNumber("R",valueOfEntry[0]);
+    // SmartDashboard.putNumber("G",valueOfEntry[1]);
+    // SmartDashboard.putNumber("B",valueOfEntry[2]);
+    // SmartDashboard.putNumber("Width",actualWidth);
+    // SmartDashboard.putNumber("Height",actualHeight);
   }
 
   /**

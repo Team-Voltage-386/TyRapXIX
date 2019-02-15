@@ -8,6 +8,13 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+
+import org.opencv.core.Mat;
+
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -18,11 +25,23 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class CameraSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  public int resolutionWidth = 320;
+  public int resolutionHeight = 240;
+  UsbCamera usbCamera = CameraServer.getInstance().startAutomaticCapture("Fisheye",0);
+  CvSink cvSink = CameraServer.getInstance().getVideo();
+  CvSource testOutputStream = CameraServer.getInstance().putVideo("Test",resolutionHeight,resolutionWidth);
+
+  Mat originalImage = new Mat();
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+  }
+
+  public void testVision(){
+    cvSink.grabFrame(originalImage);
+    testOutputStream.putFrame(originalImage);
   }
 
   
