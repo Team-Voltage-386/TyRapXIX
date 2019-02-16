@@ -203,8 +203,8 @@ public class ArmSubsystem extends Subsystem {
     elbowD = errorChange * /* elbowDK */ SmartDashboard.getNumber("elbowDK ", 0);
     elbowPower = elbowP + elbowI + elbowD;
     setElbowMotorSpeed(elbowPower);
-    SmartDashboard.putNumber("ElbowMotorPower", elbowPower);
-    SmartDashboard.putNumber("Current Goal", positionVoltage);
+    SmartDashboard.putNumber("ElbowPowerVariable", elbowPower);
+    SmartDashboard.putNumber("Elbow Current Goal", positionVoltage);
     prevError = error;
   }
 
@@ -295,12 +295,12 @@ public class ArmSubsystem extends Subsystem {
 
   /* Motor Power, Current, Potentiometers, Position */
   public void displayDiagnostics() {
-    SmartDashboard.putNumber("Shoulder Motor Power", shoulderMotor.get());
+    SmartDashboard.putNumber("Shoulder Raw Power", shoulderMotor.get());
     SmartDashboard.putNumber("Shoulder Current", shoulderMotor.getOutputCurrent());
     SmartDashboard.putNumber("Shoulder Potentiometer", shoulderPotentiometer.getAverageVoltage());
     SmartDashboard.putNumber("Shoulder Position", getShoulderPosition());
     SmartDashboard.putNumber("Elbow Potentiometer", getElbowPotentiometerVoltage());
-    SmartDashboard.putNumber("Elbow Power", elbowMotor.get());
+    SmartDashboard.putNumber("Elbow Raw Power", elbowMotor.get());
   }
 
   @Override
