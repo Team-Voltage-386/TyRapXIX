@@ -13,18 +13,20 @@ import frc.robot.Robot;
 /**
  * Add your docs here.
  */
-public class Shifter extends InstantCommand {
-  public Shifter() {
+public class ResetYaw extends InstantCommand {
+  /**
+   * Add your docs here.
+   */
+  public ResetYaw() {
     super();
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.driveSubsystem);
+    // eg. requires(chassis);
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.driveSubsystem.shift();
+    Robot.driveSubsystem.resetPigeon();
   }
 
 }

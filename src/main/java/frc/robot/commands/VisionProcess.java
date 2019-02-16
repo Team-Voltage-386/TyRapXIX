@@ -9,13 +9,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.VisionSubsystem;
 
-public class HatchVision extends Command {
-  public HatchVision() {
-    requires(Robot.visionSubsystem);
+public class VisionProcess extends Command {
+  public VisionProcess() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.visionProcessing);
   }
 
   // Called just before this Command runs the first time
@@ -26,7 +25,7 @@ public class HatchVision extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.visionSubsystem.HatchVision();
+    Robot.visionProcessing.visionProcess();
   }
 
   // Make this return true when this Command no longer needs to run execute()

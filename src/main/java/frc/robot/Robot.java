@@ -7,14 +7,25 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.AxisCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.HatchVision;
+import frc.robot.commands.MoveAndTurn;
+import frc.robot.commands.TurnToTarget;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.SpikeSubsystem;
+import frc.robot.subsystems.VisionProcessing;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.BeakSubsystem;
+import frc.robot.subsystems.CameraSubsystem;
+import frc.robot.subsystems.CargoManipSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.EndgameClimbSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,40 +36,81 @@ import frc.robot.subsystems.VisionSubsystem;
  */
 public class Robot extends TimedRobot {
 
+  public static ArmSubsystem armSubsystem = new ArmSubsystem();
+  public static BeakSubsystem beakSubsystem = new BeakSubsystem();
+  public static CameraSubsystem cameraSubsystem = new CameraSubsystem();
+  public static CargoManipSubsystem cargoManipSubsystem = new CargoManipSubsystem();
   public static DriveSubsystem driveSubsystem = new DriveSubsystem();
-  public static VisionSubsystem visionSubsystem = new VisionSubsystem();
+  public static VisionProcessing visionProcessing = new VisionProcessing();
+  // public static SpikeSubsystem spikeSubsystem = new SpikeSubsystem();
+  public static EndgameClimbSubsystem endgameClimbSubsystem = new EndgameClimbSubsystem();
   public static OI m_oi;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+  // encoder and sensor labels
+  public static final String ENCODER_TALON_1 = "Encoder Talon 1";
+  public static final String ENCODER_TALON_3 = "Encoder Talon 3";
+  public static Ultrasonic ultrasonic = new Ultrasonic(RobotMap.distanceSensorPing, RobotMap.distanceSensorEcho);
+
   /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
+   * This function is run when the robot is first started up and should be used
+   * for any initialization code.
    */
   @Override
   public void robotInit() {
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+    SmartDashboard.putNumber("kp", 0.001);
+    SmartDashboard.putNumber("kd", 0.005);
+    SmartDashboard.putNumber("ki", 0);
+
+    // Vision Thresholds
+    SmartDashboard.putNumber("Start H", 125);
+    SmartDashboard.putNumber("Start S", 0);
+    SmartDashboard.putNumber("Start V", 0);
+    SmartDashboard.putNumber("End H", 200);
+    SmartDashboard.putNumber("End S", 255);
+    SmartDashboard.putNumber("End V", 255);
+    SmartDashboard.putNumber("alpha", 2.7);
+    SmartDashboard.putNumber("beta", 0);
+    SmartDashboard.putNumber("ErodeSize1", 50.0);
+    SmartDashboard.putNumber("ErodeSize2", 50.0);
+    SmartDashboard.putNumber("DilateSize1", 50.0);
+    SmartDashboard.putNumber("DilateSize2", 50.0);
+    SmartDashboard.putNumber("DefaultDilate", 10);
+
+    Robot.armSubsystem.resetEncoder();
   }
 
   /**
-   * This function is called every robot packet, no matter the mode. Use
-   * this for items like diagnostics that you want ran during disabled,
-   * autonomous, teleoperated and test.
+   * This function is called every robot packet, no matter the mode. Use this for
+   * items like diagnostics that you want ran during disabled, autonomous,
+   * teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and SmartDashboard integrated updating.
    */
+
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
+    SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
+    SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
+    ultrasonic.setAutomaticMode(true);
+    SmartDashboard.putNumber("Ultrasonic", ultrasonic.getRangeInches());
+
+    // SmartDashboard.putString("Spike State", Robot.spikeSubsystem.getState() +
+    // "");
   }
 
   /**
-   * This function is called once each time the robot enters Disabled mode.
-   * You can use it to reset any subsystem information you want to clear when
-   * the robot is disabled.
+   * This function is called once each time the robot enters Disabled mode. You
+   * can use it to reset any subsystem information you want to clear when the
+   * robot is disabled.
    */
   @Override
   public void disabledInit() {
@@ -71,27 +123,29 @@ public class Robot extends TimedRobot {
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
-   * between different autonomous modes using the dashboard. The sendable
-   * chooser code works with the Java SmartDashboard. If you prefer the
-   * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-   * getString code to get the auto name from the text box below the Gyro
+   * between different autonomous modes using the dashboard. The sendable chooser
+   * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
+   * remove all of the chooser code and uncomment the getString code to get the
+   * auto name from the text box below the Gyro
    *
-   * <p>You can add additional auto modes by adding additional commands to the
-   * chooser code above (like the commented example) or additional comparisons
-   * to the switch structure below with additional strings & commands.
+   * <p>
+   * You can add additional auto modes by adding additional commands to the
+   * chooser code above (like the commented example) or additional comparisons to
+   * the switch structure below with additional strings & commands.
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    m_autonomousCommand = new TurnToTarget();
 
     /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector",
-     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-     * = new MyAutoCommand(); break; case "Default Auto": default:
-     * autonomousCommand = new ExampleCommand(); break; }
+     * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
+     * switch(autoSelected) { case "My Auto": autonomousCommand = new
+     * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
+     * ExampleCommand(); break; }
      */
 
     // schedule the autonomous command (example)
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }
@@ -102,7 +156,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    m_autonomousCommand = new HatchVision(); //This probably shouldn't be here
     Scheduler.getInstance().run();
   }
 
@@ -123,6 +176,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    driveSubsystem.displayDiagnostics();
   }
 
   /**
