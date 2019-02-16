@@ -38,7 +38,7 @@ public class SpikeSubsystem extends Subsystem {
     }
   }
 
-  public void lightSwitch() {
+  public void on() {
     lightRelay.set(Relay.Value.kForward);
   }
 

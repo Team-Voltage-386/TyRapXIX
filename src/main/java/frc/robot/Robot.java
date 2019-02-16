@@ -47,9 +47,11 @@ public class Robot extends TimedRobot {
   public static OI m_oi;
 
   NetworkTableEntry numberOfPairs;
+  NetworkTableEntry pairX;
   // NetworkTableEntry imgWidth;
   // NetworkTableEntry imgHeight;
   double pairsNum;
+  double pairCenter;
   double defaultValue;
   // double defaultWidth;
   // double defaultHeight;
@@ -71,7 +73,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     defaultValue = 2.0;
-    //spikeSubsystem.spikeToggle();
+    // spikeSubsystem.spikeToggle();
     // defaultValue[1] = 3.0;
     // defaultWidth = 5;
     // defaultHeight = 5;
@@ -80,13 +82,12 @@ public class Robot extends TimedRobot {
     // testEntry = table.getEntry("X");
     // testInstance.startClientTeam(386);
     // testValue = testEntry.getDouble(2.0);
-  
-   
 
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
     Robot.armSubsystem.resetEncoder();
+    Robot.spikeSubsystem.on();
   }
 
   /**
@@ -107,18 +108,21 @@ public class Robot extends TimedRobot {
     testInstance.setServerTeam(386, 1735);
     NetworkTable table = testInstance.getTable("datatable");
     numberOfPairs = table.getEntry("X");
+    pairX = table.getEntry("Y");
     // imgWidth = table.getEntry("Y");
     // imgHeight = table.getEntry("Z");
     pairsNum = numberOfPairs.getDouble(defaultValue);
+    pairCenter = pairX.getDouble(defaultValue);
     // actualHeight = imgHeight.getDouble(defaultHeight);
     // defaultValue = new double[3];
     // defaultValue[0] = 1;
     // valueOfEntry = testEntry.getDoubleArray(defaultValue);
- 
+
     SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
     SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
-    SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]); 
-    SmartDashboard.putNumber("Number of Pairs",pairsNum);
+    SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
+    SmartDashboard.putNumber("Pairs", pairsNum);
+    SmartDashboard.putNumber("Pair 0 Center", pairCenter);
     // SmartDashboard.putNumber("R",valueOfEntry[0]);
     // SmartDashboard.putNumber("G",valueOfEntry[1]);
     // SmartDashboard.putNumber("B",valueOfEntry[2]);
@@ -195,7 +199,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     driveSubsystem.displayDiagnostics();
-
 
   }
 
