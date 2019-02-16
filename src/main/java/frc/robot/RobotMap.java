@@ -57,7 +57,6 @@ public class RobotMap {
   public static int spikeLightRing = 0; // LED Light Ring
 
   // to be defined - port numbers are placeholders
-
   public static int rearElevatorMotor = 5;
   public static int leftShoulderMotor = 6;
   public static int rightShoulderMotor = 6;
@@ -73,5 +72,6 @@ public class RobotMap {
 
   // limit switches
   public static int bottomShoulderLimitSwitch = 4;
+  public static int easyButtonPort = 8;
 
 }
