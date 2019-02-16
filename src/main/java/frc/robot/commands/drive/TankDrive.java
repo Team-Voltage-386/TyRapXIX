@@ -1,16 +1,14 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
+/**
+ * setup used to run the driver controller in Tank Drive. In this mode, <em>Left
+ * Analog Stick</em> controls the left motors on the robot, and <em>Right Analog
+ * Stick</em> controls the right side of the robot
+ */
 public class TankDrive extends Command {
   public TankDrive() {
     requires(Robot.driveSubsystem);
@@ -24,8 +22,8 @@ public class TankDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveSubsystem.driveTank(OI.xboxDriveControl.getRawAxis(OI.driveLeftJoystickVertical),
-        OI.xboxDriveControl.getRawAxis(OI.driveRightJoystickHorizontal));
+    Robot.driveSubsystem.driveTank(OI.xboxDriveControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL),
+        OI.xboxDriveControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL));
   }
 
   // Make this return true when this Command no longer needs to run execute()

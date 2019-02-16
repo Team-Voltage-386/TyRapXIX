@@ -1,24 +1,18 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
-package frc.robot.commands;
+package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.ArmSubsystem.Levels;
 
-public class HatchMode extends Command {
+/**
+ * Command used to set mode for the Hatch
+ */
+public class ArmHatchMode extends Command {
   Levels desiredLevel = Levels.hatchLevelOne;
 
-  public HatchMode() {
+  public ArmHatchMode() {
     requires(Robot.armSubsystem);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
@@ -29,19 +23,25 @@ public class HatchMode extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (OI.xboxManipControl.getRawButton(OI.floorPickup)) {
+    if (OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) > 0.1
+        || OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) < -0.1) {
+      Robot.armSubsystem.setShoulderMotorSpeed(OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL));
+    } else if (OI.xboxManipControl.getRawButton(OI.FLOOR_PICKUP)) {
       // floor pickup
       desiredLevel = Levels.hatchFloorPickup;
-    } else if (OI.xboxManipControl.getRawButton(OI.levelOneSelector)) {
+    } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_ONE_SELECTOR)) {
       // level one
       desiredLevel = Levels.hatchLevelOne;
-    } else if (OI.xboxManipControl.getRawButton(OI.levelTwoSelector)) {
+    } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_TWO_SELECTOR)) {
       // level two
       desiredLevel = Levels.hatchLevelTwo;
-    } else if (OI.xboxManipControl.getRawButton(OI.levelThreeSelector)) {
+    } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_THREE_SELECTOR)) {
       // level three
       desiredLevel = Levels.hatchLevelThree;
     } else {
+      // If no condition matches, then the desiredLevel value is left at its previous
+      // state. Note that its starting state is initialized at the top of this class
+      // definition.
     }
     Robot.armSubsystem.setLevel(desiredLevel);
   }

@@ -5,16 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
+/**
+ * ArcadeDrive without a speed limiter (i.e. at 100% power).
+ */
 public class MAXSpeedArcadeDrive extends Command {
   public MAXSpeedArcadeDrive() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.driveSubsystem);
   }
 
@@ -26,8 +27,8 @@ public class MAXSpeedArcadeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double xSpeed = OI.xboxDriveControl.getRawAxis(OI.driveLeftJoystickVertical);
-    double zRotation = OI.xboxDriveControl.getRawAxis(OI.driveRightJoystickHorizontal);
+    double xSpeed = OI.xboxDriveControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL);
+    double zRotation = OI.xboxDriveControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL);
     Robot.driveSubsystem.driveArcade(xSpeed * -1, zRotation);
   }
 
