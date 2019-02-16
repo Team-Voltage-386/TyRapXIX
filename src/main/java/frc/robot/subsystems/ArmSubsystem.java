@@ -32,10 +32,11 @@ public class ArmSubsystem extends Subsystem {
   private final double HATCH_LEVEL_ONE_SHOULDER = 0.07266;
   private final double HATCH_LEVEL_TWO_SHOULDER = 0.495;
   private final double HATCH_LEVEL_THREE_SHOULDER = 0.8975;
-  private final double DEFAULT_STATE_ELBOW = 4.78;
-  private final double STRAIGHT_FORWARDS_ELBOW = 3.74;
-  private final double PARALLEL_TO_FLOOR_ELBOW = 1.57;
-  private static final double CARGO_PLAYER_STATION_ELBOW = 3.5; // TEMP
+  private final double RESET_SHOULDER = 0.142; // TEMP
+  private final double RESET_ELBOW = 4.78;
+  private final double PERPENDICULAR_ELBOW = 3.74;
+  private final double PARALLEL_ELBOW = 1.57;
+  private static final double HUMAN_PLAYER_ELBOW = 3.5; // TEMP
 
   private double shoulderP, shoulderI, shoulderD;
 
@@ -90,7 +91,11 @@ public class ArmSubsystem extends Subsystem {
   /** Enumerations used in CargoMode and HatchMode Commands */
   public enum Levels {
     cargoFloorPickup, cargoPlayerStation, cargoLevelOne, cargoLevelTwo, cargoLevelThree, hatchFloorPickup,
-    hatchLevelOne, hatchLevelTwo, hatchLevelThree, manualControl;
+    hatchLevelOne, hatchLevelTwo, hatchLevelThree, manualControl, resetState;
+  }
+
+  public enum ElbowStates {
+    reset, parallel, perpendicular, humanPlayer, manualControl;
   }
 
   /**
@@ -102,53 +107,67 @@ public class ArmSubsystem extends Subsystem {
    * 
    * @param in The level to move the arm to.
    */
-  public void setLevel(Levels in, double manualOverrideShoulder, double manualOverrideElbow) {
+  public void setLevel(Levels inShoulder, ElbowStates inElbow, double manualOverrideShoulder,
+      double manualOverrideElbow) {
     // NEEDS TO IMPLEMENT SETTING ELBOW STATES ONCE SHOULDER IS TESTED AND TUNED
     // WITH PID
-    switch (in) {
+    switch (inShoulder) {
     case manualControl:
       // May be backwards
       // setShoulderPosition(
       // getShoulderPosition() + (manualShoulderK *
       // OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL)));
+      // Commented code above will only be needed for elbowManualControl, not shoulder
       setShoulderMotorSpeed(manualOverrideShoulder);
-      setElbowMotorSpeed(manualOverrideElbow);
       break;
     case cargoFloorPickup:
       setShoulderPosition(CARGO_FLOOR_SHOULDER);
-      // setElbowPosition(PARALLEL_TO_FLOOR_ELBOW);
       break;
     case cargoPlayerStation:
       setShoulderPosition(CARGO_PLAYER_STATION_SHOULDER);
-      // setElbowPosition(CARGO_PLAYER_STATION_ELBOW);
       break;
     case cargoLevelOne:
       setShoulderPosition(CARGO_LEVEL_ONE_SHOULDER);
-      // setElbowPosition(STRAIGHT_FORWARDS_ELBOW);
       break;
     case cargoLevelTwo:
       setShoulderPosition(CARGO_LEVEL_TWO_SHOULDER);
-      // setElbowPosition(STRAIGHT_FORWARDS_ELBOW);
       break;
     case cargoLevelThree:
       setShoulderPosition(CARGO_LEVEL_THREE_SHOULDER);
-      // setElbowPosition(STRAIGHT_FORWARDS_ELBOW);
       break;
     case hatchFloorPickup:
       setShoulderPosition(HATCH_FLOOR_SHOULDER);
-      // setElbowPosition(PARALLEL_TO_FLOOR_ELBOW);
       break;
     case hatchLevelOne:
       setShoulderPosition(HATCH_LEVEL_ONE_SHOULDER);
-      // setElbowPosition(STRAIGHT_FORWARDS_ELBOW);
       break;
     case hatchLevelTwo:
       setShoulderPosition(HATCH_LEVEL_TWO_SHOULDER);
-      // setElbowPosition(STRAIGHT_FORWARDS_ELBOW);
       break;
     case hatchLevelThree:
       setShoulderPosition(HATCH_LEVEL_THREE_SHOULDER);
-      // setElbowPosition(STRAIGHT_FORWARDS_ELBOW);
+      break;
+    case resetState:
+      setShoulderPosition(RESET_SHOULDER);
+    default:
+      break;
+    }
+
+    switch (inElbow) {
+    case manualControl:
+      setElbowMotorSpeed(manualOverrideElbow);
+      break;
+    case reset:
+      setElbowPosition(RESET_ELBOW);
+      break;
+    case parallel:
+      setElbowPosition(PARALLEL_ELBOW);
+      break;
+    case perpendicular:
+      setElbowPosition(PERPENDICULAR_ELBOW);
+      break;
+    case humanPlayer:
+      setElbowPosition(HUMAN_PLAYER_ELBOW);
       break;
     default:
       break;
@@ -162,6 +181,9 @@ public class ArmSubsystem extends Subsystem {
     shoulderI += error /* shoulderIK */ * SmartDashboard.getNumber("shoulderIK ", 0);
     shoulderD = errorChange /* shoulderDK */ * SmartDashboard.getNumber("shoulderDK ", 0);
     shoulderPower = shoulderP + shoulderI + shoulderD;
+    if (error < 0.05) {
+      shoulderPower = 0;
+    }
     setShoulderMotorSpeed(shoulderPower);
     SmartDashboard.putNumber("Shoulder Power Variable", shoulderPower);
     SmartDashboard.putNumber("ShoulderPositionGoal", positionGoal);
