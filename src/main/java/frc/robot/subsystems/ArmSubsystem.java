@@ -6,10 +6,8 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.OI;
 import frc.robot.RobotMap;
 import frc.robot.commands.arm.ArmHatchMode;
-import frc.robot.commands.arm.ArmManualControl;
 
 /**
  * The ArmSubsystem is responsible for the shoulder and elbow motor control.
