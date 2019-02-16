@@ -38,8 +38,8 @@ public class VisionProcessing extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public int resolutionWidth = 640;
-  public int resolutionHeight = 480;
+  public int resolutionWidth = 320;
+  public int resolutionHeight = 240;
 
   public VisionProcessing() {
     usbCamera.setResolution(resolutionWidth, resolutionHeight);
@@ -103,10 +103,8 @@ public class VisionProcessing extends Subsystem {
   public ArrayList<RotatedRect[]> visionProcess() {
 
     // Vision Thresholds
-    colorStart = new Scalar(SmartDashboard.getNumber("Start H", 50), SmartDashboard.getNumber("Start S", 40),
-        SmartDashboard.getNumber("Start V", 125));
-    colorEnd = new Scalar(SmartDashboard.getNumber("End H", 150), SmartDashboard.getNumber("End S", 255),
-        SmartDashboard.getNumber("End V", 255));
+    colorStart = new Scalar(75, 40, 125);
+    colorEnd = new Scalar(140, 255, 255);
 
     // Recive the inital image
     cvSink.grabFrame(base);
