@@ -75,7 +75,7 @@ public class RobotMap {
   public static int elevatorLimitSwitch = 9;
 
   // Sensors
-  public static int driveUltrasonicPort = 3; // TEMP
+  public static int driveUltrasonicPort = 0; // TEMP
   public static int bottomShoulderLimitSwitch = 4;
 
 }

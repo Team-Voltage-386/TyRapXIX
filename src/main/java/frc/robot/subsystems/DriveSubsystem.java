@@ -7,6 +7,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,6 +32,8 @@ public class DriveSubsystem extends Subsystem {
   private static DifferentialDrive differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
+
+  private static AnalogInput driveUltrasonic = new AnalogInput(RobotMap.driveUltrasonicPort);
 
   /** threshold to trigger current limit */
   private static final int PEAK_CURRENT_AMPS = 35;

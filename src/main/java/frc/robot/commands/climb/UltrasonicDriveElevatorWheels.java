@@ -5,40 +5,38 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.climb;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class LiftClimbLegs extends Command {
+public class UltrasonicDriveElevatorWheels extends Command {
 
-  private double startTime;
+  private double distanceGoalInches;
   private final double ELEVATOR_SPEED = 0.3; // TEMP THIS SPEED NEEDS TO BE TESTED
-  private final double SECONDS_TIME_FOR_LIFT_LEGS = 2;
 
-  public LiftClimbLegs() {
+  public UltrasonicDriveElevatorWheels(double goal) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.endgameClimbSubsystem);
+    distanceGoalInches = goal;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem.setElevatorSpeed(ELEVATOR_SPEED);
+    Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(ELEVATOR_SPEED);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Timer.getFPGATimestamp() - startTime > SECONDS_TIME_FOR_LIFT_LEGS;
+    return Robot.driveSubsystem.getUltrasonicDistance() < distanceGoalInches;
   }
 
   // Called once after isFinished returns true

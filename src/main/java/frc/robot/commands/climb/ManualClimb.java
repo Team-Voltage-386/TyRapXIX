@@ -5,21 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.climb;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
 
-public class ClimbPhaseOne extends Command {
-
-  private double error;
-  private final double K = 0; // TEMP THIS CONSTANT NEEDS TO BE GOTTEN BY TUNING
-  private final double DEFAULT_ARM_SPEED = 0.5; // TEMP THIS SPEED NEEDS TO BE TESTED
-  private final double DEFAULT_ELEVATOR_SPEED = 0.5; // TEMP THIS SPEED NEEDS TO BE TESTED
-
-  public ClimbPhaseOne() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+public class ManualClimb extends Command {
+  public ManualClimb() {
     requires(Robot.endgameClimbSubsystem);
   }
 
@@ -31,15 +24,21 @@ public class ClimbPhaseOne extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    error = Robot.driveSubsystem.getPigeonYPR()[1]; // Both drive and climb use Pigeon
-    Robot.endgameClimbSubsystem.setClimbArmSpeeds(DEFAULT_ARM_SPEED + (K * error));
-    Robot.endgameClimbSubsystem.setElevatorSpeed(DEFAULT_ELEVATOR_SPEED - (K * error));
+    Robot.endgameClimbSubsystem.setElevatorSpeed(OI.xboxManipControl.getRawAxis(OI.MANIP_LEFT_JOYSTICK_VERTICAL));
+    Robot.endgameClimbSubsystem.setClimbArmSpeeds(OI.xboxManipControl.getRawAxis(OI.MANIP_RIGHT_JOYSTICK_VERTICAL));
+    if (OI.xboxManipControl.getRawButton(8)) {
+      Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(1);
+    } else if (OI.xboxManipControl.getRawButton(7)) {
+      Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(-1);
+    } else {
+      Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(0);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.endgameClimbSubsystem.getElevatorLimitSwitch(); // TEMP MAY BE BACKWARDS DEPENDING ON LIMITSWITCH
+    return false;
   }
 
   // Called once after isFinished returns true

@@ -3,10 +3,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.ClimbPhaseOne;
-import frc.robot.commands.DeployClimbArms;
-import frc.robot.commands.LiftClimbLegs;
-import frc.robot.commands.UltrasonicDriveElevatorWheels;
+import frc.robot.commands.climb.ClimbPhaseOne;
+import frc.robot.commands.climb.DeployClimbArms;
+import frc.robot.commands.climb.LiftClimbLegs;
+import frc.robot.commands.climb.UltrasonicDriveElevatorWheels;
 import frc.robot.commands.drive.MAXSpeedArcadeDrive;
 import frc.robot.commands.drive.Shifter;
 
@@ -19,6 +19,8 @@ public class OI {
   // drive user inputs
   public static final int DRIVE_LEFT_JOYSTICK_VERTICAL = 1;
   public static final int DRIVE_RIGHT_JOYSTICK_HORIZONTAL = 4;
+  public static final int MANIP_LEFT_JOYSTICK_VERTICAL = 1;
+  public static final int MANIP_RIGHT_JOYSTICK_VERTICAL = 3;
   public static final int SPEED_MOD_BUTTON = 6;
   public static final int SHIFT_BUTTON = 5;
 
@@ -55,8 +57,9 @@ public class OI {
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
     tempClimbArmsButton.whenPressed(new DeployClimbArms());
-    tempClimbPhaseOneButton.whenPressed(new ClimbPhaseOne());
-    tempUltrasonicDriveElevatorWheelsButton.whenPressed(new UltrasonicDriveElevatorWheels(30));
-    tempLiftClimbLegsButton.whenPressed(new LiftClimbLegs());
+    // tempClimbPhaseOneButton.whenPressed(new ClimbPhaseOne());
+    // tempUltrasonicDriveElevatorWheelsButton.whenPressed(new
+    // UltrasonicDriveElevatorWheels(30));
+    // tempLiftClimbLegsButton.whenPressed(new LiftClimbLegs());
   }
 }
