@@ -12,9 +12,6 @@ import frc.robot.subsystems.ArmSubsystem.Levels;
  */
 public class ArmCargoMode extends Command {
 
-  Levels desiredLevelShoulder = Levels.resetState;
-  ElbowStates desiredLevelElbow = ElbowStates.reset;
-
   public ArmCargoMode() {
     requires(Robot.armSubsystem);
   }
@@ -29,40 +26,40 @@ public class ArmCargoMode extends Command {
   protected void execute() {
     if (OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) > 0.1
         || OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) < -0.1) {
-      desiredLevelShoulder = Levels.manualControl;
+      Robot.armSubsystem.setDesiredStateShoulder(Levels.manualControl);
     }
     if (OI.xboxManipControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_VERTICAL) > 0.1
         || OI.xboxManipControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_VERTICAL) < -0.1) {
-      desiredLevelElbow = ElbowStates.manualControl;
+      Robot.armSubsystem.setDesiredStateElbow(ElbowStates.manualControl);
     }
     if (OI.xboxManipControl.getRawButton(OI.FLOOR_PICKUP)) {
-      desiredLevelShoulder = Levels.cargoFloorPickup;
-      desiredLevelElbow = ElbowStates.parallel;
+      Robot.armSubsystem.setDesiredStateShoulder(Levels.cargoFloorPickup);
+      Robot.armSubsystem.setDesiredStateElbow(ElbowStates.parallel);
     } else if (OI.xboxManipControl.getRawButton(OI.CARGO_PLAYER_STATION_PICKUP)) {
       // position for collecting cargo from the human player station
-      desiredLevelShoulder = Levels.cargoPlayerStation;
-      desiredLevelElbow = ElbowStates.humanPlayer;
+      Robot.armSubsystem.setDesiredStateShoulder(Levels.cargoPlayerStation);
+      Robot.armSubsystem.setDesiredStateElbow(ElbowStates.humanPlayer);
     } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_ONE_SELECTOR)) {
       // level one
-      desiredLevelShoulder = Levels.cargoLevelOne;
-      desiredLevelElbow = ElbowStates.perpendicular;
+      Robot.armSubsystem.setDesiredStateShoulder(Levels.cargoLevelOne);
+      Robot.armSubsystem.setDesiredStateElbow(ElbowStates.perpendicular);
     } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_TWO_SELECTOR)) {
       // level two
-      desiredLevelShoulder = Levels.cargoLevelTwo;
-      desiredLevelElbow = ElbowStates.perpendicular;
+      Robot.armSubsystem.setDesiredStateShoulder(Levels.cargoLevelTwo);
+      Robot.armSubsystem.setDesiredStateElbow(ElbowStates.perpendicular);
     } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_THREE_SELECTOR)) {
       // level three
-      desiredLevelShoulder = Levels.cargoLevelThree;
-      desiredLevelElbow = ElbowStates.perpendicular;
+      Robot.armSubsystem.setDesiredStateShoulder(Levels.cargoLevelThree);
+      Robot.armSubsystem.setDesiredStateElbow(ElbowStates.perpendicular);
     } else if (OI.xboxDriveControl.getRawButton(OI.RESET_ARM)) {
-      desiredLevelShoulder = Levels.resetState;
-      desiredLevelElbow = ElbowStates.reset;
+      Robot.armSubsystem.setDesiredStateShoulder(Levels.resetState);
+      Robot.armSubsystem.setDesiredStateElbow(ElbowStates.reset);
     } else {
       // If no condition matches, then the desiredLevel value is left at its previous
       // state. Note that its starting state is initialized at the top of this class
       // definition.
     }
-    Robot.armSubsystem.setLevel(desiredLevelShoulder, desiredLevelElbow,
+    Robot.armSubsystem.setLevel(Robot.armSubsystem.getDesiredStateShoulder(), Robot.armSubsystem.getDesiredStateElbow(),
         -1 * OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL),
         OI.xboxManipControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_VERTICAL));
   }

@@ -39,10 +39,10 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-    SmartDashboard.putNumber("elbowPK ", 0);
-    SmartDashboard.putNumber("elbowIK ", 0);
+    SmartDashboard.putNumber("elbowPK ", 1.2);
+    SmartDashboard.putNumber("elbowIK ", 0.02);
     SmartDashboard.putNumber("elbowDK ", 0);
-    SmartDashboard.putNumber("shoulderPK ", 0);
+    SmartDashboard.putNumber("shoulderPK ", -25);
     SmartDashboard.putNumber("shoulderDK ", 0);
     SmartDashboard.putNumber("shoulderIK ", 0);
   }
