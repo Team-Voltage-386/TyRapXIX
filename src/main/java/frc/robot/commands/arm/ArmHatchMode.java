@@ -24,8 +24,10 @@ public class ArmHatchMode extends Command {
   @Override
   protected void execute() {
     if (OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) > 0.1
-        || OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) < -0.1) {
-      Robot.armSubsystem.setShoulderMotorSpeed(OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL));
+        || OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) < -0.1
+        || (OI.xboxManipControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_VERTICAL) > 0.1
+            || OI.xboxManipControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_VERTICAL) < -0.1)) {
+      desiredLevel = Levels.manualControl;
     } else if (OI.xboxManipControl.getRawButton(OI.FLOOR_PICKUP)) {
       // floor pickup
       desiredLevel = Levels.hatchFloorPickup;
@@ -43,7 +45,8 @@ public class ArmHatchMode extends Command {
       // state. Note that its starting state is initialized at the top of this class
       // definition.
     }
-    Robot.armSubsystem.setLevel(desiredLevel);
+    Robot.armSubsystem.setLevel(desiredLevel, -1 * OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL),
+        OI.xboxManipControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_VERTICAL));
   }
 
   // Make this return true when this Command no longer needs to run execute()

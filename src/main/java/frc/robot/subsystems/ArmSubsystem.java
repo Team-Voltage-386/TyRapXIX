@@ -21,7 +21,7 @@ public class ArmSubsystem extends Subsystem {
 
   private double prevError, error, errorChange, elbowPower, shoulderPower, p, i, d;
   private final double shoulderPK = 0, shoulderIK = 0, shoulderDK = 0;// TEMP
-  private final double elbowPK = 0, elbowIK = 0, elbowDK = 0;// TEMP
+  private final double elbowPK = 1.2, elbowIK = 0.02, elbowDK = 0;// TEMP
   private final double manualShoulderK = 0; // TEMP
   private final double CARGO_FLOOR_SHOULDER = 0.1;// TEMP
   private final double CARGO_PLAYER_STATION_SHOULDER = 0.2;// TEMP
@@ -32,9 +32,12 @@ public class ArmSubsystem extends Subsystem {
   private final double HATCH_LEVEL_ONE_SHOULDER = 0.07266;
   private final double HATCH_LEVEL_TWO_SHOULDER = 0.495;
   private final double HATCH_LEVEL_THREE_SHOULDER = 0.8975;
-  private final double DEFAULT_STATE_ELBOW = 3.2;
-  private final double STRAIGHT_FORWARDS_ELBOW = 2.35;
-  private final double PARALLEL_TO_FLOOR_ELBOW = 0.23;
+  private final double DEFAULT_STATE_ELBOW = 4.78;
+  private final double STRAIGHT_FORWARDS_ELBOW = 3.74;
+  private final double PARALLEL_TO_FLOOR_ELBOW = 1.57;
+  private static final double CARGO_PLAYER_STATION_ELBOW = 3.5; // TEMP
+
+  private double shoulderP, shoulderI, shoulderD;
 
   private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor); // TEMP PORT NUMBER
   public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor); // TEMP PORT NUMBER
@@ -90,38 +93,46 @@ public class ArmSubsystem extends Subsystem {
     hatchLevelOne, hatchLevelTwo, hatchLevelThree, manualControl;
   }
 
-  public void setLevel(Levels in) {
-    setLevel(in, 0);
-  }
+  /**
+   * public void setLevel(Levels in) { setLevel(in, 0); }
+   */
 
   /**
    * Set the Arm to Constant Encoder Levels Based on Levels Enumeration.
    * 
    * @param in The level to move the arm to.
    */
-  public void setLevel(Levels in, double manualOverride) {
+  public void setLevel(Levels in, double manualOverrideShoulder, double manualOverrideElbow) {
     // NEEDS TO IMPLEMENT SETTING ELBOW STATES ONCE SHOULDER IS TESTED AND TUNED
     // WITH PID
     switch (in) {
     case manualControl:
       // May be backwards
-      setShoulderPosition(
-          getShoulderPosition() + (manualShoulderK * OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL)));
+      // setShoulderPosition(
+      // getShoulderPosition() + (manualShoulderK *
+      // OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL)));
+      setShoulderMotorSpeed(manualOverrideShoulder);
+      setElbowMotorSpeed(manualOverrideElbow);
       break;
     case cargoFloorPickup:
       setShoulderPosition(CARGO_FLOOR_SHOULDER);
+      // setElbowPosition(PARALLEL_TO_FLOOR_ELBOW);
       break;
     case cargoPlayerStation:
       setShoulderPosition(CARGO_PLAYER_STATION_SHOULDER);
+      // setElbowPosition(CARGO_PLAYER_STATION_ELBOW);
       break;
     case cargoLevelOne:
       setShoulderPosition(CARGO_LEVEL_ONE_SHOULDER);
+      // setElbowPosition(STRAIGHT_FORWARDS_ELBOW);
       break;
     case cargoLevelTwo:
       setShoulderPosition(CARGO_LEVEL_TWO_SHOULDER);
+      // setElbowPosition(STRAIGHT_FORWARDS_ELBOW);
       break;
     case cargoLevelThree:
       setShoulderPosition(CARGO_LEVEL_THREE_SHOULDER);
+      // setElbowPosition(STRAIGHT_FORWARDS_ELBOW);
       break;
     case hatchFloorPickup:
       setShoulderPosition(HATCH_FLOOR_SHOULDER);
@@ -137,6 +148,7 @@ public class ArmSubsystem extends Subsystem {
       break;
     case hatchLevelThree:
       setShoulderPosition(HATCH_LEVEL_THREE_SHOULDER);
+      // setElbowPosition(STRAIGHT_FORWARDS_ELBOW);
       break;
     default:
       break;
@@ -146,17 +158,23 @@ public class ArmSubsystem extends Subsystem {
   public void setShoulderPosition(double positionGoal) {
     error = getShoulderPosition() - positionGoal;
     errorChange = error - prevError;
-    p = error * shoulderPK /* SmartDashboard.getNumber("shoulderPK ", 0) */;
-    i += error * shoulderIK /* SmartDashboard.getNumber("shoulderIK" ", 0) */;
-    d = errorChange * shoulderDK /* SmartDashboard.getNumber("shoulderDK ", 0) */;
-    shoulderPower = p + i + d;
+    shoulderP = error * /* shoulderPK */ SmartDashboard.getNumber("shoulderPK ", 0);
+    shoulderI += error /* shoulderIK */ * SmartDashboard.getNumber("shoulderIK ", 0);
+    shoulderD = errorChange /* shoulderDK */ * SmartDashboard.getNumber("shoulderDK ", 0);
+    shoulderPower = shoulderP + shoulderI + shoulderD;
     setShoulderMotorSpeed(shoulderPower);
-    SmartDashboard.putNumber("ShoulderMotorSpeed", shoulderPower);
-    SmartDashboard.putNumber("positionGoal", positionGoal);
+    SmartDashboard.putNumber("Shoulder Power Variable", shoulderPower);
+    SmartDashboard.putNumber("ShoulderPositionGoal", positionGoal);
     prevError = error;
   }
 
   public void setShoulderMotorSpeed(double power) {
+    if (power > 1) {
+      power = 1;
+    }
+    if (power < -1) {
+      power = -1;
+    }
     if (power > 0 && getShoulderPotentiometeterVoltage() < MAX_SHOULDER_VOLTAGE) {
       power = UPWARDS_SHOULDER_LIMITER * power;
     } else if (power < 0 && getShoulderPotentiometeterVoltage() > MIN_SHOULDER_VOLTAGE) {
@@ -176,9 +194,9 @@ public class ArmSubsystem extends Subsystem {
     error = elbowPotentiometer.getAverageVoltage() - positionVoltage;
     // error = getElbowPosition() - positionGoal;
     errorChange = error - prevError;
-    p = error * /* elbowPK */ SmartDashboard.getNumber("elbowPK ", 0);
-    i += error * /* elbowIK */ SmartDashboard.getNumber("elbowIK ", 0);
-    d = errorChange * /* elbowDK */ SmartDashboard.getNumber("elbowDK ", 0);
+    p = error * elbowPK /* SmartDashboard.getNumber("elbowPK ", 0) */;
+    i += error * elbowIK /* SmartDashboard.getNumber("elbowIK ", 0) */;
+    d = errorChange * elbowDK /* SmartDashboard.getNumber("elbowDK ", 0) */;
     elbowPower = p + i + d;
     setElbowMotorSpeed(elbowPower);
     SmartDashboard.putNumber("ElbowMotorPower", elbowPower);
