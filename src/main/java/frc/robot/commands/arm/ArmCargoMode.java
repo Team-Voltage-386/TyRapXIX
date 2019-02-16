@@ -54,6 +54,9 @@ public class ArmCargoMode extends Command {
       // level three
       desiredLevelShoulder = Levels.cargoLevelThree;
       desiredLevelElbow = ElbowStates.perpendicular;
+    } else if (OI.xboxDriveControl.getRawButton(OI.RESET_ARM)) {
+      desiredLevelShoulder = Levels.resetState;
+      desiredLevelElbow = ElbowStates.reset;
     } else {
       // If no condition matches, then the desiredLevel value is left at its previous
       // state. Note that its starting state is initialized at the top of this class
