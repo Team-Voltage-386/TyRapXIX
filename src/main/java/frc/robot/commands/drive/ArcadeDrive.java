@@ -28,8 +28,8 @@ public class ArcadeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double xSpeed = OI.xboxDriveControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL);
-    double zRotation = OI.xboxDriveControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL);
+    double xSpeed = OI.xboxDriveControl.getRawAxis(OI.LEFT_JOYSTICK_VERTICAL);
+    double zRotation = OI.xboxDriveControl.getRawAxis(OI.RIGHT_JOYSTICK_HORIZONTAL);
     Robot.driveSubsystem.driveArcade(xSpeed * -1 * SPEEEED_REDUCTION, zRotation);
   }
 

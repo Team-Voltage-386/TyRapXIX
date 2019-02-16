@@ -18,18 +18,18 @@ import frc.robot.commands.drive.ArcadeDrive;
  * for driving the motors and retrieving encoder values from those motors.
  */
 public class DriveSubsystem extends Subsystem {
-  private static WPI_TalonSRX frontLeft = new WPI_TalonSRX(RobotMap.frontLeft);
-  private static WPI_TalonSRX frontRight = new WPI_TalonSRX(RobotMap.frontRight);
-  private static WPI_TalonSRX slaveLeft = new WPI_TalonSRX(RobotMap.rearLeftFollower);
-  private static WPI_VictorSPX slaveRight = new WPI_VictorSPX(RobotMap.rearRightFollower);
+  private static WPI_TalonSRX frontLeft = new WPI_TalonSRX(RobotMap.FRONT_LEFT);
+  private static WPI_TalonSRX frontRight = new WPI_TalonSRX(RobotMap.FRONT_RIGHT);
+  private static WPI_TalonSRX slaveLeft = new WPI_TalonSRX(RobotMap.REAR_LEFT_FOLLOWER);
+  private static WPI_VictorSPX slaveRight = new WPI_VictorSPX(RobotMap.REAR_RIGHT_FOLLOWER);
 
   public static int ENCODER_TIMEOUT = 10; // in milliseconds
 
-  private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterLow, RobotMap.shifterHigh);
+  private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.SHIFTER_FORWARD, RobotMap.SHIFTER_REVERSE);
 
   private static DifferentialDrive differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 
-  private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
+  private static PigeonIMU pigeon = new PigeonIMU(RobotMap.PIGEON_PORT);
 
   /** threshold to trigger current limit */
   private static final int PEAK_CURRENT_AMPS = 35;

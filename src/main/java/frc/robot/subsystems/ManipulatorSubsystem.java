@@ -14,11 +14,10 @@ public class ManipulatorSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  DoubleSolenoid cargoSolenoid = new DoubleSolenoid(RobotMap.beakRetractOpen, RobotMap.beakRetractClosed);
-  // TEMP PORT NUMBER
-  DoubleSolenoid hatchSolenoid = new DoubleSolenoid(RobotMap.hatchCaptureOpen, RobotMap.hatchCaptureClosed);
+  DoubleSolenoid cargoSolenoid = new DoubleSolenoid(RobotMap.CARGO_SOLENOID_FORWARD, RobotMap.CARGO_SOLENOID_REVERSE);
+  DoubleSolenoid hatchSolenoid = new DoubleSolenoid(RobotMap.HATCH_SOLENOID_FORWARD, RobotMap.HATCH_SOLENOID_REVERSE);
 
-  WPI_TalonSRX cargoIntakeMotor = new WPI_TalonSRX(RobotMap.cargoRollerMotor); // TEMP PORT NUMBER
+  WPI_TalonSRX cargoIntakeMotor = new WPI_TalonSRX(RobotMap.CARGO_INTAKE_MOTOR);
 
   // TEMP CONSTANTS BELOW
   private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */

@@ -7,70 +7,50 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
-  /**
-   * USB port number that our driver's controller is on on the drive station. It's
-   * static and never changes from USB port 0
-   */
-  public static int driveControllerPort = 0;
-  /**
-   * USB Port number for the manipulator controller on the driver station. the
-   * port will always be USB port 1
-   */
-  public static int manipControllerPort = 1;
 
-  // solenoids
-  public static int shifterLow = 6;
-  public static int shifterHigh = 7;
-  public static int hatchCaptureOpen = 2;
-  public static int hatchCaptureClosed = 3;
-  public static int beakRetractOpen = 4;
-  public static int beakRetractClosed = 5;
+  // Controllers
+  public static final int DRIVE_CONTROLLER_PORT = 0;
+  public static final int MANIP_CONTROLLER_PORT = 1;
 
-  // sparks
-  public static int rightClimbArm = 0;
-  public static int leftClimbArm = 1;
-  public static int elevatorDriveWheels = 2;
+  // Pigeon
+  public static final int PIGEON_PORT = 3;
 
-  // pigeon
-  public static int pigeonPort = 3;
-
-  // sensors
-  public static int lineSensorLeft = 0;
-  public static int lineSensorCenter = 1;
-  public static int lineSensorRight = 2;
-  public static int distanceSensorPing = 3;
-  public static int distanceSensorEcho = 4;
-  public static int analogUltrasonic = 0;
-  public static final int ENCODER_PORT = 0;
-  public static int potentiometer = 1;
-
-  /** Front left motor Talon Device ID: 1 */
-  public static int frontLeft = 1; // talon
-  /** Front right motor Talon Device ID: 2 */
-  public static int frontRight = 2; // talon
-  /** Rear left follower motor Talon Device ID: 4 */
-  public static int rearLeftFollower = 4; // talon
-  /** Rear right follower motor Victor SPX Device ID: 3 */
-  public static int rearRightFollower = 3; // victor spx
-
-  public static int spikeLightRing = 0; // LED Light Ring
-
-  // to be defined - port numbers are placeholders
-
-  public static int rearElevatorMotor = 5;
-  public static int leftShoulderMotor = 6;
-  public static int rightShoulderMotor = 7;
-  public static int elbowMotor = 8;
-  public static int cargoRollerMotor = 9; // change to cargoCapture
-  // encoders
-  public static int shoulderEncoder = 0;
-  public static int rearElevatorEncoder = 1;
-  public static int elbowEncoder = 2;
-
-  public static int driveLeftEncoder = 3;
-  public static int driveRightEncoder = 4;
+  // Spike
+  public static final int SPIKE_LIGHT_RIGHT = 0; // LED Light Ring
 
   // limit switches
-  public static int bottomShoulderLimitSwitch = 4;
+  public static final int BOTTOM_SHOULDER_LIMIT_SWITCH = 4;
+
+  // Sensors
+  public static final int ANALOG_ULTRASONIC = 0;
+  public static final int ENCODER_PORT = 0;
+  public static final int POTENTIOMETER = 1;
+
+  // Solenoids
+  // Drive
+  public static final int SHIFTER_FORWARD = 6;
+  public static final int SHIFTER_REVERSE = 7;
+  // Manipulator
+  public static final int HATCH_SOLENOID_FORWARD = 2;
+  public static final int HATCH_SOLENOID_REVERSE = 3;
+  public static final int CARGO_SOLENOID_FORWARD = 4;
+  public static final int CARGO_SOLENOID_REVERSE = 5;
+
+  // Motor Controllers
+  // Drive
+  public static final int FRONT_LEFT = 1; // talon
+  public static final int FRONT_RIGHT = 2; // talon
+  public static final int REAR_LEFT_FOLLOWER = 4; // talon
+  public static final int REAR_RIGHT_FOLLOWER = 3; // victor spx
+  // Climb
+  public static final int REAR_ELEVATOR_MOTOR = 5; // talon
+  public static final int RIGHT_CLIMB_ARM = 0; // spark
+  public static final int LEFT_CLIMB_ARM = 1; // spark
+  public static final int ELEVATOR_DRIVE_WHEELS = 2; // spark
+  // Arm
+  public static final int ELBOW_MOTOR = 8; // talon
+  public static final int SHOULDER_MOTOR = 6; // talon
+  // Manipulator
+  public static final int CARGO_INTAKE_MOTOR = 9; // talon
 
 }

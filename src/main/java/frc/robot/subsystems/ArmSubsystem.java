@@ -32,13 +32,13 @@ public class ArmSubsystem extends Subsystem {
   private final int HATCH_LEVEL_THREE_TICKS = 100;
 
   // Talon Motor Declarations
-  private WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
-  private WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
+  private WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.SHOULDER_MOTOR);
+  private WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.ELBOW_MOTOR);
 
   // Limit Switch Declarations
-  private DigitalInput bottomShoulderLimitSwitch = new DigitalInput(RobotMap.bottomShoulderLimitSwitch);
+  private DigitalInput bottomShoulderLimitSwitch = new DigitalInput(RobotMap.BOTTOM_SHOULDER_LIMIT_SWITCH);
 
-  AnalogInput potentiometer = new AnalogInput(RobotMap.potentiometer);
+  private AnalogInput potentiometer = new AnalogInput(RobotMap.POTENTIOMETER);
 
   // TEMP CONSTANTS BELOW
   private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */

@@ -12,13 +12,15 @@ import frc.robot.commands.drive.Shifter;
  */
 public class OI {
 
-  // drive user inputs
-  public static final int DRIVE_LEFT_JOYSTICK_VERTICAL = 1;
-  public static final int DRIVE_RIGHT_JOYSTICK_HORIZONTAL = 4;
+  // Both Controllers
+  public static final int LEFT_JOYSTICK_VERTICAL = 1;
+  public static final int RIGHT_JOYSTICK_HORIZONTAL = 4;
+
+  // Drive User Inputs
   public static final int SPEED_MOD_BUTTON = 6;
   public static final int SHIFT_BUTTON = 5;
 
-  // button inputs
+  // Manipulator User Inputs
   public static final int FLOOR_PICKUP = 6; // right bumper
   public static final int CARGO_PLAYER_STATION_PICKUP = 1; // X button
   public static final int LEVEL_ONE_SELECTOR = 2; // A button
@@ -27,20 +29,19 @@ public class OI {
   public static final int RESET_LEVEL = 8; // right trigger
   public static final int INTAKE = 5; // left bumper
   public static final int OUTAKE = 7; // left trigger
-  public static final int MANUAL_SHOULDER_AXIS = 1; // left joystick y
-  public static final int MANUAL_ELBOW_AXIS = 3; // right joystick y
-
-  // manipulator mode buttons
   public static final int HATCH_MODE = 10; // start button
   public static final int CARGO_MODE = 9; // back button
 
-  public static final Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
-  public static final Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
+  // Controller Instantiation
+  public static final Joystick xboxDriveControl = new Joystick(RobotMap.DRIVE_CONTROLLER_PORT);
+  public static final Joystick xboxManipControl = new Joystick(RobotMap.MANIP_CONTROLLER_PORT);
 
+  // Buttons
   private Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
   private Button shifterButton = new JoystickButton(xboxDriveControl, SHIFT_BUTTON);
 
   public OI() {
+    // Button Listeners
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
   }

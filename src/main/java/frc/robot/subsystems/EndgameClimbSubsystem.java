@@ -16,10 +16,10 @@ import frc.robot.RobotMap;
  */
 public class EndgameClimbSubsystem extends Subsystem {
 
-  private Spark leftClimbArm = new Spark(RobotMap.leftClimbArm);
-  private Spark rightClimbArm = new Spark(RobotMap.rightClimbArm);
-  private Spark climbElevatorMotor = new Spark(RobotMap.rearElevatorMotor);
-  private Spark climbElevatorWheels = new Spark(RobotMap.elevatorDriveWheels);
+  private Spark leftClimbArm = new Spark(RobotMap.LEFT_CLIMB_ARM);
+  private Spark rightClimbArm = new Spark(RobotMap.RIGHT_CLIMB_ARM);
+  private Spark climbElevatorMotor = new Spark(RobotMap.REAR_ELEVATOR_MOTOR);
+  private Spark climbElevatorWheels = new Spark(RobotMap.ELEVATOR_DRIVE_WHEELS);
 
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
