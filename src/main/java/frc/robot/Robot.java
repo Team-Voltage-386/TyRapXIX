@@ -68,19 +68,19 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("ki", 0);
 
     // Vision Thresholds
-    SmartDashboard.putNumber("Start H", 125);
-    SmartDashboard.putNumber("Start S", 0);
-    SmartDashboard.putNumber("Start V", 0);
-    SmartDashboard.putNumber("End H", 200);
-    SmartDashboard.putNumber("End S", 255);
-    SmartDashboard.putNumber("End V", 255);
-    SmartDashboard.putNumber("alpha", 2.7);
-    SmartDashboard.putNumber("beta", 0);
-    SmartDashboard.putNumber("ErodeSize1", 50.0);
-    SmartDashboard.putNumber("ErodeSize2", 50.0);
-    SmartDashboard.putNumber("DilateSize1", 50.0);
-    SmartDashboard.putNumber("DilateSize2", 50.0);
-    SmartDashboard.putNumber("DefaultDilate", 10);
+    // SmartDashboard.putNumber("Start H", 125);
+    // SmartDashboard.putNumber("Start S", 0);
+    // SmartDashboard.putNumber("Start V", 0);
+    // SmartDashboard.putNumber("End H", 200);
+    // SmartDashboard.putNumber("End S", 255);
+    // SmartDashboard.putNumber("End V", 255);
+    // SmartDashboard.putNumber("alpha", 2.7);
+    // SmartDashboard.putNumber("beta", 0);
+    // SmartDashboard.putNumber("ErodeSize1", 50.0);
+    // SmartDashboard.putNumber("ErodeSize2", 50.0);
+    // SmartDashboard.putNumber("DilateSize1", 50.0);
+    // SmartDashboard.putNumber("DilateSize2", 50.0);
+    // SmartDashboard.putNumber("DefaultDilate", 10);
 
     Robot.armSubsystem.resetEncoder();
   }

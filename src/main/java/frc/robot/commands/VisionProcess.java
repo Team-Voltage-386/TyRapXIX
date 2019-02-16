@@ -8,9 +8,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class VisionProcess extends Command {
+  private double error;
   public VisionProcess() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -25,7 +27,8 @@ public class VisionProcess extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.visionProcessing.visionProcess();
+    error = Robot.visionProcessing.visionProcess();
+    SmartDashboard.putNumber("Error", error);
   }
 
   // Make this return true when this Command no longer needs to run execute()

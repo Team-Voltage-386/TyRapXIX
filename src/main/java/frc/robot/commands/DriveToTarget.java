@@ -39,7 +39,7 @@ public class DriveToTarget extends Command {
     SmartDashboard.putString("Don't", "Initialize");
     Robot.driveSubsystem.resetEncoder();
     Robot.driveSubsystem.resetPigeon();
-    pairs = Robot.visionProcessing.visionProcess();
+    // pairs = Robot.visionProcessing.visionProcess();
     // Robot.spikeSubsystem.lightSwitch();
     i = 0;
   }
@@ -48,27 +48,27 @@ public class DriveToTarget extends Command {
   @Override
   protected void execute() {
     SmartDashboard.putString("Don't", "Execute");
-    pairs = Robot.visionProcessing.visionProcess();
+    // pairs = Robot.visionProcessing.visionProcess();
 
-    if (pairs.size() > 0) {
+    // if (pairs.size() > 0) {
 
-      bestPair = new RotatedRect[2];
-      bestPair = pairs.get(0);
+    //   bestPair = new RotatedRect[2];
+    //   bestPair = pairs.get(0);
 
-      for (int i = 0; i < pairs.size(); i++) {
-        if (Math.abs((Robot.visionProcessing.base.width() / 2) - (VisionProcessing.getPairCenter(pairs.get(i)))) <= Math
-            .abs((Robot.visionProcessing.base.width() / 2) - (VisionProcessing.getPairCenter(bestPair)))) {
-          bestPair = pairs.get(i);
-          best = true;
-          indx = i;
-        }
-      }
+    //   for (int i = 0; i < pairs.size(); i++) {
+    //     if (Math.abs((Robot.visionProcessing.base.width() / 2) - (VisionProcessing.getPairCenter(pairs.get(i)))) <= Math
+    //         .abs((Robot.visionProcessing.base.width() / 2) - (VisionProcessing.getPairCenter(bestPair)))) {
+    //       bestPair = pairs.get(i);
+    //       best = true;
+    //       indx = i;
+    //     }
+    //   }
 
       SmartDashboard.putNumber("Pair Indx", indx);
       SmartDashboard.putNumber("Center of Screen", Robot.visionProcessing.base.width() / 2);
 
       prevError = error;
-      error = (VisionProcessing.getPairCenter(bestPair) - Robot.visionProcessing.base.width() / 2);
+      // error = (VisionProcessing.getPairCenter(bestPair) - Robot.visionProcessing.base.width() / 2);
 
       p = error * SmartDashboard.getNumber("kp", 0);
       i += error * SmartDashboard.getNumber("ki", 0);
@@ -77,14 +77,14 @@ public class DriveToTarget extends Command {
       // Robot.driveSubsystem.driveTank((-.8 * .75 + p + d + i), -.75 - p - d - i);
 
       SmartDashboard.putNumber("Error", error);
-      SmartDashboard.putNumber("Center of Pair", VisionProcessing.getPairCenter(bestPair));
+      // SmartDashboard.putNumber("Center of Pair", VisionProcessing.getPairCenter(bestPair));
 
-    } else {
-      Robot.driveSubsystem.driveTank(0, 0);
+    // } else {
+    //   Robot.driveSubsystem.driveTank(0, 0);
 
-      SmartDashboard.putNumber("Error", 0);
-      SmartDashboard.putNumber("Center of Pair", -1);
-    }
+    //   SmartDashboard.putNumber("Error", 0);
+    //   SmartDashboard.putNumber("Center of Pair", -1);
+    // }
 
   }
 

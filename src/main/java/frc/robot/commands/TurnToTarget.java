@@ -39,78 +39,79 @@ public class TurnToTarget extends Command {
     SmartDashboard.putString("Don't", "Initialize");
     Robot.driveSubsystem.resetEncoder();
     Robot.driveSubsystem.resetPigeon();
-    pairs = Robot.visionProcessing.visionProcess();
+    // pairs = Robot.visionProcessing.visionProcess();
     // Robot.spikeSubsystem.lightSwitch();
 
     center = (Robot.visionProcessing.base.width() / 2);
 
-    if (pairs.size() > 0) {
-      bestPair = pairs.get(0);
-      for (int i = 0; i < pairs.size(); i++) {
-        if (Math.abs(center - (VisionProcessing.getPairCenter(pairs.get(i)))) <= Math
-            .abs(center - (VisionProcessing.getPairCenter(bestPair)))) {
-          bestPair = pairs.get(i);
-          best = true;
-          indx = i;
-        }
-      }
-    }
+    // if (pairs.size() > 0) {
+    //   bestPair = pairs.get(0);
+    //   for (int i = 0; i < pairs.size(); i++) {
+    //     if (Math.abs(center - (VisionProcessing.getPairCenter(pairs.get(i)))) <= Math
+    //         .abs(center - (VisionProcessing.getPairCenter(bestPair)))) {
+    //       bestPair = pairs.get(i);
+    //       best = true;
+    //       indx = i;
+    //     }
+    //   }
+    // }
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    error = Robot.visionProcessing.visionProcess();
 
-    SmartDashboard.putString("Don't", "Execute");
-    pairs = Robot.visionProcessing.visionProcess();
+    // SmartDashboard.putString("Don't", "Execute");
+    // // pairs = Robot.visionProcessing.visionProcess();
 
-    if (pairs.size() > 0 && best) {
+    // if (pairs.size() > 0 && best) {
 
-      bestPairChange = Math
-          .abs(VisionProcessing.getPairCenter(pairs.get(0)) - VisionProcessing.getPairCenter(bestPair));
+    //   bestPairChange = Math
+    //       .abs(VisionProcessing.getPairCenter(pairs.get(0)) - VisionProcessing.getPairCenter(bestPair));
 
-      SmartDashboard.putNumber("Pair Indx", indx);
-      SmartDashboard.putNumber("Number of pairs", pairs.size());
+    //   SmartDashboard.putNumber("Pair Indx", indx);
+    //   SmartDashboard.putNumber("Number of pairs", pairs.size());
 
-      for (int i = 0; i < pairs.size(); i++) {
-        if (Math.abs(
-            VisionProcessing.getPairCenter(pairs.get(i)) - VisionProcessing.getPairCenter(bestPair)) < bestPairChange) {
-          indx = i;
-          bestPairChange = Math
-              .abs(VisionProcessing.getPairCenter(pairs.get(indx)) - VisionProcessing.getPairCenter(bestPair));
-        }
+    //   for (int i = 0; i < pairs.size(); i++) {
+    //     if (Math.abs(
+    //         VisionProcessing.getPairCenter(pairs.get(i)) - VisionProcessing.getPairCenter(bestPair)) < bestPairChange) {
+    //       indx = i;
+    //       bestPairChange = Math
+    //           .abs(VisionProcessing.getPairCenter(pairs.get(indx)) - VisionProcessing.getPairCenter(bestPair));
+    //     }
 
-      }
+    //   }
 
-      try {
-        bestPair = pairs.get(indx);
-      } catch (Exception e) {
-        SmartDashboard.putString("Exception:", e + "");
-      }
+    //   try {
+    //     bestPair = pairs.get(indx);
+    //   } catch (Exception e) {
+    //     SmartDashboard.putString("Exception:", e + "");
+    //   }
 
-      SmartDashboard.putNumber("Center of Screen", Robot.visionProcessing.base.width() / 2);
+    //   SmartDashboard.putNumber("Center of Screen", Robot.visionProcessing.base.width() / 2);
 
-      prevError = error;
-      error = (VisionProcessing.getPairCenter(bestPair) - Robot.visionProcessing.base.width() / 2);
+    //   prevError = error;
+    //   error = (VisionProcessing.getPairCenter(bestPair) - Robot.visionProcessing.base.width() / 2);
 
-      p = error * SmartDashboard.getNumber("kp", 0);
-      i += error * SmartDashboard.getNumber("ki", 0);
-      d = (error - prevError) * SmartDashboard.getNumber("kd", 0);
+    //   p = error * SmartDashboard.getNumber("kp", 0);
+    //   i += error * SmartDashboard.getNumber("ki", 0);
+    //   d = (error - prevError) * SmartDashboard.getNumber("kd", 0);
 
-      Robot.driveSubsystem.driveTank(
-          (-.8 * OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical) + p + d + i),
-          -OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical) - p - d - i);
+    //   Robot.driveSubsystem.driveTank(
+    //       (-.8 * OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical) + p + d + i),
+    //       -OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical) - p - d - i);
 
-      SmartDashboard.putNumber("Error", error);
-      SmartDashboard.putNumber("Center of Pair", VisionProcessing.getPairCenter(bestPair));
+    //   SmartDashboard.putNumber("Error", error);
+    //   SmartDashboard.putNumber("Center of Pair", VisionProcessing.getPairCenter(bestPair));
 
-    } else {
-      Robot.driveSubsystem.driveTank(-0.8 * OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical),
-          -OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical));
+    // } else {
+    //   Robot.driveSubsystem.driveTank(-0.8 * OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical),
+    //       -OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical));
 
-      SmartDashboard.putNumber("Error", 0);
-      SmartDashboard.putNumber("Center of Pair", -1);
-    }
+    //   SmartDashboard.putNumber("Error", 0);
+    //   SmartDashboard.putNumber("Center of Pair", -1);
+    // }
 
   }
 
