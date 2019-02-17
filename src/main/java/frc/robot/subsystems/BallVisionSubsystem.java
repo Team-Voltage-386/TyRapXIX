@@ -37,6 +37,13 @@ import frc.robot.commands.Turn2Ball;
 public class BallVisionSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+
+  public BallVisionSubsystem() {
+    usbCamera.setExposureManual(1);
+    usbCamera.setFPS(120);
+    // setDefaultCommand(command);
+  }
+
   public int resolutionWidth = 320;
   public int resolutionHeight = 240;
 
@@ -62,8 +69,8 @@ public class BallVisionSubsystem extends Subsystem {
   public List<Rect> rects = new ArrayList<Rect>();
 
   Size blurSize = new Size(9, 9);
-  Scalar colorStart = new Scalar(0, 150, 165);
-  Scalar colorEnd = new Scalar(20, 253, 255);
+  Scalar colorStart = new Scalar(0, 140, 20);
+  Scalar colorEnd = new Scalar(40, 255, 255);
   Size erodeSize = new Size(10, 10);
   Size dilateSize = new Size(10, 10);
   Size edgeDilateSize = new Size(4, 4);
@@ -74,11 +81,7 @@ public class BallVisionSubsystem extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-  }
-
-  public BallVisionSubsystem() {
-    usbCamera.setExposureAuto();
+    setDefaultCommand(new BallVision());
   }
 
   public double ballVision() {

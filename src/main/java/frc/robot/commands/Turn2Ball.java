@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class Turn2Ball extends Command {
-  private double error, p, i, d;
+  private double error;
+  private double p, i, d;
   private final double pk = .012, ik = 0, dk = .015;
 
   public Turn2Ball() {
