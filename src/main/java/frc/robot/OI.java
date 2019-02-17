@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.ResetYaw;
 import frc.robot.commands.Shifter;
+import frc.robot.commands.TurnToBall;
+import frc.robot.commands.TurnToTarget;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -50,10 +52,14 @@ public class OI {
   public static Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
+  Button turnToTargetButton = new JoystickButton(xboxDriveControl, 6);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
+  Button turnToBallButton = new JoystickButton(xboxDriveControl, 3);
 
   public OI() {
     shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
+    turnToTargetButton.whenPressed(new TurnToTarget());
+    turnToBallButton.whenPressed(new TurnToBall());
   }
 }

@@ -42,17 +42,17 @@ public class Robot extends TimedRobot {
   public static SpikeSubsystem spikeSubsystem = new SpikeSubsystem();
   public static OI m_oi;
 
+  NetworkTableEntry ballError;;
   NetworkTableEntry numberOfPairs;
-  NetworkTableEntry pairX;
-  // NetworkTableEntry imgWidth;
-  // NetworkTableEntry imgHeight;
+  NetworkTableEntry pairCenterPi;
+  NetworkTableEntry screenCenterPi;
+
   double pairsNum;
-  double pairCenter;
+  public static double pairCenter;
+  public static double screenCenter;
+  public static double error;
   double defaultValue;
-  // double defaultWidth;
-  // double defaultHeight;
-  // double actualWidth;
-  // double actualHeight;
+
 
   Command m_autonomousCommand;
   Command testerCommand;
@@ -68,16 +68,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    defaultValue = 2.0;
-    // spikeSubsystem.spikeToggle();
-    // defaultValue[1] = 3.0;
-    // defaultWidth = 5;
-    // defaultHeight = 5;
-    // NetworkTableInstance testInstance = NetworkTableInstance.getDefault();
-    // NetworkTable table = testInstance.getTable("datatable");
-    // testEntry = table.getEntry("X");
-    // testInstance.startClientTeam(386);
-    // testValue = testEntry.getDouble(2.0);
+    defaultValue = 3.0;
 
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
@@ -103,27 +94,24 @@ public class Robot extends TimedRobot {
     testInstance.startServer();
     testInstance.setServerTeam(386, 1735);
     NetworkTable table = testInstance.getTable("datatable");
+
+    ballError = table.getEntry("W");
     numberOfPairs = table.getEntry("X");
-    pairX = table.getEntry("Y");
-    // imgWidth = table.getEntry("Y");
-    // imgHeight = table.getEntry("Z");
+    pairCenterPi = table.getEntry("Y");
+    screenCenterPi = table.getEntry("Z");
+
+    error = ballError.getDouble(defaultValue);
     pairsNum = numberOfPairs.getDouble(defaultValue);
-    pairCenter = pairX.getDouble(defaultValue);
-    // actualHeight = imgHeight.getDouble(defaultHeight);
-    // defaultValue = new double[3];
-    // defaultValue[0] = 1;
-    // valueOfEntry = testEntry.getDoubleArray(defaultValue);
+    pairCenter = pairCenterPi.getDouble(defaultValue);
+    screenCenter = screenCenterPi.getDouble(defaultValue);
 
     SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
     SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
     SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
+
+    SmartDashboard.putNumber("Error", error);
     SmartDashboard.putNumber("Pairs", pairsNum);
-    SmartDashboard.putNumber("Pair 0 Center", pairCenter);
-    // SmartDashboard.putNumber("R",valueOfEntry[0]);
-    // SmartDashboard.putNumber("G",valueOfEntry[1]);
-    // SmartDashboard.putNumber("B",valueOfEntry[2]);
-    // SmartDashboard.putNumber("Width",actualWidth);
-    // SmartDashboard.putNumber("Height",actualHeight);
+    SmartDashboard.putNumber("Screen Center", screenCenter);
   }
 
   /**

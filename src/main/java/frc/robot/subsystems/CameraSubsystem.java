@@ -18,6 +18,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.commands.TurnToBall;
 
 /**
  * Add your docs here.
@@ -25,7 +26,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class CameraSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  public int resolutionWidth = 320;
+  public int resolutionWidth = 640;
   public int resolutionHeight = 240;
   UsbCamera usbCamera = CameraServer.getInstance().startAutomaticCapture("Fisheye",0);
   CvSink cvSink = CameraServer.getInstance().getVideo();
@@ -36,7 +37,7 @@ public class CameraSubsystem extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    // setDefaultCommand(new TurnToBall());
   }
 
   public void testVision(){

@@ -8,12 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 
-public class ArcadeDrive extends Command {
-  public ArcadeDrive() {
+public class TurnToBall extends Command {
+  private double error, p, i, d;
+  private final double pk = .012, ik = 0, dk = .015;
+
+  public TurnToBall() {
+    //requires(Robot.ballVisionSubystem);
     requires(Robot.driveSubsystem);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -22,14 +25,23 @@ public class ArcadeDrive extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    error = Robot.error;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double xSpeed = OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical);
-    double zRotation = OI.xboxDriveControl.getRawAxis(RobotMap.driveRightJoystickHorizontal);
-    Robot.driveSubsystem.driveArcade(xSpeed, -zRotation);
+    i = 0;
+    double previousError = error;
+    error = Robot.error;
+    SmartDashboard.putNumber("error", error);
+    p = error * pk;
+    SmartDashboard.putNumber("p", p);
+    d = (previousError - error) * dk;
+    SmartDashboard.putNumber("d", d);
+
+    Robot.driveSubsystem.driveTank(-p + d + i, +p - i - d);
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
