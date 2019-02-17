@@ -7,14 +7,13 @@
 
 package frc.robot.commands.climb;
 
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class DeployClimbArms extends Command {
 
-  private double startPitch, startTime;
+  private double startTime;
 
   public DeployClimbArms() {
     // Use requires() here to declare subsystem dependencies
