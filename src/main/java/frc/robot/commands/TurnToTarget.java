@@ -47,7 +47,7 @@ public class TurnToTarget extends Command {
     if (pairs.size() > 0) {
       bestPair = pairs.get(0);
       for (int i = 0; i < pairs.size(); i++) {
-        if (Math.abs(center - (VisionProcessing.getPairCenter(pairs.get(i)))) <= Math
+        if (Math.abs  (center - (VisionProcessing.getPairCenter(pairs.get(i)))) <= Math
             .abs(center - (VisionProcessing.getPairCenter(bestPair)))) {
           bestPair = pairs.get(i);
           best = true;
