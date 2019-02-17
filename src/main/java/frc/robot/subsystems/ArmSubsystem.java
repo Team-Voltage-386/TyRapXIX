@@ -25,16 +25,16 @@ public class ArmSubsystem extends Subsystem {
   private static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
 
   // Doubles for PID Calculations
-  private double shoulderP = 0, shoulderI = 0, shoulderD = 0, elbowP = 0, elbowI = 0, elbowD = 0;
+  private double shoulderP = 0, shoulderI = 0, shoulderD = 0, elbowP = 0, elbowI = 0, elbowD = 0, elbowResetP = 0;
   private double prevError = 0, error = 0, errorChange = 0, elbowPower = 0, shoulderPower = 0;
 
   // Constants for Calculations
   private final double shoulderPK = -30, shoulderIK = 0, shoulderDK = 0;// TEMP NEEDS TUNING
-  private final double elbowPK = 1.2, elbowIK = 0.02, elbowDK = 0;// TEMP NEEDS TUNING
+  private final double elbowPK = 1.2, elbowIK = 0.04, elbowDK = 0, elbowResetPK = 2.5;// TEMP NEEDS TUNING
   private final double manualShoulderK = 0; // TEMP NEEDS TUNING
 
   // Position States
-  private final double CARGO_FLOOR_SHOULDER = 0.1;// TEMP
+  private final double CARGO_FLOOR_SHOULDER = 0.0542;
   private final double CARGO_PLAYER_STATION_SHOULDER = 0.2;// TEMP
   private final double CARGO_LEVEL_ONE_SHOULDER = 0.142;
   private final double CARGO_LEVEL_TWO_SHOULDER = 0.591;
@@ -44,15 +44,16 @@ public class ArmSubsystem extends Subsystem {
   private final double HATCH_LEVEL_TWO_SHOULDER = 0.495;
   private final double HATCH_LEVEL_THREE_SHOULDER = 0.943;
   private final double RESET_SHOULDER = 0.0;
-  private final double RESET_ELBOW = 4.78;
+  private final double RESET_ELBOW = 4.8;
   private final double PERPENDICULAR_ELBOW = 3.74;
   private final double PARALLEL_ELBOW = 1.57;
+  private final double CARGO_FLOOR_ELBOW = 2.415;
   private static final double HUMAN_PLAYER_ELBOW = 3.5; // TEMP
 
   // Voltage Soft Limits
   private static final double MAX_SHOULDER_VOLTAGE = 3.5;
   private static final double MIN_SHOULDER_VOLTAGE = 1.05;
-  private static final double MAX_ELBOW_VOLTAGE = 4.5;
+  private static final double MAX_ELBOW_VOLTAGE = 4.72;
   private static final double MIN_ELBOW_VOLTAGE = 1.4;
 
   // Speed Limiters for
@@ -103,7 +104,7 @@ public class ArmSubsystem extends Subsystem {
 
   /** Elbow Enumerations used in CargoMode and HatchMode Commands */
   public enum ElbowStates {
-    reset, parallel, perpendicular, humanPlayer, manualControl;
+    reset, parallel, perpendicular, humanPlayer, manualControl, elbowCargoFloorPickup;
   }
 
   /**
@@ -148,7 +149,10 @@ public class ArmSubsystem extends Subsystem {
       setShoulderPosition(HATCH_LEVEL_THREE_SHOULDER);
       break;
     case resetState:
-      setShoulderPosition(RESET_SHOULDER);
+      if (getElbowPotentiometerVoltage() > PERPENDICULAR_ELBOW - 0.1) {
+        setShoulderPosition(RESET_SHOULDER);
+      } else {
+      }
     default:
       break;
     }
@@ -159,15 +163,23 @@ public class ArmSubsystem extends Subsystem {
       // getElbowPosition() + (manualShoulderK *
       // OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL)));
       setElbowMotorSpeed(manualOverrideElbow);
+      elbowI = 0;
       break;
     case reset:
-      setElbowPosition(RESET_ELBOW);
+      if (getElbowPotentiometerVoltage() < PERPENDICULAR_ELBOW - 0.1) {
+        setElbowPosition(PERPENDICULAR_ELBOW);
+      } else {
+        resetElbowPosition(RESET_ELBOW);
+      }
       break;
     case parallel:
       setElbowPosition(PARALLEL_ELBOW);
       break;
     case perpendicular:
       setElbowPosition(PERPENDICULAR_ELBOW);
+      break;
+    case elbowCargoFloorPickup:
+      setElbowPosition(CARGO_FLOOR_ELBOW);
       break;
     case humanPlayer:
       setElbowPosition(HUMAN_PLAYER_ELBOW);
@@ -291,6 +303,14 @@ public class ArmSubsystem extends Subsystem {
   // Set DesiredStateElbow from ArmMode Commands
   public void setDesiredStateElbow(ElbowStates newDesiredGoal) {
     desiredStateElbow = newDesiredGoal;
+    elbowI = 0;
+  }
+
+  public void resetElbowPosition(double positionVoltage) {
+    error = elbowPotentiometer.getAverageVoltage() - positionVoltage;
+    elbowResetP = error * /* elbowPK */ SmartDashboard.getNumber("elbowResetPK ", 1.4);
+    elbowPower = elbowResetP;
+    setElbowMotorSpeed(elbowPower);
   }
 
   /* Motor Power, Current, Potentiometers, Position */

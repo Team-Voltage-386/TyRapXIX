@@ -34,7 +34,7 @@ public class ArmCargoMode extends Command {
     }
     if (OI.xboxManipControl.getRawButton(OI.FLOOR_PICKUP)) {
       Robot.armSubsystem.setDesiredStateShoulder(Levels.cargoFloorPickup);
-      Robot.armSubsystem.setDesiredStateElbow(ElbowStates.parallel);
+      Robot.armSubsystem.setDesiredStateElbow(ElbowStates.elbowCargoFloorPickup);
     } else if (OI.xboxManipControl.getRawButton(OI.CARGO_PLAYER_STATION_PICKUP)) {
       // position for collecting cargo from the human player station
       Robot.armSubsystem.setDesiredStateShoulder(Levels.cargoPlayerStation);

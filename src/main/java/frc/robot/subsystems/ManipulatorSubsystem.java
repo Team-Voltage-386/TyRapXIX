@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
-import frc.robot.commands.manipulator.ManipulatorHatchMode;
+import frc.robot.commands.manipulator.ManipulatorHatchDefault;
 
 /**
  * Add your docs here.
@@ -84,7 +84,7 @@ public class ManipulatorSubsystem extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new ManipulatorHatchMode());
+    setDefaultCommand(new ManipulatorHatchDefault());
   }
 
 }
