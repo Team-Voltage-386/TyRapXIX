@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -67,9 +66,6 @@ public class ArmSubsystem extends Subsystem {
   // Talon Motors
   private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
   public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
-
-  // Limit Switches
-  DigitalInput bottomLimitSwitch = new DigitalInput(RobotMap.bottomShoulderLimitSwitch); // TEMP PORT NUMBER
 
   // Potentiometer
   AnalogInput shoulderPotentiometer = new AnalogInput(RobotMap.shoulderPotentiometer);
@@ -295,11 +291,6 @@ public class ArmSubsystem extends Subsystem {
   public double getShoulderPosition() {
     return (shoulderPotentiometer.getAverageVoltage() - MIN_SHOULDER_VOLTAGE)
         / (MAX_SHOULDER_VOLTAGE - MIN_SHOULDER_VOLTAGE);
-  }
-
-  // False is Triggered
-  public boolean getBottomShoulderLimitSwitch() {
-    return bottomLimitSwitch.get();
   }
 
   // Analog Input 0 to 5
