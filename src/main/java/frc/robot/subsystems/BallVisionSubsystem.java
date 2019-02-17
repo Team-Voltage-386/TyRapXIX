@@ -41,7 +41,6 @@ public class BallVisionSubsystem extends Subsystem {
   public BallVisionSubsystem() {
     usbCamera.setExposureManual(1);
     usbCamera.setFPS(120);
-    // setDefaultCommand(command);
   }
 
   public int resolutionWidth = 320;
@@ -69,9 +68,9 @@ public class BallVisionSubsystem extends Subsystem {
   public List<Rect> rects = new ArrayList<Rect>();
 
   Size blurSize = new Size(9, 9);
-  Scalar colorStart = new Scalar(0, 140, 20);
+  Scalar colorStart = new Scalar(0, 150, 20);
   Scalar colorEnd = new Scalar(40, 255, 255);
-  Size erodeSize = new Size(10, 10);
+  Size erodeSize = new Size(15, 15);
   Size dilateSize = new Size(10, 10);
   Size edgeDilateSize = new Size(4, 4);
   Size edgeErodeSize = new Size(3, 3);
@@ -81,10 +80,10 @@ public class BallVisionSubsystem extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new BallVision());
+    setDefaultCommand(new Turn2Ball());
   }
 
-  public double ballVision() {
+  public Rect ballVision() {
     // Gets the unprocessed image
     cvSink.grabFrame(originalImage);
     // Blurs the image for ease of processing 1
@@ -119,6 +118,7 @@ public class BallVisionSubsystem extends Subsystem {
     }
 
     if (rects.size() < 1) {
+      rightRect = new Rect(0, 0, 0, 0);
       rightCenter = 0.0;
     }
 
@@ -153,14 +153,12 @@ public class BallVisionSubsystem extends Subsystem {
     contoursOutputStream.putFrame(originalImage);
     // double distanceFromCenter = x-160;
     // double angleFromCenter = Math.atan(distanceFromCenter);
-    double error;
-    if ((rightCenter == 0.0)) {
-      error = 0.0;
-    } else {
-      error = (rightCenter - originalImage.width() / 2 + 0.0);
-    }
-
-    return error;
+    // double error;
+    // if ((rightCenter == 0.0)) {
+    // error = 0.0;
+    // } else {
+    // error = (rightCenter - originalImage.width() / 2 + 0.0);
+    // }
+    return rightRect;
   }
-
 }
