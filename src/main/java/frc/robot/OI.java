@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.cameras.CameraSwapCommand;
 import frc.robot.commands.drive.MAXSpeedArcadeDrive;
 import frc.robot.commands.drive.Shifter;
 
@@ -17,6 +18,7 @@ public class OI {
   public static final int DRIVE_RIGHT_JOYSTICK_HORIZONTAL = 4;
   public static final int SPEED_MOD_BUTTON = 6;
   public static final int SHIFT_BUTTON = 5;
+  public static final int CAMERA_SWITCH_BUTTON = 2;
 
   // button inputs
   public static final int FLOOR_PICKUP = 6; // right bumper
@@ -39,9 +41,11 @@ public class OI {
 
   private Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
   private Button shifterButton = new JoystickButton(xboxDriveControl, SHIFT_BUTTON);
+  private Button cameraSwitch = new JoystickButton(xboxDriveControl, CAMERA_SWITCH_BUTTON);
 
   public OI() {
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
+    cameraSwitch.whenPressed(new CameraSwapCommand());
   }
 }
