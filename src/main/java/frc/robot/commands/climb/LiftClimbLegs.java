@@ -13,14 +13,13 @@ import frc.robot.Robot;
 
 public class LiftClimbLegs extends Command {
 
-  private double startTime;
-  private final double ELEVATOR_SPEED = 0.3; // TEMP THIS SPEED NEEDS TO BE TESTED
-  private final double SECONDS_TIME_FOR_LIFT_LEGS = 2;
+  private double startTime, distanceGoalInches;
 
-  public LiftClimbLegs() {
+  public LiftClimbLegs(double goal) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.endgameClimbSubsystem);
+    distanceGoalInches = goal;
   }
 
   // Called just before this Command runs the first time
@@ -32,13 +31,19 @@ public class LiftClimbLegs extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem.setElevatorSpeed(ELEVATOR_SPEED);
+    if (Timer.getFPGATimestamp() - startTime < 0.25 || Robot.endgameClimbSubsystem.getElevatorLimitSwitch()) {
+      Robot.endgameClimbSubsystem.setElevatorSpeed(0.5);
+    } else {
+      Robot.endgameClimbSubsystem.setElevatorSpeed(0);
+    }
+    Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(-0.8);
+    Robot.driveSubsystem.driveTank(-0.5, -0.5);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Timer.getFPGATimestamp() - startTime > SECONDS_TIME_FOR_LIFT_LEGS;
+    return Robot.driveSubsystem.getUltrasonicDistance() < distanceGoalInches;
   }
 
   // Called once after isFinished returns true

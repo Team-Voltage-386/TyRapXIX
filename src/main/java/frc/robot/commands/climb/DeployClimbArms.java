@@ -29,7 +29,7 @@ public class DeployClimbArms extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem.setClimbArmSpeeds(-0.5); // Negative moves arms out
+    Robot.endgameClimbSubsystem.setClimbArmSpeeds(-1); // Negative moves arms out
   }
 
   // Make this return true when this Command no longer needs to run execute()

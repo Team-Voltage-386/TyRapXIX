@@ -35,9 +35,6 @@ public class ArmSubsystem extends Subsystem {
   private WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.leftShoulderMotor);
   private WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
 
-  // Limit Switch Declarations
-  private DigitalInput bottomShoulderLimitSwitch = new DigitalInput(RobotMap.bottomShoulderLimitSwitch);
-
   AnalogInput potentiometer = new AnalogInput(RobotMap.potentiometer);
 
   // TEMP CONSTANTS BELOW
@@ -143,9 +140,6 @@ public class ArmSubsystem extends Subsystem {
     speed = p + i + d;
     setShoulderMotorSpeed(speed);
     prevError = error;
-    if (getBottomShoulderLimitSwitch()) { // Reset Encoder When Bottom Limit Switch is Pressed By Arm
-      resetEncoder();
-    }
   }
 
   /**
@@ -178,15 +172,6 @@ public class ArmSubsystem extends Subsystem {
    */
   public void resetEncoder() {
     shoulderMotor.setSelectedSensorPosition(0, 0, 10);
-  }
-
-  /**
-   * Get bottom limit switch state.
-   * 
-   * @return false if tiggered, true if not triggered.
-   */
-  public boolean getBottomShoulderLimitSwitch() {
-    return bottomShoulderLimitSwitch.get();
   }
 
   /**

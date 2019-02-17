@@ -76,6 +76,8 @@ public class RobotMap {
 
   // Sensors
   public static int driveUltrasonicPort = 0; // TEMP
+  public static int ultrasonicPing = 3;
+  public static int ultrasonicEcho = 4;
   public static int bottomShoulderLimitSwitch = 4;
 
 }

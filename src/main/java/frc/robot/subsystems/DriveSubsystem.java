@@ -7,6 +7,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,7 +33,7 @@ public class DriveSubsystem extends Subsystem {
 
   private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
 
-  private static AnalogInput driveUltrasonic = new AnalogInput(RobotMap.driveUltrasonicPort);
+  private static Ultrasonic ultrasonic = new Ultrasonic(RobotMap.ultrasonicPing, RobotMap.ultrasonicEcho);
 
   /** threshold to trigger current limit */
   private static final int PEAK_CURRENT_AMPS = 35;
@@ -65,6 +66,8 @@ public class DriveSubsystem extends Subsystem {
 
     frontRight.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
     frontLeft.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
+
+    ultrasonic.setAutomaticMode(true);
   }
 
   /**
@@ -155,13 +158,8 @@ public class DriveSubsystem extends Subsystem {
     pigeon.setYaw(0);
   }
 
-  public double getUltrasonicVoltage() {
-    return driveUltrasonic.getAverageVoltage();
-  }
-
-  // Currently just returns voltage - not distance
   public double getUltrasonicDistance() {
-    return driveUltrasonic.getAverageVoltage(); // Needs to add distance conversion to inches from voltage
+    return ultrasonic.getRangeInches();
   }
 
 }

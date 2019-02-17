@@ -56,10 +56,11 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
     SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
 
-    SmartDashboard.putNumber("Ultrasonic Voltage", Robot.driveSubsystem.getUltrasonicVoltage());
     driveSubsystem.displayDiagnostics();
     armSubsystem.displayDiagnostics();
     endgameClimbSubsystem.displayDiagnostics();
+    SmartDashboard.putNumber("Front Ultrasonic", driveSubsystem.getUltrasonicDistance());
+    SmartDashboard.putString("Current Climb Command", endgameClimbSubsystem.getCurrentCommandName());
   }
 
   /**
