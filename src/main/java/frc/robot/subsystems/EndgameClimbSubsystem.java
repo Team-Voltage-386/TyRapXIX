@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,13 +20,15 @@ import frc.robot.commands.climb.ManualClimb;
 /**
  * Add your docs here.
  */
-public class EndgameClimbSubsystem extends Subsystem {
+public class EndgameClimbSubsystem extends Subsystem { // CURRENT LIMITING ON CLIMB TALON
 
   private Spark leftClimbArm = new Spark(RobotMap.leftClimbArm);
   private Spark rightClimbArm = new Spark(RobotMap.rightClimbArm);
   private WPI_TalonSRX climbElevatorMotor = new WPI_TalonSRX(RobotMap.rearElevatorMotor);
   private Spark climbElevatorWheels = new Spark(RobotMap.elevatorDriveWheels);
   private DigitalInput elevatorLimitSwitch = new DigitalInput(RobotMap.elevatorLimitSwitch); // TEMP Port Number
+
+  private PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -56,6 +59,10 @@ public class EndgameClimbSubsystem extends Subsystem {
 
   public void displayDiagnostics() {
     SmartDashboard.putBoolean("ElevatorLimitSwitch", getElevatorLimitSwitch());
+  }
+
+  public double getPDPCurrent(int pdpPort) {
+    return pdp.getCurrent(pdpPort);
   }
 
 }

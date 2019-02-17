@@ -11,39 +11,33 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class LiftClimbLegs extends Command {
+public class LiftElevatorSeconds extends Command {
 
-  private double startTime, distanceGoalInches;
+  private double startTime, liftDuration;
 
-  public LiftClimbLegs(double goal) {
+  public LiftElevatorSeconds(double time) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.endgameClimbSubsystem);
-    distanceGoalInches = goal;
+    startTime = Timer.getFPGATimestamp();
+    liftDuration = time;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Timer.getFPGATimestamp() - startTime < 0.25 || Robot.endgameClimbSubsystem.getElevatorLimitSwitch()) {
-      Robot.endgameClimbSubsystem.setElevatorSpeed(0.5);
-    } else {
-      Robot.endgameClimbSubsystem.setElevatorSpeed(0);
-    }
-    Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(-0.8);
-    Robot.driveSubsystem.driveTank(-0.5, -0.5);
+    Robot.endgameClimbSubsystem.setElevatorSpeed(1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.driveSubsystem.getUltrasonicDistance() < distanceGoalInches;
+    return Timer.getFPGATimestamp() - startTime > liftDuration;
   }
 
   // Called once after isFinished returns true

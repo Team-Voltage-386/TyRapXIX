@@ -7,19 +7,19 @@
 
 package frc.robot.commands.climb;
 
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class DeployClimbArms extends Command {
+public class LevelTwoLiftElevator extends Command {
 
-  private double startPitch, startTime;
+  private double startTime, distanceGoalInches;
 
-  public DeployClimbArms() {
+  public LevelTwoLiftElevator(double goal) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.endgameClimbSubsystem);
+    distanceGoalInches = goal;
   }
 
   // Called just before this Command runs the first time
@@ -31,14 +31,19 @@ public class DeployClimbArms extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem.setClimbArmSpeeds(-1); // Negative moves arms out
+    if (Robot.endgameClimbSubsystem.getElevatorLimitSwitch()) {
+      Robot.endgameClimbSubsystem.setElevatorSpeed(0.5);
+    } else {
+      Robot.endgameClimbSubsystem.setElevatorSpeed(0);
+    }
+    Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(-0.8);
+    Robot.driveSubsystem.driveTank(-0.5, -0.5);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Timer.getFPGATimestamp() - startTime > 0.5 && Robot.endgameClimbSubsystem.getPDPCurrent(4) > 4
-        && Robot.endgameClimbSubsystem.getPDPCurrent(11) > 4;
+    return Robot.driveSubsystem.getUltrasonicDistance() < distanceGoalInches;
   }
 
   // Called once after isFinished returns true

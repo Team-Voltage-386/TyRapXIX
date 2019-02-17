@@ -7,38 +7,36 @@
 
 package frc.robot.commands.climb;
 
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class DeployClimbArms extends Command {
+public class FinalPhaseDrive extends Command {
 
-  private double startPitch, startTime;
+  double distanceGoalInches;
 
-  public DeployClimbArms() {
+  public FinalPhaseDrive(double goal) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.endgameClimbSubsystem);
+    distanceGoalInches = goal;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem.setClimbArmSpeeds(-1); // Negative moves arms out
+    Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(-0.8);
+    Robot.driveSubsystem.driveTank(-0.45, -0.45);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Timer.getFPGATimestamp() - startTime > 0.5 && Robot.endgameClimbSubsystem.getPDPCurrent(4) > 4
-        && Robot.endgameClimbSubsystem.getPDPCurrent(11) > 4;
+    return Robot.driveSubsystem.getUltrasonicDistance() < distanceGoalInches;
   }
 
   // Called once after isFinished returns true

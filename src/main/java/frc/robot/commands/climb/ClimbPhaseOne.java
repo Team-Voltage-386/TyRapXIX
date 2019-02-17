@@ -18,7 +18,7 @@ public class ClimbPhaseOne extends Command {
   private int limitSwitchChanges;
   private final double K = 0; // TEMP THIS CONSTANT NEEDS TO BE GOTTEN BY TUNING
   private final double DEFAULT_ARM_SPEED = -0.8; // TEMP THIS SPEED NEEDS TO BE TESTED
-  private final double DEFAULT_ELEVATOR_SPEED = -0.6; // TEMP THIS SPEED NEEDS TO BE TESTED
+  private final double DEFAULT_ELEVATOR_SPEED = -0.8; // TEMP THIS SPEED NEEDS TO BE TESTED
 
   public ClimbPhaseOne() {
     // Use requires() here to declare subsystem dependencies

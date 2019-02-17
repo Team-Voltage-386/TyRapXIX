@@ -3,9 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.climb.ClimbPhaseOne;
-import frc.robot.commands.climb.EndgameClimbGroup;
 import frc.robot.commands.climb.LevelThreeClimbGroup;
+import frc.robot.commands.climb.LevelTwoClimbGroup;
 import frc.robot.commands.drive.MAXSpeedArcadeDrive;
 import frc.robot.commands.drive.Shifter;
 
@@ -47,18 +46,20 @@ public class OI {
 
   // THESE BUTTONS ARE ALL TEMPORARY
   // Button tempClimbArmsButton = new JoystickButton(xboxManipControl, 1);
-  Button tempGroupButton = new JoystickButton(xboxManipControl, 1);
-  Button tempClimbPhaseOneButton = new JoystickButton(xboxManipControl, 2);
+  Button tempLvlTwoGroupButton = new JoystickButton(xboxManipControl, 1);
+  // Button tempDeployArms = new JoystickButton(xboxManipControl, 2);
   Button tempUltrasonicDriveElevatorWheelsButton = new JoystickButton(xboxManipControl, 3);
   Button tempLiftClimbLegsButton = new JoystickButton(xboxManipControl, 4);
+  Button tempLvlThreeGroupButton = new JoystickButton(xboxManipControl, 2);
   // THESE BUTTONS ARE ALL TEMPORARY
 
   public OI() {
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
     // tempClimbArmsButton.whenPressed(new DeployClimbArms());
-    tempClimbPhaseOneButton.whenPressed(new ClimbPhaseOne());
-    tempGroupButton.whenPressed(new LevelThreeClimbGroup());
+    // tempDeployArms.whenPressed(new DeployClimbArms());
+    tempLvlThreeGroupButton.whenPressed(new LevelThreeClimbGroup());
+    tempLvlTwoGroupButton.whenPressed(new LevelTwoClimbGroup());
     // tempUltrasonicDriveElevatorWheelsButton.whenPressed(new
     // UltrasonicDriveElevatorWheels(30));
     // tempLiftClimbLegsButton.whenPressed(new LiftClimbLegs());

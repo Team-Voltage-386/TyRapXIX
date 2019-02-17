@@ -36,7 +36,8 @@ public class LevelThreeClimbGroup extends CommandGroup {
     addSequential(new DeployClimbArms());
     addSequential(new ClimbPhaseOneLevelThree());
     addSequential(new UltrasonicDriveElevatorWheels(27));
-    // addSequential(new LiftClimbLegs(18));
-
+    addSequential(new LiftElevatorSeconds(0.25));
+    addParallel(new LevelThreeLiftElevator());
+    addSequential(new FinalPhaseDrive(18));
   }
 }

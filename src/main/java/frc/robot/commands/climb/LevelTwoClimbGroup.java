@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 /**
  * Command group that defines the command sequence of the endgame climb.
  */
-public class EndgameClimbGroup extends CommandGroup {
+public class LevelTwoClimbGroup extends CommandGroup {
   /**
    * Add your docs here.
    */
 
-  public EndgameClimbGroup() {
+  public LevelTwoClimbGroup() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -34,8 +34,8 @@ public class EndgameClimbGroup extends CommandGroup {
     addSequential(new DeployClimbArms());
     addSequential(new ClimbPhaseOne());
     addSequential(new UltrasonicDriveElevatorWheels(27));
-    addSequential(new LiftClimbLegs(18));
-    // addSequential(new LiftClimbLegs());
+    addSequential(new LiftElevatorSeconds(0.25));
+    addSequential(new LevelTwoLiftElevator(18));
 
   }
 }

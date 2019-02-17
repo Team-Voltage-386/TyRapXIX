@@ -61,6 +61,9 @@ public class Robot extends TimedRobot {
     endgameClimbSubsystem.displayDiagnostics();
     SmartDashboard.putNumber("Front Ultrasonic", driveSubsystem.getUltrasonicDistance());
     SmartDashboard.putString("Current Climb Command", endgameClimbSubsystem.getCurrentCommandName());
+
+    SmartDashboard.putNumber("PDP 4 Current", endgameClimbSubsystem.getPDPCurrent(4));
+    SmartDashboard.putNumber("PDP 11 Current", endgameClimbSubsystem.getPDPCurrent(11));
   }
 
   /**
