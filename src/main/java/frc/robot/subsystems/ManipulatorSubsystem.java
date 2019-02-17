@@ -10,9 +10,9 @@ import frc.robot.RobotMap;
 import frc.robot.commands.manipulator.ManipulatorHatchDefault;
 
 /**
- * Add your docs here.
+ * The ManipulatorSubsytem is responsible for controlling the beak and cargo
+ * intake mechanisms.
  */
-
 public class ManipulatorSubsystem extends Subsystem {
 
   // Constant Speeds
@@ -51,22 +51,38 @@ public class ManipulatorSubsystem extends Subsystem {
     cargoOut, cargoIn, cargoOff;
   }
 
-  // Set CargoSolenoidState from ManipulatorMode Commands
+  /**
+   * Set cargo solenoid state.
+   * 
+   * @param state A DoubleSolenoid state
+   */
   public void setCargoSolenoidState(Value state) {
     cargoSolenoid.set(state);
   }
 
-  // Set HatchSolenoidState from ManipulatorHatchMode Command
+  /**
+   * Set hatch solenoid state.
+   * 
+   * @param state A DoubleSolenoid state
+   */
   public void setHatchSolenoidState(Value state) {
     hatchSolenoid.set(state);
   }
 
-  // Set CargoIntake Spark from setCargoIntakeDirection Method
+  /**
+   * Set cargo intake motor speed.
+   * 
+   * @param speed Value from 0.0 to 0.1
+   */
   public void setCargoIntakeSpeed(double speed) {
     cargoIntakeMotor.set(speed);
   }
 
-  // Set CargoIntake Direction from ManipulatorCargoMode Command
+  /**
+   * Set CargoIntake direction.
+   * 
+   * @param direction The CargoIntakeDirection value
+   */
   public void setCargoIntakeDirection(CargoIntakeDirection direction) {
     if (direction == CargoIntakeDirection.cargoIn) {
       setCargoIntakeSpeed(CARGO_INTAKE_SPEED);
@@ -77,7 +93,6 @@ public class ManipulatorSubsystem extends Subsystem {
     }
   }
 
-  // easyButton
   public void displayDiagnostics() {
     SmartDashboard.putBoolean("easyButton", easyButton.get());
   }

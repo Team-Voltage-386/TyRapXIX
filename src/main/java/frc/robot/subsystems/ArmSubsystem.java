@@ -189,7 +189,12 @@ public class ArmSubsystem extends Subsystem {
     }
   }
 
-  // Use PID To Move Shoulder To Given Position
+  /**
+   * Use PID to move shoulder to given position.
+   * 
+   * @param positionGoal The goal position (percentage representation as a double
+   *                     from 0.0 to 1.0)
+   */
   public void setShoulderPosition(double positionGoal) {
     error = getShoulderPosition() - positionGoal;
     errorChange = error - prevError;
@@ -206,7 +211,12 @@ public class ArmSubsystem extends Subsystem {
     prevError = error;
   }
 
-  // Use PID To Move Elbow to Input Position
+  /**
+   * Use PID to move elbow to input position.
+   * 
+   * @param positionVoltage The target voltage represented as a decimal from 0.0
+   *                        to 5.0
+   */
   public void setElbowPosition(double positionVoltage) {
     error = elbowPotentiometer.getAverageVoltage() - positionVoltage;
     errorChange = error - prevError;
@@ -220,7 +230,11 @@ public class ArmSubsystem extends Subsystem {
     prevError = error;
   }
 
-  // Set Shoulder to Speed Input, Incorporates limiters
+  /**
+   * Set shoulder to speed input, incorporating limiters.
+   * 
+   * @param power The requested power from 0.0 to 1.0
+   */
   public void setShoulderMotorSpeed(double power) {
 
     // Ensures Power is Between -1 and 1
@@ -242,7 +256,11 @@ public class ArmSubsystem extends Subsystem {
     shoulderMotor.set(power);
   }
 
-  // Set Elbow to Input Speed, Incorporates Limiters
+  /**
+   * Set elbow to speed input, incorporating limiters.
+   * 
+   * @param power The requested power from 0.0 to 1.0
+   */
   public void setElbowMotorSpeed(double power) {
 
     // Ensures Speed is Between -1 to 1
@@ -264,7 +282,12 @@ public class ArmSubsystem extends Subsystem {
     elbowMotor.set(power);
   }
 
-  // Convert Range Between Max and Min Voltages to a Position in Range 0 to 1
+  /**
+   * Convert range between min and max voltages to a percentage position value.
+   * 
+   * @return The current shoulder position as a percentage represented from 0.0 to
+   *         1.0
+   */
   public double getShoulderPosition() {
     return (shoulderPotentiometer.getAverageVoltage() - MIN_SHOULDER_VOLTAGE)
         / (MAX_SHOULDER_VOLTAGE - MIN_SHOULDER_VOLTAGE);
@@ -306,6 +329,11 @@ public class ArmSubsystem extends Subsystem {
     elbowI = 0;
   }
 
+  /**
+   * PID control specific for resetting the elbow position.
+   * 
+   * @param positionVoltage The targer position voltage
+   */
   public void resetElbowPosition(double positionVoltage) {
     error = elbowPotentiometer.getAverageVoltage() - positionVoltage;
     elbowResetP = error * /* elbowPK */ SmartDashboard.getNumber("elbowResetPK ", 1.4);
