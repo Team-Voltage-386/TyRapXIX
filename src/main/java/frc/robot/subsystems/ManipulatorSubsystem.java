@@ -16,8 +16,9 @@ import frc.robot.commands.manipulator.ManipulatorHatchDefault;
 public class ManipulatorSubsystem extends Subsystem {
 
   // Constant Speeds
-  private static final double CARGO_INTAKE_SPEED = 0.5;
-  private static final double CARGO_OUTTAKE_SPEED = -0.5;
+  private static final double CARGO_INTAKE_SPEED = 1;
+  private static final double CARGO_OUTTAKE_SPEED = -1;
+  private static final double DEFAULT_INTAKE_SPEED = .5;
 
   // Current Constants
   private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */
@@ -89,7 +90,7 @@ public class ManipulatorSubsystem extends Subsystem {
     } else if (direction == CargoIntakeDirection.cargoOut) {
       setCargoIntakeSpeed(CARGO_OUTTAKE_SPEED);
     } else if (direction == CargoIntakeDirection.cargoOff) {
-      setCargoIntakeSpeed(0);
+      setCargoIntakeSpeed(DEFAULT_INTAKE_SPEED);
     }
   }
 

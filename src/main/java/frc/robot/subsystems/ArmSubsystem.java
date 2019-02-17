@@ -35,11 +35,11 @@ public class ArmSubsystem extends Subsystem {
 
   // Position States
   private final double CARGO_FLOOR_SHOULDER = 0.0542;
-  private final double CARGO_PLAYER_STATION_SHOULDER = 0.2;// TEMP
+  private final double CARGO_PLAYER_STATION_SHOULDER = 0.208;
   private final double CARGO_LEVEL_ONE_SHOULDER = 0.142;
   private final double CARGO_LEVEL_TWO_SHOULDER = 0.591;
   private final double CARGO_LEVEL_THREE_SHOULDER = 1.00;
-  private final double HATCH_FLOOR_SHOULDER = 0.6; // TEMP
+  private final double HATCH_FLOOR_SHOULDER = 0.115;
   private final double HATCH_LEVEL_ONE_SHOULDER = 0.0437;
   private final double HATCH_LEVEL_TWO_SHOULDER = 0.495;
   private final double HATCH_LEVEL_THREE_SHOULDER = 0.943;
@@ -60,7 +60,7 @@ public class ArmSubsystem extends Subsystem {
   private final double UPWARDS_SHOULDER_LIMITER = 1;
   private final double DOWNWARDS_SHOULDER_LIMITER = 0.3;
   private final double UPWARDS_ELBOW_LIMITER = 1;
-  private final double DOWNWARDS_ELBOW_LIMITER = 0.5;
+  private final double DOWNWARDS_ELBOW_LIMITER = 1; // WAS 0.5
 
   // Talon Motors
   private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor);

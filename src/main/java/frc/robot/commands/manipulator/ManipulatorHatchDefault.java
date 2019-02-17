@@ -24,17 +24,18 @@ public class ManipulatorHatchDefault extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
-    Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
+    Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse);
+    Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kReverse);
+    Robot.manipulatorSubsystem.setCargoIntakeSpeed(0);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     if (OI.xboxManipControl.getRawButton(OI.INTAKE)) {
-      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward); // TEMP MAYBE BACKWARDS
+      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward);
     } else if (OI.xboxManipControl.getRawButton(OI.OUTAKE)) {
-      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse); // TEMP MAYBE BACKWARDS
+      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse);
     }
   }
 
