@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.climb.ClimbPhaseOne;
-import frc.robot.commands.climb.DeployClimbArms;
 import frc.robot.commands.climb.EndgameClimbGroup;
 import frc.robot.commands.drive.MAXSpeedArcadeDrive;
 import frc.robot.commands.drive.Shifter;
