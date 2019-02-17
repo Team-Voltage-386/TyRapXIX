@@ -30,7 +30,7 @@ public class FinalPhaseDrive extends Command {
   @Override
   protected void execute() {
     Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(-0.8);
-    Robot.driveSubsystem.driveTank(-0.45, -0.45);
+    Robot.driveSubsystem.driveTank(-0.5, -0.5);
   }
 
   // Make this return true when this Command no longer needs to run execute()
