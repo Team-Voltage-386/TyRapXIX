@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Ultrasonic Voltage", Robot.driveSubsystem.getUltrasonicVoltage());
     driveSubsystem.displayDiagnostics();
     armSubsystem.displayDiagnostics();
+    endgameClimbSubsystem.displayDiagnostics();
   }
 
   /**

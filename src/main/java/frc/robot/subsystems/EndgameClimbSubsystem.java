@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.climb.ManualClimb;
 
@@ -51,6 +52,10 @@ public class EndgameClimbSubsystem extends Subsystem {
 
   public boolean getElevatorLimitSwitch() {
     return elevatorLimitSwitch.get();
+  }
+
+  public void displayDiagnostics() {
+    SmartDashboard.putBoolean("ElevatorLimitSwitch", getElevatorLimitSwitch());
   }
 
 }
