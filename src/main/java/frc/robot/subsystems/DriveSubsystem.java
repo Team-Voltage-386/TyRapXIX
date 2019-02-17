@@ -117,6 +117,10 @@ public class DriveSubsystem extends Subsystem {
     }
   }
 
+  public void setShiftSolenoid(DoubleSolenoid.Value state) {
+    shifter.set(state);
+  }
+
   /** Resets the Encoder tick values */
   public void resetEncoders() {
     frontLeft.setSelectedSensorPosition(0);

@@ -14,7 +14,7 @@ import frc.robot.Robot;
 public class ClimbPhaseOne extends Command {
 
   private boolean currentState = false, prevState = false;
-  private double error;
+  private double error, startPitch;
   private int limitSwitchChanges;
   private final double K = 0; // TEMP THIS CONSTANT NEEDS TO BE GOTTEN BY TUNING
   private final double DEFAULT_ARM_SPEED = -0.8; // TEMP THIS SPEED NEEDS TO BE TESTED
@@ -30,6 +30,7 @@ public class ClimbPhaseOne extends Command {
   @Override
   protected void initialize() {
     limitSwitchChanges = 0;
+    startPitch = Robot.driveSubsystem.getPigeonYPR()[1];
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -39,9 +40,9 @@ public class ClimbPhaseOne extends Command {
     if (currentState != prevState) {
       limitSwitchChanges++;
     }
-    error = Robot.driveSubsystem.getPigeonYPR()[1]; // Both drive and climb use Pigeon
-    Robot.endgameClimbSubsystem.setClimbArmSpeeds(DEFAULT_ARM_SPEED + (K * error));
-    Robot.endgameClimbSubsystem.setElevatorSpeed(DEFAULT_ELEVATOR_SPEED - (K * error));
+    error = Robot.driveSubsystem.getPigeonYPR()[1] - startPitch; // Both drive and climb use Pigeon
+    Robot.endgameClimbSubsystem.setClimbArmSpeeds(DEFAULT_ARM_SPEED - (K * error));
+    Robot.endgameClimbSubsystem.setElevatorSpeed(DEFAULT_ELEVATOR_SPEED + (K * error));
     prevState = currentState;
     SmartDashboard.putNumber("LimitSwitchChanges", limitSwitchChanges);
   }
