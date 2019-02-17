@@ -34,7 +34,7 @@ public class OI {
   public static final int OUTAKE = 7; // left trigger
   public static final int MANUAL_SHOULDER_AXIS = 1; // left joystick y
   public static final int MANUAL_ELBOW_AXIS = 3; // right joystick y
-  public static final int RESET_ARM = 1;
+  public static final int RESET_ARM = 8; // right trigger
 
   // manipulator mode buttons
   public static final int HATCH_MODE = 10; // start button

@@ -51,7 +51,7 @@ public class ArmHatchMode extends Command {
       // level three
       Robot.armSubsystem.setDesiredStateShoulder(Levels.hatchLevelThree);
       Robot.armSubsystem.setDesiredStateElbow(ElbowStates.perpendicular);
-    } else if (OI.xboxDriveControl.getRawButton(OI.RESET_ARM)) {
+    } else if (OI.xboxManipControl.getRawButton(OI.RESET_ARM)) {
       Robot.armSubsystem.setDesiredStateShoulder(Levels.resetState);
       Robot.armSubsystem.setDesiredStateElbow(ElbowStates.reset);
     } else {
