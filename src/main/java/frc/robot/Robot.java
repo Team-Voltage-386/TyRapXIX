@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("shoulderDK ", 0);
     SmartDashboard.putNumber("shoulderIK ", 0);
     SmartDashboard.putNumber("elbowResetPK ", 1.4);
+    SmartDashboard.putNumber("Downwards Elbow Limiter", 0.8);
   }
 
   /**

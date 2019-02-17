@@ -94,6 +94,10 @@ public class ManipulatorSubsystem extends Subsystem {
     }
   }
 
+  public DoubleSolenoid.Value getHatchSolenoidState() {
+    return hatchSolenoid.get();
+  }
+
   public void displayDiagnostics() {
     SmartDashboard.putBoolean("easyButton", easyButton.get());
   }
