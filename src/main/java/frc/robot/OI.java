@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.climb.ClimbPhaseOne;
 import frc.robot.commands.climb.EndgameClimbGroup;
+import frc.robot.commands.climb.LevelThreeClimbGroup;
 import frc.robot.commands.drive.MAXSpeedArcadeDrive;
 import frc.robot.commands.drive.Shifter;
 
@@ -57,7 +58,7 @@ public class OI {
     shifterButton.whenPressed(new Shifter());
     // tempClimbArmsButton.whenPressed(new DeployClimbArms());
     tempClimbPhaseOneButton.whenPressed(new ClimbPhaseOne());
-    tempGroupButton.whenPressed(new EndgameClimbGroup());
+    tempGroupButton.whenPressed(new LevelThreeClimbGroup());
     // tempUltrasonicDriveElevatorWheelsButton.whenPressed(new
     // UltrasonicDriveElevatorWheels(30));
     // tempLiftClimbLegsButton.whenPressed(new LiftClimbLegs());
