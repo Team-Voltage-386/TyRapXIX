@@ -11,6 +11,7 @@ import org.opencv.core.Rect;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.OI;
 import frc.robot.Robot;
 
 public class Turn2Ball extends Command {
@@ -84,11 +85,12 @@ public class Turn2Ball extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if ((y >= 160) & (Math.abs(error) < 30)) {
-      return true;
-    } else {
-      return false;
-    }
+    return !OI.xboxDriveControl.getRawButton(3);
+    // ((y >= 160) & (Math.abs(error) < 30)) {
+    // return true;
+    // else {
+    // return false;
+    // }
   }
 
   // Called once after isFinished returns true
