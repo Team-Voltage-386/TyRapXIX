@@ -70,7 +70,7 @@ public class BallVisionSubsystem extends Subsystem {
   Size blurSize = new Size(9, 9);
   Scalar colorStart = new Scalar(0, 150, 20);
   Scalar colorEnd = new Scalar(40, 255, 255);
-  Size erodeSize = new Size(15, 15);
+  Size erodeSize = new Size(13, 13);
   Size dilateSize = new Size(10, 10);
   Size edgeDilateSize = new Size(4, 4);
   Size edgeErodeSize = new Size(3, 3);
@@ -80,12 +80,13 @@ public class BallVisionSubsystem extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new Turn2Ball());
+    // setDefaultCommand(new Turn2Ball());
   }
 
   public Rect ballVision() {
     // Gets the unprocessed image
     cvSink.grabFrame(originalImage);
+    Core.flip(originalImage, originalImage, -1);
     // Blurs the image for ease of processing 1
     Imgproc.blur(originalImage, alteredImage, blurSize);
     blurOutputStream.putFrame(alteredImage);

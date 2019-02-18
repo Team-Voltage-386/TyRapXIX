@@ -24,7 +24,7 @@ public class Turn2Ball extends Command {
   private double previousError = 0;
   private double i = 0;
   private double d = 0;
-  private final double kp = .0018, ki = 0, kd = .008;
+  private double kp = .0018, ki = 0, kd = .008;
 
   public Turn2Ball() {
     requires(Robot.ballVisionSubystem);
@@ -49,12 +49,16 @@ public class Turn2Ball extends Command {
 
     rightRect = Robot.ballVisionSubystem.ballVision();
     rightCenter = rightRect.x + rightRect.width / 2;
-    if ((error == 0) & (rightCenter == 0)) {
+    if (rightCenter == 0) {
       error = previousCenter - 160;
+      SmartDashboard.putBoolean("Yes or no", true);
+      kp = .01;
     } else {
       previousCenter = rightCenter;
       error = rightCenter - 160;
       previousError = error;
+      SmartDashboard.putBoolean("Yes or no", false);
+      kp = .0018;
 
     }
 
@@ -80,7 +84,7 @@ public class Turn2Ball extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if ((y >= 170) & (Math.abs(error) < 10)) {
+    if ((y >= 160) & (Math.abs(error) < 30)) {
       return true;
     } else {
       return false;

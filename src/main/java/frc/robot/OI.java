@@ -54,13 +54,13 @@ public class OI {
   Button maxSpeeedButton = new JoystickButton(xboxDriveControl, RobotMap.speedModButton);
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
-  // Button turnToBallButton = new JoystickButton(xboxDriveControl, 3);
+  Button turnToBallButton = new JoystickButton(xboxDriveControl, 3);
 
   public OI() {
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
-    // turnToBallButton.whenPressed(new Turn2Ball());
+    turnToBallButton.whenPressed(new Turn2Ball());
 
   }
 }
