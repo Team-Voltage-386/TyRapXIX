@@ -5,10 +5,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.arm.ArmHatchMode;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 /**
  * The ArmSubsystem is responsible for the shoulder and elbow motor control.
@@ -26,12 +24,12 @@ public class ArmSubsystem extends Subsystem {
   private static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
 
   // Doubles for PID Calculations
-  private double shoulderP = 0, shoulderI = 0, shoulderD = 0, elbowP = 0, elbowI = 0, elbowD = 0, elbowResetP = 0;
+  private double shoulderP = 0, elbowP = 0, elbowI = 0, elbowD = 0, elbowResetP = 0;
   private double prevError = 0, error = 0, errorChange = 0, elbowPower = 0, shoulderPower = 0;
 
   // Constants for Calculations
-  private final double shoulderPK = -30, shoulderIK = 0, shoulderDK = 0;// TEMP NEEDS TUNING
-  private final double elbowPK = 0.5, elbowIK = 0.015, elbowDK = 1.25, elbowResetPK = 2.5;// TEMP NEEDS TUNING
+  private final double shoulderPK = -30;
+  private final double elbowPK = 0.5, elbowIK = 0.015, elbowDK = 1.25, elbowResetPK = 1.4;
   private final double manualShoulderK = 0; // TEMP NEEDS TUNING
 
   // Position States
@@ -61,7 +59,7 @@ public class ArmSubsystem extends Subsystem {
   private final double UPWARDS_SHOULDER_LIMITER = 1;
   private final double DOWNWARDS_SHOULDER_LIMITER = 0.3;
   private final double UPWARDS_ELBOW_LIMITER = 1;
-  private final double DOWNWARDS_ELBOW_LIMITER = 0.8; // WAS 0.8
+  private final double DOWNWARDS_ELBOW_LIMITER = 0.6;
 
   // Talon Motors
   private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
@@ -147,6 +145,7 @@ public class ArmSubsystem extends Subsystem {
       setShoulderPosition(HATCH_LEVEL_THREE_SHOULDER);
       break;
     case resetState:
+      // Prevents Elbow From Getting Caught on Bumper
       if (getElbowPotentiometerVoltage() > PERPENDICULAR_ELBOW - 0.1) {
         setShoulderPosition(RESET_SHOULDER);
       }
@@ -156,18 +155,14 @@ public class ArmSubsystem extends Subsystem {
 
     // Switch-Case Loops for Elbow
     switch (inElbow) {
-    case manualControl:
+    case manualControl:// NOT DONE HERE
       // getElbowPosition() + (manualShoulderK *
       // OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL)));
       setElbowMotorSpeed(manualOverrideElbow);
       elbowI = 0;
       break;
     case reset:
-      // if (getElbowPotentiometerVoltage() < PERPENDICULAR_ELBOW - 0.15) {
-      // setElbowPosition(PERPENDICULAR_ELBOW);
-      // } else {
       resetElbowPosition(RESET_ELBOW);
-      // }
       break;
     case parallel:
       setElbowPosition(PARALLEL_ELBOW);
@@ -195,16 +190,13 @@ public class ArmSubsystem extends Subsystem {
   public void setShoulderPosition(double positionGoal) {
     error = getShoulderPosition() - positionGoal;
     errorChange = error - prevError;
-    shoulderP = error * /* shoulderPK */ SmartDashboard.getNumber("shoulderPK ", 0);
-    shoulderI += error /* shoulderIK */ * SmartDashboard.getNumber("shoulderIK ", 0);
-    shoulderD = errorChange /* shoulderDK */ * SmartDashboard.getNumber("shoulderDK ", 0);
-    shoulderPower = shoulderP + shoulderI + shoulderD;
+    shoulderP = error * shoulderPK;
+    shoulderPower = shoulderP;
     if (Math.abs(error) < 0.01) {
       shoulderPower = 0;
     }
     setShoulderMotorSpeed(shoulderPower);
-    SmartDashboard.putNumber("Shoulder Power Variable", shoulderPower);
-    SmartDashboard.putNumber("ShoulderPositionGoal", positionGoal);
+    SmartDashboard.putNumber("ShoulderPositionGoal", positionGoal); // May be removed from master
     prevError = error;
   }
 
@@ -220,13 +212,9 @@ public class ArmSubsystem extends Subsystem {
     elbowP = error * elbowPK;
     elbowI += error * elbowIK;
     elbowD = errorChange * elbowDK;
-    SmartDashboard.putNumber("elbowP", elbowP);
-    SmartDashboard.putNumber("elbowI", elbowI);
-    SmartDashboard.putNumber("elbowD", elbowD);
     elbowPower = elbowP + elbowI + elbowD;
     setElbowMotorSpeed(elbowPower);
-    SmartDashboard.putNumber("ElbowPowerVariable", elbowPower);
-    SmartDashboard.putNumber("Elbow Current Goal", positionVoltage);
+    SmartDashboard.putNumber("ElbowCurrentGoal", positionVoltage); // May be removed from master
     prevError = error;
   }
 
@@ -273,7 +261,7 @@ public class ArmSubsystem extends Subsystem {
 
     // Speed Limiters by Direction and Max and Min Voltages
     if (power > 0.05 && getElbowPotentiometerVoltage() > MIN_ELBOW_VOLTAGE) {
-      power = /* DOWNWARDS_ELBOW_LIMITER */SmartDashboard.getNumber("Downwards Elbow Limiter", 0.8) * power;
+      power = DOWNWARDS_ELBOW_LIMITER * power;
     } else if (power < -0.05 && getElbowPotentiometerVoltage() < MAX_ELBOW_VOLTAGE) {
       power = UPWARDS_ELBOW_LIMITER * power;
     } else {
@@ -331,7 +319,7 @@ public class ArmSubsystem extends Subsystem {
    */
   public void resetElbowPosition(double positionVoltage) {
     error = elbowPotentiometer.getAverageVoltage() - positionVoltage;
-    elbowResetP = error * /* elbowPK */ SmartDashboard.getNumber("elbowResetPK ", 1.4);
+    elbowResetP = error * elbowResetPK;
     elbowPower = elbowResetP;
     setElbowMotorSpeed(elbowPower);
   }

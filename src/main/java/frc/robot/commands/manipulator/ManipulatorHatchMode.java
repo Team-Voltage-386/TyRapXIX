@@ -8,7 +8,6 @@
 package frc.robot.commands.manipulator;
 
 import edu.wpi.first.wpilibj.command.Command;
-
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.OI;
 import frc.robot.Robot;
@@ -16,16 +15,16 @@ import frc.robot.Robot;
 public class ManipulatorHatchMode extends Command {
 
   public ManipulatorHatchMode() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.manipulatorSubsystem);
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    // Closed HatchSolenoid
     Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward);
+    // Not-Folded CargoSolenoid
     Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kReverse);
+    // Ensure that Cargo Intake Stops
     Robot.manipulatorSubsystem.setCargoIntakeSpeed(0);
   }
 
@@ -33,19 +32,19 @@ public class ManipulatorHatchMode extends Command {
   @Override
   protected void execute() {
     if (OI.xboxManipControl.getRawButton(OI.INTAKE)) {
+      // Opens HatchSolenoid
       Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward);
     } else if (OI.xboxManipControl.getRawButton(OI.OUTAKE)) {
+      // Closes HatchSolenoid
       Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse);
     }
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
   }

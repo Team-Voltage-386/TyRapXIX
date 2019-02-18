@@ -61,20 +61,10 @@ public class ManipulatorSubsystem extends Subsystem {
     cargoSolenoid.set(state);
   }
 
-  /**
-   * Set hatch solenoid state.
-   * 
-   * @param state A DoubleSolenoid state
-   */
   public void setHatchSolenoidState(Value state) {
     hatchSolenoid.set(state);
   }
 
-  /**
-   * Set cargo intake motor speed.
-   * 
-   * @param speed Value from 0.0 to 0.1
-   */
   public void setCargoIntakeSpeed(double speed) {
     cargoIntakeMotor.set(speed);
   }
@@ -98,6 +88,7 @@ public class ManipulatorSubsystem extends Subsystem {
     return hatchSolenoid.get();
   }
 
+  // easyButton
   public void displayDiagnostics() {
     SmartDashboard.putBoolean("easyButton", easyButton.get());
   }

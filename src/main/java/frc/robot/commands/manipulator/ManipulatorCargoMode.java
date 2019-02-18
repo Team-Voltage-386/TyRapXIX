@@ -15,27 +15,28 @@ import frc.robot.subsystems.ManipulatorSubsystem.CargoIntakeDirection;
 
 public class ManipulatorCargoMode extends Command {
 
+  // Enumeration to Feed Into setCargoIntakeDirection Method
   CargoIntakeDirection cargoIntakeDirection = CargoIntakeDirection.cargoOff;
 
   public ManipulatorCargoMode() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.manipulatorSubsystem);
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    // Closes HatchSolenoid for Ball Intake
     Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward);
+    // Folds Back CargoSolenoid
     Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kForward);
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() { // USES TEMPORARY JOYSTICK HORIZONTAL RIGHT
-    if (OI.xboxManipControl.getRawButton(OI.INTAKE)) { // 7 TEMP PORT NUMBER MAYBE BACKWARDS
+  protected void execute() {
+    if (OI.xboxManipControl.getRawButton(OI.INTAKE)) {
+      // Initiate Cargo Intake
       cargoIntakeDirection = CargoIntakeDirection.cargoIn;
-    } else if (OI.xboxManipControl.getRawButton(OI.OUTAKE)) { // 8 TEMP PORT NUMBER MAYBE BACKWARDS
+    } else if (OI.xboxManipControl.getRawButton(OI.OUTAKE)) {
+      // Initiate Cargo Outtake
       cargoIntakeDirection = CargoIntakeDirection.cargoOut;
     } else {
       // This ensures that the motor actually stops when button is not pressed
@@ -44,13 +45,11 @@ public class ManipulatorCargoMode extends Command {
     Robot.manipulatorSubsystem.setCargoIntakeDirection(cargoIntakeDirection);
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
   }
