@@ -17,8 +17,8 @@ public class ManualClimb extends Command {
   @Override
   protected void execute() {
     Robot.endgameClimbSubsystem.setElevatorSpeed(OI.xboxManipControl.getRawAxis(OI.MANIP_LEFT_JOYSTICK_VERTICAL));
-    //SmartDashboard.putNumber("Left Joystick Value Manip",
-        OI.xboxManipControl.getRawAxis(OI.MANIP_LEFT_JOYSTICK_VERTICAL));
+    // SmartDashboard.putNumber("Left Joystick Value Manip",
+    // OI.xboxManipControl.getRawAxis(OI.MANIP_LEFT_JOYSTICK_VERTICAL));
     Robot.endgameClimbSubsystem.setClimbArmSpeeds(OI.xboxManipControl.getRawAxis(OI.MANIP_RIGHT_JOYSTICK_VERTICAL));
     if (OI.xboxManipControl.getRawButton(8)) {
       Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(1);
