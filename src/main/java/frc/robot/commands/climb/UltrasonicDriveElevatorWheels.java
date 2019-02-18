@@ -3,6 +3,12 @@ package frc.robot.commands.climb;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
+/**
+ * Runs elevator wheels, climb arm wheels, and drive train once bot is lifted to
+ * drive it onto the platform. Uses ultrasonic distance to ensure it only drives
+ * far enough to stay on the platform.
+ */
+
 public class UltrasonicDriveElevatorWheels extends Command {
 
   private double distanceGoalInches;
