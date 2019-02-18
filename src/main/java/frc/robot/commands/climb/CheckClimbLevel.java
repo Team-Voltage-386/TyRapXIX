@@ -15,7 +15,10 @@ public class CheckClimbLevel extends InstantCommand {
     requires(Robot.endgameClimbSubsystem);
   }
 
-  // Called once when the command executes
+  /**
+   * Checks ultrasonic distance to determine which level group should be run, then
+   * runs it. The ultrasonic is above the level 2 platform.
+   */
   @Override
   protected void initialize() {
     if (Robot.driveSubsystem.getUltrasonicDistance() < ULTRASONIC_CHECKING_DISTANCE) { // Temporary Number to Determine

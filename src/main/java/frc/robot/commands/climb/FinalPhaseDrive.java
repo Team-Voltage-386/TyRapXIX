@@ -3,6 +3,11 @@ package frc.robot.commands.climb;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
+/**
+ * Runs the drive train and elevator wheels until it reaches a certain distance
+ * from the alliance station wall.
+ */
+
 public class FinalPhaseDrive extends Command {
 
   private double distanceGoalInches;
@@ -11,6 +16,7 @@ public class FinalPhaseDrive extends Command {
 
   public FinalPhaseDrive(double goal) {
     requires(Robot.endgameClimbSubsystem);
+    requires(Robot.driveSubsystem);
     distanceGoalInches = goal;
   }
 

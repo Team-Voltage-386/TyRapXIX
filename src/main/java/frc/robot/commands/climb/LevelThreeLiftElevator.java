@@ -3,6 +3,10 @@ package frc.robot.commands.climb;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
+/**
+ * Runs the elevator in reverse in order to retract until a certain number of
+ * limit switch changes occur.
+ */
 public class LevelThreeLiftElevator extends Command {
 
   private boolean currentState, prevState;

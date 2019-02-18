@@ -4,8 +4,13 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
+/**
+ * Initialize begins a timer which is checked along with the current on the arm
+ * motors, the current check ends the command when the arms begins pushing on
+ * the platform, the timer ensures that the initial voltage spike when the arm
+ * motors are activated doesn't stop them prematurely.
+ */
 public class DeployClimbArms extends Command {
-
   private double startTime;
   private final double CLIMB_ARMS_SPEED = -1; // Negative Moves Arm Out
 

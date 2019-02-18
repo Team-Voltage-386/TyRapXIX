@@ -3,6 +3,12 @@ package frc.robot.commands.climb;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
+/**
+ * Runs the already deployed climb arms and the lowers the elevator until a
+ * certain number of limit switch changes occur and the limit switch reads
+ * false.
+ */
+
 public class LevelThreeClimbPhaseOne extends Command {
 
   private boolean currentState = false, prevState = false;
