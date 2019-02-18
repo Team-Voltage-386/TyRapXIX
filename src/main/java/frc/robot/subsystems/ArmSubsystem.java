@@ -41,6 +41,7 @@ public class ArmSubsystem extends Subsystem {
   private final double HATCH_LEVEL_ONE_SHOULDER = 0.0437;
   private final double HATCH_LEVEL_TWO_SHOULDER = 0.495;
   private final double HATCH_LEVEL_THREE_SHOULDER = 0.943;
+  private final double FINAL_CLIMB_SHOULDER = 0.158;
   private final double RESET_SHOULDER = 0.0;
   private final double RESET_ELBOW = 4.8;
   private final double PERPENDICULAR_ELBOW = 3.74;
@@ -104,7 +105,7 @@ public class ArmSubsystem extends Subsystem {
   /** Shoulder Enumerations used in CargoMode and HatchMode Commands */
   public enum Levels {
     cargoFloorPickup, cargoPlayerStation, cargoLevelOne, cargoLevelTwo, cargoLevelThree, hatchFloorPickup,
-    hatchLevelOne, hatchLevelTwo, hatchLevelThree, manualControl, resetState;
+    hatchLevelOne, hatchLevelTwo, hatchLevelThree, manualControl, resetState, finalClimb;
   }
 
   /** Elbow Enumerations used in CargoMode and HatchMode Commands */
@@ -153,6 +154,8 @@ public class ArmSubsystem extends Subsystem {
     case hatchLevelThree:
       setShoulderPosition(HATCH_LEVEL_THREE_SHOULDER);
       break;
+    case finalClimb:
+      setShoulderPosition(FINAL_CLIMB_SHOULDER);
     case resetState:
       // Prevents Elbow From Getting Caught on Bumper
       if (getElbowPotentiometerVoltage() > PERPENDICULAR_ELBOW - 0.1) {
