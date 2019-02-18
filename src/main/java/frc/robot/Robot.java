@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
   public static SpikeSubsystem spikeSubsystem = new SpikeSubsystem();
   public static OI m_oi;
 
-  NetworkTableEntry ballError;;
+  NetworkTableEntry ballError;
   NetworkTableEntry numberOfPairs;
   NetworkTableEntry pairCenterPi;
   NetworkTableEntry screenCenterPi;
@@ -52,7 +52,6 @@ public class Robot extends TimedRobot {
   public static double screenCenter;
   public static double error;
   double defaultValue;
-
 
   Command m_autonomousCommand;
   Command testerCommand;
@@ -68,7 +67,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    defaultValue = 3.0;
+    defaultValue = -1.0;
 
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
@@ -111,6 +110,7 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Error", error);
     SmartDashboard.putNumber("Pairs", pairsNum);
+    SmartDashboard.putNumber("Center of Best Pair", pairCenter);
     SmartDashboard.putNumber("Screen Center", screenCenter);
   }
 

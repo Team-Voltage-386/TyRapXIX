@@ -42,16 +42,15 @@ public class TurnToTarget extends Command {
   @Override
   protected void execute() {
 
-    if(Robot.pairCenter > 0){
+    if (Robot.pairCenter > 0) {
       prevError = error;
       error = (Robot.pairCenter - Robot.screenCenter);
 
-      p = error * -0.001;
+      p = error * 0.001;
       i += error * -0;
-      d = (error - prevError) * -0.005;
+      d = (error - prevError) * 0.01;
 
-      Robot.driveSubsystem.driveTank(
-          (OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical) + p + d + i),
+      Robot.driveSubsystem.driveTank((OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical) + p + d + i),
           OI.xboxDriveControl.getRawAxis(RobotMap.driveLeftJoystickVertical) - p - d - i);
 
       SmartDashboard.putNumber("Error", error);
