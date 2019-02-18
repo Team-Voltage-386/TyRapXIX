@@ -35,7 +35,7 @@ public class LevelTwoClimbGroup extends CommandGroup {
     addSequential(new LevelTwoClimbPhaseOne());
     addSequential(new UltrasonicDriveElevatorWheels(27));
     addSequential(new LiftElevatorSeconds(0.25));
-    addSequential(new LevelTwoLiftElevator(18));
-
+    addSequential(new LevelTwoLiftElevator());
+    addSequential(new FinalPhaseDrive(18));
   }
 }

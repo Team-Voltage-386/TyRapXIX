@@ -15,8 +15,8 @@ public class LevelTwoClimbPhaseOne extends Command {
 
   private boolean currentState = false, prevState = false;
   private int limitSwitchChanges;
-  private final double DEFAULT_ARM_SPEED = -0.8;
-  private final double DEFAULT_ELEVATOR_SPEED = -0.8;
+  private final double DEFAULT_ARM_SPEED = -1;
+  private final double DEFAULT_ELEVATOR_SPEED = -1;
 
   public LevelTwoClimbPhaseOne() {
     // Use requires() here to declare subsystem dependencies
@@ -46,8 +46,7 @@ public class LevelTwoClimbPhaseOne extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return limitSwitchChanges > 0 && !Robot.endgameClimbSubsystem.getElevatorLimitSwitch(); // TEMP MAY BE BACKWARDS
-                                                                                            // DEPENDING ON LIMITSWITCH
+    return limitSwitchChanges > 0 && !Robot.endgameClimbSubsystem.getElevatorLimitSwitch();
   }
 
   // Called once after isFinished returns true

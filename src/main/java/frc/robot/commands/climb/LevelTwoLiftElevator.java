@@ -12,41 +12,44 @@ import frc.robot.Robot;
 
 public class LevelTwoLiftElevator extends Command {
 
-  private double distanceGoalInches;
+  private boolean currentState, prevState;
+  private double limitSwitchChanges;
 
-  public LevelTwoLiftElevator(double goal) {
+  public LevelTwoLiftElevator() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.endgameClimbSubsystem);
-    distanceGoalInches = goal;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    limitSwitchChanges = 0;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (Robot.endgameClimbSubsystem.getElevatorLimitSwitch()) {
-      Robot.endgameClimbSubsystem.setElevatorSpeed(0.5);
-    } else {
-      Robot.endgameClimbSubsystem.setElevatorSpeed(0);
+    currentState = Robot.endgameClimbSubsystem.getElevatorLimitSwitch();
+    if (currentState != prevState) {
+      limitSwitchChanges++;
     }
-    Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(-0.8);
-    Robot.driveSubsystem.driveTank(-0.5, -0.5);
+
+    Robot.endgameClimbSubsystem.setElevatorSpeed(1);
+
+    prevState = currentState;
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.driveSubsystem.getUltrasonicDistance() < distanceGoalInches;
+    return limitSwitchChanges > 0 && !Robot.endgameClimbSubsystem.getElevatorLimitSwitch();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.endgameClimbSubsystem.setElevatorSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
