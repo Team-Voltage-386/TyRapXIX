@@ -29,8 +29,6 @@ public class DriveSubsystem extends Subsystem {
 
   private static DifferentialDrive differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 
-  private static PigeonIMU pigeon = new PigeonIMU(RobotMap.pigeonPort);
-
   /** threshold to trigger current limit */
   private static final int PEAK_CURRENT_AMPS = 35;
   /** how long after Peak current to trigger current limit */
@@ -96,9 +94,6 @@ public class DriveSubsystem extends Subsystem {
   public void displayDiagnostics() {
     SmartDashboard.putNumber("Encoder Talon 1", getLeftEncoder());
     SmartDashboard.putNumber("Encoder Talon 3", getRightEncoder());
-    SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
-    SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
-    SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
   }
 
   /**
@@ -133,22 +128,4 @@ public class DriveSubsystem extends Subsystem {
     setDefaultCommand(new ArcadeDrive());
   }
 
-  /**
-   * Returns the yaw/pitch/roll from the Pigeon.
-   * 
-   * @return The an array of doubles with yaw as value 0, pitch as value 1, and
-   *         roll as value 2.
-   */
-  public double[] getPigeonYPR() {
-    double[] ypr_deg = new double[3];
-    pigeon.getYawPitchRoll(ypr_deg);
-    return ypr_deg;
-  }
-
-  /**
-   * Resets the Pigeon's yaw to 0.
-   */
-  public void resetPigeon() {
-    pigeon.setYaw(0);
-  }
 }
