@@ -1,7 +1,6 @@
 package frc.robot.commands.climb;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class LevelTwoClimbPhaseOne extends Command {
