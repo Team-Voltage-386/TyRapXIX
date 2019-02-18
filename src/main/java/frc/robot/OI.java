@@ -5,7 +5,11 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.climb.LevelThreeClimbGroup;
 import frc.robot.commands.climb.LevelTwoClimbGroup;
+import frc.robot.commands.arm.ArmCargoMode;
+import frc.robot.commands.arm.ArmHatchMode;
 import frc.robot.commands.drive.MAXSpeedArcadeDrive;
+import frc.robot.commands.manipulator.ManipulatorCargoMode;
+import frc.robot.commands.manipulator.ManipulatorHatchMode;
 import frc.robot.commands.drive.Shifter;
 
 /**
@@ -14,15 +18,18 @@ import frc.robot.commands.drive.Shifter;
  */
 public class OI {
 
-  // drive user inputs
-  public static final int DRIVE_LEFT_JOYSTICK_VERTICAL = 1;
-  public static final int DRIVE_RIGHT_JOYSTICK_HORIZONTAL = 4;
+  // joystick inputs
   public static final int MANIP_LEFT_JOYSTICK_VERTICAL = 1;
   public static final int MANIP_RIGHT_JOYSTICK_VERTICAL = 3;
+  public static final int DRIVE_LEFT_JOYSTICK_VERTICAL = 1;
+  public static final int DRIVE_RIGHT_JOYSTICK_HORIZONTAL = 4;
+  public static final int DRIVE_RIGHT_JOYSTICK_VERTICAL = 3;
+
+  // drive button inputs
   public static final int SPEED_MOD_BUTTON = 6;
   public static final int SHIFT_BUTTON = 5;
 
-  // button inputs
+  // manipulator button inputs
   public static final int FLOOR_PICKUP = 6; // right bumper
   public static final int CARGO_PLAYER_STATION_PICKUP = 1; // X button
   public static final int LEVEL_ONE_SELECTOR = 2; // A button
@@ -33,6 +40,7 @@ public class OI {
   public static final int OUTAKE = 7; // left trigger
   public static final int MANUAL_SHOULDER_AXIS = 1; // left joystick y
   public static final int MANUAL_ELBOW_AXIS = 3; // right joystick y
+  public static final int RESET_ARM = 8; // right trigger
 
   // manipulator mode buttons
   public static final int HATCH_MODE = 10; // start button
@@ -41,27 +49,22 @@ public class OI {
   public static final Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static final Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
-  private Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
-  private Button shifterButton = new JoystickButton(xboxDriveControl, SHIFT_BUTTON);
+  Button cargoModeButton = new JoystickButton(xboxManipControl, CARGO_MODE);
+  Button hatchModeButton = new JoystickButton(xboxManipControl, HATCH_MODE);
+  Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
+  Button shifterButton = new JoystickButton(xboxDriveControl, SHIFT_BUTTON);
 
-  // THESE BUTTONS ARE ALL TEMPORARY
-  // Button tempClimbArmsButton = new JoystickButton(xboxManipControl, 1);
   Button tempLvlTwoGroupButton = new JoystickButton(xboxManipControl, 1);
-  // Button tempDeployArms = new JoystickButton(xboxManipControl, 2);
-  Button tempUltrasonicDriveElevatorWheelsButton = new JoystickButton(xboxManipControl, 3);
-  Button tempLiftClimbLegsButton = new JoystickButton(xboxManipControl, 4);
   Button tempLvlThreeGroupButton = new JoystickButton(xboxManipControl, 2);
-  // THESE BUTTONS ARE ALL TEMPORARY
 
   public OI() {
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
-    // tempClimbArmsButton.whenPressed(new DeployClimbArms());
-    // tempDeployArms.whenPressed(new DeployClimbArms());
-    tempLvlThreeGroupButton.whenPressed(new LevelThreeClimbGroup());
-    tempLvlTwoGroupButton.whenPressed(new LevelTwoClimbGroup());
-    // tempUltrasonicDriveElevatorWheelsButton.whenPressed(new
-    // UltrasonicDriveElevatorWheels(30));
-    // tempLiftClimbLegsButton.whenPressed(new LiftClimbLegs());
+    tempLvlThreeGroupButton.whenPressed(new LevelThreeClimbGroup()); // TEMP
+    tempLvlTwoGroupButton.whenPressed(new LevelTwoClimbGroup()); // TEMP
+    cargoModeButton.whenPressed(new ManipulatorCargoMode());
+    cargoModeButton.whenPressed(new ArmCargoMode());
+    hatchModeButton.whenPressed(new ManipulatorHatchMode());
+    hatchModeButton.whenPressed(new ArmHatchMode());
   }
 }
