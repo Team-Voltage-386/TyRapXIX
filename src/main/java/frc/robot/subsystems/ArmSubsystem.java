@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.arm.ArmHatchMode;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 /**
  * The ArmSubsystem is responsible for the shoulder and elbow motor control.
@@ -31,7 +30,6 @@ public class ArmSubsystem extends Subsystem {
   // Constants for Calculations
   private final double shoulderPK = -30;
   private final double elbowPK = 0.5, elbowIK = 0.015, elbowDK = 1.25, elbowResetPK = 1.4;
-  private final double manualShoulderK = 0; // TEMP NEEDS TUNING
 
   // Position States
   private final double CARGO_FLOOR_SHOULDER = 0.0542;
@@ -166,9 +164,7 @@ public class ArmSubsystem extends Subsystem {
 
     // Switch-Case Loops for Elbow
     switch (inElbow) {
-    case manualControl:// NOT DONE HERE
-      // getElbowPosition() + (manualShoulderK *
-      // OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL)));
+    case manualControl:
       setElbowMotorSpeed(manualOverrideElbow);
       elbowI = 0;
       break;
