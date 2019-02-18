@@ -16,6 +16,7 @@ public class SetManipArm extends Command {
   public SetManipArm() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.armSubsystem);
   }
 
   // Called just before this Command runs the first time
@@ -27,7 +28,6 @@ public class SetManipArm extends Command {
   @Override
   protected void execute() {
     Robot.armSubsystem.setLevel(Levels.finalClimb, ElbowStates.reset, 0, 0);
-
   }
 
   // Make this return true when this Command no longer needs to run execute()

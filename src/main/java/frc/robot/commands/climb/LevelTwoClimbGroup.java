@@ -10,7 +10,6 @@ public class LevelTwoClimbGroup extends CommandGroup {
 
     addSequential(new Shifter(DoubleSolenoid.Value.kReverse));
     addSequential(new DeployClimbArms());
-    addSequential(new DownElevatorSeconds(0.25));
     addSequential(new LevelTwoClimbPhaseOne());
     // addParallel(new SetManipArm());
     addSequential(new UltrasonicDriveElevatorWheels(27));
