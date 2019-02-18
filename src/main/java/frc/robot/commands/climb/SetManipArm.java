@@ -14,6 +14,12 @@ import frc.robot.subsystems.ArmSubsystem.Levels;
 
 public class SetManipArm extends Command {
   public SetManipArm() {
+<<<<<<< HEAD
+=======
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(Robot.armSubsystem);
+>>>>>>> 01fcf979f53e98aa748c067b780c57b1abb03e37
   }
 
   @Override
@@ -23,7 +29,6 @@ public class SetManipArm extends Command {
   @Override
   protected void execute() {
     Robot.armSubsystem.setLevel(Levels.finalClimb, ElbowStates.reset, 0, 0);
-
   }
 
   @Override
