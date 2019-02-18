@@ -7,8 +7,8 @@ public class LevelThreeClimbPhaseOne extends Command {
 
   private boolean currentState = false, prevState = false;
   private int limitSwitchChanges;
-  private final double DEFAULT_ARM_SPEED = -1;
-  private final double DEFAULT_ELEVATOR_SPEED = -1;
+  private final double DEFAULT_ARM_SPEED = -1; // Moves Arms Out
+  private final double DEFAULT_ELEVATOR_SPEED = -1; // Moves Elevator Down
 
   public LevelThreeClimbPhaseOne() {
     requires(Robot.endgameClimbSubsystem);

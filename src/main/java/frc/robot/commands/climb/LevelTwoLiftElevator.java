@@ -5,6 +5,8 @@ import frc.robot.Robot;
 
 public class LevelTwoLiftElevator extends Command {
 
+  private final double ELEVATOR_MOTOR_SPEED = 1; // Moves Elevator Up
+
   public LevelTwoLiftElevator() {
     requires(Robot.endgameClimbSubsystem);
   }
@@ -16,7 +18,7 @@ public class LevelTwoLiftElevator extends Command {
   @Override
   protected void execute() {
     // Set elevator speed to retract
-    Robot.endgameClimbSubsystem.setElevatorSpeed(1);
+    Robot.endgameClimbSubsystem.setElevatorSpeed(ELEVATOR_MOTOR_SPEED);
   }
 
   @Override

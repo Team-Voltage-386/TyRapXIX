@@ -7,6 +7,7 @@ import frc.robot.Robot;
 public class DeployClimbArms extends Command {
 
   private double startTime;
+  private final double CLIMB_ARMS_SPEED = -1; // Negative Moves Arm Out
 
   public DeployClimbArms() {
     requires(Robot.endgameClimbSubsystem);
@@ -19,7 +20,7 @@ public class DeployClimbArms extends Command {
 
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem.setClimbArmSpeeds(-1); // Negative moves arms out
+    Robot.endgameClimbSubsystem.setClimbArmSpeeds(CLIMB_ARMS_SPEED);
   }
 
   @Override

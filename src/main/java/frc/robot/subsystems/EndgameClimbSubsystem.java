@@ -45,8 +45,11 @@ public class EndgameClimbSubsystem extends Subsystem {
     return elevatorLimitSwitch.get();
   }
 
+  /** ElevatorLimit, Arm PDP (4 and 11) */
   public void displayDiagnostics() {
     SmartDashboard.putBoolean("ElevatorLimitSwitch", getElevatorLimitSwitch());
+    SmartDashboard.putNumber("PDP 4 Current", getPDPCurrent(4));
+    SmartDashboard.putNumber("PDP 11 Current", getPDPCurrent(11));
   }
 
   public double getPDPCurrent(int pdpPort) {

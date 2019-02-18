@@ -7,8 +7,8 @@ public class LevelTwoClimbPhaseOne extends Command {
 
   private boolean currentState = false, prevState = false;
   private int limitSwitchChanges;
-  private final double DEFAULT_ARM_SPEED = -0.8;
-  private final double DEFAULT_ELEVATOR_SPEED = -0.8;
+  private final double DEFAULT_ARM_SPEED = -0.8; // Moves Climb Arms Out
+  private final double DEFAULT_ELEVATOR_SPEED = -0.8; // Moves Elevator Down
 
   public LevelTwoClimbPhaseOne() {
     requires(Robot.endgameClimbSubsystem);

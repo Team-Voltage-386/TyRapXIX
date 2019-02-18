@@ -6,6 +6,10 @@ import frc.robot.Robot;
 public class UltrasonicDriveElevatorWheels extends Command {
 
   private double distanceGoalInches;
+  private final double CLIMB_ARMS_HOLDING_SPEED = -0.4; // Push Down to Hold Front
+  private final double ELEVATOR_HOLDING_SPEED = -0.3; // Push Down to Hold Back
+  private final double ELEVATOR_WHEELS_SPEED = -0.8; // Drives Forwards
+  private final double DRIVE_WHEELS_SPEED = -0.6; // Drives Forwards
 
   public UltrasonicDriveElevatorWheels(double goal) {
     requires(Robot.endgameClimbSubsystem);
@@ -18,10 +22,10 @@ public class UltrasonicDriveElevatorWheels extends Command {
 
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem.setClimbArmSpeeds(-.4);
-    Robot.endgameClimbSubsystem.setElevatorSpeed(-.3);
-    Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(-0.8);
-    Robot.driveSubsystem.driveTank(-0.6, -0.6);
+    Robot.endgameClimbSubsystem.setClimbArmSpeeds(CLIMB_ARMS_HOLDING_SPEED);
+    Robot.endgameClimbSubsystem.setElevatorSpeed(ELEVATOR_HOLDING_SPEED);
+    Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(ELEVATOR_WHEELS_SPEED);
+    Robot.driveSubsystem.driveTank(DRIVE_WHEELS_SPEED, DRIVE_WHEELS_SPEED);
   }
 
   @Override

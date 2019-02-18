@@ -63,8 +63,6 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     SmartDashboard.putNumber("Front Ultrasonic", driveSubsystem.getUltrasonicDistance());
     SmartDashboard.putString("Current Climb Command", endgameClimbSubsystem.getCurrentCommandName());
-    SmartDashboard.putNumber("PDP 4 Current", endgameClimbSubsystem.getPDPCurrent(4));
-    SmartDashboard.putNumber("PDP 11 Current", endgameClimbSubsystem.getPDPCurrent(11));
     SmartDashboard.putString("ArmCurrentCommand", armSubsystem.getCurrentCommandName());
 
     driveSubsystem.displayDiagnostics();
