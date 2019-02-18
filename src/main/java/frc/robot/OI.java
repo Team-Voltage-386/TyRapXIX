@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.arm.ArmCargoMode;
 import frc.robot.commands.arm.ArmHatchMode;
-import frc.robot.commands.drive.MAXSpeedArcadeDrive;
 import frc.robot.commands.manipulator.ManipulatorCargoMode;
 import frc.robot.commands.manipulator.ManipulatorHatchMode;
 import frc.robot.commands.drive.Shifter;
@@ -50,7 +49,6 @@ public class OI {
   Button shifterButton = new JoystickButton(xboxDriveControl, SHIFT_BUTTON);
 
   public OI() {
-    maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
     cargoModeButton.whenPressed(new ManipulatorCargoMode());
     cargoModeButton.whenPressed(new ArmCargoMode());
