@@ -33,16 +33,14 @@ public class LevelTwoClimbPhaseOne extends Command {
     Robot.endgameClimbSubsystem.setClimbArmSpeeds(DEFAULT_ARM_SPEED);
     Robot.endgameClimbSubsystem.setElevatorSpeed(DEFAULT_ELEVATOR_SPEED);
     prevState = currentState;
-    SmartDashboard.putNumber("LimitSwitchChanges", limitSwitchChanges);
+    // SmartDashboard.putNumber("LimitSwitchChanges", limitSwitchChanges);
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return limitSwitchChanges > 0 && !Robot.endgameClimbSubsystem.getElevatorLimitSwitch();
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
   }

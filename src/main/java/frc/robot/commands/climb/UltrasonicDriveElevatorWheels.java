@@ -39,7 +39,7 @@ public class UltrasonicDriveElevatorWheels extends Command {
   protected void end() {
     Robot.driveSubsystem.driveTank(0, 0);
     Robot.endgameClimbSubsystem.setClimbArmSpeeds(0);
-    // Robot.endgameClimbSubsystem.setElevatorSpeed(0);
+    Robot.endgameClimbSubsystem.setElevatorSpeed(0);
     Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(0);
   }
 
