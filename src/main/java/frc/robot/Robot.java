@@ -1,8 +1,12 @@
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
@@ -30,12 +34,24 @@ public class Robot extends TimedRobot {
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+  NetworkTableEntry ballError;
+  NetworkTableEntry numberOfPairs;
+  NetworkTableEntry pairCenterPi;
+  NetworkTableEntry screenCenterPi;
+
+  double pairsNum;
+  public static double pairCenter;
+  public static double screenCenter;
+  public static double error;
+  double defaultValue;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
   @Override
   public void robotInit() {
+    defaultValue = -1.0;
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     /*
@@ -66,6 +82,21 @@ public class Robot extends TimedRobot {
     driveSubsystem.displayDiagnostics();
     armSubsystem.displayDiagnostics();
     manipulatorSubsystem.displayDiagnostics();
+
+    NetworkTableInstance testInstance = NetworkTableInstance.getDefault();
+    testInstance.startServer();
+    testInstance.setServerTeam(386, 1735);
+    NetworkTable table = testInstance.getTable("datatable");
+
+    ballError = table.getEntry("W");
+    numberOfPairs = table.getEntry("X");
+    pairCenterPi = table.getEntry("Y");
+    screenCenterPi = table.getEntry("Z");
+
+    error = ballError.getDouble(defaultValue);
+    pairsNum = numberOfPairs.getDouble(defaultValue);
+    pairCenter = pairCenterPi.getDouble(defaultValue);
+    screenCenter = screenCenterPi.getDouble(defaultValue);
   }
 
   /**

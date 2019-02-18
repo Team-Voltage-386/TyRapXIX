@@ -73,5 +73,4 @@ public class RobotMap {
   // limit switches
   public static int bottomShoulderLimitSwitch = 4;
   public static int easyButtonPort = 8;
-
 }
