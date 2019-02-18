@@ -1,6 +1,7 @@
 package frc.robot.commands.climb;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 /**
@@ -21,6 +22,7 @@ public class LevelThreeLiftElevator extends Command {
   @Override
   protected void initialize() {
     limitSwitchChanges = 0;
+    SmartDashboard.putString("Ended", "NOT ENDED");
   }
 
   @Override
@@ -34,6 +36,8 @@ public class LevelThreeLiftElevator extends Command {
     Robot.endgameClimbSubsystem.setElevatorSpeed(ELEVATOR_MOTOR_SPEED);
 
     prevState = currentState;
+
+    SmartDashboard.putNumber("LimitSwitchChanges", limitSwitchChanges);
   }
 
   @Override
@@ -44,6 +48,7 @@ public class LevelThreeLiftElevator extends Command {
   @Override
   protected void end() {
     Robot.endgameClimbSubsystem.setElevatorSpeed(0);
+    SmartDashboard.putString("Ended", "END");
   }
 
   @Override

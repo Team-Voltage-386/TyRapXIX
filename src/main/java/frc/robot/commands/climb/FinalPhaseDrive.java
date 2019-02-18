@@ -15,7 +15,6 @@ public class FinalPhaseDrive extends Command {
   private final double DRIVE_WHEELS_SPEED = -0.5; // Drives Forwards
 
   public FinalPhaseDrive(double goal) {
-    requires(Robot.endgameClimbSubsystem);
     requires(Robot.driveSubsystem);
     distanceGoalInches = goal;
   }

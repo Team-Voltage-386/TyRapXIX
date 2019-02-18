@@ -2,6 +2,7 @@ package frc.robot.commands.climb;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 /**
@@ -22,6 +23,7 @@ public class LiftElevatorSeconds extends Command {
 
   @Override
   protected void initialize() {
+    SmartDashboard.putString("Lift status", "lifting");
   }
 
   @Override
@@ -36,6 +38,7 @@ public class LiftElevatorSeconds extends Command {
 
   @Override
   protected void end() {
+    SmartDashboard.putString("Lift status", "ended");
   }
 
   @Override

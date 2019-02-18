@@ -26,8 +26,7 @@ public class SetManipArm extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.armSubsystem.setDesiredStateElbow(ElbowStates.reset);
-    Robot.armSubsystem.setDesiredStateShoulder(Levels.finalClimb);
+    Robot.armSubsystem.setLevel(Levels.finalClimb, ElbowStates.reset, 0, 0);
 
   }
 

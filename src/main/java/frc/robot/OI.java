@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.climb.CheckClimbLevel;
 import frc.robot.commands.arm.ArmCargoMode;
 import frc.robot.commands.arm.ArmHatchMode;
-import frc.robot.commands.drive.MAXSpeedArcadeDrive;
 import frc.robot.commands.manipulator.ManipulatorCargoMode;
 import frc.robot.commands.manipulator.ManipulatorHatchMode;
 import frc.robot.commands.drive.Shifter;
@@ -47,19 +46,19 @@ public class OI {
 
   public static final Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static final Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
+  public static final Joystick xboxTestControl = new Joystick(2);
 
   Button cargoModeButton = new JoystickButton(xboxManipControl, CARGO_MODE);
   Button hatchModeButton = new JoystickButton(xboxManipControl, HATCH_MODE);
   Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
   Button shifterButton = new JoystickButton(xboxDriveControl, SHIFT_BUTTON);
 
-  Button tempClimbGroupButton = new JoystickButton(xboxManipControl, 1); // TEMP
+  Button tempClimbGroupButton = new JoystickButton(xboxDriveControl, 1); // TEMP
 
   public OI() {
 
     tempClimbGroupButton.whenPressed(new CheckClimbLevel()); // Needs to be Tested
 
-    maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
     shifterButton.whenPressed(new Shifter());
     cargoModeButton.whenPressed(new ManipulatorCargoMode());
     cargoModeButton.whenPressed(new ArmCargoMode());
