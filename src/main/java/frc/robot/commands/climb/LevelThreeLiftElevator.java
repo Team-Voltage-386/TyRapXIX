@@ -53,5 +53,6 @@ public class LevelThreeLiftElevator extends Command {
 
   @Override
   protected void interrupted() {
+    Robot.endgameClimbSubsystem.setElevatorSpeed(0);
   }
 }

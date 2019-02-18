@@ -14,8 +14,8 @@ public class UltrasonicDriveElevatorWheels extends Command {
   private double distanceGoalInches;
   private final double CLIMB_ARMS_HOLDING_SPEED = -0.4; // Push Down to Hold Front
   private final double ELEVATOR_HOLDING_SPEED = -0.3; // Push Down to Hold Back
-  private final double ELEVATOR_WHEELS_SPEED = -0.8; // Drives Forwards
-  private final double DRIVE_WHEELS_SPEED = -0.6; // Drives Forwards
+  private final double ELEVATOR_WHEELS_SPEED = -0.6; // Drives Forwards
+  private final double DRIVE_WHEELS_SPEED = -0.4; // Drives Forwards
 
   public UltrasonicDriveElevatorWheels(double goal) {
     requires(Robot.endgameClimbSubsystem);
@@ -43,7 +43,7 @@ public class UltrasonicDriveElevatorWheels extends Command {
   protected void end() {
     Robot.driveSubsystem.driveTank(0, 0);
     Robot.endgameClimbSubsystem.setClimbArmSpeeds(0);
-    Robot.endgameClimbSubsystem.setElevatorSpeed(0);
+    Robot.endgameClimbSubsystem.setElevatorSpeed(0); // BAD COMMENT?
     Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(0);
   }
 
