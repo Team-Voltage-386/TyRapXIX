@@ -34,22 +34,22 @@ public class ArmCargoMode extends Command {
     }
     if (OI.xboxManipControl.getRawButton(OI.FLOOR_PICKUP)) {
       // Floor Pickup
-      set(Levels.cargoFloorPickup, ElbowStates.elbowCargoFloorPickup);
+      setLevels(Levels.cargoFloorPickup, ElbowStates.elbowCargoFloorPickup);
     } else if (OI.xboxManipControl.getRawButton(OI.CARGO_PLAYER_STATION_PICKUP)) {
       // Player Station
-      set(Levels.cargoPlayerStation, ElbowStates.reset);
+      setLevels(Levels.cargoPlayerStation, ElbowStates.reset);
     } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_ONE_SELECTOR)) {
       // Level One
-      set(Levels.cargoLevelOne, ElbowStates.perpendicular);
+      setLevels(Levels.cargoLevelOne, ElbowStates.perpendicular);
     } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_TWO_SELECTOR)) {
       // Level Two
-      set(Levels.cargoLevelTwo, ElbowStates.perpendicular);
+      setLevels(Levels.cargoLevelTwo, ElbowStates.perpendicular);
     } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_THREE_SELECTOR)) {
       // Level Three
-      set(Levels.cargoLevelThree, ElbowStates.perpendicular);
+      setLevels(Levels.cargoLevelThree, ElbowStates.perpendicular);
     } else if (OI.xboxManipControl.getRawButton(OI.RESET_ARM)) {
       // Reset
-      set(Levels.resetState, ElbowStates.reset);
+      setLevels(Levels.resetState, ElbowStates.reset);
     } else {
       // If no condition matches, then the desiredLevel value is left at its previous
       // state. Note that its starting state is initialized at the top of this class
@@ -76,7 +76,7 @@ public class ArmCargoMode extends Command {
   }
 
   /** Set Shoulder and Elbow Desired Levels */
-  private void set(Levels shoulder, ElbowStates elbow) {
+  private void setLevels(Levels shoulder, ElbowStates elbow) {
     Robot.armSubsystem.setDesiredStateShoulder(shoulder);
     Robot.armSubsystem.setDesiredStateElbow(elbow);
   }

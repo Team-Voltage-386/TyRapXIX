@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
 
-    SmartDashboard.putString("Mode", armSubsystem.getCurrentCommandName());
+    SmartDashboard.putString("ArmCurrentCommand", armSubsystem.getCurrentCommandName());
     driveSubsystem.displayDiagnostics();
     armSubsystem.displayDiagnostics();
     manipulatorSubsystem.displayDiagnostics();
