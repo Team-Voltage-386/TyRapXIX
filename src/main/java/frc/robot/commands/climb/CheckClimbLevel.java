@@ -8,6 +8,8 @@ import frc.robot.Robot;
  */
 public class CheckClimbLevel extends InstantCommand {
 
+  private final double ULTRASONIC_CHECKING_DISTANCE = 10;
+
   public CheckClimbLevel() {
     super();
     requires(Robot.endgameClimbSubsystem);
@@ -19,7 +21,8 @@ public class CheckClimbLevel extends InstantCommand {
    */
   @Override
   protected void initialize() {
-    if (Robot.driveSubsystem.getUltrasonicDistance() < 10) { // Temporary Number to Determine Which Climb to do
+    if (Robot.driveSubsystem.getUltrasonicDistance() < ULTRASONIC_CHECKING_DISTANCE) { // Temporary Number to Determine
+                                                                                       // Which Climb to do
       new LevelThreeClimbGroup().start();
     } else {
       new LevelTwoClimbGroup().start();

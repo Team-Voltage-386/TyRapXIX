@@ -10,7 +10,9 @@ import frc.robot.Robot;
 
 public class FinalPhaseDrive extends Command {
 
-  double distanceGoalInches;
+  private double distanceGoalInches;
+  private final double ELEVATOR_WHEELS_SPEED = -0.8; // Drives Forwards
+  private final double DRIVE_WHEELS_SPEED = -0.5; // Drives Forwards
 
   public FinalPhaseDrive(double goal) {
     requires(Robot.endgameClimbSubsystem);
@@ -24,8 +26,8 @@ public class FinalPhaseDrive extends Command {
 
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(-0.8);
-    Robot.driveSubsystem.driveTank(-0.5, -0.5);
+    Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(ELEVATOR_WHEELS_SPEED);
+    Robot.driveSubsystem.driveTank(DRIVE_WHEELS_SPEED, DRIVE_WHEELS_SPEED);
   }
 
   @Override

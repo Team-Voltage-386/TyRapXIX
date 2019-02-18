@@ -12,6 +12,7 @@ import frc.robot.Robot;
 public class LiftElevatorSeconds extends Command {
 
   private double startTime, liftDuration;
+  private final double ELEVATOR_MOTOR_SPEED = 1;
 
   public LiftElevatorSeconds(double time) {
     requires(Robot.endgameClimbSubsystem);
@@ -25,7 +26,7 @@ public class LiftElevatorSeconds extends Command {
 
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem.setElevatorSpeed(1);
+    Robot.endgameClimbSubsystem.setElevatorSpeed(ELEVATOR_MOTOR_SPEED);
   }
 
   @Override

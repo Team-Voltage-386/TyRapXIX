@@ -12,6 +12,8 @@ public class LevelThreeLiftElevator extends Command {
   private boolean currentState, prevState;
   private double limitSwitchChanges;
 
+  private final double ELEVATOR_MOTOR_SPEED = 1; // Moves Elevator Up
+
   public LevelThreeLiftElevator() {
     requires(Robot.endgameClimbSubsystem);
   }
@@ -29,7 +31,7 @@ public class LevelThreeLiftElevator extends Command {
       limitSwitchChanges++;
     }
 
-    Robot.endgameClimbSubsystem.setElevatorSpeed(1);
+    Robot.endgameClimbSubsystem.setElevatorSpeed(ELEVATOR_MOTOR_SPEED);
 
     prevState = currentState;
   }
