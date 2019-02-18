@@ -24,9 +24,9 @@ public class EndgameClimbSubsystem extends Subsystem { // CURRENT LIMITING ON CL
 
   private Spark leftClimbArm = new Spark(RobotMap.leftClimbArm);
   private Spark rightClimbArm = new Spark(RobotMap.rightClimbArm);
-  private WPI_TalonSRX climbElevatorMotor = new WPI_TalonSRX(RobotMap.rearElevatorMotor);
   private Spark climbElevatorWheels = new Spark(RobotMap.elevatorDriveWheels);
-  private DigitalInput elevatorLimitSwitch = new DigitalInput(RobotMap.elevatorLimitSwitch); // TEMP Port Number
+  private WPI_TalonSRX climbElevatorMotor = new WPI_TalonSRX(RobotMap.rearElevatorMotor);
+  private DigitalInput elevatorLimitSwitch = new DigitalInput(RobotMap.elevatorLimitSwitch);
 
   private PowerDistributionPanel pdp = new PowerDistributionPanel();
 

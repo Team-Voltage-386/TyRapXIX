@@ -34,7 +34,7 @@ public class LevelThreeClimbGroup extends CommandGroup {
     // arm.
     addSequential(new Shifter(DoubleSolenoid.Value.kReverse));
     addSequential(new DeployClimbArms());
-    addSequential(new ClimbPhaseOneLevelThree());
+    addSequential(new LevelThreeClimbPhaseOne());
     addSequential(new UltrasonicDriveElevatorWheels(27));
     addSequential(new LiftElevatorSeconds(0.25));
     addParallel(new LevelThreeLiftElevator());

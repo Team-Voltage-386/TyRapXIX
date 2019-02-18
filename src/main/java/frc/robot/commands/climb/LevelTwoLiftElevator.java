@@ -7,13 +7,12 @@
 
 package frc.robot.commands.climb;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class LevelTwoLiftElevator extends Command {
 
-  private double startTime, distanceGoalInches;
+  private double distanceGoalInches;
 
   public LevelTwoLiftElevator(double goal) {
     // Use requires() here to declare subsystem dependencies
@@ -25,7 +24,6 @@ public class LevelTwoLiftElevator extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run

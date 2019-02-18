@@ -11,16 +11,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
-public class ClimbPhaseOneLevelThree extends Command {
+public class LevelThreeClimbPhaseOne extends Command {
 
   private boolean currentState = false, prevState = false;
-  private double error, startPitch;
   private int limitSwitchChanges;
-  private final double K = 0; // TEMP THIS CONSTANT NEEDS TO BE GOTTEN BY TUNING
-  private final double DEFAULT_ARM_SPEED = -0.8; // TEMP THIS SPEED NEEDS TO BE TESTED
-  private final double DEFAULT_ELEVATOR_SPEED = -1; // TEMP THIS SPEED NEEDS TO BE TESTED
+  private final double DEFAULT_ARM_SPEED = -0.8;
+  private final double DEFAULT_ELEVATOR_SPEED = -1;
 
-  public ClimbPhaseOneLevelThree() {
+  public LevelThreeClimbPhaseOne() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.endgameClimbSubsystem);
@@ -30,7 +28,6 @@ public class ClimbPhaseOneLevelThree extends Command {
   @Override
   protected void initialize() {
     limitSwitchChanges = 0;
-    startPitch = Robot.driveSubsystem.getPigeonYPR()[1];
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -40,9 +37,8 @@ public class ClimbPhaseOneLevelThree extends Command {
     if (currentState != prevState) {
       limitSwitchChanges++;
     }
-    error = Robot.driveSubsystem.getPigeonYPR()[1] - startPitch; // Both drive and climb use Pigeon
-    Robot.endgameClimbSubsystem.setClimbArmSpeeds(DEFAULT_ARM_SPEED - (K * error));
-    Robot.endgameClimbSubsystem.setElevatorSpeed(DEFAULT_ELEVATOR_SPEED + (K * error));
+    Robot.endgameClimbSubsystem.setClimbArmSpeeds(DEFAULT_ARM_SPEED);
+    Robot.endgameClimbSubsystem.setElevatorSpeed(DEFAULT_ELEVATOR_SPEED);
     prevState = currentState;
     SmartDashboard.putNumber("LimitSwitchChanges", limitSwitchChanges);
   }
