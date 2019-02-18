@@ -14,8 +14,6 @@ import frc.robot.subsystems.ArmSubsystem.Levels;
 
 public class SetManipArm extends Command {
   public SetManipArm() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.armSubsystem);
   }
 
