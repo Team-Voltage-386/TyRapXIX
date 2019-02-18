@@ -12,7 +12,7 @@ import frc.robot.Robot;
  * Note that this command has a built in speed limiter.
  */
 public class ArcadeDrive extends Command {
-  private static final double SPEEEED_REDUCTION = 0.8;
+  private static final double SPEED_REDUCTION = 0.8;
 
   public ArcadeDrive() {
     requires(Robot.driveSubsystem);
@@ -30,7 +30,7 @@ public class ArcadeDrive extends Command {
   protected void execute() {
     double xSpeed = OI.xboxDriveControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL);
     double zRotation = OI.xboxDriveControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL);
-    Robot.driveSubsystem.driveArcade(xSpeed * SPEEEED_REDUCTION, -1 * zRotation);
+    Robot.driveSubsystem.driveArcade(xSpeed * SPEED_REDUCTION, -1 * zRotation);
   }
 
   // Make this return true when this Command no longer needs to run execute()

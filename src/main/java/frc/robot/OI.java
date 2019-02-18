@@ -47,7 +47,7 @@ public class OI {
   Button hatchModeButton = new JoystickButton(xboxManipControl, HATCH_MODE);
   Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
   // Temporary Button Numbers for all buttons not using RobotMap
-  Button shifterButton = new JoystickButton(xboxDriveControl, 5);
+  Button shifterButton = new JoystickButton(xboxDriveControl, SHIFT_BUTTON);
 
   public OI() {
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());

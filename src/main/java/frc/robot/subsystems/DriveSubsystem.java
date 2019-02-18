@@ -3,13 +3,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.drive.ArcadeDrive;
 
@@ -30,11 +28,11 @@ public class DriveSubsystem extends Subsystem {
   private static DifferentialDrive differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 
   /** threshold to trigger current limit */
-  private static final int PEAK_CURRENT_AMPS = 35;
+  private static final int PEAK_CURRENT_AMPS = 45;
   /** how long after Peak current to trigger current limit */
   private static final int PEAK_TIME_MS = 0;
   /* hold current after limit is triggered */
-  private static final int CONTIN_CURRENT_AMPS = 25;
+  private static final int CONTIN_CURRENT_AMPS = 39;
 
   private static final double OPEN_LOOP_RAMP_SECONDS = 0.1; // 100 milliseconds
 

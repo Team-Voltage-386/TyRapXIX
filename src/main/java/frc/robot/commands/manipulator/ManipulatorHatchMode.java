@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import frc.robot.OI;
 import frc.robot.Robot;
+import frc.robot.subsystems.ManipulatorSubsystem;
 
 public class ManipulatorHatchMode extends Command {
 
@@ -21,9 +22,9 @@ public class ManipulatorHatchMode extends Command {
   @Override
   protected void initialize() {
     // Closed HatchSolenoid
-    Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward);
+    Robot.manipulatorSubsystem.setHatchSolenoidState(ManipulatorSubsystem.HATCH_SOLENOID_CLOSED);
     // Not-Folded CargoSolenoid
-    Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kReverse);
+    Robot.manipulatorSubsystem.setModeSolenoidState(ManipulatorSubsystem.MODE_SOLENOID_HATCH);
     // Ensure that Cargo Intake Stops
     Robot.manipulatorSubsystem.setCargoIntakeSpeed(0);
   }
@@ -33,10 +34,10 @@ public class ManipulatorHatchMode extends Command {
   protected void execute() {
     if (OI.xboxManipControl.getRawButton(OI.INTAKE)) {
       // Opens HatchSolenoid
-      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward);
+      Robot.manipulatorSubsystem.setHatchSolenoidState(ManipulatorSubsystem.HATCH_SOLENOID_OPENED);
     } else if (OI.xboxManipControl.getRawButton(OI.OUTAKE)) {
       // Closes HatchSolenoid
-      Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kReverse);
+      Robot.manipulatorSubsystem.setHatchSolenoidState(ManipulatorSubsystem.HATCH_SOLENOID_CLOSED);
     }
   }
 

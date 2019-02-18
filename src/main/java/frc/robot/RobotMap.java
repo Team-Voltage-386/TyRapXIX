@@ -42,7 +42,7 @@ public class RobotMap {
   public static int distanceSensorEcho = 4;
   public static int analogUltrasonic = 0;
   public static final int ENCODER_PORT = 0;
-  public static int shoulderPotentiometer = 1; // TEMP PORT NUMBER
+  public static int shoulderPotentiometer = 1;
   public static int elbowPotentiometer = 2;
 
   /** Front left motor Talon Device ID: 1 */

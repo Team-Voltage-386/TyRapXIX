@@ -12,11 +12,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.ManipulatorSubsystem.CargoIntakeDirection;
+import frc.robot.subsystems.ManipulatorSubsystem;
 
 public class ManipulatorCargoMode extends Command {
 
   // Enumeration to Feed Into setCargoIntakeDirection Method
-  CargoIntakeDirection cargoIntakeDirection = CargoIntakeDirection.cargoOff;
+  CargoIntakeDirection cargoIntakeDirection = CargoIntakeDirection.cargoDefault;
 
   public ManipulatorCargoMode() {
     requires(Robot.manipulatorSubsystem);
@@ -25,9 +26,9 @@ public class ManipulatorCargoMode extends Command {
   @Override
   protected void initialize() {
     // Closes HatchSolenoid for Ball Intake
-    Robot.manipulatorSubsystem.setHatchSolenoidState(DoubleSolenoid.Value.kForward);
+    Robot.manipulatorSubsystem.setHatchSolenoidState(ManipulatorSubsystem.HATCH_SOLENOID_CLOSED);
     // Folds Back CargoSolenoid
-    Robot.manipulatorSubsystem.setCargoSolenoidState(DoubleSolenoid.Value.kForward);
+    Robot.manipulatorSubsystem.setModeSolenoidState(ManipulatorSubsystem.MODE_SOLENOID_CARGO);
   }
 
   @Override
@@ -39,8 +40,8 @@ public class ManipulatorCargoMode extends Command {
       // Initiate Cargo Outtake
       cargoIntakeDirection = CargoIntakeDirection.cargoOut;
     } else {
-      // This ensures that the motor actually stops when button is not pressed
-      cargoIntakeDirection = CargoIntakeDirection.cargoOff;
+      // Ensures That Cargo Intake Resumes Default Intake Speed
+      cargoIntakeDirection = CargoIntakeDirection.cargoDefault;
     }
     Robot.manipulatorSubsystem.setCargoIntakeDirection(cargoIntakeDirection);
   }

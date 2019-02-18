@@ -77,7 +77,7 @@ public class ArmHatchMode extends Command {
   protected void interrupted() {
   }
 
-  // Set Shoulder and Elbow Desired Levels
+  /** Set Shoulder and Elbow Desired Levels */
   private void set(Levels shoulder, ElbowStates elbow) {
     Robot.armSubsystem.setDesiredStateShoulder(shoulder);
     Robot.armSubsystem.setDesiredStateElbow(elbow);

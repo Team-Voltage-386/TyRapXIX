@@ -15,6 +15,12 @@ import frc.robot.commands.manipulator.ManipulatorHatchDefault;
  */
 public class ManipulatorSubsystem extends Subsystem {
 
+  // Solenoid State Constants
+  public static final Value HATCH_SOLENOID_OPENED = Value.kReverse;
+  public static final Value MODE_SOLENOID_HATCH = Value.kReverse;
+  public static final Value HATCH_SOLENOID_CLOSED = Value.kForward;
+  public static final Value MODE_SOLENOID_CARGO = Value.kForward;
+
   // Constant Speeds
   private static final double CARGO_INTAKE_SPEED = 1;
   private static final double CARGO_OUTTAKE_SPEED = -1;
@@ -27,7 +33,7 @@ public class ManipulatorSubsystem extends Subsystem {
   private static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
 
   // Solenoids
-  DoubleSolenoid cargoSolenoid = new DoubleSolenoid(RobotMap.beakRetractOpen, RobotMap.beakRetractClosed);
+  DoubleSolenoid modeSolenoid = new DoubleSolenoid(RobotMap.beakRetractOpen, RobotMap.beakRetractClosed);
   DoubleSolenoid hatchSolenoid = new DoubleSolenoid(RobotMap.hatchCaptureOpen, RobotMap.hatchCaptureClosed);
 
   // Talon Motors
@@ -47,9 +53,14 @@ public class ManipulatorSubsystem extends Subsystem {
 
   }
 
+  /** easyButton */
+  public void displayDiagnostics() {
+    SmartDashboard.putBoolean("easyButton", easyButton.get());
+  }
+
   /** Cargo State Enumerations used in ManipulatorMode Commands */
   public enum CargoIntakeDirection {
-    cargoOut, cargoIn, cargoOff;
+    cargoOut, cargoIn, cargoDefault;
   }
 
   /**
@@ -57,8 +68,8 @@ public class ManipulatorSubsystem extends Subsystem {
    * 
    * @param state A DoubleSolenoid state
    */
-  public void setCargoSolenoidState(Value state) {
-    cargoSolenoid.set(state);
+  public void setModeSolenoidState(Value state) {
+    modeSolenoid.set(state);
   }
 
   public void setHatchSolenoidState(Value state) {
@@ -79,18 +90,13 @@ public class ManipulatorSubsystem extends Subsystem {
       setCargoIntakeSpeed(CARGO_INTAKE_SPEED);
     } else if (direction == CargoIntakeDirection.cargoOut) {
       setCargoIntakeSpeed(CARGO_OUTTAKE_SPEED);
-    } else if (direction == CargoIntakeDirection.cargoOff) {
+    } else if (direction == CargoIntakeDirection.cargoDefault) {
       setCargoIntakeSpeed(DEFAULT_INTAKE_SPEED);
     }
   }
 
   public DoubleSolenoid.Value getHatchSolenoidState() {
     return hatchSolenoid.get();
-  }
-
-  // easyButton
-  public void displayDiagnostics() {
-    SmartDashboard.putBoolean("easyButton", easyButton.get());
   }
 
   @Override

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.arm.ArmHatchMode;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 /**
  * The ArmSubsystem is responsible for the shoulder and elbow motor control.
@@ -90,6 +91,16 @@ public class ArmSubsystem extends Subsystem {
     elbowMotor.enableCurrentLimit(true); /* honor initial setting */
     elbowMotor.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
 
+  }
+
+  /** Motor Power, Current, Potentiometers, Position */
+  public void displayDiagnostics() {
+    SmartDashboard.putNumber("Shoulder Raw Power", shoulderMotor.get());
+    SmartDashboard.putNumber("Shoulder Current", shoulderMotor.getOutputCurrent());
+    SmartDashboard.putNumber("Shoulder Potentiometer", shoulderPotentiometer.getAverageVoltage());
+    SmartDashboard.putNumber("Shoulder Position", getShoulderPosition());
+    SmartDashboard.putNumber("Elbow Potentiometer", getElbowPotentiometerVoltage());
+    SmartDashboard.putNumber("Elbow Raw Power", elbowMotor.get());
   }
 
   /** Shoulder Enumerations used in CargoMode and HatchMode Commands */
@@ -322,16 +333,6 @@ public class ArmSubsystem extends Subsystem {
     elbowResetP = error * elbowResetPK;
     elbowPower = elbowResetP;
     setElbowMotorSpeed(elbowPower);
-  }
-
-  /* Motor Power, Current, Potentiometers, Position */
-  public void displayDiagnostics() {
-    SmartDashboard.putNumber("Shoulder Raw Power", shoulderMotor.get());
-    SmartDashboard.putNumber("Shoulder Current", shoulderMotor.getOutputCurrent());
-    SmartDashboard.putNumber("Shoulder Potentiometer", shoulderPotentiometer.getAverageVoltage());
-    SmartDashboard.putNumber("Shoulder Position", getShoulderPosition());
-    SmartDashboard.putNumber("Elbow Potentiometer", getElbowPotentiometerVoltage());
-    SmartDashboard.putNumber("Elbow Raw Power", elbowMotor.get());
   }
 
   @Override

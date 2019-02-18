@@ -38,15 +38,17 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", m_chooser);
-    SmartDashboard.putNumber("elbowPK ", 1.2);
-    SmartDashboard.putNumber("elbowIK ", 0.02);
-    SmartDashboard.putNumber("elbowDK ", 0);
-    SmartDashboard.putNumber("shoulderPK ", -25);
-    SmartDashboard.putNumber("shoulderDK ", 0);
-    SmartDashboard.putNumber("shoulderIK ", 0);
-    SmartDashboard.putNumber("elbowResetPK ", 1.4);
-    SmartDashboard.putNumber("Downwards Elbow Limiter", 0.8);
+    /*
+     * SmartDashboard.putData("Auto mode", m_chooser);
+     * SmartDashboard.putNumber("elbowPK ", 1.2);
+     * SmartDashboard.putNumber("elbowIK ", 0.02);
+     * SmartDashboard.putNumber("elbowDK ", 0);
+     * SmartDashboard.putNumber("shoulderPK ", -25);
+     * SmartDashboard.putNumber("shoulderDK ", 0);
+     * SmartDashboard.putNumber("shoulderIK ", 0);
+     * SmartDashboard.putNumber("elbowResetPK ", 1.4);
+     * SmartDashboard.putNumber("Downwards Elbow Limiter", 0.8);
+     */
   }
 
   /**
@@ -59,9 +61,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("Yaw Degree", Robot.driveSubsystem.getPigeonYPR()[0]);
-    SmartDashboard.putNumber("Pitch Degree", Robot.driveSubsystem.getPigeonYPR()[1]);
-    SmartDashboard.putNumber("Roll Degree", Robot.driveSubsystem.getPigeonYPR()[2]);
 
     SmartDashboard.putString("Mode", armSubsystem.getCurrentCommandName());
     driveSubsystem.displayDiagnostics();
