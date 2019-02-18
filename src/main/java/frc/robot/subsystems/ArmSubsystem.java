@@ -43,7 +43,7 @@ public class ArmSubsystem extends Subsystem {
   private final double HATCH_LEVEL_THREE_SHOULDER = 0.943;
   private final double RESET_SHOULDER = 0.0;
   private final double RESET_ELBOW = 4.8;
-  private final double PERPENDICULAR_ELBOW = 3.74;
+  private final double PERPENDICULAR_ELBOW = 3.85;
   private final double PARALLEL_ELBOW = 1.57;
   private final double CARGO_FLOOR_ELBOW = 2.415;
   private static final double HUMAN_PLAYER_ELBOW = 3.5; // TEMP

@@ -57,6 +57,6 @@ public class OI {
     cargoModeButton.whenPressed(new ArmCargoMode());
     hatchModeButton.whenPressed(new ManipulatorHatchMode());
     hatchModeButton.whenPressed(new ArmHatchMode());
-    goToTargetButton.whenPressed(new GoToTarget());
+    goToTargetButton.whileHeld(new GoToTarget());
   }
 }

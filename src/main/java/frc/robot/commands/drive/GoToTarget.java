@@ -44,9 +44,9 @@ public class GoToTarget extends Command {
       prevError = error;
       error = (Robot.pairCenter - Robot.screenCenter);
 
-      p = error * 0.001;
+      p = error * SmartDashboard.getNumber("kp", 0.001);
       i += error * -0;
-      d = (error - prevError) * 0.01;
+      d = (error - prevError) * SmartDashboard.getNumber("kd", 0.01);
 
       Robot.driveSubsystem.driveTank((OI.xboxDriveControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) + p + d + i),
           OI.xboxDriveControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) - p - d - i);

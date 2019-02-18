@@ -53,6 +53,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     defaultValue = -1.0;
     m_oi = new OI();
+    SmartDashboard.putNumber("kp", 0.001);
+    SmartDashboard.putNumber("kd", 0.01);
     // chooser.addOption("My Auto", new MyAutoCommand());
     /*
      * SmartDashboard.putData("Auto mode", m_chooser);
@@ -97,6 +99,10 @@ public class Robot extends TimedRobot {
     pairsNum = numberOfPairs.getDouble(defaultValue);
     pairCenter = pairCenterPi.getDouble(defaultValue);
     screenCenter = screenCenterPi.getDouble(defaultValue);
+
+    SmartDashboard.putNumber("Pairs", pairsNum);
+    SmartDashboard.putNumber("Center of best pair", pairCenter);
+
   }
 
   /**
