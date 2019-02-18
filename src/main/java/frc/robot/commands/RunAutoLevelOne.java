@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
+import frc.robot.subsystems.ArmSubsystem.ElbowStates;
 import frc.robot.subsystems.ArmSubsystem.Levels;
 
 /**
@@ -31,9 +32,9 @@ public class RunAutoLevelOne extends InstantCommand {
     if (Robot.driveSubsystem.getUltrasonicVoltage() > Robot.driveSubsystem.MINIMUM_CLEARANCE_DISTANCE) {
       /** Needs testing - solenoid states may be reversed */
       if (Robot.manipulatorSubsystem.getCargoSolenoidState() == Value.kForward) {
-        new AutoScoringGroup(Levels.cargoLevelOne).start();
+        new AutoScoringGroup(Levels.cargoLevelOne, ElbowStates.parallel).start();
       } else if (Robot.manipulatorSubsystem.getCargoSolenoidState() == Value.kReverse) {
-        new AutoScoringGroup(Levels.hatchLevelOne).start();
+        new AutoScoringGroup(Levels.hatchLevelOne, ElbowStates.parallel).start();
       }
     } else {
     }

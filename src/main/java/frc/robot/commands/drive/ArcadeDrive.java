@@ -1,29 +1,36 @@
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
 /**
- * setup used to run the driver controller in Tank Drive. In this mode, <em>Left
- * Analog Stick</em> controls the left motors on the robot, and <em>Right Analog
- * Stick</em> controls the right side of the robot
+ * Command used to run the driver controller in arcade drive. <em>Left Analog Y
+ * Axis</em> goes forward, and <em>Right Analog X Axis</em> (Left/Right) turn
+ * the robot.
+ * 
+ * Note that this command has a built in speed limiter.
  */
-public class TankDrive extends Command {
-  public TankDrive() {
+public class ArcadeDrive extends Command {
+  private static final double SPEED_REDUCTION = 0.8;
+
+  public ArcadeDrive() {
     requires(Robot.driveSubsystem);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    // Called repeatedly when this Command is scheduled to run
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveSubsystem.driveTank(OI.xboxDriveControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL),
-        OI.xboxDriveControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL));
+    double xSpeed = OI.xboxDriveControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL);
+    double zRotation = OI.xboxDriveControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL);
+    Robot.driveSubsystem.driveArcade(xSpeed * SPEED_REDUCTION, -1 * zRotation);
   }
 
   // Make this return true when this Command no longer needs to run execute()

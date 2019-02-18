@@ -3,11 +3,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.MAXSpeedArcadeDrive;
-import frc.robot.commands.Shifter;
 import frc.robot.commands.RunAutoLevelOne;
 import frc.robot.commands.RunAutoLevelTwo;
 import frc.robot.commands.RunAutoLevelThree;
+import frc.robot.commands.arm.ArmCargoMode;
+import frc.robot.commands.arm.ArmHatchMode;
+import frc.robot.commands.drive.MAXSpeedArcadeDrive;
+import frc.robot.commands.manipulator.ManipulatorCargoMode;
+import frc.robot.commands.manipulator.ManipulatorHatchMode;
+import frc.robot.commands.drive.Shifter;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -17,7 +21,8 @@ public class OI {
 
   // drive user inputs
   public static final int DRIVE_LEFT_JOYSTICK_VERTICAL = 1;
-  public static final int DRIVE_RIGHT_JOYSTICK_HORIZONTAL = 4;
+  public static final int DRIVE_RIGHT_JOYSTICK_HORIZONTAL = 4; // TEMP
+  public static final int DRIVE_RIGHT_JOYSTICK_VERTICAL = 3;
   public static final int SPEED_MOD_BUTTON = 6;
   public static final int SHIFT_BUTTON = 5;
 
@@ -32,6 +37,7 @@ public class OI {
   public static final int OUTAKE = 7; // left trigger
   public static final int MANUAL_SHOULDER_AXIS = 1; // left joystick y
   public static final int MANUAL_ELBOW_AXIS = 3; // right joystick y
+  public static final int RESET_ARM = 8; // right trigger
 
   // manipulator mode buttons
   public static final int HATCH_MODE = 10; // start button
@@ -40,11 +46,15 @@ public class OI {
   public static final Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static final Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
 
+  Button cargoModeButton = new JoystickButton(xboxManipControl, CARGO_MODE);
+  Button hatchModeButton = new JoystickButton(xboxManipControl, HATCH_MODE);
   Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
-  Button shifterButton = new JoystickButton(xboxDriveControl, 5);
-  Button autoLevelOne = new JoystickButton(xboxDriveControl, 1); // TEMP
-  Button autoLevelTwo = new JoystickButton(xboxDriveControl, 2); // TEMP
-  Button autoLevelThree = new JoystickButton(xboxDriveControl, 3); // TEMP
+  Button shifterButton = new JoystickButton(xboxDriveControl, SHIFT_BUTTON);
+
+  // TEMP BUTTONS
+  Button autoLevelOne = new JoystickButton(xboxDriveControl, 2);
+  Button autoLevelTwo = new JoystickButton(xboxDriveControl, 3);
+  Button autoLevelThree = new JoystickButton(xboxDriveControl, 4);
 
   public OI() {
     maxSpeeedButton.whileHeld(new MAXSpeedArcadeDrive());
@@ -52,5 +62,9 @@ public class OI {
     autoLevelOne.whenPressed(new RunAutoLevelOne());
     autoLevelTwo.whenPressed(new RunAutoLevelTwo());
     autoLevelThree.whenPressed(new RunAutoLevelThree());
+    cargoModeButton.whenPressed(new ManipulatorCargoMode());
+    cargoModeButton.whenPressed(new ArmCargoMode());
+    hatchModeButton.whenPressed(new ManipulatorHatchMode());
+    hatchModeButton.whenPressed(new ArmHatchMode());
   }
 }

@@ -9,17 +9,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.subsystems.ArmSubsystem.Levels;
+import frc.robot.subsystems.ArmSubsystem.ElbowStates;
 
 public class AutoScoringGroup extends CommandGroup {
   /**
    * Add your docs here.
    */
 
-  public AutoScoringGroup(Levels level) {
+  public AutoScoringGroup(Levels inShoulder, ElbowStates inElbow) {
 
     // addSequential(new TurnToTarget());
-    addSequential(new LiftArms(level));
-    addSequential(new DriveFullyForward(level));
+    addSequential(new LiftArms(inShoulder, inElbow));
+    addSequential(new DriveFullyForward(inShoulder, inElbow));
     addSequential(new DeployObject());
     addSequential(new BackUp());
     addSequential(new ResetArm());

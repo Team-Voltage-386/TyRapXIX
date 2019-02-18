@@ -9,20 +9,24 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.ArmSubsystem.ElbowStates;
 import frc.robot.subsystems.ArmSubsystem.Levels;
 
 public class DriveFullyForward extends Command {
 
-  private Levels level;
+  private Levels inShoulder;
+  private ElbowStates inElbow;
   private double error, ultrasonicGoalVoltage;
   private final double DEFAULT_FORWARD_SPEED = 0.4; // TEMP NEEDS TO BE TESTED
   private final double k = 0; // TEMP NEEDS TO BE TESTED FOR GYRO COMPENSATION
 
-  public DriveFullyForward(Levels levelInput) {
+  public DriveFullyForward(Levels shoulderInput, ElbowStates elbowInput) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(Robot.driveSubsystem);
-    level = levelInput;
+    inShoulder = shoulderInput;
+    inElbow = elbowInput;
+
   }
 
   // Called just before this Command runs the first time
@@ -48,9 +52,7 @@ public class DriveFullyForward extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    error = Robot.driveSubsystem.getPigeonYPR()[0];
-    // - and + may be backwards
-    Robot.driveSubsystem.driveTank(DEFAULT_FORWARD_SPEED - (error * k), DEFAULT_FORWARD_SPEED + (error * k));
+    Robot.driveSubsystem.driveTank(DEFAULT_FORWARD_SPEED, DEFAULT_FORWARD_SPEED);
   }
 
   // Make this return true when this Command no longer needs to run execute()
