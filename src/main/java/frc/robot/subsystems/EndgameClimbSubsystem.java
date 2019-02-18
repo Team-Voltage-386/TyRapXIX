@@ -13,8 +13,8 @@ import frc.robot.commands.climb.ManualClimb;
 /**
  * Add your docs here.
  */
-public class EndgameClimbSubsystem extends Subsystem { // CURRENT LIMITING ON CLIMB TALON
-
+public class EndgameClimbSubsystem extends Subsystem {
+  // CURRENT LIMITS ON ELEVATOR TALON
   private Spark leftClimbArm = new Spark(RobotMap.leftClimbArm);
   private Spark rightClimbArm = new Spark(RobotMap.rightClimbArm);
   private Spark climbElevatorWheels = new Spark(RobotMap.elevatorDriveWheels);
@@ -23,13 +23,8 @@ public class EndgameClimbSubsystem extends Subsystem { // CURRENT LIMITING ON CL
 
   private PowerDistributionPanel pdp = new PowerDistributionPanel();
 
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
     setDefaultCommand(new ManualClimb());
   }
 

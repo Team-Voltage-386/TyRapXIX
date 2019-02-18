@@ -11,20 +11,17 @@ public class LevelTwoClimbPhaseOne extends Command {
   private final double DEFAULT_ELEVATOR_SPEED = -1;
 
   public LevelTwoClimbPhaseOne() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.endgameClimbSubsystem);
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     limitSwitchChanges = 0;
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    // Counts limit switch changes
     currentState = Robot.endgameClimbSubsystem.getElevatorLimitSwitch();
     if (currentState != prevState) {
       limitSwitchChanges++;
@@ -44,8 +41,6 @@ public class LevelTwoClimbPhaseOne extends Command {
   protected void end() {
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
   }

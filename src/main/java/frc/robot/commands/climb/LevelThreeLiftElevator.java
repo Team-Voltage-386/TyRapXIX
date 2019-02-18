@@ -9,20 +9,17 @@ public class LevelThreeLiftElevator extends Command {
   private double limitSwitchChanges;
 
   public LevelThreeLiftElevator() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
     requires(Robot.endgameClimbSubsystem);
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     limitSwitchChanges = 0;
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    // Counts limit switch changes
     currentState = Robot.endgameClimbSubsystem.getElevatorLimitSwitch();
     if (currentState != prevState) {
       limitSwitchChanges++;
@@ -33,20 +30,16 @@ public class LevelThreeLiftElevator extends Command {
     prevState = currentState;
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return limitSwitchChanges > 2 && !Robot.endgameClimbSubsystem.getElevatorLimitSwitch();
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
     Robot.endgameClimbSubsystem.setElevatorSpeed(0);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
   }

@@ -5,9 +5,7 @@ import frc.robot.commands.drive.Shifter;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class LevelThreeClimbGroup extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
+
   public LevelThreeClimbGroup() {
 
     addSequential(new Shifter(DoubleSolenoid.Value.kReverse));
