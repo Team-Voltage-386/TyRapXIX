@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.climb.CheckClimbLevel;
 import frc.robot.commands.arm.ArmCargoMode;
 import frc.robot.commands.arm.ArmHatchMode;
 import frc.robot.commands.manipulator.ManipulatorCargoMode;
@@ -15,14 +16,18 @@ import frc.robot.commands.drive.Shifter;
  */
 public class OI {
 
-  // drive user inputs
+  // joystick inputs
+  public static final int MANIP_LEFT_JOYSTICK_VERTICAL = 1;
+  public static final int MANIP_RIGHT_JOYSTICK_VERTICAL = 3;
   public static final int DRIVE_LEFT_JOYSTICK_VERTICAL = 1;
-  public static final int DRIVE_RIGHT_JOYSTICK_HORIZONTAL = 4; // TEMP
+  public static final int DRIVE_RIGHT_JOYSTICK_HORIZONTAL = 4;
   public static final int DRIVE_RIGHT_JOYSTICK_VERTICAL = 3;
+
+  // drive button inputs
   public static final int SPEED_MOD_BUTTON = 6;
   public static final int SHIFT_BUTTON = 5;
 
-  // button inputs
+  // manipulator button inputs
   public static final int FLOOR_PICKUP = 6; // right bumper
   public static final int CARGO_PLAYER_STATION_PICKUP = 1; // X button
   public static final int LEVEL_ONE_SELECTOR = 2; // A button
@@ -41,14 +46,19 @@ public class OI {
 
   public static final Joystick xboxDriveControl = new Joystick(RobotMap.driveControllerPort);
   public static final Joystick xboxManipControl = new Joystick(RobotMap.manipControllerPort);
+  public static final Joystick xboxTestControl = new Joystick(2);
 
   Button cargoModeButton = new JoystickButton(xboxManipControl, CARGO_MODE);
   Button hatchModeButton = new JoystickButton(xboxManipControl, HATCH_MODE);
   Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
-  // Temporary Button Numbers for all buttons not using RobotMap
   Button shifterButton = new JoystickButton(xboxDriveControl, SHIFT_BUTTON);
 
+  Button tempClimbGroupButton = new JoystickButton(xboxDriveControl, 1); // TEMP
+
   public OI() {
+
+    tempClimbGroupButton.whenPressed(new CheckClimbLevel()); // Needs to be Tested
+
     shifterButton.whenPressed(new Shifter());
     cargoModeButton.whenPressed(new ManipulatorCargoMode());
     cargoModeButton.whenPressed(new ArmCargoMode());
