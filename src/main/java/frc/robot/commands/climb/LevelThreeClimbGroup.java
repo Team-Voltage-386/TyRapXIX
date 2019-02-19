@@ -12,7 +12,7 @@ public class LevelThreeClimbGroup extends CommandGroup {
     addSequential(new DeployClimbArms());
     addSequential(new LevelThreeClimbPhaseOne());
     // addParallel(new SetManipArm());
-    addSequential(new UltrasonicDriveElevatorWheels(27));
+    addSequential(new UltrasonicDriveElevatorWheels(27)); // less holding power for climb arms
     addSequential(new LiftElevatorSeconds(0.25));
     addParallel(new LevelThreeLiftElevator());
     addSequential(new FinalPhaseDrive(18));
