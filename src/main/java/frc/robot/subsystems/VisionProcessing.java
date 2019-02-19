@@ -74,10 +74,10 @@ public class VisionProcessing extends Subsystem {
   Size dilateSize = new Size(10, 10);
   Size edgeDilateSize = new Size(4, 4);
 
-  double[][] matArrayK = new double[][] { { 90.90096432173249, 0.0, 170.0017242958659 },
-      { 0.0, 121.0497364596671, 122.79000533774406 }, { 0.0, 0.0, 1.0 } };
-  double[][] matArrayD = new double[][] { { -0.0422236020563117 }, { 0.0060033988459270386 }, { -0.019605213853455674 },
-      { 0.006526951748079306 } };
+  double[][] matArrayK = new double[][] { { 90.91014289083918, 0.0, 169.08644162302508 },
+      { 0.0, 121.2050237039938, 122.413423825152 }, { 0.0, 0.0, 1.0 } };
+  double[][] matArrayD = new double[][] { { -0.03667242122705496 }, { -0.007197203576932934 },
+      { -0.010108381049152206 }, { 0.0040492602483107815 } };
 
   public double getAngle(RotatedRect calculatedRect) {
     if (calculatedRect.size.width < calculatedRect.size.height) {
@@ -142,18 +142,19 @@ public class VisionProcessing extends Subsystem {
       }
 
       TestOutputStream.putFrame(base);
-      Imgproc.undistort(base, mat, flatMatK, flatMatD);
-      Imgproc.undistort(base, flatBase, flatMatK, flatMatD);
-      FlatOutputStream.putFrame(mat);
 
       // Blurs the image for ease of processing
-      Imgproc.blur(mat, mat, blurSize);
+      Imgproc.blur(base, mat, blurSize);
       // Converts from the RGB scale to HSV because HSV is more useful
       Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2HSV);
 
-      // COnverst Mat to a black and white image where pixils in the given range
+      // Converts Mat to a black and white image where pixils in the given range
       // appear white
       Core.inRange(mat, colorStart, colorEnd, mat);
+
+      Imgproc.undistort(mat, testMat, flatMatK, flatMatD);
+      Imgproc.undistort(mat, flatBase, flatMatK, flatMatD);
+      FlatOutputStream.putFrame(testMat);
 
       // Imgproc.erode(mat, mat, dilateElement);
       // Imgproc.dilate(mat, mat, erodeElement);
@@ -162,7 +163,7 @@ public class VisionProcessing extends Subsystem {
       hierarchy = new Mat();
 
       // Find contours
-      Imgproc.findContours(mat, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
+      Imgproc.findContours(testMat, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
 
       ArrayList<RotatedRect> rects = new ArrayList<>();
 
@@ -197,7 +198,7 @@ public class VisionProcessing extends Subsystem {
       }
 
       HSVOutputStream.putFrame(flatBase);
-      TestOutputStream.putFrame(mat);
+      TestOutputStream.putFrame(testMat);
     }
     return pairs;
   }
