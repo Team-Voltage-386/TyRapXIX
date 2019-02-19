@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,6 +27,8 @@ public class DriveSubsystem extends Subsystem {
   private static DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.shifterLow, RobotMap.shifterHigh);
 
   private static DifferentialDrive differentialDrive = new DifferentialDrive(frontLeft, frontRight);
+
+  private static Ultrasonic ultrasonic = new Ultrasonic(RobotMap.ultrasonicPing, RobotMap.ultrasonicEcho);
 
   /** threshold to trigger current limit */
   private static final int PEAK_CURRENT_AMPS = 45;
@@ -58,6 +61,8 @@ public class DriveSubsystem extends Subsystem {
 
     frontRight.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
     frontLeft.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
+
+    ultrasonic.setAutomaticMode(true);
   }
 
   /**
@@ -105,6 +110,10 @@ public class DriveSubsystem extends Subsystem {
     }
   }
 
+  public void setShiftSolenoid(DoubleSolenoid.Value state) {
+    shifter.set(state);
+  }
+
   /** Resets the Encoder tick values */
   public void resetEncoders() {
     frontLeft.setSelectedSensorPosition(0);
@@ -124,6 +133,10 @@ public class DriveSubsystem extends Subsystem {
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new ArcadeDrive());
+  }
+
+  public double getUltrasonicDistance() {
+    return ultrasonic.getRangeInches();
   }
 
 }

@@ -79,10 +79,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-
+    SmartDashboard.putNumber("Front Ultrasonic", driveSubsystem.getUltrasonicDistance());
+    SmartDashboard.putString("Current Climb Command", endgameClimbSubsystem.getCurrentCommandName());
     SmartDashboard.putString("ArmCurrentCommand", armSubsystem.getCurrentCommandName());
+
     driveSubsystem.displayDiagnostics();
     armSubsystem.displayDiagnostics();
+    endgameClimbSubsystem.displayDiagnostics();
     manipulatorSubsystem.displayDiagnostics();
 
     NetworkTableInstance testInstance = NetworkTableInstance.getDefault();

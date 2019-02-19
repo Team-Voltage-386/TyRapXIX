@@ -71,6 +71,13 @@ public class RobotMap {
   public static int driveRightEncoder = 4;
 
   // limit switches
+  public static int bottomArmLimitSwitch = 4;
+  public static int elevatorLimitSwitch = 9;
+
+  // Sensors
+  public static int driveUltrasonicPort = 0; // TEMP
+  public static int ultrasonicPing = 3;
+  public static int ultrasonicEcho = 4;
   public static int bottomShoulderLimitSwitch = 4;
   public static int easyButtonPort = 8;
 }
