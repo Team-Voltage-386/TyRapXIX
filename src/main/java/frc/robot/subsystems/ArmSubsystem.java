@@ -44,7 +44,7 @@ public class ArmSubsystem extends Subsystem {
   private final double FINAL_CLIMB_SHOULDER = 0.158;
   private final double RESET_SHOULDER = 0.0;
   private final double RESET_ELBOW = 4.8;
-  private final double PERPENDICULAR_ELBOW = 3.74;
+  private final double PERPENDICULAR_ELBOW = 3.85;
   private final double PARALLEL_ELBOW = 1.57;
   private final double CARGO_FLOOR_ELBOW = 2.415;
   private static final double HUMAN_PLAYER_ELBOW = 3.5; // TEMP
@@ -57,7 +57,7 @@ public class ArmSubsystem extends Subsystem {
 
   // Speed Limiters for
   private final double UPWARDS_SHOULDER_LIMITER = 1;
-  private final double DOWNWARDS_SHOULDER_LIMITER = 0.3;
+  private final double DOWNWARDS_SHOULDER_LIMITER = 0.85;
   private final double UPWARDS_ELBOW_LIMITER = 1;
   private final double DOWNWARDS_ELBOW_LIMITER = 0.6;
 
