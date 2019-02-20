@@ -38,7 +38,7 @@ public class DriveSubsystem extends Subsystem {
   private static WPI_TalonSRX frontLeft = new WPI_TalonSRX(RobotMap.frontLeft);
   private static WPI_TalonSRX frontRight = new WPI_TalonSRX(RobotMap.frontRight);
   private static WPI_TalonSRX slaveLeft = new WPI_TalonSRX(RobotMap.rearLeftFollower);
-  private static WPI_VictorSPX slaveRight = new WPI_VictorSPX(RobotMap.rearRightFollower);
+  private static WPI_TalonSRX slaveRight = new WPI_TalonSRX(RobotMap.rearRightFollower);
 
   public static int ENCODER_TIMEOUT = 10; // in milliseconds
 
@@ -66,15 +66,17 @@ public class DriveSubsystem extends Subsystem {
     resetEncoder();
     resetPigeon();
 
-    frontLeft.configPeakCurrentLimit(kPeakCurrentAmps, 10);
-    frontLeft.configPeakCurrentDuration(kPeakTimeMs, 10); /* this is a necessary call to avoid errata. */
-    frontLeft.configContinuousCurrentLimit(kContinCurrentAmps, 10);
-    frontLeft.enableCurrentLimit(true); /* honor initial setting */
+    // frontLeft.configPeakCurrentLimit(kPeakCurrentAmps, 10);
+    // frontLeft.configPeakCurrentDuration(kPeakTimeMs, 10); /* this is a necessary
+    // call to avoid errata. */
+    // frontLeft.configContinuousCurrentLimit(kContinCurrentAmps, 10);
+    // frontLeft.enableCurrentLimit(false); /* honor initial setting */
 
-    frontRight.configPeakCurrentLimit(kPeakCurrentAmps, 10);
-    frontRight.configPeakCurrentDuration(kPeakTimeMs, 10); /* this is a necessary call to avoid errata. */
-    frontRight.configContinuousCurrentLimit(kContinCurrentAmps, 10);
-    frontRight.enableCurrentLimit(true); /* honor initial setting */
+    // frontRight.configPeakCurrentLimit(kPeakCurrentAmps, 10);
+    // frontRight.configPeakCurrentDuration(kPeakTimeMs, 10); /* this is a necessary
+    // call to avoid errata. */
+    // frontRight.configContinuousCurrentLimit(kContinCurrentAmps, 10);
+    // frontRight.enableCurrentLimit(false); /* honor initial setting */
 
     frontRight.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS, NO_TIMEOUT);
     frontLeft.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS, NO_TIMEOUT);

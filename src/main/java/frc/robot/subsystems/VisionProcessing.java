@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
@@ -38,8 +39,8 @@ public class VisionProcessing extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public int resolutionWidth = 640;
-  public int resolutionHeight = 480;
+  public int resolutionWidth = 320;
+  public int resolutionHeight = 240;
 
   public VisionProcessing() {
     usbCamera.setResolution(resolutionWidth, resolutionHeight);
@@ -52,14 +53,19 @@ public class VisionProcessing extends Subsystem {
   // public AxisCamera axisCamera =
   // CameraServer.getInstance().addAxisCamera("10.3.86.23");
   public CvSink cvSink = CameraServer.getInstance().getVideo();
+  public CvSource FlatOutputStream = CameraServer.getInstance().putVideo("After", resolutionWidth, resolutionHeight);
   public CvSource HSVOutputStream = CameraServer.getInstance().putVideo("Final", resolutionWidth, resolutionHeight);
-  public CvSource TestOutputStream = CameraServer.getInstance().putVideo("Edges", resolutionWidth, resolutionHeight);
+  public CvSource TestOutputStream = CameraServer.getInstance().putVideo("Before", resolutionWidth, resolutionHeight);
 
   public Mat base = new Mat();
   public Mat mat = new Mat();
+  public Mat flatBase = new Mat();
   Mat grey = new Mat();
   Mat edges = new Mat();
   Mat hierarchy;
+  Mat flatMatK = new Mat(3, 3, CvType.CV_64FC1);
+  Mat flatMatD = new Mat(4, 1, CvType.CV_64FC1);
+  Mat testMat = new Mat();
 
   Size blurSize = new Size(9, 9);
   Scalar colorStart;
@@ -67,6 +73,11 @@ public class VisionProcessing extends Subsystem {
   Size erodeSize = new Size(10, 10);
   Size dilateSize = new Size(10, 10);
   Size edgeDilateSize = new Size(4, 4);
+
+  double[][] matArrayK = new double[][] { { 90.90096432173249, 0.0, 170.0017242958659 },
+      { 0.0, 121.0497364596671, 122.79000533774406 }, { 0.0, 0.0, 1.0 } };
+  double[][] matArrayD = new double[][] { { -0.0422236020563117 }, { 0.0060033988459270386 }, { -0.019605213853455674 },
+      { 0.006526951748079306 } };
 
   public double getAngle(RotatedRect calculatedRect) {
     if (calculatedRect.size.width < calculatedRect.size.height) {
@@ -103,10 +114,8 @@ public class VisionProcessing extends Subsystem {
   public ArrayList<RotatedRect[]> visionProcess() {
 
     // Vision Thresholds
-    colorStart = new Scalar(SmartDashboard.getNumber("Start H", 50), SmartDashboard.getNumber("Start S", 40),
-        SmartDashboard.getNumber("Start V", 125));
-    colorEnd = new Scalar(SmartDashboard.getNumber("End H", 150), SmartDashboard.getNumber("End S", 255),
-        SmartDashboard.getNumber("End V", 255));
+    colorStart = new Scalar(75, 40, 125);
+    colorEnd = new Scalar(140, 255, 255);
 
     // Recive the inital image
     cvSink.grabFrame(base);
@@ -119,8 +128,26 @@ public class VisionProcessing extends Subsystem {
     Mat erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3));
 
     if (!base.empty()) {
+
+      for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+          flatMatK.put(i, j, new double[] { matArrayK[i][j] });
+        }
+      }
+
+      for (int m = 0; m < flatMatD.height(); m++) {
+        for (int n = 0; n < flatMatD.width(); n++) {
+          flatMatD.put(m, n, new double[] { matArrayD[m][n] });
+        }
+      }
+
+      TestOutputStream.putFrame(base);
+      Imgproc.undistort(base, mat, flatMatK, flatMatD);
+      Imgproc.undistort(base, flatBase, flatMatK, flatMatD);
+      FlatOutputStream.putFrame(mat);
+
       // Blurs the image for ease of processing
-      Imgproc.blur(base, mat, blurSize);
+      Imgproc.blur(mat, mat, blurSize);
       // Converts from the RGB scale to HSV because HSV is more useful
       Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2HSV);
 
@@ -128,8 +155,8 @@ public class VisionProcessing extends Subsystem {
       // appear white
       Core.inRange(mat, colorStart, colorEnd, mat);
 
-      Imgproc.erode(mat, mat, dilateElement);
-      Imgproc.dilate(mat, mat, erodeElement);
+      // Imgproc.erode(mat, mat, dilateElement);
+      // Imgproc.dilate(mat, mat, erodeElement);
 
       List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
       hierarchy = new Mat();
@@ -148,13 +175,13 @@ public class VisionProcessing extends Subsystem {
         Point[] vertices = new Point[4];
         rects.get(i).points(vertices);
         MatOfPoint points = new MatOfPoint(vertices);
-        Imgproc.drawContours(base, Arrays.asList(points), -1, new Scalar(i * (255 / rects.size()), 255, 255), 2);
+        Imgproc.drawContours(flatBase, Arrays.asList(points), -1, new Scalar(i * (255 / rects.size()), 255, 255), 2);
       }
 
       rects = sortRectX(rects);
 
       for (int i = 0; i < rects.size() - 1; i++) {
-        if (getAngle(rects.get(i)) < 0 && getAngle(rects.get(i + 1)) > 0) {
+        if (getAngle(rects.get(i)) > 0 && getAngle(rects.get(i + 1)) < 0) {
           pair = new RotatedRect[2];
           pair[0] = rects.get(i);
           pair[1] = rects.get(i + 1);
@@ -166,10 +193,10 @@ public class VisionProcessing extends Subsystem {
       SmartDashboard.putNumber("Number of Pairs", pairs.size());
 
       for (int i = 0; i < pairs.size(); i++) {
-        Imgproc.line(base, pairs.get(i)[0].center, pairs.get(i)[1].center, new Scalar(0, 255, 255));
+        Imgproc.line(flatBase, pairs.get(i)[0].center, pairs.get(i)[1].center, new Scalar(0, 255, 255));
       }
 
-      HSVOutputStream.putFrame(base);
+      HSVOutputStream.putFrame(flatBase);
       TestOutputStream.putFrame(mat);
     }
     return pairs;
