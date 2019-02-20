@@ -57,7 +57,7 @@ public class ArmSubsystem extends Subsystem {
 
   // Speed Limiters for
   private final double UPWARDS_SHOULDER_LIMITER = 1;
-  private final double DOWNWARDS_SHOULDER_LIMITER = 0.85;
+  private final double DOWNWARDS_SHOULDER_LIMITER = 0.45; // tune in pit
   private final double UPWARDS_ELBOW_LIMITER = 1;
   private final double DOWNWARDS_ELBOW_LIMITER = 0.6;
 

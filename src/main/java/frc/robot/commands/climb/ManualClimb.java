@@ -15,16 +15,24 @@ public class ManualClimb extends Command {
 
   @Override
   protected void execute() {
-    Robot.endgameClimbSubsystem.setElevatorSpeed(OI.xboxTestControl.getRawAxis(OI.MANIP_LEFT_JOYSTICK_VERTICAL));
     // SmartDashboard.putNumber("Left Joystick Value Manip",
     // OI.xboxManipControl.getRawAxis(OI.MANIP_LEFT_JOYSTICK_VERTICAL));
     Robot.endgameClimbSubsystem.setClimbArmSpeeds(OI.xboxTestControl.getRawAxis(OI.MANIP_RIGHT_JOYSTICK_VERTICAL));
-    if (OI.xboxManipControl.getRawButton(8)) {
-      Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(1);
-    } else if (OI.xboxManipControl.getRawButton(7)) {
-      Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(-1);
+    if (OI.xboxTestControl.getRawButton(8)) {
+      Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(.6);
+    } else if (OI.xboxTestControl.getRawButton(7)) {
+      Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(-.6);
     } else {
       Robot.endgameClimbSubsystem.setElevatorWheelsSpeed(0);
+    }
+
+    if (OI.xboxTestControl.getRawAxis(OI.MANIP_LEFT_JOYSTICK_VERTICAL) > 0.05
+        || OI.xboxTestControl.getRawAxis(OI.MANIP_LEFT_JOYSTICK_VERTICAL) < -0.05) {
+      Robot.endgameClimbSubsystem.setElevatorSpeed(OI.xboxTestControl.getRawAxis(OI.MANIP_LEFT_JOYSTICK_VERTICAL));
+    } else if (Robot.endgameClimbSubsystem.getElevatorLimitSwitch()) {
+      Robot.endgameClimbSubsystem.setElevatorSpeed(0.15);
+    } else {
+      Robot.endgameClimbSubsystem.setElevatorSpeed(0);
     }
   }
 
