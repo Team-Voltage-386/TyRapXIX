@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class VisionProcess extends Command {
@@ -20,12 +21,16 @@ public class VisionProcess extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+
+    Robot.spikeSubsystem.lightSwitch();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.visionProcessing.visionProcess();
+    SmartDashboard.putNumber("Final Error", Robot.visionProcessing.visionProcess());
+    SmartDashboard.putNumber("Error1", Robot.visionProcessing.error1);
+    SmartDashboard.putNumber("Error2", Robot.visionProcessing.error2);
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.MoveAndTurn;
-import frc.robot.commands.TurnToTarget;
+// import frc.robot.commands.TurnToTarget;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.SpikeSubsystem;
 import frc.robot.subsystems.VisionProcessing;
@@ -40,6 +40,7 @@ public class Robot extends TimedRobot {
   public static CameraSubsystem cameraSubsystem = new CameraSubsystem();
   public static CargoManipSubsystem cargoManipSubsystem = new CargoManipSubsystem();
   public static DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public static SpikeSubsystem spikeSubsystem = new SpikeSubsystem();
   public static VisionProcessing visionProcessing = new VisionProcessing();
   // public static SpikeSubsystem spikeSubsystem = new SpikeSubsystem();
   public static EndgameClimbSubsystem endgameClimbSubsystem = new EndgameClimbSubsystem();
@@ -114,7 +115,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = new TurnToTarget();
+    // m_autonomousCommand = new TurnToTarget();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
