@@ -116,7 +116,7 @@ public class VisionProcessing extends Subsystem {
   public double visionProcess() {
 
     // Vision Thresholds
-    colorStart = new Scalar(75, 40, 125);
+    colorStart = new Scalar(80, 40, 125);
     colorEnd = new Scalar(140, 255, 255);
 
     // Recive the inital image
@@ -173,7 +173,7 @@ public class VisionProcessing extends Subsystem {
         rects.add(rect);
       }
 
-      // Imgproc.drawContours(flatBase, contours, -1, new Scalar(255,255,255));
+      Imgproc.drawContours(flatBase, contours, -1, new Scalar(255, 255, 255));
 
       // for (int i = 0; i < rects.size(); i++) {
       // Point[] vertices = new Point[4];
