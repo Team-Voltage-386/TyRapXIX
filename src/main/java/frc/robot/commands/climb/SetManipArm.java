@@ -7,7 +7,7 @@ import frc.robot.subsystems.ArmSubsystem.Levels;
 
 public class SetManipArm extends Command {
   public SetManipArm() {
-    // requires(Robot.armSubsystem);
+    // DO NOT add any requires() statements
   }
 
   @Override
