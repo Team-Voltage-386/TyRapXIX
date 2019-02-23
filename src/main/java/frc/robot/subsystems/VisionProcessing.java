@@ -71,8 +71,8 @@ public class VisionProcessing extends Subsystem {
   Size blurSize = new Size(9, 9);
   Scalar colorStart;
   Scalar colorEnd;
-  Size erodeSize = new Size(0, 0);
-  Size dilateSize = new Size(10, 10);
+  Size erodeSize = new Size(8, 8);
+  Size dilateSize = new Size(5, 5);
   Size edgeDilateSize = new Size(4, 4);
 
   double[][] matArrayK = new double[][] { { 90.90096432173249, 0.0, 170.0017242958659 },
@@ -143,7 +143,7 @@ public class VisionProcessing extends Subsystem {
         }
       }
 
-      TestOutputStream.putFrame(base);
+      // TestOutputStream.putFrame(base);
       Imgproc.undistort(base, mat, flatMatK, flatMatD);
       Imgproc.undistort(base, flatBase, flatMatK, flatMatD);
       FlatOutputStream.putFrame(mat);
@@ -157,8 +157,11 @@ public class VisionProcessing extends Subsystem {
       // appear white
       Core.inRange(mat, colorStart, colorEnd, mat);
 
-      // Imgproc.erode(mat, mat, dilateElement);
-      // Imgproc.dilate(mat, mat, erodeElement);
+      Imgproc.erode(mat, mat, erodeElement);
+      Imgproc.dilate(mat, mat, dilateElement);
+      Imgproc.erode(mat, mat, erodeElement);
+      Imgproc.dilate(mat, mat, dilateElement);
+
 
       List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
       hierarchy = new Mat();
