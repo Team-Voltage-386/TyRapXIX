@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.EndgameClimbSubsystem;
+//import frc.robot.subsystems.EndgameClimbSubsystem;
 import frc.robot.subsystems.ManipulatorSubsystem;
 
 /**
@@ -23,7 +23,8 @@ public class Robot extends TimedRobot {
   public static ArmSubsystem armSubsystem = new ArmSubsystem();
   public static CameraSubsystem cameraSubsystem = new CameraSubsystem();
   public static DriveSubsystem driveSubsystem = new DriveSubsystem();
-  public static EndgameClimbSubsystem endgameClimbSubsystem = new EndgameClimbSubsystem();
+  // public static EndgameClimbSubsystem endgameClimbSubsystem = new
+  // EndgameClimbSubsystem();
   public static ManipulatorSubsystem manipulatorSubsystem = new ManipulatorSubsystem();
   public static OI m_oi;
 
@@ -61,13 +62,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("Front Ultrasonic", driveSubsystem.getUltrasonicDistance());
-    SmartDashboard.putString("Current Climb Command", endgameClimbSubsystem.getCurrentCommandName());
+    // SmartDashboard.putNumber("Front Ultrasonic",
+    // driveSubsystem.getUltrasonicDistance());
+    // SmartDashboard.putString("Current Climb Command",
+    // endgameClimbSubsystem.getCurrentCommandName());
     SmartDashboard.putString("ArmCurrentCommand", armSubsystem.getCurrentCommandName());
 
     driveSubsystem.displayDiagnostics();
     armSubsystem.displayDiagnostics();
-    endgameClimbSubsystem.displayDiagnostics();
+    // endgameClimbSubsystem.displayDiagnostics();
     manipulatorSubsystem.displayDiagnostics();
   }
 

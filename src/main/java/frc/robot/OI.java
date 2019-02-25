@@ -3,7 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.climb.CheckClimbLevel;
+//import frc.robot.commands.climb.CheckClimbLevel;
 import frc.robot.commands.arm.ArmCargoMode;
 import frc.robot.commands.arm.ArmHatchMode;
 import frc.robot.commands.manipulator.ManipulatorCargoMode;
@@ -57,7 +57,8 @@ public class OI {
 
   public OI() {
 
-    tempClimbGroupButton.whenPressed(new CheckClimbLevel()); // Needs to be Tested
+    // tempClimbGroupButton.whenPressed(new CheckClimbLevel()); // Needs to be
+    // Tested
 
     shifterButton.whenPressed(new Shifter());
     cargoModeButton.whenPressed(new ManipulatorCargoMode());

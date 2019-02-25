@@ -20,7 +20,7 @@ public class DriveSubsystem extends Subsystem {
   private static WPI_TalonSRX frontLeft = new WPI_TalonSRX(RobotMap.frontLeft);
   private static WPI_TalonSRX frontRight = new WPI_TalonSRX(RobotMap.frontRight);
   private static WPI_TalonSRX slaveLeft = new WPI_TalonSRX(RobotMap.rearLeftFollower);
-  private static WPI_VictorSPX slaveRight = new WPI_VictorSPX(RobotMap.rearRightFollower);
+  private static WPI_TalonSRX slaveRight = new WPI_TalonSRX(RobotMap.rearRightFollower);
 
   public static int ENCODER_TIMEOUT = 10; // in milliseconds
 
@@ -28,7 +28,9 @@ public class DriveSubsystem extends Subsystem {
 
   private static DifferentialDrive differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 
-  private static Ultrasonic ultrasonic = new Ultrasonic(RobotMap.ultrasonicPing, RobotMap.ultrasonicEcho);
+  // No Ultrasonic ?
+  // private static Ultrasonic ultrasonic = new
+  // Ultrasonic(RobotMap.ultrasonicPing, RobotMap.ultrasonicEcho);
 
   /** threshold to trigger current limit */
   private static final int PEAK_CURRENT_AMPS = 45;
@@ -62,7 +64,7 @@ public class DriveSubsystem extends Subsystem {
     frontRight.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
     frontLeft.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
 
-    ultrasonic.setAutomaticMode(true);
+    // ultrasonic.setAutomaticMode(true);
   }
 
   /**
@@ -135,8 +137,8 @@ public class DriveSubsystem extends Subsystem {
     setDefaultCommand(new ArcadeDrive());
   }
 
-  public double getUltrasonicDistance() {
-    return ultrasonic.getRangeInches();
-  }
+  // public double getUltrasonicDistance() {
+  // return ultrasonic.getRangeInches();
+  // }
 
 }

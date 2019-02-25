@@ -22,11 +22,11 @@ public class ArmCargoMode extends Command {
 
   @Override
   protected void execute() {
-    if (OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) > 0.1
-        || OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) < -0.1) {
-      // Manual Override Shoulder
-      Robot.armSubsystem.setDesiredStateShoulder(Levels.manualControl);
-    }
+    // if (OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) > 0.1
+    // || OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) < -0.1) {
+    // // Manual Override Shoulder
+    // Robot.armSubsystem.setDesiredStateShoulder(Levels.manualControl);
+    // }
     if (OI.xboxManipControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_VERTICAL) > 0.1
         || OI.xboxManipControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_VERTICAL) < -0.1) {
       // Manual Elbow Override
@@ -77,7 +77,7 @@ public class ArmCargoMode extends Command {
 
   /** Set Shoulder and Elbow Desired Levels */
   private void setLevels(Levels shoulder, ElbowStates elbow) {
-    Robot.armSubsystem.setDesiredStateShoulder(shoulder);
+    // Robot.armSubsystem.setDesiredStateShoulder(shoulder);
     Robot.armSubsystem.setDesiredStateElbow(elbow);
   }
 

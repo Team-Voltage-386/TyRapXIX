@@ -22,11 +22,11 @@ public class ArmHatchMode extends Command {
   @Override
   protected void execute() {
 
-    if (OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) > 0.1
-        || OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) < -0.1) {
-      // Shoulder Manual Override
-      Robot.armSubsystem.setDesiredStateShoulder(Levels.manualControl);
-    }
+    // if (OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) > 0.1
+    // || OI.xboxManipControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) < -0.1) {
+    // // Shoulder Manual Override
+    // Robot.armSubsystem.setDesiredStateShoulder(Levels.manualControl);
+    // }
 
     if (OI.xboxManipControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_VERTICAL) > 0.1
         || OI.xboxManipControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_VERTICAL) < -0.1) {
@@ -79,7 +79,7 @@ public class ArmHatchMode extends Command {
 
   /** Set Shoulder and Elbow Desired Levels */
   private void setLevels(Levels shoulder, ElbowStates elbow) {
-    Robot.armSubsystem.setDesiredStateShoulder(shoulder);
+    // Robot.armSubsystem.setDesiredStateShoulder(shoulder);
     Robot.armSubsystem.setDesiredStateElbow(elbow);
   }
 

@@ -52,7 +52,7 @@ public class ArmSubsystem extends Subsystem {
   // Voltage Soft Limits
   private static final double MAX_SHOULDER_VOLTAGE = 3.5;
   private static final double MIN_SHOULDER_VOLTAGE = 1.05;
-  private static final double MAX_ELBOW_VOLTAGE = 4.72;
+  private static final double MAX_ELBOW_VOLTAGE = 4.88;
   private static final double MIN_ELBOW_VOLTAGE = 1.4;
 
   // Speed Limiters for
@@ -62,11 +62,15 @@ public class ArmSubsystem extends Subsystem {
   private final double DOWNWARDS_ELBOW_LIMITER = 0.6;
 
   // Talon Motors
-  private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
+  // No Shoulder on TestBot
+  // private static WPI_TalonSRX shoulderMotor = new
+  // WPI_TalonSRX(RobotMap.rightShoulderMotor);
   public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
 
   // Potentiometer
-  AnalogInput shoulderPotentiometer = new AnalogInput(RobotMap.shoulderPotentiometer);
+  // No Shoulder on TestBot
+  // AnalogInput shoulderPotentiometer = new
+  // AnalogInput(RobotMap.shoulderPotentiometer);
   AnalogInput elbowPotentiometer = new AnalogInput(RobotMap.elbowPotentiometer);
 
   // Desired States for setLevel()
@@ -77,11 +81,12 @@ public class ArmSubsystem extends Subsystem {
   public ArmSubsystem() {
 
     // Current Limiting Shoulder
-    shoulderMotor.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
-    shoulderMotor.configPeakCurrentDuration(PEAK_TIME_MS); /* this is a necessary call to avoid errata. */
-    shoulderMotor.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
-    shoulderMotor.enableCurrentLimit(true); /* honor initial setting */
-    shoulderMotor.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
+    // shoulderMotor.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
+    // shoulderMotor.configPeakCurrentDuration(PEAK_TIME_MS); /* this is a necessary
+    // call to avoid errata. */
+    // shoulderMotor.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
+    // shoulderMotor.enableCurrentLimit(true); /* honor initial setting */
+    // shoulderMotor.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
 
     // Current Limiting Elbow
     elbowMotor.configPeakCurrentLimit(15);
@@ -94,10 +99,12 @@ public class ArmSubsystem extends Subsystem {
 
   /** Motor Power, Current, Potentiometers, Position */
   public void displayDiagnostics() {
-    SmartDashboard.putNumber("Shoulder Raw Power", shoulderMotor.get());
-    SmartDashboard.putNumber("Shoulder Current", shoulderMotor.getOutputCurrent());
-    SmartDashboard.putNumber("Shoulder Potentiometer", shoulderPotentiometer.getAverageVoltage());
-    SmartDashboard.putNumber("Shoulder Position", getShoulderPosition());
+    // SmartDashboard.putNumber("Shoulder Raw Power", shoulderMotor.get());
+    // SmartDashboard.putNumber("Shoulder Current",
+    // shoulderMotor.getOutputCurrent());
+    // SmartDashboard.putNumber("Shoulder Potentiometer",
+    // shoulderPotentiometer.getAverageVoltage());
+    // SmartDashboard.putNumber("Shoulder Position", getShoulderPosition());
     SmartDashboard.putNumber("Elbow Potentiometer", getElbowPotentiometerVoltage());
     SmartDashboard.putNumber("Elbow Raw Power", elbowMotor.get());
   }
@@ -123,47 +130,47 @@ public class ArmSubsystem extends Subsystem {
       double manualOverrideElbow) {
 
     // Switch-Case Loop for Shoulder Position
-    switch (inShoulder) {
-    case manualControl:
-      setShoulderMotorSpeed(manualOverrideShoulder);
-      break;
-    case cargoFloorPickup:
-      setShoulderPosition(CARGO_FLOOR_SHOULDER);
-      break;
-    case cargoPlayerStation:
-      setShoulderPosition(CARGO_PLAYER_STATION_SHOULDER);
-      break;
-    case cargoLevelOne:
-      setShoulderPosition(CARGO_LEVEL_ONE_SHOULDER);
-      break;
-    case cargoLevelTwo:
-      setShoulderPosition(CARGO_LEVEL_TWO_SHOULDER);
-      break;
-    case cargoLevelThree:
-      setShoulderPosition(CARGO_LEVEL_THREE_SHOULDER);
-      break;
-    case hatchFloorPickup:
-      setShoulderPosition(HATCH_FLOOR_SHOULDER);
-      break;
-    case hatchLevelOne:
-      setShoulderPosition(HATCH_LEVEL_ONE_SHOULDER);
-      break;
-    case hatchLevelTwo:
-      setShoulderPosition(HATCH_LEVEL_TWO_SHOULDER);
-      break;
-    case hatchLevelThree:
-      setShoulderPosition(HATCH_LEVEL_THREE_SHOULDER);
-      break;
-    case finalClimb:
-      setShoulderPosition(FINAL_CLIMB_SHOULDER);
-    case resetState:
-      // Prevents Elbow From Getting Caught on Bumper
-      if (getElbowPotentiometerVoltage() > PERPENDICULAR_ELBOW - 0.1) {
-        setShoulderPosition(RESET_SHOULDER);
-      }
-    default:
-      break;
-    }
+    // switch (inShoulder) {
+    // case manualControl:
+    // setShoulderMotorSpeed(manualOverrideShoulder);
+    // break;
+    // case cargoFloorPickup:
+    // setShoulderPosition(CARGO_FLOOR_SHOULDER);
+    // break;
+    // case cargoPlayerStation:
+    // setShoulderPosition(CARGO_PLAYER_STATION_SHOULDER);
+    // break;
+    // case cargoLevelOne:
+    // setShoulderPosition(CARGO_LEVEL_ONE_SHOULDER);
+    // break;
+    // case cargoLevelTwo:
+    // setShoulderPosition(CARGO_LEVEL_TWO_SHOULDER);
+    // break;
+    // case cargoLevelThree:
+    // setShoulderPosition(CARGO_LEVEL_THREE_SHOULDER);
+    // break;
+    // case hatchFloorPickup:
+    // setShoulderPosition(HATCH_FLOOR_SHOULDER);
+    // break;
+    // case hatchLevelOne:
+    // setShoulderPosition(HATCH_LEVEL_ONE_SHOULDER);
+    // break;
+    // case hatchLevelTwo:
+    // setShoulderPosition(HATCH_LEVEL_TWO_SHOULDER);
+    // break;
+    // case hatchLevelThree:
+    // setShoulderPosition(HATCH_LEVEL_THREE_SHOULDER);
+    // break;
+    // case finalClimb:
+    // setShoulderPosition(FINAL_CLIMB_SHOULDER);
+    // case resetState:
+    // // Prevents Elbow From Getting Caught on Bumper
+    // if (getElbowPotentiometerVoltage() > PERPENDICULAR_ELBOW - 0.1) {
+    // setShoulderPosition(RESET_SHOULDER);
+    // }
+    // default:
+    // break;
+    // }
 
     // Switch-Case Loops for Elbow
     switch (inElbow) {
@@ -197,18 +204,19 @@ public class ArmSubsystem extends Subsystem {
    * @param positionGoal The goal position (percentage representation as a double
    *                     from 0.0 to 1.0)
    */
-  public void setShoulderPosition(double positionGoal) {
-    error = getShoulderPosition() - positionGoal;
-    errorChange = error - prevError;
-    shoulderP = error * shoulderPK;
-    shoulderPower = shoulderP;
-    if (Math.abs(error) < 0.01) {
-      shoulderPower = 0;
-    }
-    setShoulderMotorSpeed(shoulderPower);
-    SmartDashboard.putNumber("ShoulderPositionGoal", positionGoal); // May be removed from master
-    prevError = error;
-  }
+  // public void setShoulderPosition(double positionGoal) {
+  // error = getShoulderPosition() - positionGoal;
+  // errorChange = error - prevError;
+  // shoulderP = error * shoulderPK;
+  // shoulderPower = shoulderP;
+  // if (Math.abs(error) < 0.01) {
+  // shoulderPower = 0;
+  // }
+  // setShoulderMotorSpeed(shoulderPower);
+  // SmartDashboard.putNumber("ShoulderPositionGoal", positionGoal); // May be
+  // removed from master
+  // prevError = error;
+  // }
 
   /**
    * Use PID to move elbow to input position.
@@ -233,26 +241,27 @@ public class ArmSubsystem extends Subsystem {
    * 
    * @param power The requested power from 0.0 to 1.0
    */
-  public void setShoulderMotorSpeed(double power) {
+  // public void setShoulderMotorSpeed(double power) {
 
-    // Ensures Power is Between -1 and 1
-    if (power > 1) {
-      power = 1;
-    }
-    if (power < -1) {
-      power = -1;
-    }
+  // // Ensures Power is Between -1 and 1
+  // if (power > 1) {
+  // power = 1;
+  // }
+  // if (power < -1) {
+  // power = -1;
+  // }
 
-    // Speed Limiters by Direction and Max and Min Shoulder Positions
-    if (power > 0 && getShoulderPotentiometerVoltage() < MAX_SHOULDER_VOLTAGE) {
-      power = UPWARDS_SHOULDER_LIMITER * power;
-    } else if (power < 0 && getShoulderPotentiometerVoltage() > MIN_SHOULDER_VOLTAGE) {
-      power = DOWNWARDS_SHOULDER_LIMITER * power;
-    } else {
-      power = 0;
-    }
-    shoulderMotor.set(power);
-  }
+  // // Speed Limiters by Direction and Max and Min Shoulder Positions
+  // if (power > 0 && getShoulderPotentiometerVoltage() < MAX_SHOULDER_VOLTAGE) {
+  // power = UPWARDS_SHOULDER_LIMITER * power;
+  // } else if (power < 0 && getShoulderPotentiometerVoltage() >
+  // MIN_SHOULDER_VOLTAGE) {
+  // power = DOWNWARDS_SHOULDER_LIMITER * power;
+  // } else {
+  // power = 0;
+  // }
+  // //shoulderMotor.set(power);
+  // }
 
   /**
    * Set elbow to speed input, incorporating limiters.
@@ -286,15 +295,15 @@ public class ArmSubsystem extends Subsystem {
    * @return The current shoulder position as a percentage represented from 0.0 to
    *         1.0
    */
-  public double getShoulderPosition() {
-    return (shoulderPotentiometer.getAverageVoltage() - MIN_SHOULDER_VOLTAGE)
-        / (MAX_SHOULDER_VOLTAGE - MIN_SHOULDER_VOLTAGE);
-  }
+  // public double getShoulderPosition() {
+  // return (shoulderPotentiometer.getAverageVoltage() - MIN_SHOULDER_VOLTAGE)
+  // / (MAX_SHOULDER_VOLTAGE - MIN_SHOULDER_VOLTAGE);
+  // }
 
-  // Analog Input 0 to 5
-  public double getShoulderPotentiometerVoltage() {
-    return shoulderPotentiometer.getAverageVoltage();
-  }
+  // // Analog Input 0 to 5
+  // public double getShoulderPotentiometerVoltage() {
+  // return shoulderPotentiometer.getAverageVoltage();
+  // }
 
   // Analog Input 0 to 5
   public double getElbowPotentiometerVoltage() {
