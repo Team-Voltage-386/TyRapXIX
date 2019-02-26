@@ -29,7 +29,7 @@ public class ArmSubsystem extends Subsystem {
 
   // Constants for Calculations
   private final double shoulderPK = -30;
-  private final double elbowPK = 0.5, elbowIK = 0.015, elbowDK = 1.25, elbowResetPK = 1.4;
+  private final double elbowPK = 2.5, elbowIK = 0.025, elbowDK = 0.0, elbowResetPK = 1.4;
 
   // Position States
   private final double CARGO_FLOOR_SHOULDER = 0.0542;
@@ -227,9 +227,9 @@ public class ArmSubsystem extends Subsystem {
   public void setElbowPosition(double positionVoltage) {
     error = elbowPotentiometer.getAverageVoltage() - positionVoltage;
     errorChange = error - prevError;
-    elbowP = error * elbowPK;
-    elbowI += error * elbowIK;
-    elbowD = errorChange * elbowDK;
+    elbowP = error * /* elbowPK */ SmartDashboard.getNumber("elbowPK ", elbowPK);
+    elbowI += error * /* elbowIK */ SmartDashboard.getNumber("elbowIK ", elbowIK);
+    elbowD = errorChange * /* elbowDK */ SmartDashboard.getNumber("elbowDK ", elbowDK);
     elbowPower = elbowP + elbowI + elbowD;
     setElbowMotorSpeed(elbowPower);
     SmartDashboard.putNumber("ElbowCurrentGoal", positionVoltage); // May be removed from master
@@ -280,7 +280,8 @@ public class ArmSubsystem extends Subsystem {
 
     // Speed Limiters by Direction and Max and Min Voltages
     if (power > 0.05 && getElbowPotentiometerVoltage() > MIN_ELBOW_VOLTAGE) {
-      power = DOWNWARDS_ELBOW_LIMITER * power;
+      power = /* DOWNWARDS_ELBOW_LIMITER */ SmartDashboard.getNumber("ElbowDownLimiter ", DOWNWARDS_ELBOW_LIMITER)
+          * power;
     } else if (power < -0.05 && getElbowPotentiometerVoltage() < MAX_ELBOW_VOLTAGE) {
       power = UPWARDS_ELBOW_LIMITER * power;
     } else {
