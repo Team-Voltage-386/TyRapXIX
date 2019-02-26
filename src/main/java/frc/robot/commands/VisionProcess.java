@@ -8,13 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.OI;
 import frc.robot.Robot;
 
 public class VisionProcess extends Command {
   double error, previousError;
-  double k, i, p;
+  double d, i, p = 0.0;
   double kp = .02, ki = 0.0, kd = 0.0;
 
   public VisionProcess() {
@@ -35,21 +37,29 @@ public class VisionProcess extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    error = Robot.visionProcessing.visionProcess();
 
+    error = Robot.visionProcessing.visionProcess();
+    // if(error == 0){
+    // Robot.driveSubsystem.driveTank(.5, .5);
+    // }
+    // else{
     p = error * kp;
+    // d = kd*(error-previousError);
+    // Robot.driveSubsystem.driveTank(.5, .5);
+    // }
 
     Robot.driveSubsystem.driveTank(-p, +p);
     SmartDashboard.putNumber("Final Error", error);
     SmartDashboard.putNumber("Error1", Robot.visionProcessing.error1);
     SmartDashboard.putNumber("Error2", Robot.visionProcessing.error2);
     SmartDashboard.putNumber("p", p);
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return (!OI.xboxDriveControl.getRawButton(3));
   }
 
   // Called once after isFinished returns true

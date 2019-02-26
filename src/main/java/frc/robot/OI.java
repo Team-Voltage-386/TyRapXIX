@@ -15,6 +15,7 @@ import frc.robot.commands.ResetYaw;
 import frc.robot.commands.Shifter;
 import frc.robot.commands.SpikeLight;
 // import frc.robot.commands.TurnToTarget;
+import frc.robot.commands.VisionProcess;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -56,7 +57,7 @@ public class OI {
   // Button rightBumper = new JoystickButton(xboxDriveControl, 6);
   Button shifterButton = new JoystickButton(xboxDriveControl, 5);
   Button resetPigeonYawButton = new JoystickButton(xboxDriveControl, 2);
-  // Button driveToTargetButton = new JoystickButton(xboxDriveControl, 3);
+  Button driveToTargetButton = new JoystickButton(xboxDriveControl, 3);
 
   public OI() {
     a.whenPressed(new Shifter());
@@ -64,6 +65,6 @@ public class OI {
     // rightBumper.whenPressed(new TurnToTarget());
     shifterButton.whenPressed(new Shifter());
     resetPigeonYawButton.whenPressed(new ResetYaw());
-    // driveToTargetButton.whenPressed(new DriveToTarget());
+    driveToTargetButton.whenPressed(new VisionProcess());
   }
 }

@@ -162,7 +162,6 @@ public class VisionProcessing extends Subsystem {
       Imgproc.erode(mat, mat, erodeElement);
       Imgproc.dilate(mat, mat, dilateElement);
 
-
       List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
       hierarchy = new Mat();
 
@@ -245,6 +244,6 @@ public class VisionProcessing extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new VisionProcess());
+    // setDefaultCommand(new VisionProcess());
   }
 }
