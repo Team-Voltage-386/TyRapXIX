@@ -19,10 +19,12 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class VisionProcess extends Command {
   NetworkTableEntry error;
-  NetworkTableEntry previousError;
+  double previousError;
+  double finalError;
   double d, i, p = 0.0;
   double kp = .02, ki = 0.0, kd = 0.0;
   NetworkTableInstance testInstance = NetworkTableInstance.getDefault();
+  double defaultvalue;
 
   public VisionProcess() {
     // Use requires() here to declare subsystem dependencies
@@ -39,10 +41,10 @@ public class VisionProcess extends Command {
     NetworkTable table = testInstance.getTable("datatable");
 
     error = table.getEntry("X");
-
+    finalError = error.getDouble(defaultvalue);
     Robot.spikeSubsystem.lightSwitch();
     // error = Robot.visionProcessing.visionProcess();
-    previousError = error;
+    previousError = finalError;
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -51,21 +53,22 @@ public class VisionProcess extends Command {
     NetworkTable table = testInstance.getTable("datatable");
 
     error = table.getEntry("X");
+    finalError = error.getDouble(defaultvalue);
+
     // error = Robot.visionProcessing.visionProcess();
-    // if(error == 0){
-    // Robot.driveSubsystem.driveTank(.5, .5);
-    // }
-    // else{
-    // p = error * kp;
-    // d = kd*(error-previousError);
-    // Robot.driveSubsystem.driveTank(.5, .5);
-    // }
+    if (finalError == 0) {
+      Robot.driveSubsystem.driveTank(.5, .5);
+    } else {
+      p = finalError * kp;
+      d = kd * (error - previousError);
+      Robot.driveSubsystem.driveTank(.5, .5);
+    }
 
     // Robot.driveSubsystem.driveTank(-p, +p);
-    // SmartDashboard.putNumber("Final Error", error);
+    SmartDashboard.putNumber("Final Error", finalError);
     SmartDashboard.putNumber("Error1", Robot.visionProcessing.error1);
     SmartDashboard.putNumber("Error2", Robot.visionProcessing.error2);
-    // SmartDashboard.putNumber("p", p);
+    SmartDashboard.putNumber("p", p);
 
   }
 

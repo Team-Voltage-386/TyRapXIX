@@ -159,8 +159,8 @@ public class VisionProcessing extends Subsystem {
 
       Imgproc.erode(mat, mat, erodeElement);
       Imgproc.dilate(mat, mat, dilateElement);
-      Imgproc.erode(mat, mat, erodeElement);
-      Imgproc.dilate(mat, mat, dilateElement);
+      // Imgproc.erode(mat, mat, erodeElement);
+      // Imgproc.dilate(mat, mat, dilateElement);
 
       List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
       hierarchy = new Mat();
