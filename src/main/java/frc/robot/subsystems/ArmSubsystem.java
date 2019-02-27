@@ -28,8 +28,8 @@ public class ArmSubsystem extends Subsystem {
   private double prevError = 0, error = 0, errorChange = 0, elbowPower = 0, shoulderPower = 0;
 
   // Constants for Calculations
-  private final double shoulderPK = -30;
-  private final double elbowPK = 2.5, elbowIK = 0.025, elbowDK = 0.0, elbowResetPK = 1.4;
+  private final double shoulderPK = -30, maxSpeedForIUse = 0.00001;
+  private final double elbowPK = 2.5, elbowIK = 0.7, elbowDK = 0.0, elbowResetPK = 2.5;
 
   // Position States
   private final double CARGO_FLOOR_SHOULDER = 0.0542;
@@ -43,7 +43,7 @@ public class ArmSubsystem extends Subsystem {
   private final double HATCH_LEVEL_THREE_SHOULDER = 0.943;
   private final double FINAL_CLIMB_SHOULDER = 0.158;
   private final double RESET_SHOULDER = 0.0;
-  private final double RESET_ELBOW = 4.8;
+  private final double RESET_ELBOW = 4.9;
   private final double PERPENDICULAR_ELBOW = 3.85;
   private final double PARALLEL_ELBOW = 1.57;
   private final double CARGO_FLOOR_ELBOW = 2.415;
@@ -228,10 +228,23 @@ public class ArmSubsystem extends Subsystem {
     error = elbowPotentiometer.getAverageVoltage() - positionVoltage;
     errorChange = error - prevError;
     elbowP = error * /* elbowPK */ SmartDashboard.getNumber("elbowPK ", elbowPK);
-    elbowI += error * /* elbowIK */ SmartDashboard.getNumber("elbowIK ", elbowIK);
+
+    // Only Uses elbowI If Elbow is moving slow to prevent overshoot
+    if (Math.abs(errorChange) < /* maxSpeedForIUse */ SmartDashboard.getNumber("MaxSpeedForIUse ", maxSpeedForIUse)) {
+      elbowI += error * /* elbowIK */ SmartDashboard.getNumber("elbowIK ", elbowIK);
+    } else {
+      elbowI = 0;
+    }
     elbowD = errorChange * /* elbowDK */ SmartDashboard.getNumber("elbowDK ", elbowDK);
     elbowPower = elbowP + elbowI + elbowD;
+
+    // Prevent burnout and prevent moving off of goal once already there
+    if (Math.abs(error) < 0.01) {
+      elbowPower = 0;
+    }
     setElbowMotorSpeed(elbowPower);
+    SmartDashboard.putNumber("errorChange ELBOW", errorChange); // temp for testing?
+    SmartDashboard.putNumber("elbowI ", elbowI); // temp for testing?
     SmartDashboard.putNumber("ElbowCurrentGoal", positionVoltage); // May be removed from master
     prevError = error;
   }

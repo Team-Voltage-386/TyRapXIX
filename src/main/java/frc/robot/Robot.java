@@ -50,10 +50,11 @@ public class Robot extends TimedRobot {
      * SmartDashboard.putNumber("elbowResetPK ", 1.4);
      * SmartDashboard.putNumber("Downwards Elbow Limiter", 0.8);
      */
-    SmartDashboard.putNumber("elbowPK ", 0);
-    SmartDashboard.putNumber("elbowIK ", 0);
+    SmartDashboard.putNumber("elbowPK ", 2.5);
+    SmartDashboard.putNumber("elbowIK ", 0.7);
     SmartDashboard.putNumber("elbowDK ", 0);
-    SmartDashboard.putNumber("ElbowDownLimiter ", 0);
+    SmartDashboard.putNumber("ElbowDownLimiter ", 1);
+    SmartDashboard.putNumber("MaxSpeedForIUse ", 0.00001);
   }
 
   /**
