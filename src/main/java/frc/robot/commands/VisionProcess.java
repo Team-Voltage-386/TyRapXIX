@@ -13,11 +13,16 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class VisionProcess extends Command {
-  double error, previousError;
+  NetworkTableEntry error;
+  NetworkTableEntry previousError;
   double d, i, p = 0.0;
   double kp = .02, ki = 0.0, kd = 0.0;
+  NetworkTableInstance testInstance = NetworkTableInstance.getDefault();
 
   public VisionProcess() {
     // Use requires() here to declare subsystem dependencies
@@ -29,30 +34,38 @@ public class VisionProcess extends Command {
   @Override
   protected void initialize() {
 
+    testInstance.startServer();
+    testInstance.setServerTeam(386, 1735);
+    NetworkTable table = testInstance.getTable("datatable");
+
+    error = table.getEntry("X");
+
     Robot.spikeSubsystem.lightSwitch();
-    error = Robot.visionProcessing.visionProcess();
+    // error = Robot.visionProcessing.visionProcess();
     previousError = error;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    NetworkTable table = testInstance.getTable("datatable");
 
-    error = Robot.visionProcessing.visionProcess();
+    error = table.getEntry("X");
+    // error = Robot.visionProcessing.visionProcess();
     // if(error == 0){
     // Robot.driveSubsystem.driveTank(.5, .5);
     // }
     // else{
-    p = error * kp;
+    // p = error * kp;
     // d = kd*(error-previousError);
     // Robot.driveSubsystem.driveTank(.5, .5);
     // }
 
-    Robot.driveSubsystem.driveTank(-p, +p);
-    SmartDashboard.putNumber("Final Error", error);
+    // Robot.driveSubsystem.driveTank(-p, +p);
+    // SmartDashboard.putNumber("Final Error", error);
     SmartDashboard.putNumber("Error1", Robot.visionProcessing.error1);
     SmartDashboard.putNumber("Error2", Robot.visionProcessing.error2);
-    SmartDashboard.putNumber("p", p);
+    // SmartDashboard.putNumber("p", p);
 
   }
 
