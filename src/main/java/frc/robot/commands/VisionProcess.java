@@ -21,7 +21,7 @@ public class VisionProcess extends Command {
   NetworkTableEntry error;
   double previousError;
   double finalError;
-  double d, i, p = 0.0;
+  double d = 0.0, i, p = 0.0;
   double kp = .02, ki = 0.0, kd = 0.0;
   NetworkTableInstance testInstance = NetworkTableInstance.getDefault();
   double defaultvalue;
@@ -57,11 +57,11 @@ public class VisionProcess extends Command {
 
     // error = Robot.visionProcessing.visionProcess();
     if (finalError == 0) {
-      Robot.driveSubsystem.driveTank(.5, .5);
+      Robot.driveSubsystem.driveTank(0, 0);
     } else {
       p = finalError * kp;
-      d = kd * (error - previousError);
-      Robot.driveSubsystem.driveTank(.5, .5);
+      d = kd * (finalError - previousError);
+      Robot.driveSubsystem.driveTank(p, -p);
     }
 
     // Robot.driveSubsystem.driveTank(-p, +p);
@@ -69,6 +69,7 @@ public class VisionProcess extends Command {
     SmartDashboard.putNumber("Error1", Robot.visionProcessing.error1);
     SmartDashboard.putNumber("Error2", Robot.visionProcessing.error2);
     SmartDashboard.putNumber("p", p);
+    SmartDashboard.putNumber("d", d);
 
   }
 
