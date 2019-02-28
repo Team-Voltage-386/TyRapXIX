@@ -57,9 +57,9 @@ public class ArmSubsystem extends Subsystem {
 
   // Speed Limiters for
   private final double UPWARDS_SHOULDER_LIMITER = 1;
-  private final double DOWNWARDS_SHOULDER_LIMITER = 0.85;
+  private final double DOWNWARDS_SHOULDER_LIMITER = 0.45; // tune in pit
   private final double UPWARDS_ELBOW_LIMITER = 1;
-  private final double DOWNWARDS_ELBOW_LIMITER = 0.6;
+  private final double DOWNWARDS_ELBOW_LIMITER = 0.75;
 
   // Talon Motors
   private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
@@ -156,6 +156,7 @@ public class ArmSubsystem extends Subsystem {
       break;
     case finalClimb:
       setShoulderPosition(FINAL_CLIMB_SHOULDER);
+      break;
     case resetState:
       // Prevents Elbow From Getting Caught on Bumper
       if (getElbowPotentiometerVoltage() > PERPENDICULAR_ELBOW - 0.1) {
@@ -200,7 +201,10 @@ public class ArmSubsystem extends Subsystem {
   public void setShoulderPosition(double positionGoal) {
     error = getShoulderPosition() - positionGoal;
     errorChange = error - prevError;
-    shoulderP = error * shoulderPK;
+    if (error < 0)
+      shoulderP = error * shoulderPK;
+    else
+      shoulderP = error * -10;
     shoulderPower = shoulderP;
     if (Math.abs(error) < 0.01) {
       shoulderPower = 0;

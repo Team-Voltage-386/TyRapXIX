@@ -3,6 +3,7 @@ package frc.robot.commands.climb;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.ManipulatorSubsystem;
 
 /**
  * Initialize begins a timer which is checked along with the current on the arm
@@ -22,6 +23,7 @@ public class DeployClimbArms extends Command {
   @Override
   protected void initialize() {
     startTime = Timer.getFPGATimestamp();
+    Robot.manipulatorSubsystem.setModeSolenoidState(ManipulatorSubsystem.MODE_SOLENOID_HATCH);
   }
 
   @Override
