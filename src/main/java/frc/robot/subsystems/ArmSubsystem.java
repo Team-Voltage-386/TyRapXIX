@@ -28,8 +28,8 @@ public class ArmSubsystem extends Subsystem {
   private double prevError = 0, error = 0, errorChange = 0, elbowPower = 0, shoulderPower = 0;
 
   // Constants for Calculations
-  private final double shoulderPK = -30, maxSpeedForIUse = 0.00001;
-  private final double elbowPK = 2.5, elbowIK = 0.7, elbowDK = 0.0, elbowResetPK = 2.5;
+  public static final double SHOULDER_PK = -30, MAX_ERROR_FOR_I_USE = 0.3;
+  public static final double ELBOW_PK = 2.5, ELBOW_IK = 0.1, ELBOW_DK = 0.0, ELBOW_RESET_PK = 2.5;
 
   // Position States
   private final double CARGO_FLOOR_SHOULDER = 0.0542;
@@ -59,7 +59,7 @@ public class ArmSubsystem extends Subsystem {
   private final double UPWARDS_SHOULDER_LIMITER = 1;
   private final double DOWNWARDS_SHOULDER_LIMITER = 0.85;
   private final double UPWARDS_ELBOW_LIMITER = 1;
-  private final double DOWNWARDS_ELBOW_LIMITER = 0.6;
+  public static final double DOWNWARDS_ELBOW_LIMITER = 1; // was 0.6
 
   // Talon Motors
   // No Shoulder on TestBot
@@ -227,15 +227,16 @@ public class ArmSubsystem extends Subsystem {
   public void setElbowPosition(double positionVoltage) {
     error = elbowPotentiometer.getAverageVoltage() - positionVoltage;
     errorChange = error - prevError;
-    elbowP = error * /* elbowPK */ SmartDashboard.getNumber("elbowPK ", elbowPK);
+    elbowP = error * /* elbowPK */ SmartDashboard.getNumber("elbowPK ", ELBOW_PK);
 
     // Only Uses elbowI If Elbow is moving slow to prevent overshoot
-    if (Math.abs(errorChange) < /* maxSpeedForIUse */ SmartDashboard.getNumber("MaxSpeedForIUse ", maxSpeedForIUse)) {
-      elbowI += error * /* elbowIK */ SmartDashboard.getNumber("elbowIK ", elbowIK);
+    if (Math.abs(error) < /* maxSpeedForIUse */ SmartDashboard.getNumber("MaxErrorForIUse ", MAX_ERROR_FOR_I_USE)) {
+      elbowI += error * /* elbowIK */ SmartDashboard.getNumber("elbowIK ", ELBOW_IK);
     } else {
       elbowI = 0;
     }
-    elbowD = errorChange * /* elbowDK */ SmartDashboard.getNumber("elbowDK ", elbowDK);
+    elbowD = errorChange * /* elbowDK */ SmartDashboard.getNumber("elbowDK ", ELBOW_DK);
+
     elbowPower = elbowP + elbowI + elbowD;
 
     // Prevent burnout and prevent moving off of goal once already there
@@ -352,7 +353,7 @@ public class ArmSubsystem extends Subsystem {
    */
   public void resetElbowPosition(double positionVoltage) {
     error = elbowPotentiometer.getAverageVoltage() - positionVoltage;
-    elbowResetP = error * elbowResetPK;
+    elbowResetP = error * ELBOW_RESET_PK;
     elbowPower = elbowResetP;
     setElbowMotorSpeed(elbowPower);
   }
