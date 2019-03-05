@@ -18,13 +18,13 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class VisionProcess extends Command {
-  NetworkTableEntry error;
+  // NetworkTableEntry error;
   double previousError;
   double finalError;
   double d = 0.0, i, p = 0.0;
   double kp = .02, ki = 0.0, kd = 0.0;
-  NetworkTableInstance testInstance = NetworkTableInstance.getDefault();
-  double defaultvalue;
+  // NetworkTableInstance testInstance = NetworkTableInstance.getDefault();
+  // double defaultvalue;
 
   public VisionProcess() {
     // Use requires() here to declare subsystem dependencies
@@ -36,31 +36,33 @@ public class VisionProcess extends Command {
   @Override
   protected void initialize() {
 
-    testInstance.startServer();
-    testInstance.setServerTeam(386, 1735);
-    NetworkTable table = testInstance.getTable("datatable");
+    // testInstance.startServer();
+    // testInstance.setServerTeam(386, 1735);
+    // NetworkTable table = testInstance.getTable("datatable");
 
-    error = table.getEntry("X");
-    finalError = error.getDouble(defaultvalue);
-    Robot.spikeSubsystem.lightSwitch();
-    // error = Robot.visionProcessing.visionProcess();
+    // error = table.getEntry("X");
+    // finalError = error.getDouble(defaultvalue);
+    // Robot.spikeSubsystem.lightSwitch();
+    finalError = Robot.visionProcessing.visionProcess();
     previousError = finalError;
+    // previousError = finalError;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    NetworkTable table = testInstance.getTable("datatable");
+    // NetworkTable table = testInstance.getTable("datatable");
 
-    error = table.getEntry("X");
-    finalError = error.getDouble(defaultvalue);
+    // error = table.getEntry("X");
+    // finalError = error.getDouble(defaultvalue);
 
-    // error = Robot.visionProcessing.visionProcess();
+    finalError = Robot.visionProcessing.visionProcess();
     if (finalError == 0) {
       Robot.driveSubsystem.driveTank(0, 0);
     } else {
       p = finalError * kp;
       d = kd * (finalError - previousError);
+      previousError = finalError;
       Robot.driveSubsystem.driveTank(p, -p);
     }
 
