@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import java.util.ArrayList;
 
-import org.opencv.core.RotatedRect;
+import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,8 +26,8 @@ public class DriveToTarget extends Command {
     requires(Robot.spikeSubsystem);
   }
 
-  ArrayList<RotatedRect[]> pairs = new ArrayList<RotatedRect[]>();
-  RotatedRect[] bestPair;
+  ArrayList<Rect[]> pairs = new ArrayList<Rect[]>();
+  Rect[] bestPair;
   double prevError, error = 0, p, kp, d, kd, i, ki;
   double bestPairChange;
   int indx;
@@ -52,7 +52,7 @@ public class DriveToTarget extends Command {
 
     if (pairs.size() > 0) {
 
-      bestPair = new RotatedRect[2];
+      bestPair = new Rect[2];
       bestPair = pairs.get(0);
 
       for (int i = 0; i < pairs.size(); i++) {

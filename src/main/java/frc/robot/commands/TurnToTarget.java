@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import java.util.ArrayList;
 
+import org.opencv.core.Rect;
 import org.opencv.core.RotatedRect;
 import org.opencv.imgproc.Imgproc;
 
@@ -26,8 +27,8 @@ public class TurnToTarget extends Command {
     requires(Robot.spikeSubsystem);
   }
 
-  ArrayList<RotatedRect[]> pairs = new ArrayList<RotatedRect[]>();
-  RotatedRect[] bestPair;
+  ArrayList<Rect[]> pairs = new ArrayList<Rect[]>();
+  Rect[] bestPair;
   double prevError, error = 0, p, kp, d, kd, i, ki;
   double bestPairChange, center;
   int indx;
@@ -47,7 +48,7 @@ public class TurnToTarget extends Command {
     if (pairs.size() > 0) {
       bestPair = pairs.get(0);
       for (int i = 0; i < pairs.size(); i++) {
-        if (Math.abs  (center - (VisionProcessing.getPairCenter(pairs.get(i)))) <= Math
+        if (Math.abs(center - (VisionProcessing.getPairCenter(pairs.get(i)))) <= Math
             .abs(center - (VisionProcessing.getPairCenter(bestPair)))) {
           bestPair = pairs.get(i);
           best = true;

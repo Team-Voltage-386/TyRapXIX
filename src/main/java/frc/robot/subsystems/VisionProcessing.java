@@ -18,6 +18,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
@@ -87,15 +88,15 @@ public class VisionProcessing extends Subsystem {
     }
   }
 
-  public ArrayList<RotatedRect> sortRectX(ArrayList<RotatedRect> rects) {
+  public ArrayList<Rect> sortRectX(ArrayList<Rect> rects) {
     int n = rects.size(), min;
-    RotatedRect temp;
+    Rect temp;
 
     for (int i = 0; i < n - 1; i++) {
       min = i;
 
       for (int j = i + 1; j < n; j++) {
-        if (rects.get(j).center.x < rects.get(min).center.x) {
+        if (rects.get(j).x < rects.get(min).x) {
           min = j;
         }
       }
@@ -111,7 +112,7 @@ public class VisionProcessing extends Subsystem {
     return rects;
   }
 
-  public ArrayList<RotatedRect[]> visionProcess() {
+  public ArrayList<Rect[]> visionProcess() {
 
     // Vision Thresholds
     colorStart = new Scalar(75, 40, 125);
@@ -121,8 +122,8 @@ public class VisionProcessing extends Subsystem {
     cvSink.grabFrame(base);
 
     // Set up ArrayList for pairs
-    ArrayList<RotatedRect[]> pairs = new ArrayList<RotatedRect[]>();
-    RotatedRect[] pair = new RotatedRect[2];
+    ArrayList<Rect[]> pairs = new ArrayList<Rect[]>();
+    Rect[] pair = new Rect[2];
 
     Mat dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3));
     Mat erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3));
@@ -165,36 +166,35 @@ public class VisionProcessing extends Subsystem {
       // Find contours
       Imgproc.findContours(testMat, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
 
-      ArrayList<RotatedRect> rects = new ArrayList<>();
+      ArrayList<Rect> rects = new ArrayList<>();
 
       for (int i = 0; i < contours.size(); i++) {
-        RotatedRect rect = Imgproc.minAreaRect(new MatOfPoint2f(contours.get(i).toArray()));
+        Rect rect = Imgproc.boundingRect(new MatOfPoint2f(contours.get(i).toArray()));
         rects.add(rect);
       }
 
       for (int i = 0; i < rects.size(); i++) {
-        Point[] vertices = new Point[4];
+        /*Point[] vertices = new Point[4];
         rects.get(i).points(vertices);
         MatOfPoint points = new MatOfPoint(vertices);
-        Imgproc.drawContours(flatBase, Arrays.asList(points), -1, new Scalar(i * (255 / rects.size()), 255, 255), 2);
+        Imgproc.drawContours(flatBase, Arrays.asList(points), -1, new Scalar(i * (255 / rects.size()), 255, 255), 2);*/
+        Imgproc.rectangle(flatBase, rects.get(i).br(), rects.get(i).tl(), new Scalar(i * (255 / rects.size()), 255, 255), 2);
       }
 
       rects = sortRectX(rects);
 
       for (int i = 0; i < rects.size() - 1; i++) {
-        if (getAngle(rects.get(i)) > 0 && getAngle(rects.get(i + 1)) < 0) {
-          pair = new RotatedRect[2];
+          pair = new Rect[2];
           pair[0] = rects.get(i);
           pair[1] = rects.get(i + 1);
           pairs.add(pair);
           i++;
-        }
       }
 
       SmartDashboard.putNumber("Number of Pairs", pairs.size());
 
       for (int i = 0; i < pairs.size(); i++) {
-        Imgproc.line(flatBase, pairs.get(i)[0].center, pairs.get(i)[1].center, new Scalar(0, 255, 255));
+        Imgproc.line(flatBase, pairs.get(i)[0].br(), pairs.get(i)[1].br(), new Scalar(0, 255, 255));
       }
 
       HSVOutputStream.putFrame(flatBase);
@@ -203,8 +203,8 @@ public class VisionProcessing extends Subsystem {
     return pairs;
   }
 
-  public static double getPairCenter(RotatedRect[] pair) {
-    return (pair[0].center.x + pair[1].center.x) / 2;
+  public static double getPairCenter(Rect[] pair) {
+    return (pair[0].x + pair[1].x) / 2;
   }
 
   @Override

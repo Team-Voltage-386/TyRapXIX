@@ -48,9 +48,9 @@ public class DriveSubsystem extends Subsystem {
 
   private static DifferentialDrive differentialDrive = new DifferentialDrive(frontLeft, frontRight);
 
-  final int kPeakCurrentAmps = 35; /* threshold to trigger current limit */
+  final int kPeakCurrentAmps = 45; /* threshold to trigger current limit */
   final int kPeakTimeMs = 0; /* how long after Peak current to trigger current limit */
-  final int kContinCurrentAmps = 25; /* hold current after limit is triggered */
+  final int kContinCurrentAmps = 39; /* hold current after limit is triggered */
 
   public static final double OPEN_LOOP_RAMP_SECONDS = 0.1;
   private static final int NO_TIMEOUT = 0;
@@ -66,17 +66,19 @@ public class DriveSubsystem extends Subsystem {
     resetEncoder();
     resetPigeon();
 
-    // frontLeft.configPeakCurrentLimit(kPeakCurrentAmps, 10);
-    // frontLeft.configPeakCurrentDuration(kPeakTimeMs, 10); /* this is a necessary
-    // call to avoid errata. */
-    // frontLeft.configContinuousCurrentLimit(kContinCurrentAmps, 10);
-    // frontLeft.enableCurrentLimit(false); /* honor initial setting */
+    frontLeft.configPeakCurrentLimit(kPeakCurrentAmps, 10);
+    frontLeft.configPeakCurrentDuration(kPeakTimeMs, 10); /*
+                                                           * this is a necessary call to avoid errata.
+                                                           */
+    frontLeft.configContinuousCurrentLimit(kContinCurrentAmps, 10);
+    frontLeft.enableCurrentLimit(true); /* honor initial setting */
 
-    // frontRight.configPeakCurrentLimit(kPeakCurrentAmps, 10);
-    // frontRight.configPeakCurrentDuration(kPeakTimeMs, 10); /* this is a necessary
-    // call to avoid errata. */
-    // frontRight.configContinuousCurrentLimit(kContinCurrentAmps, 10);
-    // frontRight.enableCurrentLimit(false); /* honor initial setting */
+    frontRight.configPeakCurrentLimit(kPeakCurrentAmps, 10);
+    frontRight.configPeakCurrentDuration(kPeakTimeMs, 10); /*
+                                                            * this is a necessary call to avoid errata.
+                                                            */
+    frontRight.configContinuousCurrentLimit(kContinCurrentAmps, 10);
+    frontRight.enableCurrentLimit(true); /* honor initial setting */
 
     frontRight.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS, NO_TIMEOUT);
     frontLeft.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS, NO_TIMEOUT);

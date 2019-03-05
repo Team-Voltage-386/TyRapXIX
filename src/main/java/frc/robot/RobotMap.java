@@ -70,7 +70,7 @@ public class RobotMap {
   // to be defined - port numbers are placeholders
   public static int rearElevatorMotor = 5;
   public static int leftShoulderMotor = 6;
-  public static int rightShoulderMotor = 7;
+  public static int rightShoulderMotor = 6;
   public static int elbowMotor = 8;
   public static int cargoRollerMotor = 9; // change to cargoCapture
   // encoders
