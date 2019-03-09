@@ -35,15 +35,16 @@ public class Robot extends TimedRobot {
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   NetworkTableEntry ballError;
-  NetworkTableEntry numberOfPairs;
+  NetworkTableEntry numberOfRects;
   NetworkTableEntry pairCenterPi;
   NetworkTableEntry screenCenterPi;
 
-  double pairsNum;
+  double rectsNum;
   public static double pairCenter;
   public static double screenCenter;
   public static double error;
   double defaultValue;
+  boolean clearForVision;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -54,6 +55,7 @@ public class Robot extends TimedRobot {
     defaultValue = -1.0;
     m_oi = new OI();
     SmartDashboard.putNumber("kp", 0.001);
+    SmartDashboard.putNumber("ki", 0.0);
     SmartDashboard.putNumber("kd", 0.01);
     // chooser.addOption("My Auto", new MyAutoCommand());
     /*
@@ -94,17 +96,24 @@ public class Robot extends TimedRobot {
     NetworkTable table = testInstance.getTable("datatable");
 
     ballError = table.getEntry("W");
-    numberOfPairs = table.getEntry("X");
+    numberOfRects = table.getEntry("X");
     pairCenterPi = table.getEntry("Y");
     screenCenterPi = table.getEntry("Z");
 
     error = ballError.getDouble(defaultValue);
-    pairsNum = numberOfPairs.getDouble(defaultValue);
+    rectsNum = numberOfRects.getDouble(defaultValue);
     pairCenter = pairCenterPi.getDouble(defaultValue);
     screenCenter = screenCenterPi.getDouble(defaultValue);
 
-    SmartDashboard.putNumber("Pairs", pairsNum);
-    SmartDashboard.putNumber("Center of best pair", pairCenter);
+    if (rectsNum > 2) {
+      clearForVision = true;
+    } else {
+      clearForVision = false;
+    }
+
+    SmartDashboard.putNumber("Rects", rectsNum);
+    SmartDashboard.putNumber("Average Target Center", pairCenter);
+    SmartDashboard.putBoolean("Target Vision Ready", clearForVision);
 
   }
 
