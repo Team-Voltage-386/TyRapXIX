@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
     pairCenter = pairCenterPi.getDouble(defaultValue);
     screenCenter = screenCenterPi.getDouble(defaultValue);
 
-    if (rectsNum > 2) {
+    if (rectsNum > 0) {
       clearForVision = true;
     } else {
       clearForVision = false;
@@ -114,6 +114,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Rects", rectsNum);
     SmartDashboard.putNumber("Average Target Center", pairCenter);
     SmartDashboard.putBoolean("Target Vision Ready", clearForVision);
+    SmartDashboard.putNumber("Defined Screen Center", screenCenter);
 
   }
 

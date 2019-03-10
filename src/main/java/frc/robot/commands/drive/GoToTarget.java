@@ -23,9 +23,7 @@ public class GoToTarget extends Command {
     requires(Robot.driveSubsystem);
   }
 
-  RotatedRect[] bestPair;
   double prevError, error = 0, p, d, i;
-  double bestPairChange, center;
   int indx;
   boolean best;
 
