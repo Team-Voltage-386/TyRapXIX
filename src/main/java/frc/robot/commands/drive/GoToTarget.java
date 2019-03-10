@@ -42,9 +42,9 @@ public class GoToTarget extends Command {
       prevError = error;
       error = (Robot.pairCenter - Robot.screenCenter);
 
-      p = error * SmartDashboard.getNumber("kp", 0.001);
+      p = error * SmartDashboard.getNumber("kp", -0.0075);
       i += SmartDashboard.getNumber("ki", 0.0);
-      d = (error - prevError) * SmartDashboard.getNumber("kd", 0.01);
+      d = (error - prevError) * SmartDashboard.getNumber("kd", -.5);
 
       Robot.driveSubsystem.driveTank((OI.xboxDriveControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) + p + d + i),
           OI.xboxDriveControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL) - p - d - i);
@@ -65,7 +65,7 @@ public class GoToTarget extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return !OI.xboxDriveControl.getRawButton(6);
+    return !OI.xboxDriveControl.getRawButton(1);
   }
 
   // Called once after isFinished returns true

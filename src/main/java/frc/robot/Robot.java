@@ -54,9 +54,9 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     defaultValue = -1.0;
     m_oi = new OI();
-    SmartDashboard.putNumber("kp", 0.001);
+    SmartDashboard.putNumber("kp", -0.0075);
     SmartDashboard.putNumber("ki", 0.0);
-    SmartDashboard.putNumber("kd", 0.01);
+    SmartDashboard.putNumber("kd", -0.5);
     // chooser.addOption("My Auto", new MyAutoCommand());
     /*
      * SmartDashboard.putData("Auto mode", m_chooser);
