@@ -8,6 +8,7 @@ import frc.robot.commands.arm.ArmCargoMode;
 import frc.robot.commands.arm.ArmHatchMode;
 import frc.robot.commands.manipulator.ManipulatorCargoMode;
 import frc.robot.commands.manipulator.ManipulatorHatchMode;
+import frc.robot.commands.drive.GoToTarget;
 import frc.robot.commands.drive.Shifter;
 
 /**
@@ -26,6 +27,7 @@ public class OI {
   // drive button inputs
   public static final int SPEED_MOD_BUTTON = 6;
   public static final int SHIFT_BUTTON = 5;
+  public static final int TARGET_BUTTON = 1; // A button
 
   // manipulator button inputs
   public static final int FLOOR_PICKUP = 6; // right bumper
@@ -52,6 +54,7 @@ public class OI {
   Button hatchModeButton = new JoystickButton(xboxManipControl, HATCH_MODE);
   Button maxSpeeedButton = new JoystickButton(xboxDriveControl, SPEED_MOD_BUTTON);
   Button shifterButton = new JoystickButton(xboxDriveControl, SHIFT_BUTTON);
+  Button goToTargetButton = new JoystickButton(xboxDriveControl, TARGET_BUTTON);
 
   Button tempClimbGroupButton = new JoystickButton(xboxDriveControl, 1); // TEMP
 
@@ -64,5 +67,6 @@ public class OI {
     cargoModeButton.whenPressed(new ArmCargoMode());
     hatchModeButton.whenPressed(new ManipulatorHatchMode());
     hatchModeButton.whenPressed(new ArmHatchMode());
+    goToTargetButton.whileHeld(new GoToTarget());
   }
 }

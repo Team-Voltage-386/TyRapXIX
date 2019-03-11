@@ -28,8 +28,8 @@ public class ArmSubsystem extends Subsystem {
   private double prevError = 0, error = 0, errorChange = 0, elbowPower = 0, shoulderPower = 0;
 
   // Constants for Calculations
-  private final double shoulderPK = -30;
-  private final double elbowPK = 0.5, elbowIK = 0.015, elbowDK = 1.25, elbowResetPK = 1.4;
+  public static final double SHOULDER_PK = -30, MAX_ERROR_FOR_I_USE = 0.3;
+  public static final double ELBOW_PK = 2.5, ELBOW_IK = 0.1, ELBOW_DK = 0.0, ELBOW_RESET_PK = 2.5;
 
   // Position States
   private final double CARGO_FLOOR_SHOULDER = 0.0542;
@@ -43,7 +43,7 @@ public class ArmSubsystem extends Subsystem {
   private final double HATCH_LEVEL_THREE_SHOULDER = 0.943;
   private final double FINAL_CLIMB_SHOULDER = 0.158;
   private final double RESET_SHOULDER = 0.0;
-  private final double RESET_ELBOW = 4.8;
+  private final double RESET_ELBOW = 4.9;
   private final double PERPENDICULAR_ELBOW = 3.85;
   private final double PARALLEL_ELBOW = 1.57;
   private final double CARGO_FLOOR_ELBOW = 2.415;
@@ -52,16 +52,17 @@ public class ArmSubsystem extends Subsystem {
   // Voltage Soft Limits
   private static final double MAX_SHOULDER_VOLTAGE = 3.5;
   private static final double MIN_SHOULDER_VOLTAGE = 1.05;
-  private static final double MAX_ELBOW_VOLTAGE = 4.72;
+  private static final double MAX_ELBOW_VOLTAGE = 4.88;
   private static final double MIN_ELBOW_VOLTAGE = 1.4;
 
   // Speed Limiters for
   private final double UPWARDS_SHOULDER_LIMITER = 1;
-  private final double DOWNWARDS_SHOULDER_LIMITER = 0.45; // tune in pit
+  private final double DOWNWARDS_SHOULDER_LIMITER = 0.85;
   private final double UPWARDS_ELBOW_LIMITER = 1;
-  private final double DOWNWARDS_ELBOW_LIMITER = 0.75;
+  public static final double DOWNWARDS_ELBOW_LIMITER = 1; // was 0.6
 
   // Talon Motors
+  // No Shoulder on TestBot
   private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
   public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
 
@@ -78,7 +79,9 @@ public class ArmSubsystem extends Subsystem {
 
     // Current Limiting Shoulder
     shoulderMotor.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
-    shoulderMotor.configPeakCurrentDuration(PEAK_TIME_MS); /* this is a necessary call to avoid errata. */
+    shoulderMotor.configPeakCurrentDuration(PEAK_TIME_MS); /*
+                                                            * this is a necessary // call to avoid errata.
+                                                            */
     shoulderMotor.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
     shoulderMotor.enableCurrentLimit(true); /* honor initial setting */
     shoulderMotor.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
@@ -156,7 +159,6 @@ public class ArmSubsystem extends Subsystem {
       break;
     case finalClimb:
       setShoulderPosition(FINAL_CLIMB_SHOULDER);
-      break;
     case resetState:
       // Prevents Elbow From Getting Caught on Bumper
       if (getElbowPotentiometerVoltage() > PERPENDICULAR_ELBOW - 0.1) {
@@ -201,16 +203,14 @@ public class ArmSubsystem extends Subsystem {
   public void setShoulderPosition(double positionGoal) {
     error = getShoulderPosition() - positionGoal;
     errorChange = error - prevError;
-    if (error < 0)
-      shoulderP = error * shoulderPK;
-    else
-      shoulderP = error * -10;
+    shoulderP = error * SHOULDER_PK;
     shoulderPower = shoulderP;
     if (Math.abs(error) < 0.01) {
       shoulderPower = 0;
     }
     setShoulderMotorSpeed(shoulderPower);
-    SmartDashboard.putNumber("ShoulderPositionGoal", positionGoal); // May be removed from master
+    SmartDashboard.putNumber("ShoulderPositionGoal", positionGoal); // May be
+    // removed from master
     prevError = error;
   }
 
@@ -223,11 +223,22 @@ public class ArmSubsystem extends Subsystem {
   public void setElbowPosition(double positionVoltage) {
     error = elbowPotentiometer.getAverageVoltage() - positionVoltage;
     errorChange = error - prevError;
-    elbowP = error * elbowPK;
-    elbowI += error * elbowIK;
-    elbowD = errorChange * elbowDK;
+    elbowP = error * /* elbowPK */ SmartDashboard.getNumber("elbowPK ", ELBOW_PK);
+    // Only Uses elbowI If Elbow is moving slow to prevent overshoot
+    if (Math.abs(error) < /* maxSpeedForIUse */ SmartDashboard.getNumber("MaxErrorForIUse ", MAX_ERROR_FOR_I_USE)) {
+      elbowI += error * /* elbowIK */ SmartDashboard.getNumber("elbowIK ", ELBOW_IK);
+    } else {
+      elbowI = 0;
+    }
+    elbowD = errorChange * /* elbowDK */ SmartDashboard.getNumber("elbowDK ", ELBOW_DK);
     elbowPower = elbowP + elbowI + elbowD;
+    // Prevent burnout and prevent moving off of goal once already there
+    if (Math.abs(error) < 0.01) {
+      elbowPower = 0;
+    }
     setElbowMotorSpeed(elbowPower);
+    SmartDashboard.putNumber("errorChange ELBOW", errorChange); // temp for testing?
+    SmartDashboard.putNumber("elbowI ", elbowI); // temp for testing?
     SmartDashboard.putNumber("ElbowCurrentGoal", positionVoltage); // May be removed from master
     prevError = error;
   }
@@ -238,7 +249,6 @@ public class ArmSubsystem extends Subsystem {
    * @param power The requested power from 0.0 to 1.0
    */
   public void setShoulderMotorSpeed(double power) {
-
     // Ensures Power is Between -1 and 1
     if (power > 1) {
       power = 1;
@@ -246,7 +256,6 @@ public class ArmSubsystem extends Subsystem {
     if (power < -1) {
       power = -1;
     }
-
     // Speed Limiters by Direction and Max and Min Shoulder Positions
     if (power > 0 && getShoulderPotentiometerVoltage() < MAX_SHOULDER_VOLTAGE) {
       power = UPWARDS_SHOULDER_LIMITER * power;
@@ -272,10 +281,10 @@ public class ArmSubsystem extends Subsystem {
     if (power < -1) {
       power = -1;
     }
-
     // Speed Limiters by Direction and Max and Min Voltages
     if (power > 0.05 && getElbowPotentiometerVoltage() > MIN_ELBOW_VOLTAGE) {
-      power = DOWNWARDS_ELBOW_LIMITER * power;
+      power = /* DOWNWARDS_ELBOW_LIMITER */ SmartDashboard.getNumber("ElbowDownLimiter ", DOWNWARDS_ELBOW_LIMITER)
+          * power;
     } else if (power < -0.05 && getElbowPotentiometerVoltage() < MAX_ELBOW_VOLTAGE) {
       power = UPWARDS_ELBOW_LIMITER * power;
     } else {
@@ -333,7 +342,7 @@ public class ArmSubsystem extends Subsystem {
    */
   public void resetElbowPosition(double positionVoltage) {
     error = elbowPotentiometer.getAverageVoltage() - positionVoltage;
-    elbowResetP = error * elbowResetPK;
+    elbowResetP = error * ELBOW_RESET_PK;
     elbowPower = elbowResetP;
     setElbowMotorSpeed(elbowPower);
   }

@@ -1,5 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -30,25 +33,45 @@ public class Robot extends TimedRobot {
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+  NetworkTableEntry ballError;
+  NetworkTableEntry numberOfRects;
+  NetworkTableEntry pairCenterPi;
+  NetworkTableEntry screenCenterPi;
+
+  double rectsNum;
+  public static double pairCenter;
+  public static double screenCenter;
+  public static double error;
+  double defaultValue;
+  boolean clearForVision;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
   @Override
   public void robotInit() {
+    defaultValue = -1.0;
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
-    /*
-     * SmartDashboard.putData("Auto mode", m_chooser);
-     * SmartDashboard.putNumber("elbowPK ", 1.2);
-     * SmartDashboard.putNumber("elbowIK ", 0.02);
-     * SmartDashboard.putNumber("elbowDK ", 0);
-     * SmartDashboard.putNumber("shoulderPK ", -25);
-     * SmartDashboard.putNumber("shoulderDK ", 0);
-     * SmartDashboard.putNumber("shoulderIK ", 0);
-     * SmartDashboard.putNumber("elbowResetPK ", 1.4);
-     * SmartDashboard.putNumber("Downwards Elbow Limiter", 0.8);
-     */
+
+    // SmartDashboard.putData("Auto mode", m_chooser);
+    // SmartDashboard.putNumber("elbowPK ", 1.2);
+    // SmartDashboard.putNumber("elbowIK ", 0.02);
+    // SmartDashboard.putNumber("elbowDK ", 0);
+    // SmartDashboard.putNumber("shoulderPK ", -25);
+    // SmartDashboard.putNumber("shoulderDK ", 0);
+    // SmartDashboard.putNumber("shoulderIK ", 0);
+    // SmartDashboard.putNumber("elbowResetPK ", 1.4);
+    // SmartDashboard.putNumber("Downwards Elbow Limiter", 0.8);
+    SmartDashboard.putNumber("kp", -0.0075);
+    SmartDashboard.putNumber("ki", 0.0);
+    SmartDashboard.putNumber("kd", -0.5);
+    SmartDashboard.putNumber("elbowPK ", ArmSubsystem.ELBOW_PK);
+    SmartDashboard.putNumber("elbowIK ", ArmSubsystem.ELBOW_IK);
+    SmartDashboard.putNumber("elbowDK ", ArmSubsystem.ELBOW_DK);
+    SmartDashboard.putNumber("ElbowDownLimiter ", ArmSubsystem.DOWNWARDS_ELBOW_LIMITER);
+    SmartDashboard.putNumber("MaxErrorForIUse ", ArmSubsystem.MAX_ERROR_FOR_I_USE);
   }
 
   /**
@@ -69,6 +92,32 @@ public class Robot extends TimedRobot {
     armSubsystem.displayDiagnostics();
     endgameClimbSubsystem.displayDiagnostics();
     manipulatorSubsystem.displayDiagnostics();
+
+    NetworkTableInstance testInstance = NetworkTableInstance.getDefault();
+    testInstance.startServer();
+    testInstance.setServerTeam(386, 1735);
+    NetworkTable table = testInstance.getTable("datatable");
+
+    ballError = table.getEntry("W");
+    numberOfRects = table.getEntry("X");
+    pairCenterPi = table.getEntry("Y");
+    screenCenterPi = table.getEntry("Z");
+
+    error = ballError.getDouble(defaultValue);
+    rectsNum = numberOfRects.getDouble(defaultValue);
+    pairCenter = pairCenterPi.getDouble(defaultValue);
+    screenCenter = screenCenterPi.getDouble(defaultValue);
+
+    if (rectsNum > 0) {
+      clearForVision = true;
+    } else {
+      clearForVision = false;
+    }
+
+    SmartDashboard.putNumber("Rects", rectsNum);
+    SmartDashboard.putNumber("Average Target Center", pairCenter);
+    SmartDashboard.putBoolean("Target Vision Ready", clearForVision);
+    SmartDashboard.putNumber("Defined Screen Center", screenCenter);
   }
 
   /**
