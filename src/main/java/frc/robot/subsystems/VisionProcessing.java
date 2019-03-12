@@ -114,8 +114,8 @@ public class VisionProcessing extends Subsystem {
   public ArrayList<RotatedRect[]> visionProcess() {
 
     // Vision Thresholds
-    colorStart = new Scalar(75, 40, 125);
-    colorEnd = new Scalar(140, 255, 255);
+    colorStart = new Scalar(75, 70, 200);
+    colorEnd = new Scalar(100, 255, 255);
 
     // Recive the inital image
     cvSink.grabFrame(base);
@@ -141,13 +141,14 @@ public class VisionProcessing extends Subsystem {
         }
       }
 
-      TestOutputStream.putFrame(base);
+      // TestOutputStream.putFrame(base);
       Imgproc.undistort(base, mat, flatMatK, flatMatD);
       Imgproc.undistort(base, flatBase, flatMatK, flatMatD);
       FlatOutputStream.putFrame(mat);
 
+      Mat sub = mat.submat(64, 180, 75, 235);
       // Blurs the image for ease of processing
-      Imgproc.blur(mat, mat, blurSize);
+      Imgproc.blur(sub, mat, blurSize);
       // Converts from the RGB scale to HSV because HSV is more useful
       Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2HSV);
 
