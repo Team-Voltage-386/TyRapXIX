@@ -21,12 +21,14 @@ public class CheckClimbLevel extends InstantCommand {
    */
   @Override
   protected void initialize() {
+    // if(getMatchTime()<30){ //NEEDS TO BE VERIFIED and/or TESTED
     if (Robot.driveSubsystem.getUltrasonicDistance() < ULTRASONIC_CHECKING_DISTANCE) { // Temporary Number to Determine
                                                                                        // Which Climb to do
       new LevelThreeClimbGroup().start();
     } else {
       new LevelTwoClimbGroup().start();
     }
+    // }
   }
 
 }

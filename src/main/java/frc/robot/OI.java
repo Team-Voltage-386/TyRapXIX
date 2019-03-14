@@ -60,9 +60,7 @@ public class OI {
 
   public OI() {
 
-    // if(getMatchTime()<30){ //NEEDS TO BE VERIFIED and/or TESTED
     tempClimbGroupButton.whenPressed(new CheckClimbLevel());
-    // }
 
     shifterButton.whenPressed(new Shifter());
     cargoModeButton.whenPressed(new ManipulatorCargoMode());
