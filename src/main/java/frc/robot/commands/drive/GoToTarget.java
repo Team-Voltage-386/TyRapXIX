@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class GoToTarget extends Command {
   public GoToTarget() {
@@ -24,6 +25,7 @@ public class GoToTarget extends Command {
   @Override
   protected void initialize() {
     Robot.driveSubsystem.resetEncoders();
+    Robot.driveSubsystem.setShiftSolenoid(DoubleSolenoid.Value.kReverse);
     Robot.cameraSubsystem.on();
   }
 

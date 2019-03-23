@@ -29,13 +29,22 @@ public class ArcadeDrive extends Command {
   protected void execute() {
     double xSpeed = OI.xboxDriveControl.getRawAxis(OI.DRIVE_LEFT_JOYSTICK_VERTICAL);
     double zRotation = OI.xboxDriveControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL);
-    Robot.driveSubsystem.driveArcade(xSpeed, -zRotation);
+    // Robot.driveSubsystem.driveArcade(xSpeed, -zRotation);
+    Robot.driveSubsystem.driveArcade(squareKeepSign(xSpeed), squareKeepSign(-zRotation));
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
+  }
+
+  public static double squareKeepSign(double in) {
+    if (in < 0) {
+      return -1 * in * in;
+    } else {
+      return in * in;
+    }
   }
 
   // Called once after isFinished returns true

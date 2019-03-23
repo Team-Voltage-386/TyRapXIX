@@ -46,7 +46,7 @@ public class ArmSubsystem extends Subsystem {
   private final double RESET_ELBOW = 4.9;
   private final double PERPENDICULAR_ELBOW = 3.85;
   private final double PARALLEL_ELBOW = 1.57;
-  private final double CARGO_FLOOR_ELBOW = 2.415;
+  private final double CARGO_FLOOR_ELBOW = 2.415;// .415
   private static final double HUMAN_PLAYER_ELBOW = 3.5; // TEMP
 
   // Voltage Soft Limits
@@ -203,7 +203,10 @@ public class ArmSubsystem extends Subsystem {
   public void setShoulderPosition(double positionGoal) {
     error = getShoulderPosition() - positionGoal;
     errorChange = error - prevError;
-    shoulderP = error * SHOULDER_PK;
+    if(error < 0)
+      shoulderP = error * SHOULDER_PK;
+    else
+      shoulderP = error * -7.5;
     shoulderPower = shoulderP;
     if (Math.abs(error) < 0.01) {
       shoulderPower = 0;

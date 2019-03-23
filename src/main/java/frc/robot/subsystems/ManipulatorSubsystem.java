@@ -22,9 +22,9 @@ public class ManipulatorSubsystem extends Subsystem {
   public static final Value MODE_SOLENOID_CARGO = Value.kForward;
 
   // Constant Speeds
-  private static final double CARGO_INTAKE_SPEED = 1;
-  private static final double CARGO_OUTTAKE_SPEED = -1;
-  private static final double DEFAULT_INTAKE_SPEED = .5;
+  private static final double CARGO_INTAKE_SPEED = -1;
+  private static final double CARGO_OUTTAKE_SPEED = 1;
+  private static final double DEFAULT_INTAKE_SPEED = -.5;
 
   // Current Constants
   private static final int PEAK_CURRENT_AMPS = 35; /* threshold to trigger current limit */

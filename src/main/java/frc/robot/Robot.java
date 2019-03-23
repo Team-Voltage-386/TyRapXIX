@@ -106,7 +106,7 @@ public class Robot extends TimedRobot {
     error = ballError.getDouble(defaultValue);
     rectsNum = numberOfRects.getDouble(defaultValue);
     pairCenter = pairCenterPi.getDouble(defaultValue);
-    screenCenter = screenCenterPi.getDouble(defaultValue);
+    screenCenter = 95;// screenCenterPi.getDouble(defaultValue);
 
     if (rectsNum > 0) {
       clearForVision = true;
