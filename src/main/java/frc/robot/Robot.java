@@ -64,9 +64,9 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putNumber("shoulderIK ", 0);
     // SmartDashboard.putNumber("elbowResetPK ", 1.4);
     // SmartDashboard.putNumber("Downwards Elbow Limiter", 0.8);
-    SmartDashboard.putNumber("kp", 0.0075);
+    SmartDashboard.putNumber("kp", -0.0075);
     SmartDashboard.putNumber("ki", 0.0);
-    SmartDashboard.putNumber("kd", 0.5);
+    SmartDashboard.putNumber("kd", -0.5);
     SmartDashboard.putNumber("elbowPK ", ArmSubsystem.ELBOW_PK);
     SmartDashboard.putNumber("elbowIK ", ArmSubsystem.ELBOW_IK);
     SmartDashboard.putNumber("elbowDK ", ArmSubsystem.ELBOW_DK);
