@@ -3,11 +3,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.climb.CheckClimbLevel;
-import frc.robot.commands.arm.ArmCargoMode;
-import frc.robot.commands.arm.ArmHatchMode;
-import frc.robot.commands.manipulator.ManipulatorCargoMode;
-import frc.robot.commands.manipulator.ManipulatorHatchMode;
+// import frc.robot.commands.climb.CheckClimbLevel;
+// import frc.robot.commands.arm.ArmCargoMode;
+// import frc.robot.commands.arm.ArmHatchMode;
+// import frc.robot.commands.manipulator.ManipulatorCargoMode;
+// import frc.robot.commands.manipulator.ManipulatorHatchMode;
 import frc.robot.commands.drive.GoToTarget;
 import frc.robot.commands.drive.Shifter;
 
@@ -60,13 +60,13 @@ public class OI {
 
   public OI() {
 
-    tempClimbGroupButton.whenPressed(new CheckClimbLevel());
+    // tempClimbGroupButton.whenPressed(new CheckClimbLevel());
 
     shifterButton.whenPressed(new Shifter());
-    cargoModeButton.whenPressed(new ManipulatorCargoMode());
-    cargoModeButton.whenPressed(new ArmCargoMode());
-    hatchModeButton.whenPressed(new ManipulatorHatchMode());
-    hatchModeButton.whenPressed(new ArmHatchMode());
+    // cargoModeButton.whenPressed(new ManipulatorCargoMode());
+    // cargoModeButton.whenPressed(new ArmCargoMode());
+    // hatchModeButton.whenPressed(new ManipulatorHatchMode());
+    // hatchModeButton.whenPressed(new ArmHatchMode());
     goToTargetButton.whileHeld(new GoToTarget());
   }
 }

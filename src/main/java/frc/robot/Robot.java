@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.commands.drive.AutoGoToTarget;
+import frc.robot.commands.drive.AutoLevelTwoToTarget;
+// import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.EndgameClimbSubsystem;
-import frc.robot.subsystems.ManipulatorSubsystem;
+// import frc.robot.subsystems.EndgameClimbSubsystem;
+// import frc.robot.subsystems.ManipulatorSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,11 +25,13 @@ import frc.robot.subsystems.ManipulatorSubsystem;
  */
 public class Robot extends TimedRobot {
 
-  public static ArmSubsystem armSubsystem = new ArmSubsystem();
+  // public static ArmSubsystem armSubsystem = new ArmSubsystem();
   public static CameraSubsystem cameraSubsystem = new CameraSubsystem();
   public static DriveSubsystem driveSubsystem = new DriveSubsystem();
-  public static EndgameClimbSubsystem endgameClimbSubsystem = new EndgameClimbSubsystem();
-  public static ManipulatorSubsystem manipulatorSubsystem = new ManipulatorSubsystem();
+  // public static EndgameClimbSubsystem endgameClimbSubsystem = new
+  // EndgameClimbSubsystem();
+  // public static ManipulatorSubsystem manipulatorSubsystem = new
+  // ManipulatorSubsystem();
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -67,11 +71,13 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("kp", 0.0075);
     SmartDashboard.putNumber("ki", 0.0);
     SmartDashboard.putNumber("kd", 0.5);
-    SmartDashboard.putNumber("elbowPK ", ArmSubsystem.ELBOW_PK);
-    SmartDashboard.putNumber("elbowIK ", ArmSubsystem.ELBOW_IK);
-    SmartDashboard.putNumber("elbowDK ", ArmSubsystem.ELBOW_DK);
-    SmartDashboard.putNumber("ElbowDownLimiter ", ArmSubsystem.DOWNWARDS_ELBOW_LIMITER);
-    SmartDashboard.putNumber("MaxErrorForIUse ", ArmSubsystem.MAX_ERROR_FOR_I_USE);
+    // SmartDashboard.putNumber("elbowPK ", ArmSubsystem.ELBOW_PK);
+    // SmartDashboard.putNumber("elbowIK ", ArmSubsystem.ELBOW_IK);
+    // SmartDashboard.putNumber("elbowDK ", ArmSubsystem.ELBOW_DK);
+    // SmartDashboard.putNumber("ElbowDownLimiter ",
+    // ArmSubsystem.DOWNWARDS_ELBOW_LIMITER);
+    // SmartDashboard.putNumber("MaxErrorForIUse ",
+    // ArmSubsystem.MAX_ERROR_FOR_I_USE);
   }
 
   /**
@@ -85,13 +91,15 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     SmartDashboard.putNumber("Front Ultrasonic", driveSubsystem.getUltrasonicDistance());
-    SmartDashboard.putString("Current Climb Command", endgameClimbSubsystem.getCurrentCommandName());
-    SmartDashboard.putString("ArmCurrentCommand", armSubsystem.getCurrentCommandName());
+    // SmartDashboard.putString("Current Climb Command",
+    // endgameClimbSubsystem.getCurrentCommandName());
+    // SmartDashboard.putString("ArmCurrentCommand",
+    // armSubsystem.getCurrentCommandName());
 
     driveSubsystem.displayDiagnostics();
-    armSubsystem.displayDiagnostics();
-    endgameClimbSubsystem.displayDiagnostics();
-    manipulatorSubsystem.displayDiagnostics();
+    // armSubsystem.displayDiagnostics();
+    // endgameClimbSubsystem.displayDiagnostics();
+    // manipulatorSubsystem.displayDiagnostics();
 
     NetworkTableInstance testInstance = NetworkTableInstance.getDefault();
     testInstance.startServer();
@@ -140,6 +148,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
+    m_autonomousCommand = new AutoGoToTarget();
+    m_autonomousCommand = new AutoLevelTwoToTarget();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -169,9 +179,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
+    // if (m_autonomousCommand != null) {
+    // m_autonomousCommand.cancel();
+    // }
   }
 
   /**
