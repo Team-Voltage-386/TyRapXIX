@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.drive.AutoGoToTarget;
 import frc.robot.commands.drive.DriveForwardTicks;
+import frc.robot.commands.drive.LevelTwoAuto;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -146,9 +147,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    Robot.driveSubsystem.resetEncoders();
     m_autonomousCommand = m_chooser.getSelected();
-    m_autonomousCommand = new AutoGoToTarget();
-    m_autonomousCommand = new DriveForwardTicks(-1, 900);
+    m_autonomousCommand = new LevelTwoAuto();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
