@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.drive.AutoGoToTarget;
-import frc.robot.commands.drive.AutoLevelTwoToTarget;
-// import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.commands.drive.DriveForwardTicks;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 // import frc.robot.subsystems.EndgameClimbSubsystem;
-// import frc.robot.subsystems.ManipulatorSubsystem;
+import frc.robot.subsystems.ManipulatorSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,13 +25,12 @@ import frc.robot.subsystems.DriveSubsystem;
  */
 public class Robot extends TimedRobot {
 
-  // public static ArmSubsystem armSubsystem = new ArmSubsystem();
+  public static ArmSubsystem armSubsystem = new ArmSubsystem();
   public static CameraSubsystem cameraSubsystem = new CameraSubsystem();
   public static DriveSubsystem driveSubsystem = new DriveSubsystem();
   // public static EndgameClimbSubsystem endgameClimbSubsystem = new
   // EndgameClimbSubsystem();
-  // public static ManipulatorSubsystem manipulatorSubsystem = new
-  // ManipulatorSubsystem();
+  public static ManipulatorSubsystem manipulatorSubsystem = new ManipulatorSubsystem();
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -149,7 +148,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
     m_autonomousCommand = new AutoGoToTarget();
-    m_autonomousCommand = new AutoLevelTwoToTarget();
+    m_autonomousCommand = new DriveForwardTicks(-1, 900);
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");

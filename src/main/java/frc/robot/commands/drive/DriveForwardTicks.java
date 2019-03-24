@@ -4,10 +4,16 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class AutoLevelTwoToTarget extends Command {
-  public AutoLevelTwoToTarget() {
+public class DriveForwardTicks extends Command {
+
+  double speed, ticks;
+
+  /** negative speed is forwards */
+  public DriveForwardTicks(double inSpeed, double inTicks) {
     requires(Robot.cameraSubsystem);
     requires(Robot.driveSubsystem);
+    speed = inSpeed;
+    ticks = inTicks;
   }
 
   // Called just before this Command runs the first time
@@ -21,13 +27,13 @@ public class AutoLevelTwoToTarget extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveSubsystem.driveTank(-1, -1);
+    Robot.driveSubsystem.driveTank(speed, speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(Robot.driveSubsystem.getRightEncoder()) > 900;
+    return Math.abs(Robot.driveSubsystem.getRightEncoder()) > ticks;
   }
 
   // Called once after isFinished returns true
