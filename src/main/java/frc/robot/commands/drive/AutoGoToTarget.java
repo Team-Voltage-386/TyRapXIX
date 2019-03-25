@@ -39,9 +39,9 @@ public class AutoGoToTarget extends Command {
       prevError = error;
       error = (Robot.pairCenter - Robot.screenCenter);
 
-      p = error * SmartDashboard.getNumber("kp", -0.0075);
-      i += SmartDashboard.getNumber("ki", 0.0);
-      d = (error - prevError) * SmartDashboard.getNumber("kd", -.5);
+      p = error * 0.0075;
+      i += 0.0;
+      d = (error - prevError) * .5;
 
       Robot.driveSubsystem.driveTank(-0.5 + p + d + i, -0.5 - p - d - i);
 
@@ -60,7 +60,7 @@ public class AutoGoToTarget extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.driveSubsystem.getUltrasonicDistance() < 12;
+    return Robot.driveSubsystem.getUltrasonicDistance() < 13;
   }
 
   // Called once after isFinished returns true

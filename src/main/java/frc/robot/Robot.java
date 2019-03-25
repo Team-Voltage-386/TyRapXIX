@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.drive.AutoGoToTarget;
 import frc.robot.commands.drive.DriveForwardTicks;
+import frc.robot.commands.drive.LevelOneAuto;
 import frc.robot.commands.drive.LevelTwoAuto;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
@@ -78,6 +79,10 @@ public class Robot extends TimedRobot {
     // ArmSubsystem.DOWNWARDS_ELBOW_LIMITER);
     // SmartDashboard.putNumber("MaxErrorForIUse ",
     // ArmSubsystem.MAX_ERROR_FOR_I_USE);
+
+    m_chooser.addOption("Level 2", new LevelTwoAuto());
+    m_chooser.addOption("Level 1", new LevelOneAuto());
+    m_chooser.addOption("Manual", new ManualOverride());
   }
 
   /**

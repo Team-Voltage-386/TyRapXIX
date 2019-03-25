@@ -14,11 +14,11 @@ import frc.robot.commands.manipulator.AutoHatchRelease;
 import frc.robot.subsystems.ArmSubsystem.ElbowStates;
 import frc.robot.subsystems.ArmSubsystem.Levels;
 
-public class LevelTwoAuto extends CommandGroup {
+public class LevelOneAuto extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public LevelTwoAuto() {
+  public LevelOneAuto() {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -36,13 +36,10 @@ public class LevelTwoAuto extends CommandGroup {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
 
-    addSequential(new DriveForwardTicks(-0.85, 900));
-    addParallel(new AutoSetArmLevel(Levels.hatchLevelOne, ElbowStates.perpendicular));
-    addSequential(new DriveForwardSeconds(0.75, 1.0));
     addSequential(new AutoGoToTarget());
+    addParallel(new AutoSetArmLevel(Levels.hatchLevelOne, ElbowStates.perpendicular));
     addSequential(new AutoHatchRelease());
     addSequential(new DriveForwardSeconds(1, 0.5));
     addSequential(new AutoResumeManualControl());
-
   }
 }
