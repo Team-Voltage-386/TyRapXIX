@@ -9,6 +9,7 @@ package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.Robot;
 
 public class DriveForwardSeconds extends Command {
@@ -38,7 +39,8 @@ public class DriveForwardSeconds extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Timer.getFPGATimestamp() - startTime > time;
+    return Timer.getFPGATimestamp() - startTime > time
+        || Math.abs(OI.xboxDriveControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL)) > 0.1;
   }
 
   // Called once after isFinished returns true

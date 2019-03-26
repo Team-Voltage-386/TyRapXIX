@@ -1,15 +1,10 @@
 package frc.robot.commands.drive;
 
-import java.util.ArrayList;
-
-import org.opencv.core.RotatedRect;
-
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class GoToTarget extends Command {
   public GoToTarget() {

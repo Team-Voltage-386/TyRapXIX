@@ -3,6 +3,7 @@ package frc.robot.commands.drive;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.OI;
 import frc.robot.Robot;
 
 public class DriveForwardTicks extends Command {
@@ -39,7 +40,8 @@ public class DriveForwardTicks extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(Robot.driveSubsystem.getLeftEncoder()) > ticks && isRun;
+    return (Math.abs(Robot.driveSubsystem.getLeftEncoder()) > ticks && isRun)
+        || Math.abs(OI.xboxDriveControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL)) > 0.1;
   }
 
   // Called once after isFinished returns true

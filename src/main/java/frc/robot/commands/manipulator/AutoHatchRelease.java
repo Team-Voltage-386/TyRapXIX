@@ -8,6 +8,7 @@
 package frc.robot.commands.manipulator;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.ManipulatorSubsystem;
 
@@ -28,7 +29,8 @@ public class AutoHatchRelease extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    Robot.manipulatorSubsystem.setHatchSolenoidState(ManipulatorSubsystem.HATCH_SOLENOID_CLOSED);
+    if (!(Math.abs(OI.xboxDriveControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL)) > 0.1)) {
+      Robot.manipulatorSubsystem.setHatchSolenoidState(ManipulatorSubsystem.HATCH_SOLENOID_CLOSED);
+    }
   }
-
 }

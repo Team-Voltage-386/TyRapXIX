@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 import frc.robot.commands.arm.ArmHatchMode;
 import frc.robot.commands.drive.ArcadeDrive;
-import frc.robot.commands.manipulator.ManipulatorHatchDefault;
 import frc.robot.commands.manipulator.ManipulatorHatchMode;
 
 /**

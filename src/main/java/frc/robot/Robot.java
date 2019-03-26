@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.drive.AutoGoToTarget;
-import frc.robot.commands.drive.DriveForwardTicks;
 import frc.robot.commands.drive.LevelOneAuto;
 import frc.robot.commands.drive.LevelTwoAuto;
 import frc.robot.commands.drive.LoganContributions;

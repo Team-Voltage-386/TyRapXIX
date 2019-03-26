@@ -1,9 +1,5 @@
 package frc.robot.commands.drive;
 
-import java.util.ArrayList;
-
-import org.opencv.core.RotatedRect;
-
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
@@ -60,7 +56,8 @@ public class AutoGoToTarget extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Robot.driveSubsystem.getUltrasonicDistance() < 13;
+    return Robot.driveSubsystem.getUltrasonicDistance() < 13
+        || Math.abs(OI.xboxDriveControl.getRawAxis(OI.DRIVE_RIGHT_JOYSTICK_HORIZONTAL)) > 0.1;
   }
 
   // Called once after isFinished returns true
