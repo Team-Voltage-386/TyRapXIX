@@ -14,7 +14,7 @@ import frc.robot.commands.drive.LoganContributions;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-// import frc.robot.subsystems.EndgameClimbSubsystem;
+import frc.robot.subsystems.EndgameClimbSubsystem;
 import frc.robot.subsystems.ManipulatorSubsystem;
 
 /**
@@ -29,8 +29,7 @@ public class Robot extends TimedRobot {
   public static ArmSubsystem armSubsystem = new ArmSubsystem();
   public static CameraSubsystem cameraSubsystem = new CameraSubsystem();
   public static DriveSubsystem driveSubsystem = new DriveSubsystem();
-  // public static EndgameClimbSubsystem endgameClimbSubsystem = new
-  // EndgameClimbSubsystem();
+  public static EndgameClimbSubsystem endgameClimbSubsystem = new EndgameClimbSubsystem();
   public static ManipulatorSubsystem manipulatorSubsystem = new ManipulatorSubsystem();
   public static OI oi;
 

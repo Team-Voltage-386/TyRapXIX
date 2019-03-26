@@ -68,9 +68,7 @@ public class ArmSubsystem extends Subsystem {
     public static final double DOWNWARDS_ELBOW_LIMITER = 1; // was 0.6
 
     // Talon Motors
-    // No Shoulder on TestBot
-    // private static WPI_TalonSRX shoulderMotor = new
-    // WPI_TalonSRX(RobotMap.rightShoulderMotor);
+    private static WPI_TalonSRX shoulderMotor = new WPI_TalonSRX(RobotMap.rightShoulderMotor);
     public static WPI_TalonSRX elbowMotor = new WPI_TalonSRX(RobotMap.elbowMotor);
 
     // Potentiometer
@@ -85,13 +83,13 @@ public class ArmSubsystem extends Subsystem {
     public ArmSubsystem() {
 
         // Current Limiting Shoulder
-        // shoulderMotor.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
-        // shoulderMotor.configPeakCurrentDuration(PEAK_TIME_MS); /*
-        // * this is a necessary // call to avoid errata.
-        // */
-        // shoulderMotor.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
-        // shoulderMotor.enableCurrentLimit(true); /* honor initial setting */
-        // shoulderMotor.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
+        shoulderMotor.configPeakCurrentLimit(PEAK_CURRENT_AMPS);
+        shoulderMotor.configPeakCurrentDuration(PEAK_TIME_MS); /*
+                                                                * this is a necessary // call to avoid errata.
+                                                                */
+        shoulderMotor.configContinuousCurrentLimit(CONTIN_CURRENT_AMPS);
+        shoulderMotor.enableCurrentLimit(true); /* honor initial setting */
+        shoulderMotor.configOpenloopRamp(OPEN_LOOP_RAMP_SECONDS);
 
         // Current Limiting Elbow
         elbowMotor.configPeakCurrentLimit(15);
@@ -106,9 +104,8 @@ public class ArmSubsystem extends Subsystem {
 
     /** Motor Power, Current, Potentiometers, Position */
     public void displayDiagnostics() {
-        // SmartDashboard.putNumber("Shoulder Raw Power", shoulderMotor.get());
-        // SmartDashboard.putNumber("Shoulder Current",
-        // shoulderMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Shoulder Raw Power", shoulderMotor.get());
+        SmartDashboard.putNumber("Shoulder Current", shoulderMotor.getOutputCurrent());
         SmartDashboard.putNumber("Shoulder Potentiometer", shoulderPotentiometer.getAverageVoltage());
         SmartDashboard.putNumber("Shoulder Position", getShoulderPosition());
         SmartDashboard.putNumber("Elbow Potentiometer", getElbowPotentiometerVoltage());
@@ -278,7 +275,7 @@ public class ArmSubsystem extends Subsystem {
         } else {
             power = 0;
         }
-        // shoulderMotor.set(power);
+        shoulderMotor.set(power);
     }
 
     /**
