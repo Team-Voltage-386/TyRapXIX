@@ -36,8 +36,8 @@ public class LevelOneAuto extends CommandGroup {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
 
-    addSequential(new AutoGoToTarget());
     addParallel(new AutoSetArmLevel(Levels.hatchLevelOne, ElbowStates.perpendicular));
+    addSequential(new AutoGoToTarget());
     addSequential(new AutoHatchRelease());
     addSequential(new DriveForwardSeconds(1, 0.5));
     addSequential(new AutoResumeManualControl());

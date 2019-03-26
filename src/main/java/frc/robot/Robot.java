@@ -12,6 +12,7 @@ import frc.robot.commands.drive.AutoGoToTarget;
 import frc.robot.commands.drive.DriveForwardTicks;
 import frc.robot.commands.drive.LevelOneAuto;
 import frc.robot.commands.drive.LevelTwoAuto;
+import frc.robot.commands.drive.LoganContributions;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -33,10 +34,10 @@ public class Robot extends TimedRobot {
   // public static EndgameClimbSubsystem endgameClimbSubsystem = new
   // EndgameClimbSubsystem();
   public static ManipulatorSubsystem manipulatorSubsystem = new ManipulatorSubsystem();
-  public static OI m_oi;
+  public static OI oi;
 
-  Command m_autonomousCommand;
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  Command autonomousCommand;
+  SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   NetworkTableEntry ballError;
   NetworkTableEntry numberOfRects;
@@ -57,7 +58,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     defaultValue = -1.0;
-    m_oi = new OI();
+    oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
 
     // SmartDashboard.putData("Auto mode", m_chooser);
@@ -80,9 +81,13 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putNumber("MaxErrorForIUse ",
     // ArmSubsystem.MAX_ERROR_FOR_I_USE);
 
-    m_chooser.addOption("Level 2", new LevelTwoAuto());
-    m_chooser.addOption("Level 1", new LevelOneAuto());
-    m_chooser.addOption("Manual", new ManualOverride());
+    autoChooser.setName("Auto Chooser");
+    autoChooser.setDefaultOption("Manual", new LoganContributions());
+    autoChooser.addOption("Level 2", new LevelTwoAuto());
+    autoChooser.addOption("Level 1", new LevelOneAuto());
+
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+
   }
 
   /**
@@ -153,8 +158,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     Robot.driveSubsystem.resetEncoders();
-    m_autonomousCommand = m_chooser.getSelected();
-    m_autonomousCommand = new LevelTwoAuto();
+    autonomousCommand = autoChooser.getSelected();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -164,8 +168,8 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.start();
+    if (autonomousCommand != null) {
+      autonomousCommand.start();
     }
   }
 
