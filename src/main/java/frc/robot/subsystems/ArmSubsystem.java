@@ -35,35 +35,35 @@ public class ArmSubsystem extends Subsystem {
 
     // Constants for Calculations
     public static final double SHOULDER_PK = -30, MAX_ERROR_FOR_I_USE = 0.3;
-    public static final double ELBOW_PK = 2.5, ELBOW_IK = 0.1, ELBOW_DK = 0.0, ELBOW_RESET_PK = 2.5;
+    public static final double ELBOW_PK = 2.5, ELBOW_IK = 0.07, /* .07 */ ELBOW_DK = 0.0, ELBOW_RESET_PK = 2.5;
 
     // Position States
     private final double CARGO_FLOOR_SHOULDER = 0.0542;
-    private final double CARGO_PLAYER_STATION_SHOULDER = 0.208;
+    private final double CARGO_PLAYER_STATION_SHOULDER = 0.591;// 0.208
     private final double CARGO_LEVEL_ONE_SHOULDER = 0.142;
-    private final double CARGO_LEVEL_TWO_SHOULDER = 0.591;
+    private final double CARGO_LEVEL_TWO_SHOULDER = 0.58;// should be lower, .591
     private final double CARGO_LEVEL_THREE_SHOULDER = 1.00;
     private final double HATCH_FLOOR_SHOULDER = 0.115;
     private final double HATCH_LEVEL_ONE_SHOULDER = 0.0437;
     private final double HATCH_LEVEL_TWO_SHOULDER = 0.495;
-    private final double HATCH_LEVEL_THREE_SHOULDER = 0.943;
-    private final double FINAL_CLIMB_SHOULDER = 0.158;
-    private final double RESET_SHOULDER = 0.0;
-    private final double RESET_ELBOW = 4.9;
+    private final double HATCH_LEVEL_THREE_SHOULDER = 0.89;// .943
+    public static final double FINAL_CLIMB_SHOULDER = 0.158;
+    private final double RESET_SHOULDER = -0.15;
+    private final double RESET_ELBOW = 4.87;// -----------
     private final double PERPENDICULAR_ELBOW = 3.85;
     private final double PARALLEL_ELBOW = 1.57;
     private final double CARGO_FLOOR_ELBOW = 2.415;// .415
-    private static final double HUMAN_PLAYER_ELBOW = 3.5; // TEMP
+    private static final double HUMAN_PLAYER_ELBOW = 2.7; // TEMP--------
 
     // Voltage Soft Limits
     private static final double MAX_SHOULDER_VOLTAGE = 3.5;
     private static final double MIN_SHOULDER_VOLTAGE = 1.05;
-    private static final double MAX_ELBOW_VOLTAGE = 4.88;
-    private static final double MIN_ELBOW_VOLTAGE = 1.4;
+    private static final double MAX_ELBOW_VOLTAGE = 4.77;// ---------
+    private static final double MIN_ELBOW_VOLTAGE = 1.4;// --------
 
     // Speed Limiters for
     private final double UPWARDS_SHOULDER_LIMITER = 1;
-    private final double DOWNWARDS_SHOULDER_LIMITER = 0.85;
+    private final double DOWNWARDS_SHOULDER_LIMITER = 0.70;
     private final double UPWARDS_ELBOW_LIMITER = 1;
     public static final double DOWNWARDS_ELBOW_LIMITER = 1; // was 0.6
 
@@ -195,6 +195,7 @@ public class ArmSubsystem extends Subsystem {
             break;
         case humanPlayer:
             setElbowPosition(HUMAN_PLAYER_ELBOW);
+            // setElbowPosition(PARALLEL_ELBOW);
             break;
         default:
             break;
@@ -213,7 +214,7 @@ public class ArmSubsystem extends Subsystem {
         if (error < 0)
             shoulderP = error * SHOULDER_PK;
         else
-            shoulderP = error * -7.5;
+            shoulderP = error * -5;// 7.5
         shoulderPower = shoulderP;
         if (Math.abs(error) < 0.01) {
             shoulderPower = 0;
@@ -236,7 +237,7 @@ public class ArmSubsystem extends Subsystem {
         elbowP = error * /* elbowPK */ SmartDashboard.getNumber("elbowPK ", ELBOW_PK);
         // Only Uses elbowI If Elbow is moving slow to prevent overshoot
         if (Math.abs(error) < /* maxSpeedForIUse */
-        SmartDashboard.getNumber("MaxErrorForIUse ", MAX_ERROR_FOR_I_USE)) {
+                SmartDashboard.getNumber("MaxErrorForIUse ", MAX_ERROR_FOR_I_USE)) {
             elbowI += error * /* elbowIK */ SmartDashboard.getNumber("elbowIK ", ELBOW_IK);
         } else {
             elbowI = 0;
@@ -353,8 +354,13 @@ public class ArmSubsystem extends Subsystem {
      */
     public void resetElbowPosition(double positionVoltage) {
         error = elbowPotentiometer.getAverageVoltage() - positionVoltage;
-        elbowResetP = error * ELBOW_RESET_PK;
-        elbowPower = elbowResetP;
+        if (Math.abs(error) > .1) {
+            elbowResetP = error * ELBOW_RESET_PK;
+            elbowPower = elbowResetP;
+        } else {
+            elbowPower = 0;
+        }
+
         setElbowMotorSpeed(elbowPower);
     }
 

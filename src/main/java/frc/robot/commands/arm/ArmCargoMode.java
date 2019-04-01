@@ -37,7 +37,7 @@ public class ArmCargoMode extends Command {
             setLevels(Levels.cargoFloorPickup, ElbowStates.elbowCargoFloorPickup);
         } else if (OI.xboxManipControl.getRawButton(OI.CARGO_PLAYER_STATION_PICKUP)) {
             // Player Station
-            setLevels(Levels.cargoPlayerStation, ElbowStates.reset);
+            setLevels(Levels.cargoPlayerStation, ElbowStates.humanPlayer);
         } else if (OI.xboxManipControl.getRawButton(OI.LEVEL_ONE_SELECTOR)) {
             // Level One
             setLevels(Levels.cargoLevelOne, ElbowStates.perpendicular);

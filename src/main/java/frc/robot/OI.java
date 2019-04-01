@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 // import frc.robot.commands.climb.CheckClimbLevel;
 import frc.robot.commands.arm.ArmCargoMode;
 import frc.robot.commands.arm.ArmHatchMode;
+import frc.robot.commands.climb.CheckClimbLevel;
 import frc.robot.commands.manipulator.ManipulatorCargoMode;
 import frc.robot.commands.manipulator.ManipulatorHatchMode;
 import frc.robot.commands.drive.GoToTarget;
@@ -60,7 +61,7 @@ public class OI {
 
   public OI() {
 
-    // tempClimbGroupButton.whenPressed(new CheckClimbLevel());
+    tempClimbGroupButton.whenPressed(new CheckClimbLevel());
 
     shifterButton.whenPressed(new Shifter());
     cargoModeButton.whenPressed(new ManipulatorCargoMode());

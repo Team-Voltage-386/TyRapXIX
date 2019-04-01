@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.drive.LevelOneAuto;
 import frc.robot.commands.drive.LevelTwoAuto;
 import frc.robot.commands.drive.LoganContributions;
+import frc.robot.commands.drive.LoganContributionsCargo;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CameraSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -78,12 +79,15 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putNumber("MaxErrorForIUse ",
     // ArmSubsystem.MAX_ERROR_FOR_I_USE);
 
-    autoChooser.setName("Auto Chooser");
-    autoChooser.setDefaultOption("Manual", new LoganContributions());
-    autoChooser.addOption("Level 2", new LevelTwoAuto());
-    autoChooser.addOption("Level 1", new LevelOneAuto());
+    // autoChooser.setName("Auto Chooser");
+    // autoChooser.setDefaultOption("Manual Hatch", new LoganContributions());
+    // autoChooser.addOption("Level 2", new LevelTwoAuto());
+    // autoChooser.addOption("Level 1", new LevelOneAuto());
+    // autoChooser.addOption("Manual Cargo", new LoganContributionsCargo());
 
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
+    SmartDashboard.putData("Level 2 auto", new LevelTwoAuto());
+    SmartDashboard.putData("Level 1 auto", new LevelOneAuto());
 
   }
 
@@ -104,8 +108,8 @@ public class Robot extends TimedRobot {
     // armSubsystem.getCurrentCommandName());
 
     driveSubsystem.displayDiagnostics();
-    // armSubsystem.displayDiagnostics();
-    // endgameClimbSubsystem.displayDiagnostics();
+    armSubsystem.displayDiagnostics();
+    endgameClimbSubsystem.displayDiagnostics();
     // manipulatorSubsystem.displayDiagnostics();
 
     NetworkTableInstance testInstance = NetworkTableInstance.getDefault();
@@ -121,7 +125,7 @@ public class Robot extends TimedRobot {
     error = ballError.getDouble(defaultValue);
     rectsNum = numberOfRects.getDouble(defaultValue);
     pairCenter = pairCenterPi.getDouble(defaultValue);
-    screenCenter = 95;// screenCenterPi.getDouble(defaultValue);
+    screenCenter = 93;// 97 ??? screenCenterPi.getDouble(defaultValue);
 
     if (rectsNum > 0) {
       clearForVision = true;
@@ -155,7 +159,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     Robot.driveSubsystem.resetEncoders();
-    autonomousCommand = autoChooser.getSelected();
+    // autonomousCommand = autoChooser.getSelected();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");

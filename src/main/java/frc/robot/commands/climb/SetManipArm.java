@@ -2,12 +2,14 @@ package frc.robot.commands.climb;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.ElbowStates;
 import frc.robot.subsystems.ArmSubsystem.Levels;
 
 public class SetManipArm extends Command {
     public SetManipArm() {
         // DO NOT add any requires() statements
+        requires(Robot.armSubsystem);
     }
 
     @Override
@@ -16,7 +18,7 @@ public class SetManipArm extends Command {
 
     @Override
     protected void execute() {
-        Robot.armSubsystem.setLevel(Levels.finalClimb, ElbowStates.reset, 0, 0);
+        Robot.armSubsystem.setShoulderPosition(ArmSubsystem.FINAL_CLIMB_SHOULDER);
     }
 
     @Override
