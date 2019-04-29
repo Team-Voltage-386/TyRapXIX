@@ -44,11 +44,11 @@ public class ArmSubsystem extends Subsystem {
     private final double CARGO_LEVEL_TWO_SHOULDER = 0.58;// should be lower, .591
     private final double CARGO_LEVEL_THREE_SHOULDER = 1.00;
     private final double HATCH_FLOOR_SHOULDER = 0.115;
-    private final double HATCH_LEVEL_ONE_SHOULDER = 0.0437;
+    private final double HATCH_LEVEL_ONE_SHOULDER = 0.0733; //.0437
     private final double HATCH_LEVEL_TWO_SHOULDER = 0.495;
-    private final double HATCH_LEVEL_THREE_SHOULDER = 0.89;// .943
+    private final double HATCH_LEVEL_THREE_SHOULDER = 0.928;// .943, .89
     public static final double FINAL_CLIMB_SHOULDER = 0.158;
-    private final double RESET_SHOULDER = -0.15;
+    private final double RESET_SHOULDER = -0.05;
     private final double RESET_ELBOW = 4.87;// -----------
     private final double PERPENDICULAR_ELBOW = 3.85;
     private final double PARALLEL_ELBOW = 1.57;
@@ -56,8 +56,8 @@ public class ArmSubsystem extends Subsystem {
     private static final double HUMAN_PLAYER_ELBOW = 2.7; // TEMP--------
 
     // Voltage Soft Limits
-    private static final double MAX_SHOULDER_VOLTAGE = 3.5;
-    private static final double MIN_SHOULDER_VOLTAGE = 1.05;
+    private static final double MAX_SHOULDER_VOLTAGE = 3.41;// 3.5
+    private static final double MIN_SHOULDER_VOLTAGE = .95;
     private static final double MAX_ELBOW_VOLTAGE = 4.77;// ---------
     private static final double MIN_ELBOW_VOLTAGE = 1.4;// --------
 
